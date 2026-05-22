@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- WPF + WebView2 needs net8.0-windows. Single-platform Windows target
+         because WebView2 is Windows-only. -->
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>false</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Summer2008</RootNamespace>
+    <AssemblyName>Summer2008</AssemblyName>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+
+    <!-- Distributable single-file EXE. self-contained=true bundles the .NET
+         runtime, so the user doesn't need to install anything. WebView2
+         runtime is shipped with every Win10/11; if missing the bootstrapper
+         in build.ps1 grabs it. -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+
+    <!-- Versioning matches the macOS bundle's CFBundleShortVersionString. -->
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Company>Summer 2008 — An American Girl Archive</Company>
+    <Product>Summer 2008 — An American Girl Archive</Product>
+    <Copyright>An offline preservation of americangirl.com circa July 2008.</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- WebView2 runtime SDK — the WPF control + automation bindings.
+         The actual Edge runtime is on the user's machine (every Win10/11). -->
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
+  </ItemGroup>
+
+  <!-- Resources copied next to the EXE on publish.
+       Dashboard + mirror-runtime are SHARED with the macOS build — same
+       HTML/CSS/JS, no duplication. We pull them from the sibling app/
+       directory at publish time. -->
+  <ItemGroup>
+    <Content Include="..\app\Resources\dashboard\**\*"
+             Exclude="..\app\Resources\dashboard\.DS_Store"
+             Link="Resources\dashboard\%(RecursiveDir)%(Filename)%(Extension)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\app\Resources\mirror-runtime\**\*"
+             Exclude="..\app\Resources\mirror-runtime\.DS_Store"
+             Link="Resources\mirror-runtime\%(RecursiveDir)%(Filename)%(Extension)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\mirror\**\*"
+             Exclude="..\mirror\.DS_Store"
+             Link="Resources\mirror\%(RecursiveDir)%(Filename)%(Extension)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <!-- Projector binaries (hydrated via tools/fetch-projector-windows.ps1
+         from a Flashpoint install). Windows runs Director EXEs natively —
+         no Wine layer like the macOS build needs. -->
+    <Content Include="..\projector-windows\**\*"
+             Exclude="..\projector-windows\.DS_Store;..\projector-windows\.gitkeep"
+             Link="projector\%(RecursiveDir)%(Filename)%(Extension)"
+             Condition="Exists('..\projector-windows')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icon.ico" Condition="Exists('icon.ico')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

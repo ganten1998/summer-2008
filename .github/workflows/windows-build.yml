@@ -1,0 +1,78 @@
+name: Build Windows installer
+
+# Runs on:
+#   • push to main (smoke-test artifact for any change)
+#   • a v* tag push (uploads the installer to the matching GitHub Release)
+#   • manual trigger from the Actions tab
+
+on:
+  push:
+    branches: [main]
+    tags:     ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed to attach the installer to a release on tag
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~\.nuget\packages
+          key:  ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      # Pull the Windows projector binaries (Flash + Shockwave) from the
+      # repo's build-deps GitHub Release. Single auto-downloading script —
+      # no Flashpoint install required on the CI runner.
+      - name: Hydrate projector-windows
+        shell: pwsh
+        run: .\tools\fetch-projector-windows.ps1
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+          # Surface ISCC on PATH for the next step.
+          $iscc = "C:\Program Files (x86)\Inno Setup 6"
+          if (-not (Test-Path "$iscc\ISCC.exe")) { $iscc = "C:\Program Files\Inno Setup 6" }
+          "$iscc" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      - name: Build installer
+        shell: pwsh
+        working-directory: app-windows
+        run: .\build.ps1
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Summer-2008-Windows-Setup
+          path: app-windows/build/Summer-2008-Setup-*.exe
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Attach to release (tag push only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $exe = Get-ChildItem app-windows\build\Summer-2008-Setup-*.exe | Select-Object -First 1
+          if (-not $exe) { throw "No installer EXE produced" }
+          Write-Host "Uploading $($exe.Name) to release $tag"
+          gh release upload $tag $exe.FullName --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

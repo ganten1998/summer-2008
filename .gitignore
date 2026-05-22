@@ -23,6 +23,17 @@ projector/Shockwave/
 # projector/Flash Player.app/
 # projector/flashplayer_32_sa.dmg
 
+# Windows projectors (186 MB of Adobe IP, hydrated from the build-deps-v1
+# GitHub Release on this repo). Never committed; tools/fetch-projector-windows.ps1
+# downloads them at build time.
+projector-windows/Flash/
+projector-windows/Shockwave/
+
+# .NET / WPF build outputs from the Windows port
+app-windows/bin/
+app-windows/obj/
+app-windows/build/
+
 # Patcher backup (regenerable from mirror/ by running the patcher).
 mirror_unpatched/
 

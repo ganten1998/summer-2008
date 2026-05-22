@@ -84,15 +84,18 @@ bottom-right that hands off to the real Adobe Flash Player (bundled in the
 
 ## Install
 
-**Download:** the latest `.dmg` is in
-[Releases](https://github.com/ganten7/summer-2008/releases). About 370 MB
-compressed, opens to a 789 MB .app.
+Downloads are at [Releases](https://github.com/ganten7/summer-2008/releases).
+Both bundle the entire mirror, every Flash + Shockwave projector, and the
+runtime — fully self-contained, no companion apps required.
 
-**System requirements:** macOS 11 or newer. Apple Silicon native; Intel works
-under Rosetta.
+### macOS
 
-**First launch.** macOS will block the app because it isn't signed with an
-Apple Developer ID (yet). The unlock takes about 20 seconds:
+Download `Summer 2008 v1.0.dmg` (~390 MB compressed, 800 MB installed).
+Requires macOS 11 or newer. Apple Silicon native; Intel works under
+Rosetta.
+
+**First launch** — the app isn't signed with an Apple Developer ID yet,
+so macOS will block it. The unlock takes about 20 seconds:
 
 *On macOS 15 (Sequoia), macOS 26 (Tahoe), or newer:*
 1. Double-click the .app. You'll see a dialog: *"Apple could not verify
@@ -107,11 +110,25 @@ Apple Developer ID (yet). The unlock takes about 20 seconds:
 *On macOS 11–14 (Big Sur through Sonoma):*
 1. Right-click the .app → **Open** → click **Open** in the warning dialog.
 
+### Windows
+
+Download `Summer-2008-Setup-v1.0.0.exe` (~400 MB). Requires Windows 10
+1809 (build 17763) or newer, x64. Double-click to run the installer —
+follow the standard next-next-finish flow. The installer creates Start
+Menu + (optional) Desktop shortcuts and auto-installs the Edge WebView2
+runtime if it isn't already present.
+
+**First launch** — Windows SmartScreen may say "Windows protected your
+PC" because the installer isn't signed with an EV certificate yet.
+Click **More info → Run anyway**.
+
 Either way, you only do it once — future launches are normal.
 
 ---
 
 ## Build from source
+
+### macOS (.app and .dmg)
 
 ```bash
 # 1. Clone
@@ -119,17 +136,44 @@ git clone https://github.com/ganten7/summer-2008.git ~/Projects/summer-2008
 cd ~/Projects/summer-2008
 
 # 2. Hydrate the projector binaries (Wine + Director from your local
-#    Flashpoint install — see tools/fetch-projector.sh for sources)
+#    Flashpoint install)
 ./tools/fetch-projector.sh
 
 # 3. Build the .app
 ./app/build.sh
 
-# 4. (Optional) Wrap it into a distributable DMG
+# 4. (Optional) Wrap into a distributable DMG
 ./app/make-dmg.sh
 ```
 
 The .app lands at `build/Summer 2008 — An American Girl Archive.app`.
+
+### Windows (.exe installer)
+
+Requires .NET 8 SDK + Inno Setup 6. **No Flashpoint install required** —
+projector binaries auto-download from this repo's `build-deps-v1` release.
+
+```powershell
+# From a Windows machine (or via the windows-build.yml GitHub Actions
+# workflow on push)
+git clone https://github.com/ganten7/summer-2008.git C:\Projects\summer-2008
+cd C:\Projects\summer-2008
+
+# Pulls ~80 MB of native Director + Flash projectors from the build-deps release
+.\tools\fetch-projector-windows.ps1
+
+cd app-windows
+.\build.ps1
+```
+
+The installer lands at `app-windows\build\Summer-2008-Setup-v1.0.0.exe`.
+
+### Cross-platform
+
+The CI workflow at `.github/workflows/windows-build.yml` runs on every
+push and produces the Windows installer as a workflow artifact (or
+attaches it to the matching release on `v*` tag pushes). So Mac
+developers can produce Windows installers without ever booting Windows.
 
 ---
 
