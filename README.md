@@ -84,16 +84,30 @@ bottom-right that hands off to the real Adobe Flash Player (bundled in the
 
 ## Install
 
-**Download:** the latest pre-release `.dmg` is in
+**Download:** the latest `.dmg` is in
 [Releases](https://github.com/ganten7/summer-2008/releases). About 370 MB
 compressed, opens to a 789 MB .app.
 
 **System requirements:** macOS 11 or newer. Apple Silicon native; Intel works
 under Rosetta.
 
-**First launch:** macOS may say "Apple cannot check this app for malicious
-software" because I haven't paid Apple $99/year for a Developer ID. Right-click
-the .app → **Open** → **Open**. After that it launches normally.
+**First launch.** macOS will block the app because it isn't signed with an
+Apple Developer ID (yet). The unlock takes about 20 seconds:
+
+*On macOS 15 (Sequoia), macOS 26 (Tahoe), or newer:*
+1. Double-click the .app. You'll see a dialog: *"Apple could not verify
+   '… An American Girl Archive' is free of malware"*. Click **Done**.
+2. Open **System Settings → Privacy & Security**. Scroll to the
+   "Security" section near the bottom. You'll see *"Summer 2008 — An
+   American Girl Archive was blocked to protect your Mac."* with an
+   **Open Anyway** button next to it.
+3. Click **Open Anyway**, enter your Mac password to confirm. The app
+   launches.
+
+*On macOS 11–14 (Big Sur through Sonoma):*
+1. Right-click the .app → **Open** → click **Open** in the warning dialog.
+
+Either way, you only do it once — future launches are normal.
 
 ---
 
