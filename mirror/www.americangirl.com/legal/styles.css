@@ -1,0 +1,66 @@
+/* AGD-PATCHED v1 */
+/****** for all ****/
+body {
+	margin: 0 auto;
+}
+
+a {
+	color:#903;
+	text-decoration: none;
+}
+
+#logoTitle {
+	position: relative;
+	width: 100%;
+	background-color: #E00034;
+	font: 110% "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #fff;
+}
+
+#logoTitle p {
+	font-size: 100%;
+	display: inline;
+	position: absolute;
+	left: 180px;
+	top: -2px;
+}
+
+/*\*/
+* html #logoTitle p {
+	top: 16px;
+}
+/**/
+
+#content {
+	font: 70%/120% Arial, Helvetica, sans-serif;
+	margin: 8px 16px 0 13px;
+
+}
+
+	#content pre {
+		font: 100% Arial, Helvetica, sans-serif;
+	}
+	
+	#content div {
+		margin: 0;
+		padding: 1px 0;
+	}
+	
+	#content ul, #content li {
+		list-style-type: circle;
+	}
+
+.closeWindow {
+	clear: both;
+	text-align: center;
+	padding: 25px 0;
+	}
+
+	.closeWindow a {
+		font: 70% Arial, Helvetica, sans-serif;
+		color: #FFF;
+		text-decoration: none;
+		font-weight: bold;
+		background: #990033 url(agd://store.americangirl.com/agshop/css/cssImg/btnShadow.gif) bottom right;
+		padding: 5px 12px 9px 8px;
+		}

@@ -1,0 +1,431 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v3 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!--*** page title ***-->
+<title>Imagine magazine</title>
+
+<script language="javascript" type="text/javascript">
+	var reqOnlyArray = new Array("girl_first_name","girl_last_name","girl_address_1","girl_state","girl_city","first_name","last_name","address_1","state","city");
+	var valArray = new Array("postal|req|","girl_postal|req|");
+
+	function validateEntry(){
+  	var form = document.getElementById("entryForm")
+    var field
+    var errorSpan
+    var errors = false
+    clearExistingErrors()
+
+    //check for required fields (no data validation needed)
+    for(var i=0;i < reqOnlyArray.length;i++){
+    	field = document.getElementById(reqOnlyArray[i])
+      if(field.value == ""){//flag empty fields
+        //if(field.name.indexOf("girl_bday") != -1) errorSpan = document.getElementById("girl_bday_error")
+        //else
+				errorSpan = document.getElementById(reqOnlyArray[i] + "_error")
+        errorSpan.innerHTML = "required"
+        errors = true
+      }
+    }
+
+    //validate field data
+    for(var i=0;i < valArray.length;i++){
+    	var fieldInfo = valArray[i].split("|")
+      field = document.getElementById(fieldInfo[0])
+      var fieldType = fieldInfo[1]
+      var fieldLen = parseInt(fieldInfo[2])
+      var fieldError = ""
+      if(field.value == "" && fieldType =="req"){//empty rquired fields
+      	fieldError = "required"
+      }else if(field.value != ""){//non-empty fields
+      	if(field.name != "girl_postal" && field.name != "postal"){//check numeric fields for type and length
+        	var data
+          var dataLen
+          	data = field.value
+            dataLen = fieldLen
+          if(isNaN(parseInt(data)) || data.length != dataLen){
+            fieldError = "error"            
+          }
+        }else if(field.name == "girl_postal" || field.name == "postal"){//use regexp to evaluate zip (99999, 99999-9999, 999999999 all OK)
+          var zipPattern = /(^\d{5}([\-]\d{4})?$)|(^\d{9}$)/
+          if(!zipPattern.test(field.value)) fieldError = "error"
+        }
+      }
+			if(fieldError != ""){//flag invalid fields
+        errorSpan = document.getElementById(field.name + "_error")
+        if(errorSpan.innerHTML == "error") errorSpan.innerHTML = "error"
+        else errorSpan.innerHTML = fieldError
+        errors = true
+      }
+    }
+
+		if(errors){//write error message
+    	var errorMessages = document.getElementById("errorMessages")
+      errorMessages.innerHTML = "There is missing or invalid information in your entry.<br />Please fill in all the required fields before submitting your entry."
+      return false
+    }else{
+      form.submit()
+//      alert("form submitted")
+    }
+  }
+
+  function clearExistingErrors(){
+  	var errorSpans = document.getElementsByTagName("span")
+    for(var i=0;i < errorSpans.length;i++){
+    	if(errorSpans[i].id.indexOf("error") != -1) errorSpans[i].innerHTML = ""
+    }
+  }
+
+  var monthLength = new Array(31,28,31,30,31,30,31,31,30,31,30,31) //array storing number of days in months
+  function setDateFields(field){//set the number of days in the bday dropdown appropriately based on month and leap year
+ 		var form = field.form
+    var month = form.girl_bday_month
+    var day = form.girl_bday_date
+    var year = form.girl_bday_year
+    var isLeapYear = checkLeapYear(parseInt(year.options[year.selectedIndex].text))
+    if(isLeapYear) monthLength[1] = 29
+    else monthLength[1] = 28
+
+    if(field == month){
+    	var currMonth = month.selectedIndex - 1
+      day.options.length = 29
+      for(var i=29;i < monthLength[currMonth] + 1;i++){
+      	day.options[i] = new Option(i,i)
+      }
+    }else if(field.name == year){
+    	if(month.selectedIndex == 2){
+        if(!isLeapYear) day.options.length = 29
+        else if(isLeapYear && day.options.length < 30){
+        	day.options[29] = new Option("29",29)
+        }
+      }
+    }
+  }
+
+  function checkLeapYear(year){// check leap year
+    if(isNaN(year)) return true
+    if(year % 4 != 0) return false;
+    else if(year % 400 == 0) return true;
+    else if(year % 100 == 0) return false;
+    else return true;
+  }
+	
+	function dupAddress(){
+    var form = document.getElementById("entryForm")
+		if(form.sameAddress.checked){
+			form.girl_address_1.value = form.address_1.value
+			form.girl_address_2.value = form.address_2.value
+			form.girl_city.value = form.city.value
+			form.girl_state.selectedIndex = form.state.selectedIndex
+			form.girl_postal.value = form.postal.value
+		}
+	}
+
+</script>
+
+<link rel="stylesheet" type="text/css" href="/site/images/styles.css">
+<link rel="stylesheet" type="text/css" href="/imagineMag/styles/imagineMag.css">
+<!--*** static page stylesheet ***-->
+<body id="entry" onLoad="clearExistingErrors();">
+<div class="header">
+  <ul class="globalNav">
+    <li class="agLogo"><a href="agd://www.americangirl.com" title="Celebrate old friends and new!">American Girl</a></li>
+    <li class="shop"><a href="agd://store.americangirl.com" title="Find the dolls, books, clothes, and accessories that girls love!">SHOP</a></li>
+    <li class="ffg"><a href="agd://www.americangirl.com/fun.html" title="Great activities that celebrate American girls!">FUN FOR GIRLS</a></li>
+    <li class="mag"><a href="agd://www.americangirl.com/agmg/" title="Check it out&#8212;Subscribe now!">MAGAZINE</a></li>
+    <li class="movies"><a href="agd://www.americangirl.com/movie/" title="See the stories of your favorite American Girls come to life">MOVIES</a></li>
+    <li class="agp"><a href="http://www.americangirlplace.com" title="More than just a store&#8212;it&#8217;s an experience!">AMERICAN GIRL PLACE</a></li>
+  </ul>
+</div>
+<div id="content">
+  <div id="form">
+    <div id="intro">
+      <p>Simply fill  in the information below so that your favorite girl can start receiving <em>Imagine</em> magazine for free.</p>
+			<p>All required fields are labeled in bold.</p>
+    </div>
+    <form name="entryForm" id="entryForm" action="thanks.php" method="post">
+      <span class="error" id="errorMessages">There is missing or invalid information in your entry.<br />Please fill in all the required fields before submitting your entry.</span>
+      <div id="personalInfo">
+
+        <fieldset id="adultInfo">
+        <div id="legend">Your name and address:</div>
+        <div class="required">
+          <label for="first_name">Adult&#8217;s First Name:</label>
+          <input name="first_name" id="first_name" class="inputText" size="22" maxlength="30" value="" type="text">
+          <span class="error" id="first_name_error">required</span></div>
+        <div class="required">
+          <label for="last_name">Adult&#8217;s Last Name:</label>
+          <input name="last_name" id="last_name" class="inputText" size="22" maxlength="50" value="" type="text">
+          <span class="error" id="last_name_error"></span></div>
+        <div class="required">
+          <label for="address_1">Address:</label>
+          <input name="address_1" id="address_1" class="inputText" size="22" maxlength="40" value="" type="text">
+          <span class="error" id="address_1_error"></span></div>
+        <div class="optional">
+          <label for="address_2">Address 2:</label>
+          <input name="address_2" id="address_2" class="inputText" size="22" maxlength="40" value="" type="text">
+        </div>
+        <div class="required">
+          <label for="city">City:</label>
+          <input name="city" id="city" class="inputText" size="22" maxlength="50" value="" type="text">
+          <span class="error" id="city_error"></span></div>
+        <div class="required">
+          <label for="state">State:</label>
+          <select name="state" id="state" class="selectOne">
+            <option selected="selected" value=""></option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="GU">Guam</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="DC">Washington, D.C.</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+          </select>
+          <span class="error" id="state_error"></span> </div>
+        <div class="required">
+          <label for="postal">Zip Code:</label>
+          <input name="postal" id="postal" class="inputText" size="22" maxlength="10" value="" type="text">
+          <span class="error" id="postal_error"></span></div>
+        </fieldset>
+
+        <fieldset id="girlInfo">
+        <div id="legend">Send <em>Imagine</em> to:</div>
+				<label for="sameAddress" class="labelCheckbox">
+				<input name="sameAddress" id="sameAddress" type="checkbox" class="inputCheckbox" value="" onClick="dupAddress();">
+				Click this box if your address and the recipient's are the same.</label>
+        <div class="required">
+          <label for="girl_first_name">Girl&#8217;s First Name:</label>
+          <input name="girl_first_name" id="girl_first_name" class="inputText" size="22" maxlength="30" value="" type="text">
+          <span class="error" id="girl_first_name_error">required</span></div>
+        <div class="required">
+          <label for="girl_last_name">Girl&#8217;s Last Name:</label>
+          <input name="girl_last_name" id="girl_last_name" class="inputText" size="22" maxlength="50" value="" type="text">
+          <span class="error" id="girl_last_name_error"></span></div>
+        <div class="required">
+          <label for="girl_address_1">Address:</label>
+          <input name="girl_address_1" id="girl_address_1" class="inputText" size="22" maxlength="40" value="" type="text">
+          <span class="error" id="girl_address_1_error"></span></div>
+        <div class="optional">
+          <label for="girl_address_2">Address 2:</label>
+          <input name="girl_address_2" id="girl_address_2" class="inputText" size="22" maxlength="40" value="" type="text">
+        </div>
+        <div class="required">
+          <label for="girl_city">City:</label>
+          <input name="girl_city" id="girl_city" class="inputText" size="22" maxlength="50" value="" type="text">
+          <span class="error" id="girl_city_error"></span></div>
+        <div class="required">
+          <label for="girl_state">State:</label>
+          <select name="girl_state" id="girl_state" class="selectOne">
+            <option selected="selected" value=""></option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="GU">Guam</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="DC">Washington, D.C.</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+          </select>
+          <span class="error" id="girl_state_error"></span> </div>
+        <div class="required">
+          <label for="girl_postal">Zip Code:</label>
+          <input name="girl_postal" id="girl_postal" class="inputText" size="22" maxlength="10" value="" type="text">
+          <span class="error" id="girl_postal_error"></span></div>
+        <div class="optional">
+          <label for="girl_bday_month">Girl&#8217;s Date of Birth:</label>
+          <select name="girl_bday_month" id="girl_bday_month" onChange="setDateFields(this)">
+            <option value="">month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <select name="girl_bday_date" id="girl_bday_date">
+            <option value="">day</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+          </select>
+          <select name="girl_bday_year" id="girl_bday_year" onChange="setDateFields(this)">
+            <option value="">year</option>
+            <option value="1994">1994</option>
+            <option value="1995">1995</option>
+            <option value="1996">1996</option>
+            <option value="1997">1997</option>
+            <option value="1998">1998</option>
+            <option value="1999">1999</option>
+            <option value="2000">2000</option>
+            <option value="2001">2001</option>
+            <option value="2002">2002</option>
+            <option value="2003">2003</option>
+            <option value="2004">2004</option>
+            <option value="2005">2005</option>
+            <option value="2006">2006</option>
+            <option value="2007">2007</option>
+            <option value="2008">2008</option>
+            <option value="2009">2009</option>
+            <option value="2010">2010</option>
+          </select>
+        </div>
+        </fieldset>
+
+      </div>
+      <input id="button" type="submit" value="Submit request" onClick="validateEntry();return false;" />
+    </form>
+  </div>
+	<div id="else">
+    <p>If you have issues with this form, please call 1-800-360-1861. If you have an activation card from an Imagine magazine, you can fill it out instead and then return it to activate your free gift.</p>
+	</div>
+  <div class="ftr">
+    <ul>
+      <li><a href="agd://store.americangirl.com/pls/ag/icm_privacy" onClick="window.open('agd://store.americangirl.com/pls/ag/icm_privacy','privacy','scrollbars=yes,resizable=yes,width=400,height=400');return false;">Privacy and Security</a> |</li>
+      <li><a href="agd://store.americangirl.com/pls/ag/icm_terms" onClick="window.open('agd://store.americangirl.com/pls/ag/icm_terms','privacy','scrollbars=yes,resizable=yes,width=400,height=400');return false;">Terms and Conditions</a> |</li>
+      <li><a href="agd://store.americangirl.com/pls/ag/faq.main" onClick="window.open('agd://store.americangirl.com/pls/ag/faq.main','privacy','scrollbars=yes,resizable=yes,width=400,height=400');return false;">Frequently Asked Questions</a> |</li>
+      <li><a href="http://www.mattel.com/careers/default.asp?f=true">Careers</a> |</li>
+      <li><a href="http://www.americangirlpublishing.com/">Bookseller Site</a> |</li>
+      <li><a href="agd://www.americangirl.com/corp/index.html">About American Girl</a></li>
+    </ul>
+    <p>Copyright &#169; 2006 American Girl, LLC. All American Girl marks are <a href="agd://www.americangirl.com/legal/trademarks.html" onClick="window.open('agd://www.americangirl.com/legal/trademarks.html','trademarks','scrollbars=yes,resizable=yes,width=400,height=400');return false;">trademarks</a> of American Girl, LLC. All rights reserved</p>
+  </div>
+</div>
+<script language=JavaScript src="/js/webtrends75_ffg.js" type=text/javascript></script>
+<NOSCRIPT>
+<img alt="" border="0" NAME="DCSIMG2" width="1" height="1" src="http://dcs.mattel.com/dcs9pcvyk100008232gd6jt9v_6e4u/njs.gif?dcsuri=/nojavascript&amp;WT.js=No" />
+</NOSCRIPT>
+<script language=JavaScript src="/js/webtrends_ffg.js" type=text/javascript></script>
+<NOSCRIPT>
+<img BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="http://dcs.mattel.com/DCSCDxDhZa4S3eFS0rbrV83F5_6O9N/njs.gif?dcsuri=/nojavascript" />
+</NOSCRIPT>
+</body>
+</html>

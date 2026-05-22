@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 24" preserveAspectRatio="xMidYMid meet">
+  <!-- Soft ornamental rule: gold tapering lines flanking a central star -->
+  <defs>
+    <linearGradient id="ld" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%"  stop-color="#B68C3E" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#B68C3E" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#B68C3E" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <line x1="0"   y1="12" x2="170" y2="12" stroke="url(#ld)" stroke-width="1"/>
+  <line x1="230" y1="12" x2="400" y2="12" stroke="url(#ld)" stroke-width="1"/>
+  <!-- center 5-point star -->
+  <path d="M200 4 l3.1 6.3 6.9 1 -5 4.9 1.2 6.9 -6.2 -3.2 -6.2 3.2 1.2 -6.9 -5 -4.9 6.9 -1 z"
+        fill="#A6192E" />
+  <!-- flanking dots -->
+  <circle cx="184" cy="12" r="1.6" fill="#B68C3E"/>
+  <circle cx="216" cy="12" r="1.6" fill="#B68C3E"/>
+</svg>

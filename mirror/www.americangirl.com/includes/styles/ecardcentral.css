@@ -1,0 +1,36 @@
+/* AGD-PATCHED v1 */
+.heading {  font-family: "Times New Roman", Times, serif; font-size: 26px; line-height: 26px; color: #23063B}
+.headingEcard {  font-family: "Times New Roman", Times, serif; font-size: 20px; line-height: 20px; color: #990033}
+.text {  font-family: "Times New Roman", Times, serif; font-size: 16px; line-height: 17px; color: #23063B}
+.textEcard {  font-family: "Times New Roman", Times, serif; font-size: 15px; line-height: 17px; color: #23063B}
+.textEcardNum {  font-family: "Times New Roman", Times, serif; font-size: 16px; line-height: 16px; color: #990033}
+.textEcardform {  font-family: "Arial, Helvetica", sans-serif; font-size: 12px; line-height: 12px; color: #000000}
+.textEcardBerry {  font-family: "Times New Roman", Times, serif; font-size: 15px; line-height: 16px; color: #990033}
+.textAbout {  font-family: "Times New Roman", Times, serif; font-size: 14px; line-height: 16px; color: #23063B}
+.typeHere {  font-family: "Times New Roman", Times, serif; font-size: 14px; line-height: 14px; color: #23063B}
+.backButton {  font-family: "Times New Roman", Times, serif; font-size: 14px; line-height: 14px; color: #990033}
+.directions {  font-family: "Times New Roman", Times, serif; font-size: 12px; line-height: 14px; color: #23063B}
+a.ecardLink:active {  font-family: "Times New Roman", Times, serif; font-size: 12px; text-decoration: underline; color: #990033}
+a.ecardLink:link {  font-family: "Times New Roman", Times, serif; font-size: 12px; text-decoration: underline; color: #990033}
+a.ecardLink:hover {  font-family: "Times New Roman", Times, serif; font-size: 12px; text-decoration: underline; color: #990033}
+a.ecardLink:visited {  font-family: "Times New Roman", Times, serif; font-size: 12px; text-decoration: underline; color: #990033}
+.ns47_ta {  font-family: "Courier", Courier, serif; font-size: 12px; line-height: 12px}
+input.text {
+        font-family: "Courier", Courier, serif;
+        font-size: 12px;
+        line-height: 12px;
+}
+textarea {
+        font-family: "Courier", Courier, serif;
+        font-size: 12px;
+        line-height: 12px;
+        width: 340px;
+        height: 52px;
+}
+
+
+.nav10 {  font-family: "Times New Roman", Times, serif; font-size: 10px }
+.nav9 {  font-family: "Arial Narrow", Arial, sans-serif; font-size: 9px }
+.nav10 {  font-family: "Times New Roman", Times, serif; font-size: 10px }
+.smallsup {  font-family: "Times New Roman", Times, serif; font-size: 6px }
+

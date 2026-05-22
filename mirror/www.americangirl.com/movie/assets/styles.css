@@ -1,0 +1,312 @@
+/* AGD-PATCHED v1 */
+/* Stylesheet for American Girl Movie Headquarters */
+
+/******** header styles ********/
+.header {
+	width: 750px;
+	padding-top: 6px;
+	margin: 0 auto;
+	height: 58px;
+	}
+
+	.header ul {
+	clear: both;
+	}
+	
+/******** global nav ********/
+ul.globalNav {
+	margin: 0;
+	padding: 0;
+	height: 51px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul.globalNav li, li.agLogo, li.shop, li.ffg, li.club, li.mag, li.movies, li.agp {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	.globalNav a {
+		float: left;
+		padding: 51px 0 0 0;
+		overflow: hidden;
+		height: 0px !important; 
+		height /**/:51px; /* for IE5/Win only */
+		}
+	
+	.globalNav a:hover {
+		background-position: 0 -51px;
+		text-decoration: none;
+		}
+
+	.globalNav a.selected, .globalNav a:hover.selected {
+		background-position: 0 -102px;
+		}
+	
+.agLogo a {
+	width: 163px;
+	background: url(agLogo.gif) top left no-repeat;
+	}
+	
+.shop a {
+	width: 78px;
+	background: url(shop.gif) top left no-repeat;
+	}
+	
+.ffg a {
+	width: 129px;
+	background: url(ffg.gif) top left no-repeat;
+	}
+
+.mag a {
+	width: 106px;
+	background: url(mag.gif) top left no-repeat;
+	}
+	
+.movies a {
+	width: 84px;
+	background: url(movies.gif) top left no-repeat;
+	}
+
+.agp a {
+	width: 190px;
+	background: url(agp.gif) top left no-repeat;
+	}
+
+/* system classes for background and fonts */ 
+body {
+	font: normal 11px Arial, Helvetica, sans-serif;
+	color: #222;
+	background-color: #fff;
+	text-align: center;
+}
+
+a {
+	font-size: 11px;
+	color: #903;
+	text-decoration: none;
+} 
+
+a:hover { text-decoration: underline; }
+
+.hidden {
+	display:none;
+}
+
+#totalWidth {
+	margin: 0 auto;
+	width: 750px;
+	text-align: left;
+	position:relative;
+}
+
+#content {
+	position: relative;
+	width: 749px;
+	height: 248px;
+	background: #903 url(/movie/assets/bkgdDvds.gif) no-repeat top left;
+}
+
+#stories {
+	position: absolute;
+	top:90px;
+	width: 289px;
+	text-align:center;
+}
+
+	#stories p {
+		color:#fff;
+		font-size: 13px;
+		line-height: 20px;
+		padding: 0 28px;
+	}
+
+#dvds {
+	position: absolute;
+	top: 17px;
+	left: 310px;
+}
+
+	#dvds img {
+		position: relative;
+		top:50px;
+		left: -35px;
+	}
+
+	#dvds p {
+		width: 190px;
+		float: right;
+font-size: 11px;
+text-align:center;
+		position: relative;
+		top:-100px;
+		left:-16px;
+	}
+
+	#dvds p a {
+		padding-top:20px;
+		display:block;
+		font: bold 12px "Trebuchet MS", Arial, sans-serif;
+		text-transform: uppercase;
+		background: transparent url(/movie/assets/berryInd.gif) no-repeat 166px 24px;		
+	}
+
+#characters {
+	position:relative;
+	top:0px;
+	height: 220px;
+	overflow:hidden;
+	margin: 0;
+}
+
+	#characters div {
+		width: 248px;
+		height: 189px;
+	}
+
+	#characters ul, #characters li {
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+
+	#characters li {
+		background: transparent url(/movie/assets/bullet.gif) no-repeat 0px 7px;
+	}
+	
+	#characters li a {
+		padding-left: 8px;
+	}
+
+	#characters p {
+		text-align: center;
+		padding:6px 0;
+		margin:0 0 8px 0;
+		color:#fff;
+		text-transform: uppercase;
+		font: bold 11px "Trebuchet MS", Arial, sans-serif;
+	}
+	
+	#characters p a, #characters ul, #characters li a {
+		color: #fff;
+	}
+
+#molly {
+	position: relative;
+	top:10px;
+}	
+	#molly p {
+		position:relative;
+		top:0px;
+		background-color: #093A67;
+		margin-top:0px;
+	}
+
+	#molly ul {
+		position:relative;
+		top:-11px;
+		background-color: #21578A;
+		padding:6px 0 10px 16px;
+	}
+	
+	#molly li {
+		padding: 3px 0;
+	}
+	
+	#molly li a, #molly p a {
+		background: transparent url(/movie/assets/whiteBlueInd.gif) no-repeat right 2px;
+		padding-right: 10px;
+	}
+
+#felicity {
+	position: relative;
+	top:-179px;
+	left: 250px;
+}
+
+#felicity p {
+		position:relative;
+		top:0px;
+		background-color: #013122;
+		margin-top:0px;
+	}
+	
+	#felicity ul {
+		position:relative;
+		top:-11px;
+		background-color: #024731;
+		padding:6px 0 10px 16px;
+	}
+	
+	#felicity li {
+		padding: 3px 0;
+	}
+	
+	#felicity li a, #felicity p a {
+		background: transparent url(/movie/assets/whiteGreenInd.gif) no-repeat right 2px;
+		padding-right: 10px;
+	}
+
+#samantha {
+	position: relative;
+	top:-368px;
+	left: 500px;
+}
+
+#samantha p {
+		position:relative;
+		top:0px;
+		background-color: #5C101D;
+		margin-top:0;
+	}
+	
+	#samantha ul {
+		position:relative;
+		top:-11px;
+		background-color: #772432;
+		padding:6px 0 10px 16px;
+	}
+	
+	#samantha li {
+		padding: 3px 0;
+	}
+
+	#samantha li a, #samantha p a {
+		background: transparent url(/movie/assets/whiteBerryInd.gif) no-repeat right 2px;
+		padding-right: 10px;
+	}
+	
+/******* ******/	
+.ftr {
+	padding-top: 10px;
+	clear: both;
+	font: 10px/12px Arial, Helvetica, sans-serif; 
+	width: 750px;
+	text-align: center;
+	}
+
+	.ftr ul, .ftr li {
+		list-style:none;
+		display:inline;
+		margin:0;
+		padding:0;
+		color: #D884AB;
+	}
+
+	.ftr li a {
+		padding: 0 3px;
+	}
+
+	.ftr a {
+		color: #555;
+		padding: 0;
+		font-size: 10px;
+		}
+		
+	.ftr a:hover {
+		text-decoration:underline;
+		display: inline;
+		}

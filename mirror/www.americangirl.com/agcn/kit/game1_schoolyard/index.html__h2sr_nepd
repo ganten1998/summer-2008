@@ -1,0 +1,119 @@
+<html>
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<title>Time for Recess!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.hdrtxt {  font-family: "Times New Roman", Times, serif; font-size: 16px; line-height: 16px}
+.txt {  font-family: "Times New Roman", Times, serif; font-size: 12px; line-height: 12px}
+.swcopy {  font-family: "Times New Roman", Times, serif; font-size: 10px }
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF">
+<DIV align="center">
+   <TABLE width="600" border="0" cellspacing="0" cellpadding="0">
+      <TR> 
+         <TD>
+            
+        <DIV align="center"><IMG src="images/kit_nav_game.gif" width="524" height="43" border="0" usemap="#kit_nav_map"> 
+          <MAP name="kit_nav_map"> 
+            <AREA shape="rect" coords="463,20,494,33" href="/agcn/molly/game3_route66/index.html" target="_parent"> 
+            <AREA shape="rect" coords="363,20,415,34" href="/agcn/samantha/game3_morse/index.html" target="_parent"> 
+            <AREA shape="rect" coords="321,22,353,33" href="/agcn/addy/game2_mancala/index.html" target="_parent"> 
+            <AREA shape="rect" coords="272,21,311,34" href="/agcn/kirsten/game2_activities/index.html" target="_parent"> 
+            <AREA shape="rect" coords="217,21,260,33" href="/agcn/josefina/game2_piano/index.html" target="_parent"> 
+            <AREA shape="rect" coords="442,3,493,14" href="/prog/html/spec_evnt_intro.html" target="_parent"> 
+            <AREA shape="rect" coords="167,19,206,34" href="/agcn/felicity/game2_day/index.html" target="_parent"> 
+            <AREA shape="rect" coords="388,1,423,15" href="../quiz/index.html" target="_parent"> 
+            <AREA shape="rect" coords="329,1,369,15" href="../game2_eggs/index.html" target="_parent"> 
+            <AREA shape="rect" coords="262,1,312,15" href="../world/index.html" target="_parent"> 
+            <AREA shape="rect" coords="129,0,245,16" href="../family/index.html" target="_parent"> 
+            <AREA shape="rect" coords="2,2,116,37" href="/agcn/index.html" target="_parent">
+            <area shape="rect" coords="128,21,157,35" href="/agcn/kaya/game1_escape/index.html" target="_parent"> 
+            <AREA shape="rect" coords="430,21,447,33" href="/agcn/kit/games/kits_games.html" target="_parent"> 
+               </MAP></DIV>
+         </TD>
+      </TR>
+   </TABLE>
+	<TABLE width="600" border="0" cellspacing="0" cellpadding="0">
+      <TR> 
+         <TD ROWSPAN = 3 width="300" ><IMG src="images/kit_splash.jpg" width="300" height="410" alt="Time For Recess"></TD>
+         <TD ROWSPAN = 3 width="148" ><IMG src="images/kit_dek.gif" width="190" height="350"></TD>
+         <TD width="152" height="136"><IMG src="images/button_marbles.gif" width="100" height="116" usemap="#Map" border="0" alt="Marbles"><MAP name="Map"><AREA shape="circle" coords="50,47,45" href="html/kit_marbles.html" alt="Marbles" title="Marbles"><AREA shape="rect" coords="20,95,80,111" href="html/schoolyard/kit_marbles.html"></MAP> 
+         </TD>
+      </TR>
+      <TR> 
+         <TD width="152" height="136"><IMG src="images/button_jacks.gif" width="100" height="116" usemap="#Map2" border="0" alt="Jacks"><MAP name="Map2"><AREA shape="circle" coords="50,46,45" href="html/kit_jacks.html" alt="Jacks" title="Jacks"><AREA shape="rect" coords="29,94,70,111" href="html/kit_jacks.html"></MAP></TD>
+      </TR>
+      <TR> 
+         <TD width="152" height="136"><IMG src="images/button_hopscotch.gif" width="100" height="116" usemap="#Map3" border="0" alt="Hopscotch"><MAP name="Map3"><AREA shape="circle" coords="50,46,44" href="html/kit_hopscotch.html"><AREA shape="rect" coords="16,95,88,110" href="html/kit_hopscotch.html"></MAP></TD>
+      </TR>
+   </TABLE>
+	<DIV ALIGN="center" CLASS="swcopy"> 
+      <P>TAKE NOTE! To play Time for Recess!, you need the 7.0.2 version 
+         (or higher) of the Shockwave plug-in<BR>
+         for your browser. <A HREF="/tools/index.html">See Tools for Super Surfers</A> 
+         for more information on how to download this plug-in.<BR>
+         <BR>
+      </P>
+      </DIV>
+
+</DIV>
+ <link href="/includes/styles/globalfooterstyles.css" rel="stylesheet" type="text/css">
+<div align="center">
+<table width="100%" border="0" align="center" cellpadding="3" cellspacing="5">
+  <tr>
+    <td align="center" valign="middle"><!-- #BeginLibraryItem "/includes/library/agc_fnav.lbi" -->
+<DIV ALIGN="center" CLASS="footer10"> 
+<A HREF="/agcn/ptpp/index.html" TARGET="_top">Past Times Project Planner</A> / 
+<A HREF="/agcn/trivia/cgi/agctrivia.cgi" TARGET="_top">Daily Trivia</A> / 
+<A HREF="/agcn/pic_pieces/index.html" TARGET="_top">Picture Pieces</A> <BR>
+<A HREF="/index.html" TARGET="_top">American Girl Home</A> /
+<A HREF="/home.html" TARGET="_top">Fun for Girls</A> / 
+<A HREF="/agmg/index.html" TARGET="_top">American Girl Magazine</A> /
+<A HREF="/agcn/index.html" TARGET="_top">The American Girls Collection</A> /
+<A HREF="/goml/index.html" TARGET="_top">Girls of Many Lands</A> /
+<A HREF="/amel/index.html" TARGET="_top">Amelia's Desktop</A> 
+<BR>
+<A HREF="/more/fan_letters/index.html" TARGET="_top">E-mail from You</A> /
+<A HREF="/more/feedback/index.html" TARGET="_top">E-mail Us</A> /
+<A HREF="/more/ecards/ecardcentral.php" TARGET="_top">E-Card Central</A> /
+<A HREF="/sitemap.html" TARGET="_top">Site Map</A> /
+<A HREF="/tools/index.html" TARGET="_top">Tools</A> /
+<A HREF="/legal/html/credits.html" TARGET="_top">Credits</A> /
+<A HREF="/legal/html/terms.html" TARGET="_top">Terms and Conditions</A> /
+<A HREF="/legal/html/privacy.html" TARGET="_top"><strong>PRIVACY POLICY</strong></A> 
+</DIV>
+ <!-- #EndLibraryItem --></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle"><!-- #BeginLibraryItem "/includes/library/agc_legal.lbi" --><link href="/includes/css/global.css" rel="stylesheet" type="text/css"> 
+<DIV ALIGN="center"> 
+  <p class="legal"><br>
+    Copyright <SPAN>&copy;</SPAN> 2006 American Girl, LLC. All rights reserved.<BR>
+    The American Girls Collection<SUP>&#174;</SUP>, Kaya<SUP>&#174;</SUP>, Felicity<SUP>&#174;</SUP>, 
+    Josefina<SUP>&#174;</SUP>, Kirsten<SUP>&#174;</SUP>, Addy<SUP>&#174;</SUP>, 
+    Kit <SUP>&#174;</SUP>, and Molly<SUP>&#174;</SUP> are all registered trademarks 
+    of American Girl, LLC.</p>
+</DIV>
+<!-- #EndLibraryItem --></td>
+  </tr>
+</table>
+</div>
+<!-- #BeginLibraryItem "/includes/library/web_trends.lbi" -->
+<script language=JavaScript src="/js/webtrends75_ffg.js" type=text/javascript></script>
+<NOSCRIPT>
+<img alt="" border="0" NAME="DCSIMG2" width="1" height="1" src="http://dcs.mattel.com/dcs9pcvyk100008232gd6jt9v_6e4u/njs.gif?dcsuri=/nojavascript&amp;WT.js=No">
+</NOSCRIPT>
+<script language=JavaScript src="/js/webtrends_ffg.js" type=text/javascript></script>
+<NOSCRIPT>
+<img BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" 
+SRC="http://dcs.mattel.com/DCSCDxDhZa4S3eFS0rbrV83F5_6O9N/njs.gif?dcsuri=/nojavascript">
+</NOSCRIPT>
+<!-- #EndLibraryItem -->
+</body>
+</html>

@@ -1,0 +1,15 @@
+/* AGD-PATCHED v1 */
+A:text { font-weight: bold; font-family: Times, "Times New Roman", serif; font-style: normal; font-size: 16px}
+A:link { font-weight: bold; font-family: Times, "Times New Roman", serif; font-style: normal; font-size: 16px}
+A:visited { font-weight: bold; font-family: Times, "Times New Roman", serif; font-style: normal; font-size: 16px}
+A.world:text { font-weight: bold; font-family: Times, "Times New Roman", serif; font-style: normal; font-size: 25px; line-height: 30px; margin-top: 0px; margin-bottom: 30px}
+A.world:link { font-weight: bold; font-family: Times, "Times New Roman", serif; font-style: normal; font-size: 25px; line-height: 30px; margin-top: 0px; margin-bottom: 30px; vertical-align: top}
+A.world:visited { font-weight: bold; font-family: Times, "Times New Roman", serif; font-style: normal; font-size: 25px; line-height: 30px; margin-top: 0px; margin-bottom: 30px}
+A.wpaper:text { font-family: Times, "Times New Roman", serif; color: #9A3046; font-style: normal; font-size: 14px; margin-right: 20px; margin-bottom: 0px}
+A.wpaper:link { font-family: Times, "Times New Roman", serif; color: #9A3046; font-style: normal; font-size: 14px; margin-right: 20px; margin-bottom: 0px}
+A.wpaper:visited { font-family: Times, "Times New Roman", serif; color: #9A3046; font-style: normal; font-size: 14px; margin-right: 20px; margin-bottom: 0px}
+P { font-family: Times, "Times New Roman", serif; font-size: 16px; line-height: 16px; margin-top: 4px; margin-bottom: 1px; padding-top: 4px; padding-bottom: 1px}
+P.wpaper { font-family: "Times New Roman", Times, serif; color: #9A3046; font-size: 18px; line-height: 22px; margin-left: 20px; margin-right: 42px; margin-top: 0px; margin-bottom: 12px; padding-bottom: 0px; padding-top: 0px; layout-grid-char: 1px}
+P.world { margin-top: 0px; margin-bottom: 12px; padding-bottom: 0px; padding-top: 0px; layout-grid-char: 1px}
+H1{ font-family: Times, "Times New Roman", serif; font-weight: bold; font-style: normal; font-size: 25px; line-height: 28px; margin-top: 0 px; margin-bottom: 0 px; padding-bottom: 0px; padding-top: 0px}
+H2 { font-family: Times, "Times New Roman", serif; font-size: 20px; font-weight: bold; layout-grid-char: 1px; margin-top: 0 px; margin-bottom: 0 px; padding-bottom: 0px; padding-top: 0px}

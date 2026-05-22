@@ -1,0 +1,170 @@
+<HTML>
+<HEAD>
+<TITLE>Flash Card Maker</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+
+
+
+.header1 {  font-family: Arial, Helvetica, sans-serif; font-size: 36px; font-weight: bold; color: #006600}
+.header2 {  font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #FFFFFF}
+.copytext {  font-family: "Times New Roman", Times, serif; font-size: 14px}
+.response {  font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-style: normal; line-height: 14px; font-weight: bold; color: #FFFFFF}
+.names {  font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-style: normal; line-height: normal; font-weight: bold; color: #000000}
+.test {  background-color: #FFFFFF; font-family: Arial, Helvetica, sans-serif; font-size: 12px; width: 250px}
+-->
+</style>
+<script language="javascript" type="text/javascript" src="../js/words.js"></script>
+<script language="JavaScript">
+<!--
+function windowopen1() { //v3.0
+  var wind1 = window.open('/agmg/school_smarts/html/cookies.html','appWindow','width=300,height=340,scrollbars,resizable'); wind1.focus();
+}
+// STOP HIDING -->
+</script>
+
+</HEAD>
+<body>
+<!-- #BeginLibraryItem "/includes/header/agmg_header.lbi" -->
+<link href="/includes/header/headNav.css" rel="stylesheet" type="text/css" />
+<div class="headerIE">
+ <div class="header">
+   <ul class="globalNav">
+     <li class="agLogo"><a href="http://www.americangirl.com/" title="Celebrate old friends and new!">American Girl</a></li>
+     <li class="shop"><a href="http://store.americangirl.com/shop/home.php" title="Find the dolls, books, clothes, and accessories that girls love!">SHOP<
+/a></li>
+     <li class="ffg"><a class="selected" href="http://www.americangirl.com/fun.html" title="Great activities that celebrate American girls!">FUN FOR GIRLS
+</a></li>
+     <li class="mag"><a href="http://www.americangirl.com/agmg/index.html" title="Check it out&#8212;Subscribe now!">MAGAZINE</a></li>
+     <li class="movies"><a href="http://www.americangirl.com/movie/" title="See the stories of your favorite American GIrls come to life">MOVIES</a></li>
+     <li class="agp"><a href="http://www.americangirlplace.com/agp_home.php" title="More than just a store&#8212;it&#8217;s an experience!">AMERICAN GIRL
+PLACE</a></li>
+   </ul>
+   <div id="sitenav">
+      <ul id="menu">
+        <li id="histChar"><a href="/agcn/index.html">Historical Characters</a></li>
+       <li id="magActiv"><a href="/agmg/mag_activities.html" class="selected">Magazine Activities</a></li>
+       <li id="coconut"><a href="/coconut/index.html">Coconut</a></li>
+       <li id="goty"><a href="/goty/index.html">Girl of the Year</a></li>
+       <li id="quiz"><a href="/quiz_corner/index.html">Quiz Corner</a></li>
+       <li id="ecard"><a href="/ecards/index.php">E-Card Central</a></li>
+       <li id="journey"><a href="/travel/index.html">A Doll&#8217;s Journey</a></li>
+       <li id="events"><a href="/events/index.html">Special Events</a></li>
+     </ul>
+   </div>
+ </div>
+</div>
+<!-- #EndLibraryItem -->
+<BR>
+<DIV align="center">
+<FORM NAME="flashForm" METHOD="POST" ACTION="/flash.cgi" onSubmit="return checkit(this)">
+   <input type=hidden name=op value=preview>
+   <input type=hidden name=n value="1">
+
+      <TABLE width="600" border="0" cellspacing="0" cellpadding="0">
+         <TR> 
+            <TD bgcolor="#99CC33" height="50" colspan="3"> 
+               <DIV align="center"><img src="/agmg/school_smarts/images/header_flashcard_maker.gif" height="50" width="400"></DIV>
+            </TD>
+         </TR>
+         <TR> 
+            <TD bgcolor="#99CC33" height="75" colspan="3"> 
+               <DIV align="center"> 
+                  <P><SPAN class="header2">Create a set of cards</SPAN><BR>
+                     <SPAN class="response">With flash card maker you can create 
+                     sets of up to 50 flash cards to drill yourself online or 
+                     to<br>
+                     print out for studying when you're away from your computer. 
+                     You can save your set of cards <br>
+                     for 30 days on this site. It's easy! You'll create and preview 
+                     one card at a time.<BR>
+                     Just follow the instructions below.</SPAN></P>
+               </DIV>
+            </TD>
+         </TR>
+         <TR> 
+            <TD bgcolor="#99CC33" height="60" class="names" width="290" valign="top"> 
+               <TABLE width="290" border="0" cellspacing="0" cellpadding="15">
+                  <TR> 
+                     <TD><img src="/agmg/school_smarts/images/card_front_text2.gif" height="60" width="250"></TD>
+                  </TR>
+               </TABLE>
+            </TD>
+            <TD bgcolor="#99CC33" rowspan="2"><img src="/agmg/school_smarts/images/vertline.gif" width="20" height="200"></TD>
+            <TD bgcolor="#99CC33" class="names" width="290" valign="top"> 
+               <TABLE width="290" border="0" cellspacing="0" cellpadding="15">
+                  <TR> 
+                     <TD><img src="/agmg/school_smarts/images/card_back_text2.gif" height="60" width="250"></TD>
+                  </TR>
+               </TABLE>
+            </TD>
+         </TR>
+         <TR> 
+            <TD bgcolor="#99CC33" align="center" width="290"> 
+               <textarea name=question rows=8 cols=36 wrap=virtual class="test"></textarea>
+            </TD>
+            <TD bgcolor="#99CC33" align="center" width="290"> 
+               <textarea name=answer rows=8 cols=36 wrap=virtual class="test"></textarea>
+            </TD>
+         </TR>
+         <TR> 
+            <TD bgcolor="#99CC33" COLSPAN="3" align="center" height="30"> 
+               <input type="image" border=0 name=submit src="/agmg/school_smarts/images/button_preview.gif">
+            </TD>
+         </TR>
+      </TABLE>
+	  	  </FORM>
+      <BR>
+            <TABLE width="600" border="0" cellspacing="0" cellpadding="0">
+           <TR>
+            <TD><IMG src="/agmg/school_smarts/images/ss_pencilnav1.gif" width="600" height="34" usemap="#pencilnavMap" border="0"> 
+            <MAP name="pencilnavMap">
+               <AREA shape="rect" coords="186,4,233,15" href="/agmg/school_smarts/html/ss_pop_quiz.html" alt="Pop Quiz" title="Pop Quiz">
+               <AREA shape="rect" coords="328,5,392,16" href="/agmg/school_smarts/html/ss_tp_tp_tip.html" alt="Tip-top tips" title="Tip-top tips">
+               <AREA shape="rect" coords="244,5,315,14" href="/agmg_school_smarts/html/ss_grt_prsnt.html" alt="Cover Maker" title="Cover Maker">
+               <AREA shape="rect" coords="407,6,519,16" href="/agmg_school_smarts/index.html" alt="School Smarts Home" title="School Smarts Home">
+               <AREA shape="rect" coords="76,5,173,16" href="../cgi/flash.cgi"  alt="Flash Card Maker" title="Flash Card Maker"></MAP></TD>
+         </TR>
+         <TR>
+         
+      <TD><div align="center"><font size="-1"><strong>TAKE NOTE:</strong> To see 
+          School Smarts, you need the Shockwave (7.0 or higher), Flash and Adobe 
+          Acrobat plug-ins. See <a href="../../../tips/index.html">Online Tips</a> 
+          for more information on how to download these plug-ins. </font> </div></TD>
+      </TR>
+       <TR>
+         <TD height="40" align="center"><a href="" onClick="javascript:windowopen1(); return false;">Why you need cookies to use Flash Card Maker</a></TD>
+      </TR>
+      </TABLE>
+
+    </DIV> 
+    <!-- #BeginLibraryItem "/includes/footer/agm_footer.lbi" --><!-- #BeginLibraryItem "/includes/library/global_fnav.lbi" --><link href="/includes/css/global.css" rel="stylesheet" type="text/css">
+<DIV ALIGN="center"><br>
+<script language="JavaScript" src="/js/footer_popups.js"></script>
+  <A class="fnav" HREF="/emailus/index.html" TARGET="_self"> E-mail Us</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/corp/index.html" TARGET="_self">About Our Company</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/tips/index.html" TARGET="_self">Online Tips</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/site_index.html" TARGET="_self">Site Map</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" onClick="openTerms()" href="#" >Terms and Conditions</A>
+  <font color="B32447"> / </font>
+  <a class="fnav" onClick="openTrademarks()" href="#" >Trademarks</a>
+  <font color="B32447"> / </font>
+  <A class="fnav" onClick="openPrivacy()" href="#" ><strong>PRIVACY POLICY</strong></A> </DIV>
+<!-- #EndLibraryItem --><!-- #BeginLibraryItem "/includes/library/agm_legal.lbi" --><link href="/includes/css/global.css" rel="stylesheet" type="text/css">
+<DIV ALIGN="center"> 
+<p class="legal">Copyright &copy; 2005 American Girl, LLC. All rights reserved.<BR>
+American Girl and the American Girl<SUP>&#174;</SUP> magazine logo are registered trademarks of American Girl, LLC.
+</p>
+</DIV><!-- #EndLibraryItem --><!-- #BeginLibraryItem "/includes/library/web_trends.lbi" -->
+<script language=JavaScript src="/js/webtrends_ffg.js" type=text/javascript></script>
+<NOSCRIPT>
+<img BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" 
+SRC="http://dcs.mattel.com/DCSCDxDhZa4S3eFS0rbrV83F5_6O9N/njs.gif?dcsuri=/nojavascript">
+</NOSCRIPT><!-- #EndLibraryItem --><!-- #EndLibraryItem --><!--edit_tmpl.html-->
+</BODY>
+</HTML>

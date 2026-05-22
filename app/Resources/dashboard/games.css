@@ -1,0 +1,195 @@
+/* games.css — gallery-specific styling that builds on styles.css. */
+
+body.games-page {
+  background:
+    radial-gradient(ellipse at 50% -10%, #FFF8E8 0%, transparent 60%),
+    linear-gradient(180deg, var(--ag-cream) 0%, var(--ag-cream-deep) 100%);
+  /* `background:` shorthand resets attachment to its default (scroll),
+     which makes the gradient image tile/repeat as the long gallery page
+     scrolls. Pin it to the viewport to match the rest of the app. */
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.topnav {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 18px;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+.topnav .back {
+  color: var(--ag-red);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 10px 6px 6px;
+  border-radius: 6px;
+}
+.topnav .back:hover { background: rgba(166, 25, 46, 0.08); }
+.topnav .crumb {
+  color: var(--ag-mute);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.topnav .serif { font-family: var(--serif); text-transform: none; letter-spacing: 0; }
+.topnav .italic { font-style: italic; }
+
+.gallery-head {
+  text-align: center;
+  margin: 20px 0 36px;
+}
+.gallery-head .wordmark {
+  /* font-size set explicitly so the em-based gap resolves correctly and so
+     inter-span whitespace in the HTML renders at the right width. */
+  font-size: 60px;
+  margin: 0 0 8px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.18em;
+}
+.gallery-head .wordmark .american,
+.gallery-head .wordmark .girl {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 60px;
+  color: var(--ag-red);
+  line-height: 1;
+}
+.gallery-head .tagline {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ag-mute);
+  margin: 0 0 12px;
+}
+.gallery-head .lede {
+  max-width: 640px;
+  margin: 8px auto 0;
+  font-size: 13.5px;
+  color: var(--ag-mute);
+  line-height: 1.55;
+}
+
+.game-section {
+  margin: 40px 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(166, 25, 46, 0.14);
+}
+.game-section .section-head {
+  margin-bottom: 18px;
+}
+.game-section h2 {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ag-red-deep);
+  font-size: 30px;
+  margin: 0 0 4px;
+}
+.game-section .section-head p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ag-mute);
+  max-width: 600px;
+}
+
+.char-group { margin-bottom: 24px; }
+.char-group h3 {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ag-gold);
+  margin: 0 0 10px;
+  padding-left: 4px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.tile {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  background: var(--ag-paper);
+  border: 1px solid rgba(166, 25, 46, 0.12);
+  border-radius: 9px;
+  padding: 12px 14px;
+  text-decoration: none;
+  color: var(--ag-ink);
+  transition: transform 100ms ease, box-shadow 100ms ease, border-color 100ms ease;
+  position: relative;
+}
+.tile:hover {
+  transform: translateY(-1px);
+  border-color: rgba(166, 25, 46, 0.4);
+  box-shadow: 0 8px 18px rgba(124, 12, 31, 0.10);
+}
+.tile .ext {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--ag-red) 0%, var(--ag-red-deep) 100%);
+  color: #FFF6E5;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.tile[data-ext="dcr"] .ext {
+  background: linear-gradient(135deg, var(--ag-gold) 0%, #7B5E27 100%);
+}
+.tile .t {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ag-red-deep);
+  line-height: 1.15;
+}
+.tile .meta {
+  font-family: var(--sans);
+  font-size: 10px;
+  color: var(--ag-mute);
+  letter-spacing: 0.04em;
+}
+
+/* About page prose */
+.prose {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ag-ink);
+}
+.prose p { margin: 0 0 18px; }
+.prose h2 {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ag-red-deep);
+  font-size: 24px;
+  margin: 32px 0 12px;
+}
+.prose code {
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  background: rgba(166, 25, 46, 0.07);
+  color: var(--ag-red-deep);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.prose .tidylist { padding-left: 20px; margin: 0 0 18px; }
+.prose .tidylist li { margin-bottom: 6px; }
+.prose .serif { font-family: var(--serif); }
+.prose .italic { font-style: italic; }
+.prose .muted { color: var(--ag-mute); font-size: 13px; }

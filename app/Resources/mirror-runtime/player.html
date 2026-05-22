@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>American Girl — Play</title>
+<script src="agd://runtime/ruffle-boot.js"></script>
+<script src="agd://runtime/ruffle/ruffle.js"></script>
+<script src="agd://runtime/flash-bridge.js"></script>
+<script src="agd://runtime/volume-control.js"></script>
+<style>
+  :root { color-scheme: light; }
+  html, body {
+    margin: 0; padding: 0;
+    background: #FBF6EB;
+    font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    color: #4A2C20;
+    min-height: 100vh;
+  }
+  header.bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px; background: #A6192E; color: #FBF6EB;
+    box-shadow: 0 2px 12px rgba(124,12,31,0.18);
+  }
+  header.bar h1 {
+    margin: 0; font-family: 'Hoefler Text', Georgia, serif; font-style: italic;
+    font-weight: 400; font-size: 22px; letter-spacing: 0.4px;
+  }
+  header.bar .meta { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; opacity: .85; }
+  header.bar .actions { display: flex; gap: 8px; align-items: center; }
+  header.bar a.btn {
+    color: #FBF6EB; text-decoration: none; font-size: 11px;
+    letter-spacing: .18em; text-transform: uppercase; font-weight: 600;
+    padding: 7px 14px; border-radius: 999px;
+    background: rgba(255,246,229,0.16);
+    border: 1px solid transparent;
+  }
+  header.bar a.btn:hover { background: rgba(255,246,229,0.28); }
+  header.bar a.btn.outline { background: transparent; border-color: rgba(255,246,229,0.45); }
+  header.bar a.btn.outline:hover { background: rgba(255,246,229,0.12); }
+  .stage {
+    display: flex; align-items: center; justify-content: center;
+    min-height: calc(100vh - 64px); padding: 32px;
+  }
+  .frame {
+    background: #000; border-radius: 8px;
+    box-shadow: 0 16px 50px rgba(124,12,31,0.22), 0 4px 10px rgba(124,12,31,0.16);
+    overflow: hidden;
+  }
+  .frame ruffle-player { display: block; width: 800px; height: 600px; max-width: 100%; }
+  .hint {
+    margin-top: 14px; text-align: center; color: #8c6a5c;
+    font-size: 12px; letter-spacing: .04em;
+  }
+  .hint code { font-family: 'SF Mono', Menlo, monospace; font-size: 11px; color: #7C0C1F; }
+  /* Collapsible debug log — populated by Ruffle trace events. Hidden until
+     toggled or until a Ruffle error fires; lets us actually see WHAT broke
+     inside a game instead of just an orange square or a silent stub. */
+  details.diag {
+    max-width: 800px; margin: 18px auto 0; font-size: 12px;
+    background: rgba(255,255,255,0.6); border: 1px solid rgba(124,12,31,0.18);
+    border-radius: 6px;
+  }
+  details.diag summary {
+    padding: 8px 12px; cursor: pointer; color: #7C0C1F; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase; font-size: 10.5px;
+  }
+  details.diag[open] summary { border-bottom: 1px solid rgba(124,12,31,0.12); }
+  details.diag pre {
+    margin: 0; padding: 10px 14px; max-height: 260px; overflow: auto;
+    font-family: 'SF Mono', Menlo, monospace; font-size: 11px; color: #4A2C20;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  details.diag.has-errors summary { color: #A6192E; }
+</style>
+</head>
+<body>
+<header class="bar">
+  <h1 id="title">American Girl</h1>
+  <div class="actions">
+    <a class="btn outline" id="projector-link" href="#">Open in Flash Projector</a>
+    <a class="btn" href="agd://dashboard/games.html">Back to Gallery</a>
+  </div>
+</header>
+<div class="stage">
+  <div>
+    <div class="frame" id="frame"></div>
+    <p class="hint">Game not behaving? Hit <strong>Open in Flash Projector</strong> above to play it in the real Adobe Flash Player.</p>
+    <details class="diag" id="diag">
+      <summary id="diag-summary">Diagnostics</summary>
+      <pre id="diag-log"></pre>
+    </details>
+  </div>
+</div>
+<script>
+(function () {
+  "use strict";
+
+  var qs = new URLSearchParams(location.search);
+  var swf = qs.get("swf") || "";
+  var title = qs.get("title") || "";
+  var w = parseInt(qs.get("w"), 10) || 800;
+  var h = parseInt(qs.get("h"), 10) || 600;
+
+  if (title) document.getElementById("title").textContent = title;
+  document.title = "American Girl — " + (title || "Play");
+
+  // Resolve the SWF URL: caller passes either an agd:// URL or a path under
+  // www.americangirl.com.
+  var swfURL = swf;
+  if (swfURL && !/^[a-z]+:/i.test(swfURL)) {
+    swfURL = "agd://www.americangirl.com" + (swfURL.charAt(0) === "/" ? "" : "/") + swfURL;
+  }
+
+  // Wire up the always-visible "Open in Flash Projector" link in the header.
+  try {
+    var u = new URL(swfURL, location.href);
+    document.getElementById("projector-link").href =
+      "agd-launch://" + u.host + u.pathname + (u.search || "");
+  } catch (e) {}
+
+  // Diagnostics log: capture Ruffle's trace + error output and render it in
+  // the collapsible <details id="diag"> panel. Off by default but openable.
+  var diagEl = document.getElementById("diag");
+  var diagLogEl = document.getElementById("diag-log");
+  var diagSummaryEl = document.getElementById("diag-summary");
+  var diagErrorCount = 0;
+  function logDiag(level, args) {
+    try {
+      var line = "[" + level + "] " + Array.prototype.slice.call(args).map(function (a) {
+        if (typeof a === "string") return a;
+        try { return JSON.stringify(a); } catch (e) { return String(a); }
+      }).join(" ");
+      diagLogEl.textContent += line + "\n";
+      if (level === "error" || level === "warn") {
+        diagErrorCount++;
+        diagEl.classList.add("has-errors");
+        diagSummaryEl.textContent = "Diagnostics — " + diagErrorCount + " issue" + (diagErrorCount > 1 ? "s" : "");
+      }
+    } catch (e) {}
+  }
+  ["log","warn","error","info"].forEach(function (lvl) {
+    var orig = console[lvl];
+    console[lvl] = function () { logDiag(lvl, arguments); if (orig) orig.apply(console, arguments); };
+  });
+  window.addEventListener("error", function (e) {
+    logDiag("error", [e.message, "@", (e.filename || "") + ":" + (e.lineno || "")]);
+  });
+  window.addEventListener("unhandledrejection", function (e) {
+    logDiag("error", ["unhandled rejection:", String(e.reason)]);
+  });
+
+  function showFallback() { /* legacy no-op — projector link is now always visible */ }
+
+  function makePlayer() {
+    if (!window.RufflePlayer || !window.RufflePlayer.newest) {
+      // Ruffle hasn't loaded yet; try again shortly.
+      setTimeout(makePlayer, 80);
+      return;
+    }
+    var ruffle = window.RufflePlayer.newest();
+    var player = ruffle.createPlayer();
+    player.style.width  = w + "px";
+    player.style.height = h + "px";
+    var frame = document.getElementById("frame");
+    frame.appendChild(player);
+
+    // On Ruffle failure, REPLACE the player with the same crimson
+    // "Open in Flash Player" stub flash-bridge uses for mirror-page
+    // embeds. Just unhiding a link beneath an orange-square error icon
+    // (the old behavior) was confusing and looked broken.
+    function replaceWithStub(reason) {
+      try { console.warn("player.html: Ruffle failed:", reason); } catch (e) {}
+      showFallback();
+      if (window.__AGD_BUILD_STUB__) {
+        try {
+          var stub = window.__AGD_BUILD_STUB__(swfURL, w, h);
+          if (player.parentNode) player.parentNode.replaceChild(stub, player);
+        } catch (e) {}
+      }
+    }
+    player.addEventListener("loaderror", replaceWithStub);
+    player.addEventListener("error", replaceWithStub);
+
+    // IMPORTANT: only call load() after the element is in the document,
+    // otherwise Ruffle ignores autoplay on a disconnected element.
+    requestAnimationFrame(function () {
+      var p = player.load({
+        url: swfURL,
+        autoplay: "on",
+        unmuteOverlay: "hidden",
+        allowScriptAccess: true,
+      });
+      if (p && p.catch) p.catch(replaceWithStub);
+    });
+  }
+
+  if (!swfURL) {
+    showFallback();
+  } else {
+    makePlayer();
+  }
+})();
+</script>
+</body>
+</html>

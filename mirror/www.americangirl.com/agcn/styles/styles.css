@@ -1,0 +1,1018 @@
+/* AGD-PATCHED v1 */
+/* Global Styles for Character Pages */
+
+img {
+	border:0;
+}
+#wrapper {
+	margin: 0 auto;
+	width:750px;
+}
+#footerInclude {
+clear:both;
+xmargin-top:10px;
+}
+/* Multi-Character Button */
+#multiCharButton {
+	width: 722px;
+	height: 40px;
+	float:left;
+	margin: 10px 0 15px 15px;
+	clear:both;
+	}		
+#multiCharButton a {
+	float: left;
+	padding: 40px 0 0 0;
+	overflow: hidden;
+	height: 0px !important; 
+	width: 722px;
+	background: url(/agcn/images/multiChar_button.gif) top left no-repeat;
+	
+	}
+
+/* Historical Character Splash Page */
+
+.historicalSplash #main {
+	background: url(/agcn/images/main_splash_historicalChar.jpg) top left no-repeat;
+}
+#charSplash {
+	width: 720px;
+	margin: 50px 0 0 2px;
+	float:left;
+	}
+
+	#charSplash ul {
+	clear: both;
+	}
+ul#charSplashList {
+	margin: 0;
+	padding: 0;
+	height: 194px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul#charSplashList li,
+	li#kayaMainSplash, 
+	li#felicityMainSplash, 
+	li#josefinaMainSplash, 
+	li#kirstenMainSplash, 
+	li#addyMainSplash, 
+	li#samanthaMainSplash, 
+	li#kitMainSplash, 
+	li#mollyMainSplash, 
+	li#julieMainSplash {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	#charSplashList a {
+		float: left;
+		padding: 194px 0 0 0;
+margin-top:25px;
+		overflow: hidden;
+		height: 0px !important; 
+		}
+	
+	ul#charSplashList a:hover {
+		background-position: 0 -194px;
+		text-decoration: none;
+		}
+		
+
+#kayaMainSplash a {
+	width: 142px;
+	background: url(/agcn/images/histChar_splash_kaya.gif) top left no-repeat;
+}
+
+#felicityMainSplash a {
+	width: 142px;
+	background: url(/agcn/images/histChar_splash_felicity.gif) top left no-repeat;
+}
+
+#josefinaMainSplash a {
+	width: 142px;
+	background: url(/agcn/images/histChar_splash_josefina.gif) top left no-repeat;
+}
+
+#kirstenMainSplash a {
+	width: 142px;
+	background: url(/agcn/images/histChar_splash_kirsten.gif) top left no-repeat;
+}
+
+#addyMainSplash a {
+	width: 142px;
+	background: url(/agcn/images/histChar_splash_addy.gif) top left no-repeat;
+}
+
+#samanthaMainSplash a {
+	width: 142px;
+	background: url(/agcn/images/histChar_splash_samantha.gif) top left no-repeat;
+}
+
+#kitMainSplash a {
+	width: 142px;
+	background: url(/agcn/images/histChar_splash_kit.gif) top left no-repeat;
+}
+
+#mollyMainSplash a {
+	width: 142px;
+	background: url(/agcn/images/histChar_splash_molly.gif) top left no-repeat;
+}
+
+#julieMainSplash a {
+	width: 142px;
+	background: url(/agcn/images/histChar_splash_julie.gif) top left no-repeat;
+}
+#julieMainSplash a {
+margin-left:70px;
+}
+#addyMainSplash a {
+clear:left;
+}
+
+/* Multi-Character Games Splash */
+.multiCharGamesSplash #main {
+	background: url(/agcn/images/main_splash_multiCharGames.jpg) top left no-repeat;
+}
+
+.historicalSplash #main {
+	background: url(/agcn/images/main_splash_historicalChar.jpg) top left no-repeat;
+}
+#multiCharGames {
+	width: 720px;
+	margin: 113px 0 0 97px;
+	float:left;
+	}
+
+	#multiCharGames ul {
+	clear: both;
+	}
+ul#multiCharGamesList {
+	margin: 0;
+	padding: 0;
+	height: 153px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul#multiCharGamesList li,
+	li#mystery, 
+	li#picture, 
+	li#agQuiz, 
+	li#snack, 
+	li#freewheeling, 
+	li#paper {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	#multiCharGamesList a {
+		float: left;
+		padding: 153px 0 0 0;
+		margin-bottom:59px;
+		margin-right:32px;
+		overflow: hidden;
+		height: 0px !important; 
+		}
+	
+	ul#multiCharGamesList a:hover {
+		background-position: 0 -153px;
+		text-decoration: none;
+		}
+		
+
+#mystery a {
+	width: 153px;
+	background: url(/agcn/images/multiCharGames_mystery.gif) top left no-repeat;
+}
+
+#picture a {
+	width: 153px;
+	background: url(/agcn/images/multiCharGames_picture.gif) top left no-repeat;
+}
+
+#agQuiz a {
+	width: 153px;
+	background: url(/agcn/images/multiCharGames_agQuiz.gif) top left no-repeat;
+}
+
+#snack a {
+	width: 153px;
+	background: url(/agcn/images/multiCharGames_snack.gif) top left no-repeat;
+	clear:left;
+}
+
+#freewheeling a {
+	width: 153px;
+	background: url(/agcn/images/multiCharGames_freewheeling.gif) top left no-repeat;
+}
+
+#paper a {
+	width: 153px;
+	background: url(/agcn/images/multiCharGames_paper.gif) top left no-repeat;
+}
+
+
+
+/* Character Splash Pages */
+
+h1 {
+	position:absolute; 
+	left:0px; 
+	top:-500px; 
+	width:1px; 
+	height:1px; 
+	overflow:hidden;
+}
+
+#main {
+	margin: 0 0 0 15px;
+	width:720px;
+	height: 520px;
+	float:left;
+	position:relative;
+}
+.splash #main img {
+	display:none;
+}
+.splash #main p {
+	font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+	font-size:15px;
+	line-height:20px;
+	width: 200px;
+	position:relative;
+	margin:0;
+	padding:0;
+	color:#333333;
+	left:490px;
+}
+.addy .splash #main p,
+.kaya .splash #main p,
+.felicity .splash #main p,
+.molly .splash #main p,
+.addy .splash #main p {
+	color:#FFFFFF;
+}
+.kaya .splash #main p {
+	top:115px;
+}
+.felicity .splash #main p {
+	top:132px;
+}
+.josefina .splash #main p {
+	top:115px;
+}
+.kirsten .splash #main p {
+	top:123px;
+}
+.addy .splash #main p {
+	top:133px;
+}
+.samantha .splash #main p {
+	top:113px;
+}
+.kit .splash #main p {
+	top:113px;
+}
+.molly .splash #main p {
+	top:121px;
+}
+.julie .splash #main p {
+	top:121px;
+}
+
+
+.julie .splash #main {
+	background: url(/agcn/images/main_splash_julie.jpg) top left no-repeat;
+}
+.molly .splash #main {
+	background: url(/agcn/images/main_splash_molly.jpg) top left no-repeat;
+}
+.kaya .splash #main {
+	background: url(/agcn/images/main_splash_kaya.jpg) top left no-repeat;
+}
+.felicity .splash #main {
+	background: url(/agcn/images/main_splash_felicity.jpg) top left no-repeat;
+}
+.josefina .splash #main {
+	background: url(/agcn/images/main_splash_josefina.jpg) top left no-repeat;
+}
+.kirsten .splash #main {
+	background: url(/agcn/images/main_splash_kirsten.jpg) top left no-repeat;
+}
+.addy .splash #main {
+	background: url(/agcn/images/main_splash_addy.jpg) top left no-repeat;
+}
+.samantha .splash #main {
+	background: url(/agcn/images/main_splash_samantha.jpg) top left no-repeat;
+}
+.kit .splash #main {
+	background: url(/agcn/images/main_splash_kit.jpg) top left no-repeat;
+}
+
+	/* Menu Buttons */
+	
+#charMenu {
+	position:absolute;
+	width:201px;
+	float:left;
+	xmargin:207px auto auto 491px;
+	top:207px;
+	left:491px;
+}	
+
+#charMenu ul {
+	float:left;
+	clear:both;
+}
+
+ul#charMenuList {
+	margin:0;
+	padding:0;
+	height:305px;
+	list-style:none;
+}
+
+ul#charMenuList,
+ul#charMenuList li#games,
+ul#charMenuList li#charEcard,
+ul#charMenuList li#book,
+ul#charMenuList li#friends,
+ul#charMenuList li#wallpaper {
+	margin:0;
+	padding:0;
+	list-style:none;
+	display: block;
+	float:left;
+	clear:both;
+}
+
+#charMenuList a {
+	float:left;
+	clear:both;
+	padding:61px 0 0 0;
+	overflow:hidden;
+	height: 0px !important;
+}
+
+ul#charMenuList a:hover {
+	xbackground-position:0 -61px;
+	text-decoration:none;
+}
+
+	/* Julie */
+	.julie #charMenuList li#games a {
+		width:201px;
+		background: url(/agcn/images/julie_btn_games.gif) top left no-repeat;
+	}
+	.julie #charMenuList li#charEcard a {
+		width:201px;
+		background: url(/agcn/images/julie_btn_ecards.gif) top left no-repeat;
+	}
+	.julie #charMenuList li#book a {
+		width:201px;
+		background: url(/agcn/images/julie_btn_book.gif) top left no-repeat;
+	}
+	.julie #charMenuList li#friends a {
+		width:201px;
+		background: url(/agcn/images/julie_btn_friends.gif) top left no-repeat;
+	}
+	.julie #charMenuList li#wallpaper a {
+		width:201px;
+		background: url(/agcn/images/julie_btn_wallpaper.gif) top left no-repeat;
+	}
+		/* molly */
+	.molly #charMenuList li#games a {
+		width:201px;
+		background: url(/agcn/images/molly_btn_games.gif) top left no-repeat;
+	}
+	.molly #charMenuList li#charEcard a {
+		width:201px;
+		background: url(/agcn/images/molly_btn_ecards.gif) top left no-repeat;
+	}
+	.molly #charMenuList li#book a {
+		width:201px;
+		background: url(/agcn/images/molly_btn_book.gif) top left no-repeat;
+	}
+	.molly #charMenuList li#friends a {
+		width:201px;
+		background: url(/agcn/images/molly_btn_friends.gif) top left no-repeat;
+	}
+	.molly #charMenuList li#wallpaper a {
+		width:201px;
+		background: url(/agcn/images/molly_btn_wallpaper.gif) top left no-repeat;
+	}
+	
+		/* kaya */
+	.kaya #charMenuList li#games a {
+		width:201px;
+		background: url(/agcn/images/kaya_btn_games.gif) top left no-repeat;
+	}
+	.kaya #charMenuList li#charEcard a {
+		width:201px;
+		background: url(/agcn/images/kaya_btn_ecards.gif) top left no-repeat;
+	}
+	.kaya #charMenuList li#book a {
+		width:201px;
+		background: url(/agcn/images/kaya_btn_book.gif) top left no-repeat;
+	}
+	.kaya #charMenuList li#friends a {
+		width:201px;
+		background: url(/agcn/images/kaya_btn_friends.gif) top left no-repeat;
+	}
+	.kaya #charMenuList li#wallpaper a {
+		width:201px;
+		background: url(/agcn/images/kaya_btn_wallpaper.gif) top left no-repeat;
+	}
+		/* felicity */
+	.felicity #charMenuList li#games a {
+		width:201px;
+		background: url(/agcn/images/felicity_btn_games.gif) top left no-repeat;
+	}
+	.felicity #charMenuList li#charEcard a {
+		width:201px;
+		background: url(/agcn/images/felicity_btn_ecards.gif) top left no-repeat;
+	}
+	.felicity #charMenuList li#book a {
+		width:201px;
+		background: url(/agcn/images/felicity_btn_book.gif) top left no-repeat;
+	}
+	.felicity #charMenuList li#friends a {
+		width:201px;
+		background: url(/agcn/images/felicity_btn_friends.gif) top left no-repeat;
+	}
+	.felicity #charMenuList li#wallpaper a {
+		width:201px;
+		background: url(/agcn/images/felicity_btn_wallpaper.gif) top left no-repeat;
+	}
+	
+		/* josefina */
+	.josefina #charMenuList li#games a {
+		width:201px;
+		background: url(/agcn/images/josefina_btn_games.gif) top left no-repeat;
+	}
+	.josefina #charMenuList li#charEcard a {
+		width:201px;
+		background: url(/agcn/images/josefina_btn_ecards.gif) top left no-repeat;
+	}
+	.josefina #charMenuList li#book a {
+		width:201px;
+		background: url(/agcn/images/josefina_btn_book.gif) top left no-repeat;
+	}
+	.josefina #charMenuList li#friends a {
+		width:201px;
+		background: url(/agcn/images/josefina_btn_friends.gif) top left no-repeat;
+	}
+	.josefina #charMenuList li#wallpaper a {
+		width:201px;
+		background: url(/agcn/images/josefina_btn_wallpaper.gif) top left no-repeat;
+	}
+	
+		/* kirsten */
+	.kirsten #charMenuList li#games a {
+		width:201px;
+		background: url(/agcn/images/kirsten_btn_games.gif) top left no-repeat;
+	}
+	.kirsten #charMenuList li#charEcard a {
+		width:201px;
+		background: url(/agcn/images/kirsten_btn_ecards.gif) top left no-repeat;
+	}
+	.kirsten #charMenuList li#book a {
+		width:201px;
+		background: url(/agcn/images/kirsten_btn_book.gif) top left no-repeat;
+	}
+	.kirsten #charMenuList li#friends a {
+		width:201px;
+		background: url(/agcn/images/kirsten_btn_friends.gif) top left no-repeat;
+	}
+	.kirsten #charMenuList li#wallpaper a {
+		width:201px;
+		background: url(/agcn/images/kirsten_btn_wallpaper.gif) top left no-repeat;
+	}
+	
+		/* addy */
+	.addy #charMenuList li#games a {
+		width:201px;
+		background: url(/agcn/images/addy_btn_games.gif) top left no-repeat;
+	}
+	.addy #charMenuList li#charEcard a {
+		width:201px;
+		background: url(/agcn/images/addy_btn_ecards.gif) top left no-repeat;
+	}
+	.addy #charMenuList li#book a {
+		width:201px;
+		background: url(/agcn/images/addy_btn_book.gif) top left no-repeat;
+	}
+	.addy #charMenuList li#friends a {
+		width:201px;
+		background: url(/agcn/images/addy_btn_friends.gif) top left no-repeat;
+	}
+	.addy #charMenuList li#wallpaper a {
+		width:201px;
+		background: url(/agcn/images/addy_btn_wallpaper.gif) top left no-repeat;
+	}
+	
+		/* samantha */
+	.samantha #charMenuList li#games a {
+		width:201px;
+		background: url(/agcn/images/samantha_btn_games.gif) top left no-repeat;
+	}
+	.samantha #charMenuList li#charEcard a {
+		width:201px;
+		background: url(/agcn/images/samantha_btn_ecards.gif) top left no-repeat;
+	}
+	.samantha #charMenuList li#book a {
+		width:201px;
+		background: url(/agcn/images/samantha_btn_book.gif) top left no-repeat;
+	}
+	.samantha #charMenuList li#friends a {
+		width:201px;
+		background: url(/agcn/images/samantha_btn_friends.gif) top left no-repeat;
+	}
+	.samantha #charMenuList li#wallpaper a {
+		width:201px;
+		background: url(/agcn/images/samantha_btn_wallpaper.gif) top left no-repeat;
+	}
+	
+		/* kit */
+	.kit #charMenuList li#games a {
+		width:201px;
+		background: url(/agcn/images/kit_btn_games.gif) top left no-repeat;
+	}
+	.kit #charMenuList li#charEcard a {
+		width:201px;
+		background: url(/agcn/images/kit_btn_ecards.gif) top left no-repeat;
+	}
+	.kit #charMenuList li#book a {
+		width:201px;
+		background: url(/agcn/images/kit_btn_book.gif) top left no-repeat;
+	}
+	.kit #charMenuList li#friends a {
+		width:201px;
+		background: url(/agcn/images/kit_btn_friends.gif) top left no-repeat;
+	}
+	.kit #charMenuList li#wallpaper a {
+		width:201px;
+		background: url(/agcn/images/kit_btn_wallpaper.gif) top left no-repeat;
+	}
+	
+/* Games Pages */
+
+.gamesPage #main {
+	height:487px;
+}
+.agame #main {
+	height:auto;
+}
+.kaya .mountain #main {
+	margin:0 0 15px 75px;
+}
+#mountGame {
+	margin-left:50px;
+}
+#josefinaPiano {
+	padding-left:55px;
+}
+#winterStars {
+	margin-left:10px;
+}
+#raccoon {
+	margin-left:100px;
+}
+#mancala{
+	margin-left:70px;
+}
+#sketchbook {
+	margin-left:70px;
+}
+#money {
+	margin-left:70px;
+}
+#pedal {
+	margin-left:70px;
+}
+#route{
+	margin-left:60px;
+}
+#picturePage object {
+	margin-left:70px;
+}
+#quizPage object {
+	margin-left:70px;
+}
+#paperPage object {
+	margin-left:60px;
+}
+#railPage object {
+	margin-left:0px;
+}
+#rail,
+#railPage #main {
+	margin-left:0;
+}
+#lendsPage object {
+	margin-left:10px;
+}
+#lifePage object {
+	margin-left:10px;
+}
+
+.plugin { 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10px; color: #333333;
+	text-align:center;
+	float:left;
+	margin:10px 0 10px 0;
+}
+
+#gameModule p {
+	width:160px;
+	float:left;
+	font-family:'Trebuchet MS', Arial, Helvetica, sans-serif;
+	font-size:12px;
+	margin:0 0 0 0;
+	padding:35px 0 0 0;
+}
+
+	/*Games Buttons*/
+	#charGames {
+		width: 400px;
+		margin: 120px 0 0 330px;
+		}
+	
+		#charGames div {
+		xclear: both;
+		}
+	div#gameModule {
+		margin: 0 0 40px 0;
+		padding: 0;
+		height: 133px;
+		}
+	
+		div#gameModule h2,
+		div#gameModule h2#life,
+		div#gameModule h2#mancala {
+			margin: 0; 
+			padding: 0;
+			}
+			
+		div#gameModule a {
+			float: left;
+			xclear:both;
+			padding: 133px 0 0 0;
+			overflow: hidden;
+			height: 0px !important; 
+			}
+		
+		div#gameModule a:hover {
+			background-position: 0 -133px;
+			text-decoration: none;
+			}
+	
+	/*kaya's menu buttons*/
+	.kaya #catch a {
+		width: 212px;
+		background: url(/agcn/images/game_kaya_catch.gif) top left no-repeat;
+	}
+	
+	.kaya #mountain a {
+		width: 212px;
+		background: url(/agcn/images/game_kaya_mountain.gif) top left no-repeat;
+	}
+	
+	/*felicity's menu buttons*/
+	.felicity #colonial a {
+		width: 240px;
+		background: url(/agcn/images/game_felicity_colonial.gif) top left no-repeat;
+	}
+	
+	.felicity #penny a {
+		width: 240px;
+		background: url(/agcn/images/game_felicity_penny.gif) top left no-repeat;
+	}
+	
+	/*josefina's menu buttons*/
+	.josefina #market a {
+		width: 218px;
+		background: url(/agcn/images/game_josefina_market.gif) top left no-repeat;
+	}
+	
+	.josefina #music a {
+		width: 218px;
+		background: url(/agcn/images/game_josefina_music.gif) top left no-repeat;
+	}
+	
+	/*kirsten's menu buttons*/
+	.kirsten #winter a {
+		width: 232px;
+		background: url(/agcn/images/game_kirsten_winter.gif) top left no-repeat;
+	}
+	
+	.kirsten #racoon a {
+		width: 232px;
+		background: url(/agcn/images/game_kirsten_racoon.gif) top left no-repeat;
+	}
+	
+	/*addy's menu buttons*/
+	.addy #life a {
+		width: 210px;
+		background: url(/agcn/images/game_addy_life.gif) top left no-repeat;
+	}
+	
+	.addy #mancala a {
+		width: 210px;
+		background: url(/agcn/images/game_addy_mancala.gif) top left no-repeat;
+	}
+	
+	/*samantha's menu buttons*/
+	.samantha #scavenger a {
+		width: 220px;
+		background: url(/agcn/images/game_samantha_scavenger.gif) top left no-repeat;
+	}
+	
+	.samantha #sketchbook a {
+		width: 220px;
+		background: url(/agcn/images/game_samantha_sketchbook.gif) top left no-repeat;
+	}
+
+	/*kit's menu buttons*/
+	.kit #money a {
+		width: 220px;
+		background: url(/agcn/images/game_kit_money.gif) top left no-repeat;
+	}
+	
+	.kit #railway a {
+		width: 220px;
+		background: url(/agcn/images/game_kit_railway.gif) top left no-repeat;
+	}
+
+	/*molly's menu buttons*/
+	.molly #hand a {
+		width: 256px;
+		background: url(/agcn/images/game_molly_hand.gif) top left no-repeat;
+	}
+	
+	.molly #pedal a {
+		width: 256px;
+		background: url(/agcn/images/game_molly_pedal.gif) top left no-repeat;
+	}
+	.molly #route a {
+		width: 256px;
+		background: url(/agcn/images/game_molly_route.gif) top left no-repeat;
+	}
+
+	/*julie's menu buttons*/
+	.julie #groovy a {
+		width: 224px;
+		background: url(/agcn/images/game_julie_groovy.gif) top left no-repeat;
+	}
+	
+	.julie #newYears a {
+		width: 224px;
+		background: url(/agcn/images/game_julie_newYears.gif) top left no-repeat;
+	}
+	.julie #gameModule p {
+		xmargin-left:-400px;
+	}
+	
+	
+	
+	
+
+
+
+.kaya .gamesPage #main {
+	background: url(/agcn/images/main_games_kaya.jpg) top left no-repeat;
+}
+.felicity .gamesPage #main {
+	background: url(/agcn/images/main_games_felicity.jpg) top left no-repeat;
+}
+.felicity #charGames p{
+	xwidth:10px;
+	margin-left:-22px;
+	}
+.josefina .gamesPage #main {
+	background: url(/agcn/images/main_games_josefina.jpg) top left no-repeat;
+}
+.josefina #gameModule p {
+	margin-left:-10px;
+}
+.kirsten .gamesPage #main {
+	background: url(/agcn/images/main_games_kirsten.jpg) top left no-repeat;
+}
+.kirsten #gameModule p {
+	margin-left:-20px;
+}
+.addy .gamesPage #main {
+	background: url(/agcn/images/main_games_addy.jpg) top left no-repeat;
+}
+.samantha .gamesPage #main {
+	background: url(/agcn/images/main_games_samantha.jpg) top left no-repeat;
+}
+.samantha #gameModule p {
+	margin-left:-5px;
+}
+.kit .gamesPage #main {
+	background: url(/agcn/images/main_games_kit.jpg) top left no-repeat;
+}
+.kit #gameModule p {
+	margin-top:-5px;
+	margin-left:-10px;
+}
+.molly .gamesPage #main {
+	background: url(/agcn/images/main_games_molly.jpg) top left no-repeat;
+}
+.molly #charGames {
+	width:500px;
+	margin: 75px 0 0 300px;
+	}
+.molly #gameModule {
+	margin-bottom:0;
+}
+.molly #gameModule p {
+	margin-left:-25px;
+}
+.molly #gameModule p {
+	xwidth:25%;
+}
+.julie .gamesPage #main {
+	background: url(/agcn/images/main_games_julie.jpg) top left no-repeat;
+}
+.julie #gameModule p {
+	margin-left:-10px;
+}
+
+/* Wallpaper Pages */
+.wallpaperPage #main {
+	height:487px;
+}
+.wallpaperPage #copySection {
+	margin:90px 0 0 0;
+	float:left;
+	width:462px;
+}
+.wallpaperPage #copySection p,
+.wallpaperModule ul {
+	font-family:'Trebuchet MS', Arial, Helvetica, sans-serif;
+	color:#444344;
+}
+.wallpaperPage #copySection p {
+	margin:0 0 15px 245px;
+	padding:0;
+	font-size:16px;
+line-height:22px;
+}
+
+
+#wallpaperSection {
+	margin:90px 0 0 0;
+	xwidth:260px;
+	float:left;
+}
+.wallpaperModule {
+	
+}
+.wallpaperModule img {
+	margin:0 0 7px 34px;
+	padding:0;
+}
+.wallpaperModule ul {
+	list-style:none;
+	font-size:14px;
+	margin:0 0 auto 42px;
+	padding:0;
+}
+#firstWallpaper ul {
+	margin-bottom:10px;
+}
+.wallpaperModule ul li a {
+	color:#444344;
+}
+.wallpaperModule ul li {
+	display:inline;
+	margin:0 5px 0 0;
+	padding:0;
+}
+
+
+
+.kaya .wallpaperPage #main {
+	background: url(/agcn/images/main_wallpaper_kaya.jpg) top left no-repeat;
+}
+.felicity .wallpaperPage #main {
+	background: url(/agcn/images/main_wallpaper_felicity.jpg) top left no-repeat;
+}
+.josefina .wallpaperPage #main {
+	background: url(/agcn/images/main_wallpaper_josefina.jpg) top left no-repeat;
+}
+.kirsten .wallpaperPage #main {
+	background: url(/agcn/images/main_wallpaper_kirsten.jpg) top left no-repeat;
+}
+.addy .wallpaperPage #main {
+	background: url(/agcn/images/main_wallpaper_addy.jpg) top left no-repeat;
+}
+.samantha .wallpaperPage #main {
+	background: url(/agcn/images/main_wallpaper_samantha.jpg) top left no-repeat;
+}
+.kit .wallpaperPage #main {
+	background: url(/agcn/images/main_wallpaper_kit.jpg) top left no-repeat;
+}
+.molly .wallpaperPage #main {
+	background: url(/agcn/images/main_wallpaper_molly.jpg) top left no-repeat;
+}
+.julie .wallpaperPage #main {
+	background: url(/agcn/images/main_wallpaper_julie.jpg) top left no-repeat;
+}
+
+
+
+/* Book Excerpt Pages */
+
+.bookPage #main {
+	height:487px;
+}
+#excerpt {
+	width:350px;
+	height:390px;
+	overflow:auto;
+	margin:73px 0 0 320px;
+	padding: 0 15px;
+}
+#excerpt p {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+#excerpt p#opener {
+	font-style:normal;
+}
+
+.julie .bookPage #main {
+	background: url(/agcn/images/main_book_julie.jpg) top left no-repeat;
+}
+.julie #excerpt {
+	border: 1px solid #faa635;
+}
+.addy .bookPage #main {
+	background: url(/agcn/images/main_book_addy.jpg) top left no-repeat;
+}
+.addy #excerpt {
+	border: 1px solid #d5622a;
+}
+.kaya .bookPage #main {
+	background: url(/agcn/images/main_book_kaya.jpg) top left no-repeat;
+}
+.kaya #excerpt {
+	border: 1px solid #4b90cd;
+}
+.felicity .bookPage #main {
+	background: url(/agcn/images/main_book_felicity.jpg) top left no-repeat;
+}
+.felicity #excerpt {
+	border: 1px solid #007350;
+}
+.josefina .bookPage #main {
+	background: url(/agcn/images/main_book_josefina.jpg) top left no-repeat;
+}
+.josefina #excerpt {
+	border: 1px solid #cd1528;
+}
+.kirsten .bookPage #main {
+	background: url(/agcn/images/main_book_kirsten.jpg) top left no-repeat;
+}
+.kirsten #excerpt {
+	border: 1px solid #ffc829;
+}
+.samantha .bookPage #main {
+	background: url(/agcn/images/main_book_samantha.jpg) top left no-repeat;
+}
+.samantha #excerpt {
+	border: 1px solid #820020;
+}
+.kit .bookPage #main {
+	background: url(/agcn/images/main_book_kit.jpg) top left no-repeat;
+}
+.kit #excerpt {
+	border: 1px solid #00ad8d;
+}
+.molly .bookPage #main {
+	background: url(/agcn/images/main_book_molly.jpg) top left no-repeat;
+}
+.molly #excerpt {
+	border: 1px solid #0060af;
+}
+
+/* Friends and Family Pages */
+
+.friendsPage #main {
+	height:auto;
+}
+
+
+
+
+

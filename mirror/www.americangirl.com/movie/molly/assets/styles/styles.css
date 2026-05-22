@@ -1,0 +1,1013 @@
+/* AGD-PATCHED v1 */
+/* Stylesheet for American Girl Movie - Molly 08.14.06 */
+
+body {
+	font: normal 12px/14px Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align:center;
+	background: #073A65 url(/movie/molly/assets/images/bkgdTile.gif) repeat;
+	margin:0;
+	}
+
+#content {
+	margin: 0 auto;
+	text-align: left;
+	padding-bottom: 40px;
+	height: 100%;
+	width: 754px;
+	border-left: 2px solid #35283F;
+	border-right: 2px solid #35283F;
+	background-color: #fff;
+	}
+	
+.topNav {
+	margin:0;
+	}	
+
+a {
+	color: #903;
+}
+
+.encore {
+	text-align:center;
+	text-transform:uppercase;
+	font: 14px "Trebuchet MS", Arial, sans-serif;
+	color:#073A65;
+}
+
+.encore sup{
+	font-size: 10px;
+}
+
+/****** molly movie home ******/
+	
+#mollyHome {
+	position: relative;
+	top: -13px;
+	background: transparent url(/movie/molly/assets/images/home/imgHome.jpg) no-repeat top left;
+	height: 510px;
+	}
+
+/*\*/
+* html #mollyHome {
+	top:0;
+}
+/**/
+
+	#mollyHome #dvdPromo img {
+		position: absolute;
+		top: 221px;
+		left: 36px;
+	}
+
+	#mollyHome #info {
+		width: 384px;
+		position: absolute;
+		top: 300px;
+		left:20px;
+		line-height: 18px;
+		font-size: 12px;
+		}
+	
+	/*\*/
+	* html #mollyHome #info {
+		top: 318px;
+	}
+	/**/	
+		#mollyHome #info img {
+			margin-bottom: -2px;
+		}
+		
+		#mollyHome #sweepsBurst img {
+			position: absolute;
+			top:277px;
+			left:622px;
+		}
+		
+/******** world home *********/
+#worldHome {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	height: 480px;
+	width: 754px;
+	}
+		
+#worldNav { /* use this for all world sections */
+	position: relative;
+	top: 30px;
+	left: 125px;
+}
+
+	#worldHome p {
+		position: relative;
+		top: 60px;
+		font: 13px/17px Arial, Helvetica, sans-serif;
+		width: 608px;
+		margin:0 auto;
+		text-align:center;
+		display:block;
+	}
+
+	#imgWorld {
+	position: relative;
+	top: 70px;
+	left: 65px;
+	}
+
+/******** world - book excerpts ********/
+#worldBook {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	}
+	
+#excerpts {
+	width: 576px;
+	margin: 80px auto 30px auto;
+	}
+	
+/******** world - wallpapers ********/
+#worldWallpaper {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	}
+
+#worldWallpaper p {
+	font: 13px/17px Arial, Helvetica, sans-serif;
+	width: 576px;
+	margin: 80px auto 20px auto;
+}
+
+#wallpapers {
+	width: 576px;
+	margin: 0 auto;
+	}
+
+#wallpapers #one  {
+	width: 239px;
+	}
+
+#wallpapers #two {
+	position: relative;
+	top:-220px;
+	left:320px;
+	width: 239px;
+	height: 240px;
+}
+
+#wallpapers  #three  {
+	width: 239px;
+	position: relative;
+	top: -200px;
+	margin: 0 auto -180px auto;
+	}
+
+#wallpapers #one ul, #wallpapers #two ul, #wallpapers #three ul  {
+	list-style: none;
+	margin: 0 0 0 16px;
+	padding: 12px 0 0 0 ;
+}
+
+#wallpapers li {
+	display:inline;
+	padding: 0 0 0 8px;
+}
+
+/******** world - recipes ********/
+#worldRecipes {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	}
+	
+	#worldRecipes #intro img {
+		position: relative;
+		top:60px;
+		left: 0px;
+		}	
+	
+	#worldRecipes #intro p {
+		font: 13px/17px Arial, Helvetica, sans-serif;
+		width: 546px;
+		margin: 60px auto 20px auto;
+		text-align:center;
+		}
+
+#worldRecipes ul, #worldRecipes li{
+		list-style: none outside;
+		padding: 0;
+		margin: 0;
+		font-size: 11px;
+	}
+
+img.star {
+	margin: -30px 0 0 320px;
+}
+
+#worldRecipes #ingredients {
+	position: relative;
+	top: 30px;
+	left:70px;
+	width: 160px;
+}
+
+#worldRecipes #directions {
+	position: relative;
+	top: -70px;
+	left: 120px;
+	width: 500px;
+}	
+
+	#worldRecipes #directions ol {
+		width: 460px;
+		margin:0 0 0 18px;
+		padding:0; /* was bottom 40 */
+	}
+
+	/*\*/
+	* html #worldRecipes #directions ol {
+		margin-left:0px;
+		padding-left: 30px;
+	}
+	/**/
+	
+	#worldRecipes #directions li {
+		list-style: decimal outside;
+		margin:0;
+		padding:0;
+	}
+
+#ingredients p, #equipment p, #directions p { /* used on party planning, too */
+	font: 14px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	margin:0;
+	padding:0 0 6px 0;
+}
+
+#potatoes, #toad, #soup, #cupcakes {
+	position: relative;
+	left: 70px;
+	margin-bottom: 30px;
+	height: 675px;
+	width: 619px;
+	background: transparent url(/movie/molly/assets/images/world/recipes/recipesBkgd.gif) no-repeat top left;
+}
+	
+	#potatoes img {
+		position: relative;
+		top:8px;
+		left:50px;
+	}
+	
+	#potatoes #equipment {
+		position: relative;
+		top: -62px;
+		left:300px;
+		width: 160px;
+	}
+
+	#potatoes #directions {
+		top:160px;
+	}
+	
+	#toad img {
+		position: relative;
+		top:12px;
+		left:50px;
+	} 
+	
+	#toad #equipment {
+		position: relative;
+		top: -35px;
+		left:300px;
+		width: 160px;
+	}
+
+	#toad #directions {
+		top:160px;
+	} 
+
+	#soup img {
+		position: relative;
+		top:8px;
+		left:50px;
+	}
+	
+	#soup #equipment {
+		position: relative;
+		top: -216px;
+		left:300px;
+		width: 160px;
+	}
+	
+	#cupcakes img {
+		position: relative;
+		top:12px;
+		left:50px;
+	} 
+	
+	#cupcakes #equipment {
+		position: relative;
+		top: -160px;
+		left:300px;
+		width: 160px;
+	}
+	
+/******** world - ecards ********/
+#worldEcards {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	}
+	
+#ecards {
+	position: relative;
+	top:100px;
+	left: 90px;
+	margin: 0 auto;
+	height: 403px;
+}
+	#ecards p {
+		font: 13px/17px Arial, Helvetica, sans-serif;
+		width: 550px;
+		text-align:center;
+	}
+	
+	#ecards div {
+		display:inline;
+		padding: 10px;
+	}
+
+.mollyEcards form { /* for the ecard popups */
+	text-align:center;
+	}
+
+/******** world - crafts ********/
+#worldCrafts {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	height: 1800px;
+	}
+	
+#crafts {
+	position: relative;
+	top:60px;
+	margin: 0 auto;
+	width: 608px;
+}
+
+#crown {
+	height: 710px;
+	margin-bottom: 18px;
+	border-bottom: 1px dotted #000;
+}
+
+#intro {
+	text-align: center;
+	padding-bottom:18px;
+}
+	#crafts #intro p {
+		font: 13px/17px Arial, Helvetica, sans-serif;
+		margin: 0 20px;
+		}
+		
+#images {
+	float: left;
+	width: 248px;
+	}
+
+#instructions {
+	padding: 20px 0 0 6px;
+	float: right;
+	width: 354px;
+	}
+
+	#instructions p {
+		font: 14px "Trebuchet MS", Arial, Helvetica, sans-serif;
+		margin:0;
+		padding:10px 0 6px 0;
+	}
+	
+	
+	#instructions ul {
+		list-style: none;
+		margin:0;
+		padding:0;
+	}
+	
+	#instructions ol {
+		list-style-position:outside;
+		margin:0 0 0 18px;
+		padding:0;
+	}
+
+	#instructions li {
+		padding-bottom: 4px;
+	}
+	
+	#instructions img {
+		display:inline;
+	}
+
+
+/******** world - activities ********/
+#worldActivities {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	height: 550px;
+	}
+	
+	#worldActivities #intro p {
+		position: relative;
+		top:60px;
+		left: 100px;
+		font: 13px/17px Arial, Helvetica, sans-serif;
+		width: 550px;
+		text-align:center;
+	}
+	
+	/*\*/
+	* html #worldActivities #intro p {
+		left: 0px;
+		}
+	/**/
+	
+.puzzle {
+	position: relative;
+	top:60px;
+	left:130px;
+	clear:both;
+	display:block;
+	height: 150px;
+	width: 500px;
+	padding-bottom: 10px;
+}
+	
+	.puzzle a img {
+		float:left;
+		padding-right: 16px;
+	}
+
+#wordFind, #doublePuzzle  {
+	display: block; 
+	margin-left: 112px;
+	}
+
+	#wordFind a, #doublePuzzle a {
+		display: block; 
+		width: 200px;
+		padding-bottom: 6px;
+	}
+
+/******** world - poster ********/
+#worldPoster {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	height: 480px;
+	}
+	
+#txtPosterIntro {
+	font: 13px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align: left;
+ 	float: left;
+	position: relative;
+	top: 80px;
+	left: 150px;
+	width: 305px;
+	}
+
+#txtPosterIntro a { color: #024731; }
+
+/* for poster thumbnail */
+#posterContent {
+	float:left;
+	position: relative;
+	top: 68px;
+	left: 150px;
+}
+
+/******** world - radio ********/
+#worldRadio {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	height: 620px;
+	}
+	
+#radio {
+	position: relative;
+	top:48px;
+	left: 53px;
+	margin: 0 auto;
+	}
+	
+#worldRadio iframe {
+	height: 497px;
+	width: 658px;
+	border:0;
+	overflow: hidden;
+	margin:0;
+	padding:0;
+	}	
+	
+	/*\*/
+	* html #worldRadio iframe {
+	height: 500px;
+	width:650px;
+	padding:0;
+	margin:0;
+	}
+	/**/
+	
+/******** world - game ********/
+#worldGame {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	height: 600px;
+	}
+	
+#game {
+	position: relative;
+	top:48px;
+	left:1px;
+	margin: 0 auto;
+	text-align:center;
+	}	
+
+	#game object {
+		width: 650px;
+	}
+	
+/******** world - party ********/
+#worldParty {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/world/bkgdWorld.jpg) no-repeat top left;
+	width: 754px;
+	}
+	
+#party {
+	position: relative;
+	top:60px;
+	margin: 0 auto 60px auto;	
+	text-align:center;
+	width: 550px;
+	}	
+
+/*\*/
+* html #party {
+	margin: 0 0 0 102px;
+}
+/**/
+
+	#party span {
+		color: #903;
+		text-transform: uppercase;
+	}
+	
+	#party p {
+		margin-top: 4px;
+		line-height: 150%;
+	}
+
+#hdr {
+	padding-bottom: 30px;
+}
+
+	#hdr h3 {
+		font: 22px "Trebuchet MS", Arial, sans-serif;
+		color:#073A65;
+	}
+
+	#hdr p {
+		position: absolute;
+		text-align:left;
+		line-height: 140%;
+	}
+	
+	#hdr p em {
+		font-weight: bold;
+	}
+
+#invitations {
+	padding-top:20px;
+}
+
+blockquote {
+	font: 15px/25px "Comic Sans MS", Arial, sans-serif;
+}
+
+blockquote strong {
+	font-size: 13px;
+}
+
+#party #recipes p {
+	text-align: left;
+}
+
+#party #recipes ul, #party #recipes li{
+		list-style: none outside;
+		padding: 0;
+		margin: 0;
+		font-size: 11px;
+		text-align:left;
+	}
+
+#party #directions ol {
+		width: 460px;
+		margin:0 0 0 18px;
+		padding:0; /* was bottom 40 */
+	}
+
+	/*\*/
+	* html #party #directions ol {
+		margin-left:0px;
+		padding-left: 30px;
+	}
+	/**/
+	
+	#party #directions li {
+		list-style: decimal outside;
+		margin:0;
+		padding:0;
+	}
+#PBJ {
+	position: relative;
+	left: 0px;
+	height: 675px;
+	width: 619px;
+	background: transparent url(/movie/molly/assets/images/world/recipes/recipesBkgd.gif) no-repeat top left;
+}	
+	#PBJ img {
+		position: relative;
+		left:-180px;
+		top: 10px;
+	}
+	
+	#PBJ #ingredients {
+		position: relative;
+		top: 30px;
+		left:70px;
+		width: 160px;
+	}
+	
+	#PBJ #equipment {
+			position: relative;
+			top: -46px;
+			left:300px;
+			width: 160px;
+		}
+	
+	#PBJ #directions {
+		position: relative;
+		top: 180px;
+		left: 120px;
+		width: 500px;
+	}	
+
+#popcorn {
+	position: relative;
+	top:20px;
+	left: 0px;
+	height: 375px;
+	width: 619px;
+	background: transparent url(/movie/molly/assets/images/world/party/recipeOneSide.gif) no-repeat top left;
+}
+
+#popcorn img {
+	position: relative;
+	left:-180px;
+	top: 10px;
+}
+
+#popcorn #ingredients {
+	position: relative;
+	top: 30px;
+	left:70px;
+	width: 160px;
+}
+
+#popcorn #equipment {
+		position: relative;
+		top: -46px;
+		left:300px;
+		width: 160px;
+	}
+
+#popcorn #directions {
+	position: relative;
+	top: 10px;
+	left: 70px;
+	width: 200px;
+}	
+
+#popcorn #directions ol, #shirley #directions ol {
+		width: 400px;
+}
+
+#shirley {
+	position: relative;
+	top:20px;
+	left: 0px;
+	height: 385px;
+	margin-bottom:80px;
+	width: 619px;
+	background: transparent url(/movie/molly/assets/images/world/party/recipeOneSide.gif) no-repeat top left;
+}
+
+#shirley img {
+	position: relative;
+	left:-180px;
+	top: 10px;
+}
+
+#shirley #ingredients {
+	position: relative;
+	top: 30px;
+	left:70px;
+	width: 160px;
+}
+
+#shirley #equipment {
+		position: relative;
+		top: -46px;
+		left:300px;
+		width: 160px;
+	}
+
+#shirley #directions {
+	position: relative;
+	top: 0px;
+	left: 70px;
+	width: 500px;
+}	
+
+/*\*/
+* html #party #ingredients {
+left:-150px;
+}
+
+* html #party #equipment {
+left:100px;
+}
+
+* html #PBJ #directions {
+left:50px;
+}
+
+* html #popcorn #directions, * html #shirley #directions {
+left:-50px;
+}
+
+* html #shirley #directions p {
+ position:relative;
+ left:40px;
+ }
+/**/
+
+/******** about home *********/
+#aboutHome {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/about/bkgdAbout.jpg) no-repeat top left;
+	height: 500px;
+	width: 754px;
+	}
+		
+#aboutNav { /* use this for all about sections */
+	position: relative;
+	top: 36px;
+	left: 120px;
+}
+
+#imgAbout {
+	position: relative;
+	top: 70px;
+	left: 65px;
+	float: left;
+	}
+	
+	#aboutHome div {
+		position: relative;
+		top: 70px;
+		left: 90px;
+		float: left;
+		width: 307px;
+	}
+	
+	#aboutHome p {
+		font: 12px/16px Arial, Helvetica, sans-serif;
+		margin: 0;
+		padding-bottom: 9px;
+		}
+
+	#aboutHome p img {
+		margin-bottom: -3px;
+	}
+
+/******** about photo *********/
+#aboutPhoto {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/about/bkgdAbout.jpg) no-repeat top left;
+	height: 500px;
+	width: 754px;
+	}
+	
+#aboutPhoto object {
+	position: relative;
+	top: 56px;
+	left: 80px;
+	float: left;
+	}
+
+/******** about cast *********/
+#aboutCast {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/about/bkgdAbout.jpg) no-repeat top left;
+	width: 754px;
+	}
+
+#cast {
+	position: relative;
+	top: 80px;
+	left:80px;
+	width:615px;
+	margin-bottom: 60px;	
+}
+
+#cast div {
+	padding-bottom:60px;
+}
+
+.char {
+	float: left;
+	padding-right:6px;
+	}
+	
+.bio {
+	width: 506px;
+	margin:0;
+	padding:0;
+	}
+	
+/*\*/
+* html .bio {
+	width: 426px;
+}
+/**/	
+	
+.actor {
+	float: right;
+	position: relative;
+	top: -120px;
+	}
+	
+.name {
+	float: right;
+	position: relative;
+	left: 90px;
+	margin:0;
+	padding:0;
+	font: bold 12px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	}
+
+/******** about behind the scenes  *********/
+#aboutScenes {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/about/bkgdAbout.jpg) no-repeat top left;
+	height: 500px;
+	width: 754px;
+	}
+	
+#aboutScenes object {
+	position: relative;
+	top: 56px;
+	left: 51px;
+	float: left;
+	}
+
+/******** about teaser  *********/
+#aboutTeaser {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/about/bkgdAbout.jpg) no-repeat top left;
+	width: 754px;
+	}
+	
+#teaser {
+	position: relative;
+	top: 100px;
+	left: 200px;
+	height: 445px;
+	width: 320px ;	
+}
+
+#links {
+	position: relative;
+	top:20px;
+	left: 140px;
+}
+
+	
+/******** product *********/
+#productsHome {
+	position: relative;
+	top: 0px;
+	background: transparent url(/movie/molly/assets/images/about/bkgdAbout.jpg) no-repeat top left;
+	width: 754px;
+	height: 503px;
+	}
+
+#prodNav {
+	position: relative;
+	top: 30px;
+	left: 210px;
+}
+
+#products {
+	position: relative;
+	top: 80px;
+	left:80px;
+	width:615px;
+}
+	
+	#products p {
+		text-align: center;
+		width: 260px;
+		float :left;
+	}
+
+	#products p img {
+		position: relative;
+		top:0;
+		left:10px;
+		display: block;
+	}
+
+	#products ul {
+	list-style: none;
+	}
+	
+	#mollyProducts {
+	position: relative;
+	top:-71px;
+	left:40px;
+	}
+		
+	/*\*/
+	* html #products p img {
+	top:0px;
+	}
+	* html #products img {
+	top: -74px;
+	}
+	/**/		
+		
+#visit {
+	position: relative;
+	top:150px;
+	left:-240px;
+	float: left;
+	padding: 30px 0 0 0;
+	overflow: hidden;
+	height: 0px !important; 
+	height /**/:30px; /* for IE5/Win only */
+	width: 216px;
+	background: url(/movie/molly/assets/images/prod/btnProd.gif) top left no-repeat;
+	}
+	
+/******** footer styles ********/
+.ftr {
+	font: 10px/12px Arial, Helvetica, sans-serif; 
+	text-align: center;
+	width: 700px;
+	margin: 0 auto;
+	background-color: #fff;
+	}
+	
+.agLogo {
+	vertical-align: middle;
+	}
+
+a.ftr:link,
+a.ftr:visited,
+a.ftr:hover,
+a.ftr:active { font: 10px/12px Arial, Helvetica, sans-serif; color: #333333; text-decoration: none; }

@@ -1,0 +1,512 @@
+		
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		
+<script type="text/javascript" src="/corp/js/common.js"></script>
+<script type="text/javascript" src="/corp/js/mootools.svn.js"></script>
+
+<!-- global styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/styles.css" />
+
+<!-- header styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/headNav.css" />
+
+<!-- footer styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/footNav.css" />
+
+<!-- popup styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/styles/popups.css" />
+
+<title>American Girl | Frequently Asked Questions</title>
+
+<script type="text/javascript">
+function showDetails(thisElement, showLabel, hideLabel) {
+	if (document.getElementById(thisElement).getElementsByTagName("div").item(0).className == "hide") {
+		document.getElementById(thisElement).className = "show_details";
+		document.getElementById(thisElement).getElementsByTagName("div").item(0).className = "";
+		//document.getElementById(thisElement).getElementsByTagName("a").item(0).innerHTML= hideLabel;
+		//document.getElementById(thisElement).setAttribute("title", hideLabel);
+		} else {
+		document.getElementById(thisElement).className = "";
+		document.getElementById(thisElement).getElementsByTagName("div").item(0).className = "hide";
+		//document.getElementById(thisElement).getElementsByTagName("a").item(0).innerHTML= showLabel;
+		//document.getElementById(thisElement).setAttribute("title", showLabel);
+		}
+}
+window.addEvent('domready', function(){
+	
+}); 
+</script>
+</head>
+<body>
+<div id="maincontainer">
+
+<!-- TOP HEADER -->
+<div id="topsection">
+	<!-- GLOBAL NAVIGATION INCLUDE -->
+<div class="header">
+	<a href="#contentwrapper" id="skip" tabindex="0">Skip to Main Content</a>
+	<div class="search">
+		<form name="contentSearch" method="get" action="agd://www.americangirl.com/__agd/dead-form.html">
+			<label for="prodSearch:searchstr">Content Search:</label>
+			<input name="site" value="About American Girl" type="hidden"/>
+			<input name="event" value="search" type="hidden"/>
+			<input name="Ntx" value="mode+matchallpartial" type="hidden"/>
+			<input name="Ntk" value="contentSearch" type="hidden"/>
+			<input name="Nty" value="1" type="hidden"/>
+			<input title="Search" name="Ntt" id="prodSearch:searchstr" 	type="text" maxlength="50"/>
+			<div class="searchBtn"><a href="#" onclick="document.contentSearch.submit();return false;">Search</a></div>
+		</form>
+	</div>
+	<ul class="globalNav">
+		<li class="agLogo"><a href="agd://www.americangirl.com" title="Celebrate old friends and new!">American Girl</a></li>
+		<li class="shop"><a href="agd://store.americangirl.com" title="Find the dolls, books, clothes, and accessories that girls love!">SHOP</a></li>
+		<li class="ffg"><a href="agd://www.americangirl.com/fun.html" title="Great activities that celebrate American girls!">FUN FOR GIRLS</a></li>
+		<li class="mag"><a href="agd://www.americangirl.com/agmg/" title="Check it out&#8212;Subscribe now!">MAGAZINE</a></li>
+		<li class="movies"><a href="agd://www.americangirl.com/movie/" title="See the stories of your favorite American Girls come to life">MOVIES</a></li>
+		<li class="stores"><a href="agd://www.americangirl.com/stores/" title="More than just a store&#8212;it&#8217;s an experience!">STORES</a></li>
+	</ul>
+	
+</div>
+<!-- END GLOBAL NAVIGATION INCLUDE --></div>
+
+<div id="contentwrapper">
+<!-- MAIN CONTENT -->
+<div id="contentcolumn"><div><img src="/corp/images/headers/celebrating_girls.gif" alt="Celebrating Girls and all they can be" /></div>
+
+<div class="searchExclude">
+<div id="corpNavcontainer">
+	<ul class="corpNav">
+		<li class="aboutHome"><a href="/corp/">About Us</a></li>
+		<li class="pressroom"><a href="/corp/corporate.php?section=press&#038;id=1" >Press Room</a></li>
+		<li class="company"><a href="/corp/corporate.php?section=about&#038;id=1" class="selected">Our Company</a></li>
+		<li class="happening"><a href="/corp/corporate.php?section=new&#038;id=1" >What's Happening</a></li>
+		</ul>
+</div></div>	
+	<div id="corpcontent">
+		<div id="faqs">
+
+<h1>Frequently Asked Questions</h1>
+
+<h2>American Girl Club</h2>
+	<div id="faq_1" class="" title="Show Details">
+		
+		 
+		<h4><a onclick="showDetails('faq_1','more','close');">How can I purchase a membership to the American Girl Club?</a></h4>
+		
+		<div class="hide">
+			<p> Because the American Girl Club closed on August 15, 2006, Club memberships are no longer available. We apologize for any inconvenience.</p>
+		</div>
+		
+	</div>
+
+
+	<div id="faq_2" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_2','more','close');">How can I activate my American Girl Club membership?</a></h4>
+		
+		<div class="hide">
+			<p>Because the American Girl Club closed on August 15, 2006, Club activations are no longer possible. If you have a Club kit and have not activated your membership, American Girl will provide you with a full refund. Please call our Customer Service department at 1-800-360-1861 for more information on receiving a refund for Club kits. When you call, please have your Club kit activation number ready.  It can be found on your welcome letter. </p>
+		</div>
+		
+	</div>
+	
+
+<h2>Basic tips for doll care </h2>
+	<div id="faq_3" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_3','more','close');">How do I admit my American Girl doll to the Doll Hospital? What preparation is necessary?</a></h4>
+		
+		<div class="hide">
+			<p>Please visit our <a href="agd://store.americangirl.com/agshop/static/dollHospital.jsf">Doll Hospital welcome page</a> for details.</p>
+		</div>
+		
+	</div>
+
+
+	<div id="faq_4" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_4','more','close');">What services does the Doll Hospital provide?</a></h4>
+		
+		<div class="hide">
+			<p>At the Doll Hospital, "major surgery" services include reattachment of both head and limbs or head, limb, or body replacement. We also offer a "wellness visit" featuring doll cleaning, hairstyling, and cord inspection. This service is included for any repair performed at the Doll Hospital. Sorry, we only treat American Girl dolls. </p><p>Due to safety concerns, if you want to admit a doll that has been contaminated with body fluids or other biohazards, please call Customer Service at 1-800-360-1861 to discuss your options.</p>
+		</div>
+		
+	</div>
+	
+	<div id="faq_5" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_5','more','close');">How long does a visit to the Doll Hospital usually take?</a></h4>
+		
+		<div class="hide">
+			<p>Recuperation takes approximately two weeks from the date of admission for the patient to return home. Because of the high volume of patients sent in December, we recommend that any doll who needs to be home in time for Christmas be shipped to American Girl no later than the week of Thanksgiving.</p>
+		</div>
+		
+	</div>
+	
+	
+	<div id="faq_6" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_6','more','close');">Does rush delivery make the Doll Hospital visit any shorter?</a></h4>
+		
+		<div class="hide">
+			<p>If you choose rush shipping for return delivery, the doll is moved to the front of the line for service. </p><p>However, if you rush ship your doll to the Doll Hospital, that does not give your doll priority, nor will the doll be returned to you via rush. You would need to include the return rush-shipping fee.</p>
+		</div>
+		
+	</div>
+
+	<div id="faq_7" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_7','more','close');">How can I care for my American Girl doll?</a></h4>
+		
+		<div class="hide">
+			<p>For general cleaning of your dolls vinyl parts, a gentle paste can be made of baking soda and water. Apply the paste using a circular motion, carefully rinse the vinyl, then dry with a towel. Be careful not to get the dolls body wet. For very dirty vinyl and other stains, please call Customer Service at 1-800-845-0005 for assistance.</p>
+
+<p>Your dolls hair is a wig; it is not rooted. We NO LONGER SUGGEST that you wash and condition the doll's hair. The best way to remove tangles is to spritz the doll's hair with COLD water and use a wire wig brush to slowly work out the knots (working from the bottom up). DO NOT USE A BLOW DRYER OR HEAT OF ANY KIND. Kirsten and Mollys hair wigs may be tightly braided while damp, and Samantha's hair can be set on rollers while damp (not wet).  AIR DRY ONLY FOR ALL DOLLS.</p>
+		</div>
+		
+	</div>
+	
+
+<h2>Battery information</h2>
+	<div id="faq_8" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_8','more','close');">How can I safely dispose of batteries used in my American Girl products?</a></h4>
+		
+		<div class="hide">
+			<p>To find the nearest Household Hazardous Waste Facility, go to www.earth911.com and follow these steps:
+			</p>
+			<ol>
+			<li> Enter your ZIP/postal code in the upper left box</li>
+			<li>Click GO</li>
+			<li>Under LOCAL SERVICES, click on HOUSEHOLD HAZARDOUS WASTE</li>
+			<li>In the HOUSEHOLD HAZARDOUS WASTE box in the middle of the page, click on 
+				MERCURY CONTAINING ITEMS</li>
+			<li>Locate the Household Hazardous Waste (HHW) Facility nearest you</li>
+			</ol>
+		</div>
+		
+	</div>
+	
+	<div id="faq_9" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_9','more','close');">Why should I recycle button cell batteries?</a></h4>
+		
+		<div class="hide">
+			<p>Recycling batteries is a way to reduce the amount of mercury in your local landfill.</p>
+		</div>
+		
+	</div>
+
+
+	<div id="faq_10" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_10','more','close');">What types of button cell batteries are used in American Girl products?</a></h4>
+		
+		<div class="hide">
+			<p>Alkaline-manganese and silver-oxide button cell batteries are typically used.</p>
+		</div>
+		
+	</div>
+	
+	<div id="faq_11" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_11','more','close');">How do I receive a pre-paid mailing label for button cell batteries?</a></h4>
+		
+		<div class="hide">
+			<p>Please call us at 1-800-360-1861 to receive a mailing label for returning button cell batteries.</p>
+		</div>
+		
+	</div>
+	
+<h2>Business opportunities</h2>
+	<div id="faq_12" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_12','more','close');">How can I purchase stock in American Girl?</a></h4>
+		
+		<div class="hide">
+			<p>American Girl is a subsidiary of publicly traded Mattel, Inc. Visit  <a href="http://www.mattel.com">www.mattel.com</a> for more information.</p>
+		</div>
+		
+	</div>
+
+
+	<div id="faq_13" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_13','more','close');">Can I enter into a franchise agreement to open up an American Girl store?</a></h4>
+		
+		<div class="hide">
+			<p>American Girl retail stores are not available for franchise. </p>
+		</div>
+		
+	</div>
+	
+	
+<h2>Madison Children's Museum Annual Benefit Sale</h2>
+	<div id="faq_14" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_14','more','close');">What is the Annual Benefit Sale?</a></h4>
+		
+		<div class="hide">
+			<p>Each year, American Girl donates seconds and returned merchandise to the Madison Childrens Museum, whose volunteers refurbish the products for an annual sale. Since American Girl initiated this unique partnership in 1988, the Annual Benefit Sale has raised more than $18 million and attracted more than 140,000 shoppers from around the country. Call 1-608-256-6445 or visit www.madisonchildrensmuseum.org for more information.</p>
+		</div>
+		
+	</div>
+
+<h2>Modeling</h2>
+	<div id="faq_15" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_15','more','close');">How can my girl become an American Girl model?</a></h4>
+		
+		<div class="hide">
+			<p>American Girl works with professional modeling agencies only.</p>
+			
+		</div>
+		
+	</div>
+
+	
+<h2>Online information</h2>
+	<div id="faq_17" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_17','more','close');">What precautions do you take to ensure that my privacy and security are protected online?</a></h4>
+		
+		<div class="hide">
+			<p>Your privacy and security are a top priority.  We use the latest protections to maintain safe transactions and information-sharing.  Please review our <a href="agd://store.americangirl.com/static/popups/privacyPolicy.html" onclick="openPop('agd://store.americangirl.com/static/popups/privacyPolicy.html','600','600');return false;">Privacy Policy</a> and <a href="agd://store.americangirl.com/static/popups/termsConditions.html" onclick="openPop('agd://store.americangirl.com/static/popups/termsConditions.html');return false;">Terms and Conditions</a> for more information.</p>
+		</div>
+		
+	</div>
+	
+	<div id="faq_18" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_18','more','close');">What technical requirements do you require to enjoy the richest online experience?</a></h4>
+		
+		<div class="hide">
+			<p>Our site requires an Internet-capable computer with a Web browser, JavaScript, cookies, and plug-ins (Adobe Acrobat Reader, Flash, and Shockwave).</p>
+		</div>
+		
+	</div>
+
+
+<h2>Product information</h2>
+	<div id="faq_19" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_19','more','close');">Can I return or exchange something I bought from American Girl?</a></h4>
+		
+		<div class="hide">
+			<p>We offer a 100% guarantee on all American Girl merchandise. If you are not completely delighted with your purchase, please return it for an immediate exchange, credit, or refund of the product purchase price. To return an item, simply complete this <a href="agd://store.americangirl.com/static/customerService/images/return_form.pdf">form</a> and mail your item to:</p>
+
+<dl>
+<dd>American Girl</dd>
+<dd>Returns Department</dd>
+<dd>8300 Fairway Place</dd>
+<dd>Middleton, WI 53562</dd>
+</dl>
+
+<p>Or bring the item and receipt to one of our <a href="agd://www.americangirl.com/stores/">retail locations</a> for a refund or exchange.</p>
+		</div>
+		
+	</div>
+	
+	<div id="faq_20" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_20','more','close');">How do I know which products are age-appropriate for my girl?</a></h4>
+		
+		<div class="hide">
+			<p>Every American Girl product is labled with an age-grading icon to ensure your purchase is appropriate to the age of the recipient.  Age-grading information is also available on our Web site's e-commerce product pages and in our catalogues.  Age-grading is determined by which developmental stage the product is most appropriate for.  </p>
+		</div>
+		
+	</div>
+	
+	<div id="faq_21" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_21','more','close');">How does American Girl ensure products are safe?</a></h4>
+		
+		<div class="hide">
+			<p>Our priority is the safety of the children who play with our toys, and American Girl has some of the most rigorous quality and safety testing in the toy industry.  We monitor all of our vendors and demand testing results for all of our products to ensure that they meet or exceed US Federal Safety Requirements.</p>
+
+<p>In addition, our products are continually monitored by our internal Product Integrity Group, as well as an independent monitoring program to ensure objective checks and balances to evaluate compliance to our stringent standards.  If any problems are discovered, we are committed to taking prompt, responsible corrective action.</p>
+		</div>
+		
+	</div>
+
+
+	<div id="faq_22" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_22','more','close');">How do I submit an idea for a new American Girl product?</a></h4>
+		
+		<div class="hide">
+			<p>Unfortunately, we cannot legally use specific ideas or designs submitted by people outside the company. All new products are conceived and designed by an in-house design and development team.</p>
+		</div>
+		
+	</div>
+	
+	<div id="faq_23" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_23','more','close');">How can I be sure my American Girl product is genuine?</a></h4>
+		
+		<div class="hide">
+			<p>You can be certain your product is authentic if purchased at <a href="agd://www.americangirl.com/">americangirl.com</a>, in one of our retail stores, or through our catalogue. American Girl also distributes print products and small gift items through well-known, reputable booksellers and retailers nationwide. If your product was purchased elsewhere, we cannot guarantee that it is genuine.</p>
+		</div>
+		
+	</div>
+	
+	<div id="faq_24" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_24','more','close');">How can I purchase American Girl products?</a></h4>
+		
+		<div class="hide">
+			<p>You can buy genuine American Girl products in a variety of convenient ways: at <a href="agd://www.americangirl.com/">americangirl.com</a>; at our retail locations in New York, Atlanta, Chicago, Dallas, or Los Angeles; at our outlet store in Oshkosh, Wisconsin; and through our catalogue. You can also call us at 1-800-360-1861 to place an order. Please note that we do not sell American Girl products at our corporate headquarters location.</p>
+		</div>
+		
+	</div>
+
+
+	<div id="faq_25" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_25','more','close');">Why are some of the products I wanted to order no longer available?</a></h4>
+		
+		<div class="hide">
+			<p>Like every company, American Girl is constantly revitalizing our products to best meet the needs of our customers and our business. While some items are discontinued, many other products are added to keep American Girl interesting and engaging, and to celebrate who girls are today.</p>
+		</div>
+		
+	</div>
+	
+<h2>Visits</h2>
+	<div id="faq_26" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_26','more','close');">Can I purchase American Girl products at the corporate headquarters location?</a></h4>
+		
+		<div class="hide">
+			<p>The American Girl headquarters in Middleton, Wisconsin, are primarily office and warehouse facilities. We do not sell American Girl dolls or accessories although some of our products are on display in 
+the lobby. </p> <p>However, if you are located near one of our retail locations in New York, Atlanta, Chicago, Dallas, or Los Angeles, we would encourage you to visit one of our retail stores to see all of our products on display and enjoy some of the experiences and events we have to offer.</p>
+		</div>
+		
+	</div>
+	
+	<div id="faq_27" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_27','more','close');">Where is the American Girl outlet store?</a></h4>
+		
+		<div class="hide">
+			<p>Officially called American Girl, it is an outlet store in Oshkosh, Wisconsin, that carries <em>American Girl</em> magazine and high-quality overstock and seconds of American Girl clothing, books, doll outfits, and accessories. </p>
+			
+			<p>American Girl is located in the Outlet Shoppes at Oshkosh on US41 and Highway 44, just across the road from the EAA Air Museum at Suite A30, 3001 South Washburn Street, Oshkosh, Wisconsin 54904 (phone: 1-920-303-2222). </p>
+			
+			<p>Outlet store hours: Open Monday&#8211;Saturday, 10 a.m. to 8 p.m.; and Sunday, 11 a.m. to 6 p.m. (closed Thanksgiving, Christmas, and Easter)</p>
+			
+			<p>The outlet store accepts American Express, Discover, MasterCard, and Visa credit cards. 	American Girl gift certificates may be redeemed at the outlet store. </p>
+			
+			<p>The outlet store accepts returns only on items purchased at the outlet. All refunds will be based on the price listed on the customer's receipt or the current selling price if a receipt is not available. The outlet store does not offer gift-wrapping or gift boxes. </p>
+		</div>
+		
+	</div>
+	<div id="faq_28" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_28','more','close');">How can I arrange a tour of the American Girl corporate headquarters?</a></h4>
+		
+		<div class="hide">
+			<p>American Girl does not provide tours of its facilities. However, our visitor lobby features our most popular products, which can be viewed during regular business hours.</p>
+		</div>
+		
+	</div>
+	
+
+<h2>Writer information</h2>
+	<div id="faq_29" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_29','more','close');">How can I submit a manuscript or magazine article to American Girl?</a></h4>
+		
+		<div class="hide">
+			<p>Please review our <a href="/corp/corporate.php?section=about&amp;id=8">writer guidelines</a> for more information.</p>
+		</div>
+		
+	</div>
+	<div id="faq_30" class="" title="Show Details">
+		 
+		<h4><a onclick="showDetails('faq_30','more','close');">How can I learn more about the authors of American Girl books?</a></h4>
+		
+		<div class="hide">
+			<p>The authors of our most popular books are each featured in a special <a href="/corp/corporate.php?section=about&amp;id=9">biography section</a>.</p>
+		</div>
+		
+	</div>
+</div>	</div><!--corporate content-->	
+					
+</div><!-- content column -->
+</div><!-- content wrapper -->
+
+<!-- RIGHT NAV -->
+<div id="rightcolumn">
+<div class="searchExclude">
+
+<div id="rightnav">
+<h1>More of Our company</h1>
+<ul>
+	<li><a href="/corp/corporate.php?section=about&#038;id=2"  >Company History</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=3"  > Meet our President</a> </li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=4"   >Awards</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=5"   >Philanthropy &#038; Donations</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=6"   >Fast Facts</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=7" class="active"   >Frequently Asked Questions</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=8"   >Writer's Guidelines</a></li>
+</ul>
+
+
+
+</div>
+
+</div><!-- right column -->
+</div><!-- search Exclude -->
+
+<div><!-- Timeline for History Page -->
+</div><!-- End Timeline -->
+
+<!-- FOOTER -->
+<!-- GLOBAL NAVIGATION INCLUDE -->
+<div id="footer" class="footer">
+	<ul id="footerMenu">
+		<li id="priv"><a href="agd://store.americangirl.com/static/popups/privacyPolicy.html" onclick="openPop('agd://store.americangirl.com/static/popups/privacyPolicy.html','600','600');return false;">Privacy Policy</a></li>
+		<li><a href="agd://store.americangirl.com/static/popups/termsConditions.html" onclick="openPop('agd://store.americangirl.com/static/popups/termsConditions.html');return false;">Terms and Conditions</a></li>
+		<li><a href="/corp/corporate.php?section=contact&amp;id=1&amp;type=general">Contact Information</a></li>
+		<li><a href="agd://www.americangirl.com/legal/trademarks.html" onclick="openPop('agd://www.americangirl.com/legal/trademarks.html');return false;">Trademarks</a></li>
+		<li><a href="http://www.mattel.com/careers/">Careers</a></li>
+		<li class="last"><a href="/corp/">About American Girl</a></li>
+	</ul>
+  <p id="copyright">Copyright &#169; 2008 American Girl, LLC. All American Girl marks are trademarks of American Girl, LLC. All rights reserved.</p>
+  <!-- START OF SmartSource Data Collector TAG --> 
+<!-- Copyright (c) 1996-2007 WebTrends Inc.  All rights reserved. --> 
+<!-- V8.0 --> 
+<!-- $DateTime: 2006/11/30 16:52:27 $ --> 
+<SCRIPT TYPE="text/javascript"><!-- 
+// Code section for Use the new first-party cookie generated with this tag. 
+var gFpc="WT_FPC"; 
+var gConvert=true; 
+var gDomain="statse.webtrendslive.com"; 
+var gDcsId="dcsqohyd4100000w02b923wzx_4k5m"; 
+if ((typeof(gConvert)!="undefined")&&gConvert&&(document.cookie.indexOf(gFpc+"=")==-1)&&(document.cookie.indexOf("WTLOPTOUT=")==-1)){
+
+  document.write("<SCR"+"IPT TYPE='text/javascript' SRC='"+"http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+
+} 
+//--> 
+</SCRIPT> 
+<script src="/js/webtrends8_hosted_ag.js" type="text/javascript"></script> 
+<NOSCRIPT> 
+<IMG ALT="" BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="agd://disabled/webtrendslive <agd://disabled/webtrendslive> ">
+
+</NOSCRIPT> 
+<!-- END OF SmartSource Data Collector  TAG --> 
+</div>
+
+</div> <!-- main containter-->	
+
+</body>
+</html>

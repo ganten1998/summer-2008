@@ -1,0 +1,250 @@
+/* AGD-PATCHED v1 */
+body {
+	font: normal 11px Arial, Helvetica, sans-serif;
+	color: #222;
+	background-color: #fff;
+	text-align: center;
+}
+
+a {
+	font-size: 11px;
+	color: #903;
+	text-decoration: none;
+} 
+
+a:hover {
+	text-decoration: underline;
+	}
+
+/******** header styles ********/
+.header {
+	width: 750px;
+	padding-top: 6px;
+	margin: 0 auto;
+	height: 51px;
+	}
+
+/*\*/
+* html .header {
+	padding:0;
+}
+/**/
+	.header ul {
+	clear: both;
+	}
+	
+/******** global nav ********/
+ul.globalNav {
+	margin: 0;
+	padding: 0;
+	height: 51px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul.globalNav li, li.agLogo, li.shop, li.ffg, li.club, li.mag, li.movies, li.agp {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	.globalNav a {
+		float: left;
+		padding: 51px 0 0 0;
+		overflow: hidden;
+		height: 0px !important; 
+		height /**/:51px; /* for IE5/Win only */
+		}
+	
+	.globalNav a:hover {
+		background-position: 0 -51px;
+		text-decoration: none;
+		}
+
+	.globalNav a.selected, .globalNav a:hover.selected {
+		background-position: 0 -102px;
+		}
+	
+.agLogo a {
+	width: 163px;
+	background: url(agLogo.gif) top left no-repeat;
+	}
+	
+.shop a {
+	width: 78px;
+	background: url(shop.gif) top left no-repeat;
+	}
+	
+.ffg a {
+	width: 129px;
+	background: url(ffg.gif) top left no-repeat;
+	}
+
+.mag a {
+	width: 106px;
+	background: url(mag.gif) top left no-repeat;
+	}
+	
+.movies a {
+	width: 84px;
+	background: url(movies.gif) top left no-repeat;
+	}
+
+.agp a {
+	width: 190px;
+	background: url(agp.gif) top left no-repeat;
+	}
+	
+/****** for page contents ******/
+
+#totalWidth {
+	padding-top: 55px;
+	margin: 0 auto;
+	width: 750px;
+	text-align: left;
+}
+
+#content {
+	position: relative;
+	margin: 0 auto;	
+	width: 750px;
+	}
+
+h2, h3 {
+	display: none;
+}
+
+#main {
+	position: relative;
+	top: 1px;
+	left: 0px;
+	clear:both;
+	height: 183px;
+	}
+
+/*\*/
+* html #main {
+	margin-bottom: -3px;
+	}
+/**/
+
+	#main img {
+		display: inline;
+		padding:0;
+		margin:0;
+	}
+
+#sub {
+	position: relative;
+	top: 2px;
+	left: 0px;
+	clear:both;
+	height: 256px;
+	margin-bottom: 6px;
+}
+
+	#sub div {
+		text-align: left;
+		height: 253px;
+	}
+	
+	#sub p {
+		width: 157px;
+		padding: 10px;
+		margin: 0;
+		line-height: 140%;
+		letter-spacing: 0.2pt;
+	}
+	
+	.link {
+		font-weight: bold;
+		padding: 0 0 4px 10px;
+		display: block;
+		letter-spacing: 0.5pt;
+		}
+
+#shop {
+	width: 189px;
+	position: absolute;
+	top:0;
+	left:0;
+	background-color: #FBDEEC;
+}
+
+#play {
+	position: absolute;
+	top:0;
+	left:190px;
+	width: 184px;
+	background-color: #ECE0F0;
+}
+
+#visit {
+	position: absolute;
+	top:0;
+	left:375px;
+	width: 187px;
+	background-color: #EAEDF9;
+}
+
+#watch {
+	position: absolute;
+	top:0;
+	left:563px;
+	width: 186px;
+	background-color: #FEE7DF;
+}
+
+#memoryTicker {
+	width: 749px;
+	height: 24px;
+	color: #fff;
+	font: 14px "Trebuchet MS", Arial, sans-serif;
+	background-color: #D0357D;
+	text-align:center;
+	text-transform: uppercase;
+	padding-top:6px;
+}
+
+	#memoryTicker a {
+		font: 13px "Trebuchet MS", Arial, sans-serif;
+		color: #FFF;
+		text-transform: none;
+		}
+
+#recall {
+	padding-top: 10px;
+	display:block;
+	width:100px;
+	margin:0 auto;
+}
+
+/*\*/
+* html #recall {
+margin-bottom: -10px;
+}
+/**/
+
+.ftr {
+	margin-top:10px;
+	clear: both;
+	text-align: center;
+	}
+
+	.ftr ul, .ftr li {
+		list-style:none;
+		display:inline;
+		margin:0;
+		padding:0;
+		color: #D884AB;
+	}
+
+	.ftr li a {
+		color: #555;
+		padding: 0 3px;
+		}
+		
+	.ftr a:hover {
+		text-decoration:underline;
+		}

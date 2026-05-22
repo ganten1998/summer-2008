@@ -1,0 +1,207 @@
+<?php
+//@(#)$Header:   //VM/pcproj/archives/agclub/www/htdocs/registration/girl_expired.php-arc   1.1   15 Mar 2006 12:27:10   muthukub  $
+?>
+<?php
+//include "logout_functional_inc.php";
+include_once ("../registration/club_session_inc.php");
+expire_session();
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<title>Club Membership Activation.</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+   <META HTTP-EQUIV="Expires" CONTENT="-1">
+<link href="/assets/includes/styles/Club_parent_reg.css" rel="stylesheet" type="text/css">
+
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+</head>
+
+<body onLoad="MM_preloadImages('/assets/includes/nav_glbl/nav_shop_roll.gif','/assets/includes/nav_glbl/nav_fg_roll.gif','/assets/includes/nav_glbl/nav_mag_roll.gif','/assets/includes/nav_glbl/nav_agp_roll.gif','/assets/includes/nav_glbl/nav_club_on_roll.gif')">
+<form name="girlremind" method="POST">
+  <!-- #BeginLibraryItem "/Library/global_topnav.lbi" -->
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="bgWhite">
+  <tr> 
+    <td align="center" valign="top"> 
+      <table cellpadding="0" cellspacing="0" border="0" width="720">
+	<tr valign="bottom"> 
+	 <!-- Start AG Logo -->
+	      <td width="197" align="left" valign="bottom"><a href="agd://www.americangirl.com"><img src="/assets/includes/nav_glbl/is_logo_ag.gif" width="197" height="42" alt="American Girl" border="0"></a></td>
+	 <!-- End AG Logo -->
+	 <td width="83" align="left"><img src="/assets/images/common/clear.gif" width="69" height="36" alt="" border="0"></td>
+	      <td width="436" align="right" valign="bottom"><table width="436" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="436"><img src="/assets/images/common/clear.gif" width="403" height="25"></td>
+            </tr>
+            <tr>
+              <td align="right" valign="baseline"><table cellpadding="0" cellspacing="0" border="0">
+                <tr valign="bottom" class="txtTan">
+                  <td><a href="agd://store.americangirl.com"><img src="/assets/includes/nav_glbl/is_nav_shop_off.gif" alt="Shop" name="shop" width="29" height="26" border="0" id="shop"></a></td>
+                  <td class="txtTan"><img src="/assets/includes/nav_glbl/is_pipe.gif" width="24" height="26"><img src="/assets/images/common/clear.gif" width="11" height="1" alt="" border="0"></td>
+                  <td><a href="agd://www.americangirl.com/fun.html"><img src="/assets/includes/nav_glbl/is_nav_fg_off.gif" alt="Fun for Girls" name="fg" width="70" height="26" border="0" id="fg"></a></td>
+                  <td class="txtTan"><img src="/assets/includes/nav_glbl/is_pipe.gif" width="24" height="26"></td>
+                  <td><a href="agd://club.americangirl.com"><img src="/assets/includes/nav_glbl/is_nav_club_on.gif" alt="Club" name="club" width="27" height="26" border="0" id="club"></a></td>
+                  <td class="txtTan"><img src="/assets/includes/nav_glbl/is_pipe.gif" width="24" height="26"></td>
+                  <td><a href="agd://www.americangirl.com/agmg/index.html"><img src="/assets/includes/nav_glbl/is_nav_mag_off.gif" alt="Magazine" name="mag" width="55" height="26" border="0" id="mag"></a></td>
+                  <td class="txtTan"><img src="/assets/includes/nav_glbl/is_pipe.gif" width="24" height="26"></td>
+                  <td class="txtTan"><a href="agd://www.americangirl.com/movie/"><img src="/assets/includes/nav_glbl/is_nav_movie_off.gif" width="36" height="26" border="0"></a></td>
+                  <td class="txtTan"><img src="/assets/includes/nav_glbl/is_pipe.gif" width="24" height="26"></td>
+                  <td><a href="http://www.americangirlplace.com"><img src="/assets/includes/nav_glbl/is_nav_agp_off.gif" alt="American Girl Place" name="agp" width="116" height="26" border="0" id="agp"></a></td>
+                </tr>
+              </table></td>
+            </tr>
+          </table></td>
+	</tr>
+   </table>
+    </td>
+</tr>
+<tr>
+<td bgcolor="#990033"><img src="/assets/images/common/clear.gif" width="1" height="1"></td>
+</tr>
+</table>
+<!-- #EndLibraryItem -->
+
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="728">
+    <tr valign="bottom">
+	<td width="10"><img src="/assets/images/common/clear.gif" width="1" height="1" border="0" alt=""></td>
+	<td width="298"><img src="/assets/images/common/clear.gif" width="296" height="26" border="0" alt=""></td>
+	<td width="116" rowspan="3"><img src="/assets/images/common/logo_club_par_reg.gif" width="116" height="58" border="0" alt="American Girl Club"></td>
+	<td width="296"><img src="/assets/images/common/clear.gif" width="296" height="1" border="0" alt=""></td>
+	<td width="30"><img src="/assets/images/common/clear.gif" width="1" height="1" border="0" alt=""></td>
+</tr>
+<tr>
+	<td valign="bottom"><img src="/assets/images/common/coppa_left_up_rnd_li.gif" width="10" height="10" border="0" alt=""></td>
+	<td background="/assets/images/common/top_li.gif"><img src="/assets/images/common/clear.gif" width="1" height="1" border="0" alt=""></td>
+	<td background="/assets/images/common/top_li.gif"><img src="/assets/images/common/clear.gif" width="1" height="1" border="0" alt=""></td>
+    <td valign="bottom"><img src="/assets/images/common/coppa_right_up_rnd_li.gif" width="10" height="10" border="0" alt=""></td>
+</tr>
+<tr>
+	<td background="/assets/images/common/left_li.gif"><img src="/assets/images/common/clear.gif" width="1" height="1" border="0" alt=""></td>
+	<td class="bgLight"><img src="/assets/images/common/clear.gif" width="1" height="26" border="0" alt=""></td>
+	<td class="bgLight"><img src="/assets/images/common/clear.gif" width="1" height="1" border="0" alt=""></td>
+	<td background="/assets/images/common/right_li.gif"><img src="/assets/images/common/clear.gif" width="1" height="1" border="0" alt=""></td>
+</tr>
+<tr>
+	<td background="/assets/images/common/left_li.gif"></td>
+	<!-- Nested table -->
+	<td colspan="3" align="center" class="bgLight"><table cellpadding="0" cellspacing="0" border="0" width="684">
+        <tr> 
+          <td colspan="6" align="center"><img src="/assets/images/common/clear.gif" height="15" width="675" border="0" alt=""></td>
+        </tr>
+        <tr> 
+            <td colspan="6" align="center"><img src="/assets/images/no_nav/hdr_reg1.gif"
+                                  width="417" height="46" border="0"
+                                  alt="Club Membership Activation."></td>
+        </tr>
+        <tr> 
+          <td colspan="6" align="center"><img src="/assets/images/common/clear.gif" height="25" width="675" border="0" alt=""></td>
+        </tr>
+        <tr align="center" valign="top"> 
+            <td width="129" height="132" align="left"><img src="/assets/images/common/clear.gif" height="131" width="129" border="0" alt=""></td>
+            <td width="445" align="left" class="large"> <p align="left">We regret to inform you that the American Girl Club  has closed. Therefore, we are no longer activating new Club memberships. If you  have a Club membership that has not yet been activated, please contact Customer  Service at 1-800-845-0005 and have your Club Kit activation number available,  which can be found on your Welcome letter. </p>
+            <p align="left">We apologize for any inconvenience and hope that you'll visit <u><a href="agd://www.americangirl.com/fun.html" class="bold">Fun for Girls</a></u> for other great American Girl games and activities.</p></td>
+            <td width="110" align="left"><img src="/assets/images/common/clear.gif" height="132" width="110" border="0" alt=""></td>
+        </tr>
+        <tr> 
+          <td height="15" colspan="6" align="center"><img src="/assets/images/common/clear.gif" height="30" width="675" border="0" alt=""></td>
+        </tr>
+        <tr align="right" valign="top"> 
+            <td colspan="6"><img src="/assets/images/common/clear.gif" width="1" height="10" border="0" alt=""> 
+              <a href='/maintenance/login.html'><img src="/assets/images/buttons/btn_exit.gif" alt="Exit" width="64" height="29" border="0"></a>            </td>
+        </tr>
+      </table>
+</td>
+<!-- END nested table -->
+<td background="/assets/images/common/right_li.gif"></td>
+</tr>
+<tr>
+<td><img src="/assets/images/common/coppa_left_dwn_rnd_li.gif" width="10" height="10" border="0" alt=""></td>
+<td colspan="3" background="/assets/images/common/btm_li.gif"></td>
+<td><img src="/assets/images/common/coppa_right_dwn_rnd_li.gif" width="10" height="10" border="0" alt=""></td>
+</tr>
+</table>
+  <img src="/assets/images/common/clear.gif" width="1" height="8" border="0" alt=""> 
+<script language="JavaScript" type="text/javascript" src="/assets/includes/js/viewPopup.js"></script>
+	<table width="718" height="52" border="0" align="center" cellpadding="0" cellspacing="0">
+	 <tr> 
+		  <td width="718" align="center"><table cellpadding="0" cellspacing="0" border="0" align="center">
+			  <tr> 
+				<td width="10"><img src="/assets/images/common/left_up_rnd_dk.gif" width="10" height="10" border="0" alt=""></td>
+				<td width="708" background="/assets/images/common/top_dk.gif"></td>
+				<td width="10"><img src="/assets/images/common/right_up_rnd_dk.gif" width="10" height="10" border="0" alt=""></td>
+			  </tr>
+			  <tr> 
+				<td background="/assets/images/common/left_dk.gif"></td>
+				<!-- Nested table -->
+				<td class="bgDark"><table cellpadding="2" cellspacing="0" border="0" align="center" width="708">
+					
+              <tr> 
+                <td align="center" valign="middle"><a class="ftr" href="agd://www.americangirl.com/corp/index.html" target="_blank">Company 
+                  Info</a> | <a class="ftr" href="#" onClick="openResizePopup('agd://www.americangirl.com/legal/html/trademarks.html',400,400);return false;">Trademarks</a> 
+                  | <a class="ftr" href="#" onClick="openResizePopup('agd://store.americangirl.com/pls/ag/icm_terms',400,400);return false;">Terms 
+                  & Conditions</a> | <a class="ftrbold" href="#" onClick="openResizePopup('agd://store.americangirl.com/pls/ag/icm_privacy',400,400);return false;">PRIVACY 
+                  POLICY</a></td>
+				  </tr>
+				  </table></td>
+				<!-- END nested table -->
+				<td background="/assets/images/common/right_dk.gif"></td>
+			  </tr>
+			  <tr> 
+				<td><img src="/assets/images/common/left_dwn_rnd_dk.gif" width="10" height="10" border="0" alt=""></td>
+				<td background="/assets/images/common/btm_dk.gif"></td>
+				<td><img src="/assets/images/common/right_dwn_rnd_dk.gif" width="10" height="10" border="0" alt=""></td>
+			  </tr>
+			  <tr> 
+				<td colspan="3"><img src="/assets/images/common/clear.gif" width="1" height="8" border="0" alt=""></td>
+			  </tr>
+			  <tr> 
+				<td colspan="3" class="small" align="center"><p>American Girl 
+              &#174;, the American Girl logo, American Girl Club&#153;, the American 
+              Girl Club logo,  and all American Girl 
+              characters, marks, and logos are trademarks of American Girl, LLC. 
+              Copyright &#169; 2006 American Girl, LLC. All rights reserved.</p>
+			    </td>
+			  </tr>
+			</table>
+<script language="JavaScript" type="text/javascript" src="/assets/includes/js/webtrends75_club.js"></script>
+<NOSCRIPT>
+<img alt="" border="0" NAME="DCSIMG2" width="1" height="1" src="http://dcs.mattel.com/dcs9pcvyk100008232gd6jt9v_6e4u/njs.gif?dcsuri=/nojavascript&amp;WT.js=No">
+</NOSCRIPT>
+<script language="JavaScript" type="text/javascript" src="/assets/includes/js/webtrends_club.js"></script>
+<NOSCRIPT>
+<IMG BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="http://dcs.mattel.com/DCS4GlWSFXwn91J95v45WFjL5_4L6O/njs.gif?dcsuri=/nojavascript">
+</NOSCRIPT></td>
+		</tr>
+	  </table></form>
+</body>
+</html>

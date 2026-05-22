@@ -1,0 +1,250 @@
+
+<html>
+
+<script language="javascript" type="text/Javascript">
+function selectionFilter(form,filterOut){
+	filterOut[filterOut.selectedIndex].selected=false;
+	form.submit();
+	return true;
+}
+function selectionFilter1(selector){
+	var url;
+	url="index.php?"+selector.name +"="+selector.options[selector.selectedIndex].value;
+	window.location=url;
+}
+</script>
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<title>E-Card Central — American Girl Magazine</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="/includes/styles/ecardcentral.css" rel="stylesheet" type="text/css">
+<style>
+  /* Styling for the "not available" notice. Borrows the cream/burgundy
+     palette already in use across the archive's chrome so it sits
+     comfortably inside the E-Card Central layout instead of looking like
+     a broken page. */
+  .agm-missing {
+    max-width: 540px;
+    margin: 14px auto 28px;
+    background: linear-gradient(135deg, #FBF6EB 0%, #F1E6CC 100%);
+    border: 1px solid rgba(124,12,31,0.20);
+    border-radius: 10px;
+    box-shadow: 0 6px 22px rgba(124,12,31,0.10);
+    padding: 24px 28px;
+    color: #4A2C20;
+    font-family: 'Hoefler Text', Georgia, serif;
+    text-align: left;
+  }
+  .agm-missing .stamp {
+    display: inline-block;
+    background: #A6192E; color: #FBF6EB;
+    font-family: -apple-system, 'SF Pro Text', sans-serif;
+    font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase;
+    font-weight: 700;
+    padding: 5px 12px; border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .agm-missing h2 {
+    font-family: 'Hoefler Text', Georgia, serif;
+    font-style: italic; font-weight: 400;
+    color: #7C0C1F;
+    font-size: 26px; margin: 0 0 12px;
+    line-height: 1.15;
+  }
+  .agm-missing p {
+    margin: 0 0 12px;
+    font-size: 14px; line-height: 1.55;
+    color: #5a3a2e;
+  }
+  .agm-missing .sources {
+    margin: 18px 0 8px;
+    padding: 14px 18px;
+    background: rgba(166,25,46,0.05);
+    border-left: 3px solid #A6192E;
+    border-radius: 4px;
+    font-family: -apple-system, 'SF Pro Text', sans-serif;
+    font-size: 12.5px;
+    color: #6a4d40;
+  }
+  .agm-missing .sources strong {
+    display: block;
+    color: #7C0C1F;
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .agm-missing .sources ul {
+    margin: 0; padding-left: 18px; list-style: disc;
+  }
+  .agm-missing .sources li { margin: 3px 0; }
+  .agm-missing .ask {
+    margin-top: 22px; padding: 16px 18px;
+    background: #FFFCF4;
+    border: 1px dashed rgba(124,12,31,0.35);
+    border-radius: 6px;
+    font-family: 'Hoefler Text', Georgia, serif;
+    font-style: italic;
+    font-size: 14.5px;
+    color: #4A2C20;
+    line-height: 1.5;
+  }
+  .agm-missing .ask em {
+    font-style: normal; font-weight: 600; color: #7C0C1F;
+  }
+  .agm-missing .browse-links {
+    margin-top: 20px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .agm-missing .browse-links a {
+    background: #A6192E; color: #FBF6EB; text-decoration: none;
+    padding: 8px 16px; border-radius: 999px;
+    font-family: -apple-system, 'SF Pro Text', sans-serif;
+    font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
+    font-weight: 600;
+  }
+  .agm-missing .browse-links a:hover { filter: brightness(1.06); }
+  .agm-missing .browse-links a.ghost {
+    background: transparent; color: #A6192E;
+    border: 1px solid #A6192E;
+  }
+  .agm-missing .browse-links a.ghost:hover { background: rgba(166,25,46,0.08); }
+</style>
+</head>
+<body bgcolor="#ffffff" link="#23063b" vlink="#23063b" alink="#23063b" topmargin="0" marginheight="0" onLoad="MM_preloadImages('/images/h_goml_on.gif','/images/h_amelia_on.gif','/images/h_ecards_on.gif')" >
+<link href="/includes/header/headNav.css" rel="stylesheet" type="text/css" />
+<div class="headerIE">
+  <div class="header">
+    <ul class="globalNav">
+      <li class="agLogo"><a href="agd://www.americangirl.com/" title="Celebrate old friends and new!">American Girl</a></li>
+      <li class="shop"><a href="agd://store.americangirl.com/shop/home.php" title="Find the dolls, books, clothes, and accessories that girls love!">SHOP</a></li>
+      <li class="ffg"><a class="selected" href="agd://www.americangirl.com/fun.html" title="Great activities that celebrate American girls!">FUN FOR GIRLS</a></li>
+      <li class="mag"><a href="agd://www.americangirl.com/agmg/index.html" title="Check it out&#8212;Subscribe now!">MAGAZINE</a></li>
+      <li class="movies"><a href="agd://www.americangirl.com/movie/" title="See the stories of your favorite American GIrls come to life">MOVIES</a></li>
+      <li class="agp"><a href="http://www.americangirlplace.com/agp_home.php" title="More than just a store&#8212;it&#8217;s an experience!">AMERICAN GIRL PLACE</a></li>
+    </ul>
+    <div id="sitenav">
+      <ul id="menu">
+        <li id="histChar"><a href="/agcn/index.html">Historical Characters</a></li>
+        <li id="magActiv"><a href="/agmg/mag_activities.html">Magazine Activities</a></li>
+        <li id="coconut"><a href="/coconut/index.html">Coconut</a></li>
+        <li id="goty"><a href="/goty/index.html">Girl of the Year</a></li>
+        <li id="quiz"><a href="/quiz_corner/index.html">Quiz Corner</a></li>
+        <li id="ecard"><a href="/ecards/index.php" class="selected">E-Card Central</a></li>
+        <li id="journey"><a href="/travel/index.html">A Doll&#8217;s Journey</a></li>
+        <li id="events"><a href="/events/index.html">Special Events</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<br>
+
+<div align="center">
+  <table cellpadding="1" cellspacing="1" border="0" width="723" class="content"><tr><td colspan="3" height="15">&nbsp;</td></tr>
+    <tr>
+      <td width="184" class="headingEcard" valign="top" align="center"><a href="index.php"><img src="images/ecardstamp.gif" width="112" height="85" border="0"></a></td>
+      <td width="1" rowspan="3" align="center" valign="top" ><img src="images/vertical_rule.gif" width="1" height="100%"></td>
+      <td valign="top" width="513" align="center"><form name="filterCards" action='index.php' method="get">
+          <table width="540" height="83" border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+              <tr>
+                <td width="210" height="68" align="center" valign="middle"> <img src="images/collection2.gif" width="150" height="21" align="bottom">
+                  <select name="category" onchange="selectionFilter1(this);">
+<option></option>
+<option value="agcn">Characters</option>
+<option value="agdc">Americangirl.com</option>
+<option selected value="agm">American Girl magazine</option>
+<option value="coco">Coconut</option>
+</select>
+                </td>
+                <td width="40" align="center" valign="middle"><img src="images/ecard_or.gif" width="19" height="21"></td>
+                <td width="210" align="center" valign="middle"><img src="images/theme2.gif" width="130" height="21" align="bottom">
+                  <select name="theme" onchange="selectionFilter1(this);">
+<option></option>
+<option value="apology">Apology</option>
+<option value="bday">Birthday</option>
+<option value="encourage">Encouragement</option>
+<option value="fall">Fall Holidays</option>
+<option value="faves">Favorites</option>
+<option value="friend">Friendship</option>
+<option value="getwell">Get Well</option>
+<option value="miss">Miss You</option>
+<option value="spring">Spring Holidays</option>
+<option value="summer">Summer Holidays</option>
+<option value="thanks">Thank You</option>
+<option value="valentine">Valentine Greetings</option>
+<option value="winter">Winter Holidays</option>
+<option value="travel">Travel</option>
+</select>
+                </td>
+              </tr>
+              <tr align="center" valign="bottom">
+                <td colspan="3"><img src="images/sstars.gif" width="532" height="13"></td>
+              </tr>
+            </tbody>
+          </table>
+        </form></td>
+    </tr>
+    <tr>
+      <td class="headingEcard" valign="middle" align="center">American Girl<br>Magazine</td>
+      <td valign="top" align="center" colspan="2">
+        <div class="agm-missing">
+          <span class="stamp">Not in the archive — yet</span>
+          <h2>American Girl Magazine e-cards weren&rsquo;t preserved.</h2>
+          <p>This category was server-rendered from a database that no longer exists, and the page itself was never reached by any web crawler during the 2008 era. Every other E-Card Central category was — but a magazine-themed dropdown click would have to <em>happen</em> for an archive bot to follow it, and apparently nobody did.</p>
+
+          <div class="sources">
+            <strong>Sources checked — all empty for this URL in 2008</strong>
+            <ul>
+              <li>Internet Archive Wayback Machine — full CDX (every capture, every year). Two captures total, both 2011&ndash;2012, after Mattel redesigned the site and dropped this category entirely.</li>
+              <li>Common Crawl indexes 2008&ndash;2015 — the agm dropdown URL is not present in any.</li>
+              <li>Memento Time Travel aggregator — service unresolvable (host down).</li>
+              <li>archive.today / archive.ph — no captures.</li>
+              <li>Google / Bing / Yandex caches and search results — no fan-site preservation, no Tumblr / Pinterest / DeviantArt mirrors, no AmericanGirlFan blog backup.</li>
+              <li>American Girl Wiki + Fandom — no e-card screenshots from this category.</li>
+              <li>The /agmg/ (magazine) subsite itself — linked only to <a href="/ecards/index.php">E-Card Central</a> as a whole, never to category=agm.</li>
+            </ul>
+          </div>
+
+          <div class="ask">
+            <em>If you have ANY copy</em> &mdash; an old saved HTML page, a school computer&rsquo;s browser cache, a screenshot, a SWF file with <code>agm_</code> in the name, even just remembering specific cards by name &mdash; please reach out. Restoring this would close one of the last real gaps in the 2008 American Girl preservation effort and would matter to the entire AG community.
+          </div>
+
+          <div class="browse-links">
+            <a href="/ecards/index.php?category=agcn">Browse Characters</a>
+            <a href="/ecards/index.php?category=agdc">Browse Americangirl.com</a>
+            <a href="/ecards/index.php?category=coco" class="ghost">Coconut</a>
+            <a href="/ecards/index.php" class="ghost">Back to E-Card Central</a>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <br><link href="/includes/css/global.css" rel="stylesheet" type="text/css">
+<DIV ALIGN="center"><br>
+<script language="JavaScript" src="/js/footer_popups.js"></script>
+  <A class="fnav" HREF="/emailus/index.html" TARGET="_parent"> E-mail Us</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/corp/index.html" TARGET="_parent">About Our Company</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/tips/index.html" TARGET="_parent">Online Tips</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/site_index.html" TARGET="_parent">Site Map</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" onClick="openTerms()" href="#" >Terms and Conditions</A>
+  <font color="B32447"> / </font>
+  <a class="fnav" onClick="openTrademarks()" href="#" >Trademarks</a>
+  <font color="B32447"> / </font>
+  <A class="fnav" onClick="openPrivacy()" href="#" ><strong>PRIVACY POLICY</strong></A> </DIV>
+<table width="720" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center" valign="top">
+      <div align="center"><font size="1"><br>
+        Copyright <SUP>&copy;</SUP> 2008 American Girl, LLC. All rights reserved.</font>
+      </div></td>
+  </tr>
+</table>
+</div>
+</body></html>

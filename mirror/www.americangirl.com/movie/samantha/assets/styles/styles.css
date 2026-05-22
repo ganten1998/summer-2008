@@ -1,0 +1,542 @@
+/* AGD-PATCHED v1 */
+/* Stylesheet for American Girl Movie - Samantha 06.22.05 */
+
+/* system classes for background and fonts */ 
+body {
+	font: normal 12px/14px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #222;
+	margin: 0; 
+	background: #000 url("../images/bkgd.gif") no-repeat fixed 50%;
+	}
+
+div {
+	font: normal 12px/14px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #222;
+	}
+
+.encore {
+	text-align:center;
+	text-transform:uppercase;
+	font: 14px "Trebuchet MS", Arial, sans-serif;
+	color:#7B222D;
+}
+
+.encore sup{
+	font-size: 10px;
+}
+
+/* used for all sections shorter than the background image */
+.bkgd {
+	width: 754px;
+	height: 350px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgd {
+	margin-top: -5px;
+	}	
+/* */
+	
+.bkgdHome {
+	margin: 0px;
+	}	
+
+/* ie hack to remove top margin \*/
+* html .bkgdHome {
+	margin-top: -5px;
+	}	
+/* */
+ 
+/* used for all top nav includes */
+.topNav {
+ 	margin: 0px;
+	width: 754px;
+	}
+
+/* used for about the movie upper navigation div */ 
+.aboutNav { 
+	 overflow: auto;
+	 position: relative;
+	 top: 40px;
+	 left: -5px;
+	 width: 260px;
+	 height: 60px;
+	 visibility: visible;
+	 }
+
+/* used for placement on main about the movie page */
+ 
+#imgAboutMain {
+ 	float: left;
+	position: relative;
+	top: 40px;
+	left: 65px;
+	width: 240px;
+	height: 50px;
+	}
+ 
+#txtAboutMain {
+	font: normal 14px/19px Trebuchet MS, Arial, Helvetica, sans-serif;
+	text-align: left;
+ 	float: left;
+	position: relative;
+	top: 44px;
+	left: 74px;
+	width: 360px;
+	height: 50px;
+	}
+
+/* pseudo-class for main about the movie text links */
+
+a.txtAbout:link,
+a.txtAbout:visited,
+a.txtAbout:hover,
+a.txtAbout:active {
+	text-decoration: underline;
+	color: #3B0312;
+	}
+
+/* for drop caps */ 
+.dropCap {
+	font: 27px/24px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #333;
+}
+
+/* used for photo gallery */
+.bkgdPhoto {
+	width: 754px;
+	height: 420px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin and make taller \*/
+* html .bkgdPhoto {
+	margin-top: -5px;
+	}	
+/* */
+
+/* used for photo gallery upper navigation div */ 
+.photoNav { 
+	 overflow: auto;
+	 position: relative;
+	 top: 40px;
+	 left: -5px;
+	 width: 260px;
+	 height: 60px;
+	 visibility: visible;
+	 }
+	 
+/* used for placement of flash file on photo gallery page */
+#photoMain {
+ 	float: left;
+	position: relative;
+	top: 35px;
+	left: 80px;
+	}
+
+/* used for cast & characters */
+.bkgdCast {
+	width: 754px;
+	height: 1280px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* e hack to remove margin \*/
+* html .bkgdCast {
+	margin-top: -5px;
+		height: 1380px;
+	}	
+/* */
+
+#castContent {
+	float: left;
+	position: relative;
+	top: 54px;
+	left: 67px;
+	width: 617px;
+}
+
+.txtCastName {
+	font: bold 12px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #2B2B2B;
+	text-align: center;
+	}
+
+img.castChar {
+vertical-align: top;
+}
+
+.charContent {
+	padding-bottom: 10px;
+}
+
+.txtContent {
+	text-align: left;
+	padding-left: 2px;
+}
+
+/* for trailer page */
+#trailerContent {
+	float: left;
+	position: relative;
+	top: 54px;
+	left: 67px;
+	width: 617px;
+	height: 500px;
+}
+
+#leftFleur {
+	float: left;
+	position: relative;
+	top: -150px;
+	left: 129px;
+	}
+	
+#rightFleur {
+	float: left;
+	position: relative;
+	top: -150px;
+	left: 458px;
+	}
+
+#btnQuick { 
+	float: left;
+	position: relative;
+	top: 5px;
+	left: 230px;
+	}
+
+#dvdPromo {
+	float: left;
+	position: relative;
+	top: 50px;
+	left: 135px;
+	}
+
+/* used for samantha's world */
+.bkgdWorld {
+	width: 754px;
+	height: 620px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* e hack to remove margin \*/
+* html .bkgdWorld {
+	margin-top: -5px;
+	}	
+/* */
+
+
+/* used for samantha's world upper navigation div */ 
+.worldNav { 
+	 overflow: auto;
+	 position: relative;
+	 top: 40px;
+	 left: -5px;
+	 width: 605px;
+	 height: 60px;
+	 visibility: visible;
+	 }
+
+#txtWorldMain {
+	font: 13px/17px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align: left;
+ 	float: left;
+	position: relative;
+	top: 31px;
+	left: 80px;
+	width: 605px;
+	}
+
+/* for samantha's world thumbnail */
+#worldContent {
+	float: left;
+	position: relative;
+	top: 54px;
+	left: 80px;
+}
+
+.txtWorldTh {
+	text-align: left;
+	width: 150px;
+	padding-left: 8px;
+	}
+	
+a.txtWorld:link,
+a.txtWorld:visited,
+a.txtWorld:hover,
+a.txtWorld:active {
+	color: #111;
+	text-decoration: underline;
+	}
+
+.thumb {
+	padding-right: 40px;
+	}
+
+.left {
+	float: left;
+	}
+
+.right {
+	float: left;
+	}
+
+.row {
+	height: 120px;
+	width: 600px;
+	padding-bottom: 10px;
+}
+
+/* used for placement of flash file on paper dolls page */
+#dollsMain {
+	float: left;
+	position: relative;
+	top: 40px;
+	left: 80px;
+	}
+
+/* used for paper dolls*/
+.bkgdDolls {
+	width: 754px;
+	height: 560px;
+	background:   url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin and make taller \*/
+* html .bkgdDolls {
+	margin-top: -5px;
+	height: 660px;
+	}	
+/* */
+
+/* used for placement of flash file on paper dolls page */
+#huntMain {
+	float: left;
+	position: relative;
+	top: 40px;
+	left: 55px;
+	}
+
+/* used for paper dolls*/
+.bkgdHunt {
+	width: 754px;
+	height: 560px;
+	background:   url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin and make taller \*/
+* html .bkgdHunt {
+	margin-top: -5px;
+	height: 660px;
+	}	
+/* */
+
+/* used for samantha's world */
+.bkgdCrafts {
+	width: 754px;
+	height: 980px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* e hack to remove margin \*/
+* html .bkgdCrafts {
+	margin-top: -5px;
+	height: 1000px;
+	}	
+/* */
+
+#txtCraftsIntro {
+	font: 13px/17px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align: left;
+ 	float: left;
+	position: relative;
+	top: 31px;
+	left: 80px;
+	width: 605px;
+	}
+
+/* for crafts thumbnail */
+#craftsContent {
+	float: left;
+	position: relative;
+	top: 54px;
+	left: 80px;
+}
+
+.txtCrafts {
+	text-align: left;
+	}
+
+p.ttlCrafts { 
+	font: 13px/15px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #222;
+	margin-top: 10px;
+	margin-bottom: -10px;
+	text-align: left;
+	font-weight: bold;
+}
+
+p.hdrCrafts { 
+	margin-bottom: 2px;
+	text-align: left;
+	font-weight: bold;
+}
+
+/* used for wallpaper */
+.bkgdPaper {
+	width: 754px;
+	height: 380px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* e hack to remove margin \*/
+* html .bkgdPaper {
+	margin-top: -5px;
+	}	
+/* */
+
+#txtPaperIntro {
+	font: 13px/17px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align: left;
+ 	float: none;
+	position: relative;
+	top: 31px;
+	left: 0px;
+	width: 605px;
+	}
+
+/* for wallpaper table */
+#paperContent {
+float: none;
+	position: relative;
+	top: 54px;
+	left: 0px;
+}
+
+a.txtPaper:link,
+a.txtPaper:visited,
+a.txtPaper:hover,
+a.txtPaper:active {
+	font: 13px/17px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #111;
+	text-decoration: underline;
+	}
+
+/* used for book excerpts */
+.bkgdBook {
+	width: 754px;
+	height: 2200px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdBook {
+	margin-top: -5px;
+	height: 2500px;
+	}	
+/* */
+
+/* for excerpts thumbnail */
+#bookContent {
+	float: left;
+	position: relative;
+	top: 54px;
+	left: 80px;
+}
+
+.txtBook {
+	text-align: left;
+	width: 550px;
+	}
+
+img.book {
+	float: left;
+	vertical-align: top;
+}
+
+a.lnkBook:link,
+a.lnkBook:visited,
+a.lnkBook:hover,
+a.lnkBook:active { font: 11px/13px Trebuchet MS, Arial, Helvetica, sans-serif; color: #772432; text-decoration: underline; }
+
+/* used for book excerpts */
+.bkgdThen {
+	width: 754px;
+	height: 1700px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* e hack to remove margin and make taller \*/
+* html .bkgdThen {
+	margin-top: -5px;
+	height: 1850px;
+	}	
+/* */
+
+/* for excerpts thumbnail */
+#thenContent {
+	float: left;
+	position: relative;
+	top: 54px;
+	left: 80px;
+}
+
+.txtThen {
+	text-align: left;
+	margin-top: 4px;
+	width: 600px;
+	}
+
+p.ttlThen { 
+	font: 13px/15px Trebuchet MS, Arial, Helvetica, sans-serif;
+	color: #222;
+	margin-top: 10px;
+	margin-bottom: -10px;
+	text-align: left;
+	font-weight: bold;
+}
+
+/* the next three classes are for the visibility toggle */
+.toggle {
+	color: #222;
+}
+.hotspot {
+	width: 147px;
+	cursor: pointer;
+}
+.hotspotall {
+	width: 147px;
+	cursor: pointer;
+}
+
+a.lnkThen:link,
+a.lnkThen:visited,
+a.lnkThen:hover,
+a.lnkThen:active { font: 11px/13px Trebuchet MS, Arial, Helvetica, sans-serif; color: #772432; text-decoration: underline; }
+
+.ftr {
+	font: 10px/12px Arial, Helvetica, sans-serif; 
+	width: 700px;
+	text-align: center;
+	background-color: #fff;
+	}
+	
+a.ftr:link,
+a.ftr:visited,
+a.ftr:hover,
+a.ftr:active { 	font: 10px Arial, Helvetica, sans-serif; 	color: #333333; text-decoration: none; }

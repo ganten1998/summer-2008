@@ -1,0 +1,27 @@
+/* AGD-PATCHED v1 */
+.header {
+	padding:0;
+}
+
+#main {
+	margin-bottom: -3px;
+}
+	#kitMovie img {
+		top:-20px;
+		}
+
+	#kitMovie p img {
+		float:none;
+		position: relative;
+		top:0px;
+		left: 0px;
+	}
+
+	#kitMovie p {
+		top: -56px;
+	}
+
+
+#recall {
+	margin-bottom: -10px;
+}

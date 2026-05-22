@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>American Girl — Summer 2008</title>
+<link rel="stylesheet" href="styles.css">
+<script src="agd://runtime/volume-control.js"></script>
+</head>
+<body>
+
+<div class="vignette">
+  <img class="corner top-left" src="img/corner_ornament.svg" alt="" aria-hidden="true">
+  <img class="corner top-right" src="img/corner_ornament.svg" alt="" aria-hidden="true">
+  <img class="corner bottom-left" src="img/corner_ornament.svg" alt="" aria-hidden="true">
+  <img class="corner bottom-right" src="img/corner_ornament.svg" alt="" aria-hidden="true">
+</div>
+
+<main class="stage">
+
+  <header class="brand">
+    <p class="eyebrow">A faithful offline preservation of</p>
+    <h1 class="wordmark-real" aria-label="American Girl">
+      <img src="img/agLogo_hd.jpg" alt="American Girl" class="ag-logo">
+    </h1>
+    <p class="tagline">
+      <span class="dash">—</span>
+      <span class="word">Summer</span>
+      <span class="bullet">·</span>
+      <span class="word">2008</span>
+      <span class="dash">—</span>
+    </p>
+    <img class="divider" src="img/divider.svg" alt="" aria-hidden="true">
+  </header>
+
+  <section class="primary">
+    <a class="card hero" href="agd://www.americangirl.com/index.html">
+      <span class="hero-art" aria-hidden="true">
+        <img src="img/star.svg" class="hero-star">
+      </span>
+      <span class="content">
+        <span class="kicker">Open the Doors</span>
+        <span class="title">Enter the Website</span>
+        <span class="sub">Step into americangirl.com as it appeared on the morning of July 11, 2008 — Kit's movie just hit theaters, Nicki is Girl of the Year, and the Historical line is in full bloom.</span>
+      </span>
+      <span class="chevron" aria-hidden="true">›</span>
+    </a>
+  </section>
+
+  <p class="section-eyebrow">
+    <span class="bar"></span>
+    <span class="label">or jump straight to —</span>
+    <span class="bar"></span>
+  </p>
+
+  <section class="grid">
+    <a class="card" href="agd://dashboard/games.html">
+      <span class="badge"><svg class="i" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.4l2.62 6.47L21.6 9.3l-5.04 4.04L18 20.3 12 16.85 6 20.3l1.44-6.96L2.4 9.3l6.98-0.43z"/></svg> Play</span>
+      <span class="title">Game Gallery</span>
+      <span class="sub">Every Flash game from the site, ready to launch with a single click.</span>
+    </a>
+
+    <a class="card" href="agd://www.americangirl.com/agcn/">
+      <span class="badge">Meet</span>
+      <span class="title">Historical Characters</span>
+      <span class="sub">Felicity, Addy, Kit, Molly, Josefina, Kirsten, Kaya, and Samantha.</span>
+    </a>
+
+    <a class="card" href="agd://www.americangirl.com/quiz_corner/">
+      <span class="badge">Quizzes</span>
+      <span class="title">Quiz Corner</span>
+      <span class="sub">Discover your style, your secret, your dream room.</span>
+    </a>
+
+    <a class="card" href="agd://www.americangirl.com/coconut/">
+      <span class="badge">Pets</span>
+      <span class="title">Coconut &amp; Friends</span>
+      <span class="sub">Play with American Girl's beloved companion pets.</span>
+    </a>
+
+    <a class="card" href="agd://www.americangirl.com/movie/">
+      <span class="badge">Watch</span>
+      <span class="title">Kit Kittredge: The Movie</span>
+      <span class="sub">Trailer, behind-the-scenes, and games from the film.</span>
+    </a>
+
+    <a class="card" href="agd://dashboard/about.html">
+      <span class="badge">About</span>
+      <span class="title">About this Archive</span>
+      <span class="sub">How the snapshot was made &amp; what's preserved here.</span>
+    </a>
+  </section>
+
+  <footer class="credit">
+    <img class="divider footer-divider" src="img/divider.svg" alt="" aria-hidden="true">
+    <p>An offline preservation of <span class="serif italic">americangirl.com</span></p>
+    <p class="small">Wayback Machine snapshot · <time>11 July 2008</time></p>
+  </footer>
+
+</main>
+
+<!-- Bottom-left Ko-fi tip pill. Framed as supporting hosting/preservation
+     costs, not as anything related to Mattel's IP. Subtle on purpose —
+     visible but never demanding attention. -->
+<a class="kofi-pill"
+   href="https://ko-fi.com/B0B7EF4TJ"
+   target="_blank"
+   rel="noopener"
+   title="Keep this archive online — tip the archivist on Ko-fi">
+  <span class="cup" aria-hidden="true">&#9749;</span>
+  <span>Tip</span>
+</a>
+
+<!-- First-run welcome modal. Shown once per device (localStorage flag).
+     Dismissing it sets the flag; users can re-open it later via the
+     "About this archive" footer link. -->
+<div id="welcome" class="welcome-modal" hidden role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+  <div class="welcome-card">
+    <button class="welcome-close" type="button" aria-label="Close" data-dismiss="welcome">×</button>
+    <p class="welcome-stamp">Summer 2008 · An American Girl Archive</p>
+    <h2 id="welcome-title">Welcome.</h2>
+    <p class="welcome-lede">You're looking at a faithful, offline snapshot of americangirl.com as it existed around <strong>July 11, 2008</strong> — the Nicki Fleming Girl-of-the-Year era, the Kit Kittredge film, the original eight historical characters before any retirements.</p>
+
+    <div class="welcome-grid">
+      <div class="welcome-cell">
+        <p class="welcome-cell-title">What plays</p>
+        <ul>
+          <li>116 Flash games via Ruffle (with one-click Flash Player fallback)</li>
+          <li>20 Shockwave Director games via bundled Wine + projector</li>
+          <li>Every preserved e-card, end-to-end customize → Mail.app send</li>
+          <li>Character sites, GotY contestant pages, movie subsite, travel, magazine activities, Coconut & Licorice</li>
+        </ul>
+      </div>
+      <div class="welcome-cell">
+        <p class="welcome-cell-title">What's gone</p>
+        <ul>
+          <li>The online shop — the e-commerce backend can't function offline</li>
+          <li>American Girl Magazine e-cards (<code>agm</code> category) — never crawled by any archive</li>
+          <li>The "Send for real" backend — replaced by a Mail.app handoff</li>
+          <li>A few games may stumble mid-play on Ruffle's ActionScript gaps; Flash Player fallback button is always one click away</li>
+        </ul>
+      </div>
+    </div>
+
+    <label class="welcome-optout">
+      <input type="checkbox" id="welcome-suppress">
+      <span>Don&rsquo;t show this on every launch</span>
+    </label>
+
+    <div class="welcome-actions">
+      <button class="welcome-btn primary" type="button" data-dismiss="welcome">Step inside</button>
+    </div>
+
+    <p class="welcome-tip">
+      Keep the archive online &mdash;
+      <a href="https://ko-fi.com/B0B7EF4TJ" target="_blank" rel="noopener" class="welcome-tip-link">
+        <span class="welcome-tip-cup" aria-hidden="true">&#9749;</span>
+        tip the archivist on Ko-fi
+      </a>
+    </p>
+  </div>
+</div>
+
+<style>
+  /* Welcome modal — local to this file so styles.css stays unchanged.
+     Note the explicit [hidden] override: `display: flex` would normally
+     beat the HTML `hidden` attribute (which is just a low-specificity
+     `display: none`), so without this rule the close button would set
+     `.hidden = true` and nothing would visually change. */
+  .welcome-modal[hidden] { display: none !important; }
+  .welcome-modal {
+    position: fixed; inset: 0; z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(74, 44, 32, 0.55);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    animation: welcome-fade 220ms ease-out both;
+  }
+  @keyframes welcome-fade { from { opacity: 0; } to { opacity: 1; } }
+  .welcome-card {
+    position: relative;
+    max-width: 640px; width: calc(100% - 48px);
+    max-height: calc(100vh - 64px); overflow: auto;
+    background: linear-gradient(160deg, #FBF6EB 0%, #F3E7CB 100%);
+    border-radius: 14px;
+    border: 1px solid rgba(124,12,31,0.22);
+    box-shadow: 0 30px 80px rgba(124,12,31,0.32),
+                0 6px 22px rgba(124,12,31,0.18),
+                0 1px 0 rgba(255,255,255,0.9) inset;
+    padding: 36px 38px 30px;
+    font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    color: #4A2C20;
+  }
+  .welcome-close {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: 0; color: #A6192E;
+    font-size: 26px; line-height: 1; font-weight: 200;
+    width: 32px; height: 32px; border-radius: 999px;
+    cursor: pointer;
+  }
+  .welcome-close:hover { background: rgba(166,25,46,0.08); }
+  .welcome-stamp {
+    font-size: 10.5px; letter-spacing: .28em; text-transform: uppercase;
+    font-weight: 600; color: #A6192E;
+    margin: 0 0 12px;
+  }
+  .welcome-card h2 {
+    font-family: 'Hoefler Text', Georgia, serif;
+    font-style: italic; font-weight: 400;
+    color: #7C0C1F;
+    font-size: 44px; line-height: 1.05;
+    margin: 0 0 14px;
+  }
+  .welcome-lede {
+    font-size: 14.5px; line-height: 1.6; color: #5a3a2e;
+    margin: 0 0 22px;
+  }
+  .welcome-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 540px) { .welcome-grid { grid-template-columns: 1fr; } }
+  .welcome-cell {
+    background: #FFFCF4;
+    border: 1px solid rgba(124,12,31,0.18);
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+  .welcome-cell-title {
+    margin: 0 0 8px; color: #7C0C1F;
+    font-size: 10.5px; letter-spacing: .22em;
+    text-transform: uppercase; font-weight: 700;
+  }
+  .welcome-cell ul {
+    margin: 0; padding-left: 16px; font-size: 13px; line-height: 1.55;
+    color: #5a3a2e;
+  }
+  .welcome-cell li { margin: 4px 0; }
+  .welcome-cell code {
+    background: rgba(166,25,46,0.08); padding: 1px 5px; border-radius: 3px;
+    font-family: 'SF Mono', Menlo, monospace; font-size: 11.5px; color: #7C0C1F;
+  }
+  .welcome-actions { display: flex; justify-content: center; }
+  .welcome-btn {
+    padding: 12px 32px; border-radius: 999px; border: 1px solid transparent;
+    font-family: -apple-system, sans-serif;
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 700;
+    cursor: pointer;
+  }
+  .welcome-btn.primary { background: #A6192E; color: #FBF6EB; }
+  .welcome-btn.primary:hover { filter: brightness(1.06); }
+  .welcome-optout {
+    display: flex; align-items: center; justify-content: center;
+    gap: 9px;
+    margin: -4px 0 16px;
+    font-size: 12.5px; color: #7C0C1F;
+    font-family: -apple-system, sans-serif;
+    cursor: pointer; user-select: none;
+  }
+  .welcome-optout input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border: 1.5px solid rgba(124,12,31,0.5);
+    border-radius: 4px;
+    background: #FFFCF4;
+    cursor: pointer;
+    position: relative;
+    transition: background .12s ease, border-color .12s ease;
+  }
+  .welcome-optout input[type="checkbox"]:checked {
+    background: #A6192E; border-color: #A6192E;
+  }
+  .welcome-optout input[type="checkbox"]:checked::after {
+    content: ""; position: absolute;
+    left: 4px; top: 0;
+    width: 5px; height: 10px;
+    border: solid #FBF6EB;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .welcome-optout:hover input[type="checkbox"]:not(:checked) {
+    border-color: #A6192E;
+  }
+  /* Ko-fi tip link in the welcome footer. Framed as preservation support
+     (hosting/bandwidth costs), not as commercializing American Girl IP. */
+  .welcome-tip {
+    margin: 22px 0 0;
+    text-align: center;
+    font-size: 12.5px;
+    color: #8c6a5c;
+    letter-spacing: .02em;
+    font-family: -apple-system, sans-serif;
+  }
+  .welcome-tip-link {
+    color: #A6192E; text-decoration: none;
+    border-bottom: 1px solid rgba(166,25,46,0.30);
+    padding-bottom: 1px;
+    font-weight: 600;
+    transition: border-color .15s ease;
+  }
+  .welcome-tip-link:hover { border-bottom-color: #A6192E; }
+  .welcome-tip-cup {
+    display: inline-block;
+    margin-right: 4px;
+    transform: translateY(1px);
+  }
+
+  /* Subtle bottom-left "tip the archivist" pill on the dashboard.
+     Sits below the corner ornament, blends with the cream palette,
+     reads as a quiet acknowledgement rather than a call-to-action. */
+  .kofi-pill {
+    position: fixed;
+    left: 22px; bottom: 22px;
+    z-index: 9000;
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 14px 8px 12px;
+    border-radius: 999px;
+    background: rgba(255, 252, 244, 0.92);
+    border: 1px solid rgba(124,12,31,0.20);
+    box-shadow: 0 4px 12px rgba(124,12,31,0.10);
+    color: #7C0C1F;
+    font-family: -apple-system, sans-serif;
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    opacity: .82;
+    transition: opacity .18s ease, transform .18s ease, box-shadow .18s ease;
+  }
+  .kofi-pill:hover {
+    opacity: 1; transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(124,12,31,0.18);
+  }
+  .kofi-pill .cup {
+    font-size: 13px; line-height: 1;
+    transform: translateY(0px);
+  }
+</style>
+
+<script>
+(function () {
+  // Welcome modal default: show on every launch. The user can tick
+  // "Don't show this on every launch" before dismissing to suppress
+  // future appearances; we set the localStorage flag only then.
+  var KEY = "agd:welcome-suppress-v2";
+  var modal = document.getElementById("welcome");
+  if (!modal) return;
+  var optOut = document.getElementById("welcome-suppress");
+
+  var suppressed = false;
+  try { suppressed = localStorage.getItem(KEY) === "1"; } catch (e) {}
+  if (suppressed) return;        // user previously opted out
+  modal.hidden = false;          // otherwise: show every launch
+
+  function close() {
+    modal.hidden = true;
+    if (optOut && optOut.checked) {
+      try { localStorage.setItem(KEY, "1"); } catch (e) {}
+    }
+  }
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) close(); // backdrop click
+  });
+  modal.querySelectorAll('[data-dismiss="welcome"]').forEach(function (b) {
+    b.addEventListener("click", close);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !modal.hidden) close();
+  });
+})();
+</script>
+
+</body>
+</html>

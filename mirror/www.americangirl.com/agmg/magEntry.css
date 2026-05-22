@@ -1,0 +1,196 @@
+/* AGD-PATCHED v1 */
+/* for Stored Procedure mag sub page(s) */
+
+body {
+	margin: 0;
+	font: small Arial,Helvetica,sans-serif;
+	padding-top: 10px;
+}
+
+.pageBody{
+	margin:auto;
+	width:750px;
+	font-size: 90%;
+}
+
+/******** global nav ********/
+ul.globalNav {
+	margin: 0;
+	padding: 0;
+	height: 51px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul.globalNav li, li.agLogo, li.shop, li.ffg, li.club, li.mag, li.movies, li.agp {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	.globalNav a {
+		float: left;
+		padding: 51px 0 0 0;
+		overflow: hidden;
+		height: 0px !important; 
+		height /**/:51px; /* for IE5/Win only */
+		}
+	
+	.globalNav a:hover {
+		background-position: 0 -51px;
+		text-decoration: none;
+		}
+
+	.globalNav a.selected, .globalNav a:hover.selected {
+		background-position: 0 -102px;
+		}
+	
+.agLogo a { width: 163px; background: url(/images/agLogo.gif) top left no-repeat; }
+.shop a { width: 78px; background: url(/images/shop.gif) top left no-repeat; }
+.ffg a { width: 129px;background: url(/images/ffg.gif) top left no-repeat;}
+.mag a {width: 106px;background: url(/images/mag.gif) top left no-repeat;}
+.movies a { width: 84px; background: url(/images/movies.gif) top left no-repeat;}
+.agp a { width: 190px; background: url(/images/agp.gif) top left no-repeat; }
+
+/******* magEntry content ********/
+
+.content {
+	margin-top: 10px;
+	padding: 0;
+	clear: both;
+	position: relative;
+	padding-top:10px;
+}
+
+#magEntry span {
+	font: 170% "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #404040;
+}
+
+#magEntry a {
+	text-decoration:none;
+}
+
+#magEntry p {
+	text-align:center;
+}
+
+#magEntry p.text {
+	font-size: 105%;
+}
+
+#subscribe {
+	position: absolute;
+	top:10px;
+	width: 352px;
+	height: 207px;
+	background: #fbe3f2 url(images/bkgdSub.gif) no-repeat top left;
+}
+
+#subscribe p {
+	padding: 10px 0 0 30px;
+	width: 230px;
+}
+
+#subscribe p.text {
+	padding: 0 0 0 30px;
+	margin-top:-3px;
+}
+	#subscribe span strong {
+		color: #e0249a;
+	}
+
+#subscribe .button {
+	font: bold 100% Arial, Helvetica, sans-serif;
+	color: #fff;
+	background-color: #E0249A;
+	padding: 6px 20px;
+	border: 1px solid #fff;
+	cursor: pointer;
+	position: absolute;
+	top: 155px;
+	left: 82px;
+}
+
+
+#magFun {
+	position: absolute;
+	top:10px;
+	left:356px;	
+	width: 394px;
+	height: 207px;
+	background: #fbe1ed url(images/bkgdFun.gif) no-repeat top left;
+}
+
+#magFun p {
+	padding: 10px 0 0 180px;
+	width: 100px;
+}
+
+#magFun p.text {
+	width: 160px;
+	padding: 0 0 0 150px;
+	margin-top:-3px;
+}
+	#magFun span strong {
+		color: #e21776;
+	}
+
+#magFun .button {
+	font: bold 100% Arial, Helvetica, sans-serif;
+	color: #fff;
+	background-color: #e21776;
+	padding: 6px 20px;
+	border: 1px solid #fff;
+	cursor: pointer;
+	position: absolute;
+	top: 155px;
+	left: 178px;
+}
+
+#help {
+	position: absolute;
+	top:221px;
+	left:0px;
+	background: #f4edf6 url(images/bkgdhelp.gif) no-repeat top left;
+	width:749px;
+	height:114px;
+}
+	
+	#help span {
+		position: relative;
+		top:6px;
+		}
+	
+	#help span strong {
+		color: #80379b;
+	}
+
+
+#help .button {
+	font: bold 100% Arial, Helvetica, sans-serif;
+	color: #fff;
+	background-color: #80379b;
+	padding: 6px 20px;
+	border: 1px solid #fff;
+	cursor: pointer;
+	position: absolute;
+	top: 70px;
+	left: 330px;
+}
+
+#covers {
+	width: 180px;
+	height: 216px;
+	position:relative;
+	top: -5px;
+	left:280px;
+	background: url(images/magCovers.gif) no-repeat 0 0;
+	}
+
+.footer {
+	position: relative;
+	top:110px;	
+	text-align: center;
+	}

@@ -1,0 +1,123 @@
+/* AGD-PATCHED v1 */
+/* Styles for icon nav for Character pages */
+
+/* Mystery Game Nav */
+#charNav {
+	width: 750px;
+	margin: 0 0 0 15px;
+	xfloat:left;
+	}
+
+	#charNav ul {
+	clear: both;
+	}
+ul#iconNav {
+	margin: 0;
+	padding: 0;
+	height: 82px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul#iconNav li, li#kaya, li#felicity, li#josefina, li#kirsten, li#addy, li#samantha, li#kit, li#molly, li#julie {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	#iconNav a {
+		float: left;
+		padding: 82px 0 0 0;
+		overflow: hidden;
+		height: 0px !important; 
+		}
+	
+	ul#iconNav a:hover {
+		background-position: 0 -82px;
+		text-decoration: none;
+		}
+		
+	.kayaIcon .splash ul#iconNav #kaya a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.felicityIcon .splash ul#iconNav #felicity a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.josefinaIcon .splash ul#iconNav #josefina a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.kirstenIcon .splash ul#iconNav #kirsten a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.addyIcon .splash ul#iconNav #addy a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.samanthaIcon .splash ul#iconNav #samantha a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.kitIcon .splash ul#iconNav #kit a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.mollyIcon .splash ul#iconNav #molly a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.julieIcon .splash ul#iconNav #julie a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+
+#kayaIcon a {
+	width: 80px;
+	background: url(../includes/images/kaya.gif) top left no-repeat;
+}
+
+#felicityIcon a {
+	width: 80px;
+	background: url(../includes/images/felicity.gif) top left no-repeat;
+}
+
+#josefinaIcon a {
+	width: 80px;
+	background: url(../includes/images/josefina.gif) top left no-repeat;
+}
+
+#kirstenIcon a {
+	width: 80px;
+	background: url(../includes/images/kirsten.gif) top left no-repeat;
+}
+
+#addyIcon a {
+	width: 80px;
+	background: url(../includes/images/addy.gif) top left no-repeat;
+}
+
+#samanthaIcon a {
+	width: 80px;
+	background: url(../includes/images/samantha.gif) top left no-repeat;
+}
+
+#kitIcon a {
+	width: 80px;
+	background: url(../includes/images/kit.gif) top left no-repeat;
+}
+
+#mollyIcon a {
+	width: 80px;
+	background: url(../includes/images/molly.gif) top left no-repeat;
+}
+
+#julieIcon a {
+	width: 80px;
+	background: url(../includes/images/julie.gif) top left no-repeat;
+}
+
+

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>That feature ran on the live 2008 server — Summer 2008</title>
+<script src="agd://runtime/volume-control.js"></script>
+<style>
+  :root { color-scheme: light; }
+  html, body { margin: 0; padding: 0; min-height: 100vh; background: #FBF6EB;
+    font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    color: #4A2C20; }
+  .wrap { max-width: 580px; margin: 0 auto; padding: 80px 32px 48px; text-align: center; }
+  .stamp { display: inline-block; background: #A6192E; color: #FBF6EB;
+    font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase; font-weight: 700;
+    padding: 5px 12px; border-radius: 999px; margin-bottom: 16px; }
+  h1 { font-family: 'Hoefler Text', Georgia, serif; font-style: italic; font-weight: 400;
+    color: #7C0C1F; font-size: 30px; line-height: 1.18; margin: 0 0 12px; }
+  p { font-size: 14.5px; line-height: 1.6; color: #5a3a2e; margin: 0 0 14px; }
+  .params {
+    margin: 20px auto; max-width: 480px; text-align: left;
+    background: rgba(166,25,46,0.05); border-left: 3px solid #A6192E;
+    padding: 12px 18px; border-radius: 4px;
+    font-family: 'SF Mono', Menlo, monospace; font-size: 11.5px;
+    color: #6a4d40; white-space: pre-wrap; word-break: break-word;
+    max-height: 140px; overflow: auto;
+  }
+  .params:empty { display: none; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; justify-content: center; }
+  .btn { padding: 10px 22px; border-radius: 999px;
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 600;
+    text-decoration: none; cursor: pointer; border: 1px solid transparent;
+    font-family: -apple-system, 'SF Pro Text', sans-serif; }
+  .btn.primary { background: #A6192E; color: #FBF6EB; }
+  .btn.primary:hover { filter: brightness(1.06); }
+  .btn.ghost { background: transparent; color: #A6192E; border-color: #A6192E; }
+  .btn.ghost:hover { background: rgba(166,25,46,0.08); }
+  .foot { margin-top: 56px; font-size: 11.5px; color: #b08c7c; letter-spacing: .06em; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <span class="stamp">Lost to time</span>
+  <h1>That feature ran on the live 2008 server.</h1>
+  <p>You submitted a form (search, contact, login, send, register, etc.) that the original American Girl site handled with a server-side script — CGI, JSP, or a PHP endpoint that talked to their databases.</p>
+  <p>Static archives can preserve <em>output</em>, never the <em>backend</em>. Those scripts are gone with the 2008 servers.</p>
+  <div class="params" id="params"></div>
+  <div class="actions">
+    <a class="btn primary" href="javascript:history.length>1?history.back():(location.href='agd://dashboard/index.html')">Go back</a>
+    <a class="btn ghost" href="agd://dashboard/index.html">Dashboard</a>
+  </div>
+  <p class="foot">Summer 2008 · An American Girl Archive</p>
+</main>
+<script>
+  // Surface what they submitted — sometimes useful context.
+  try {
+    var qp = new URLSearchParams(location.search);
+    var entries = [];
+    qp.forEach(function (v, k) { entries.push(k + " = " + v); });
+    if (entries.length) {
+      document.getElementById("params").textContent =
+        "Submitted values:\n" + entries.join("\n");
+    }
+  } catch (e) {}
+</script>
+</body>
+</html>

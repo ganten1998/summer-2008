@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+	<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+	
+    <title>American Girl Place Dallas</title>
+  	<!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="../styles/styles.css" />
+    <!--[if lte IE 7]><link href="../styles/styles_ie.css" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 7]><link href="../styles/styles_ie7.css" rel="stylesheet" type="text/css" /><![endif]-->
+    
+    <!-- header styles -->
+    <link rel="stylesheet" type="text/css" href="../styles/headNav.css" />
+    <!--[if lte IE 7]><link href="../styles/headNav_ie.css" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 7]><link href="../styles/headNav_ie7.css" rel="stylesheet" type="text/css" /><![endif]-->
+    
+    <!-- footer styles -->
+    <link rel="stylesheet" type="text/css" href="../styles/footNav.css" />
+    <!--[if lte IE 7]><link href="../styles/footNav_ie.css" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 7]><link href="../styles/footNav_ie7.css" rel="stylesheet" type="text/css" /><![endif]-->
+    
+    <link rel="stylesheet" type="text/css" href="../styles/popups.css" />
+    <!--[if lte IE 7]><link href="../styles/popups_ie.css" rel="stylesheet" type="text/css" /><![endif]-->
+    <!--[if IE 7]><link href="../styles/popups_ie7.css" rel="stylesheet" type="text/css" /><![endif]-->
+   
+   <!-- Live API-->
+	<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAyJnc-6hmhe5MvhnhtBkVixSU98KWJwBjF1ZfpjhHiPl5dl8Z4BRi53DmZR6VrvOkwSY8RFK7-fJx5w" type="text/javascript"></script>
+    
+    <!-- Stage API-->
+	<!--<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAyJnc-6hmhe5MvhnhtBkVixR9AtjOV3pRg7u_eaGUWh-0G52_PxTzA7amKS245QVoJDYwo7tMlHXLrg" type="text/javascript"></script>-->
+	
+    <!-- Dev API -->
+	<!--<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAddVUmiD2xSyQYlMC9EGHfhRMOLGkSh3GT0bC_rjL8RM5XSWa8BTx-Wx32uisslC5iNQHxThOK1JlTA" type="text/javascript"></script>-->
+	
+    <!-- <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAddVUmiD2xSyQYlMC9EGHfhRLqd9PYQ3rOymPNbhtdzllxlD4GhSzEV6s5NIql4U98R7HPZnWuMhSaA" type="text/javascript"></script> -->
+   
+</head>
+<body class="popup" onunload="GUnload()">
+
+<div id="logoTitle"><a name="top"></a><img src="../images/agLogoPopup.gif" width="165" height="50" /><p>Map and Driving Directions</p></div>
+<div id="popupContent">
+	<div id="windowUtils"><a href="#" onclick="window.print();return false;">Print</a> | <a href="" onClick="window.close();">Close Window</a></div>
+	<h2>Dallas</h2>
+	<div id="map"></div>
+	<div id="side_bar"></div>
+	<div id="mapControl">
+		<div id="mapControlDriving">
+			<h1>Driving Directions</h1>
+			<form onsubmit="return false;">
+				<label for="startAddress">Starting Address:</label> <br />
+				<input type="text" id="startAddress" onkeypress="checkEnter(this.form,event)"/><br/>
+				<input class="btn" type="image" src="../images/display_directions.gif" value="Display Directions" onclick="displayDirections(this.form)"/>
+			</form>
+		</div>
+		<div id="mapControlParking"><h1> Hotel Locations</h1>
+			<input type="checkbox" id="hotelbox" onclick="boxclick(this,'hotel')" /> <img src="/stores/images/mm_20_green.png" width="10" height="16" /> <strong>Show Hotels</strong> Ask about special packages and rates for American Girl Boutique and Bistro visitors. (Rates are subject to change, and blackout dates do apply.) Don't forget to inquire about a bed for your doll. 
+		</div>
+	</div>
+	<div id="directions"></div>
+</div>
+	    
+
+    <script type="text/javascript">
+    //<![CDATA[
+
+    if (GBrowserIsCompatible()) {
+      var gmarkers = [];
+      var gicons = [];
+	

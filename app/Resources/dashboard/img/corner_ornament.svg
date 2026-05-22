@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <!-- Decorative AG-style corner ornament: filigree + star -->
+  <g stroke="#B68C3E" stroke-width="0.9" fill="none" opacity="0.7">
+    <path d="M2 40 Q 8 40 12 36 T 24 28 T 36 22 T 48 18"/>
+    <path d="M2 60 Q 12 60 16 54 T 28 48"/>
+    <circle cx="48" cy="18" r="2.4" fill="#B68C3E" stroke="none"/>
+    <circle cx="36" cy="22" r="1.4" fill="#A6192E" stroke="none"/>
+  </g>
+  <path d="M60 60 l2.1 4.4 4.8 0.7 -3.5 3.4 0.8 4.8 -4.3 -2.3 -4.3 2.3 0.8 -4.8 -3.5 -3.4 4.8 -0.7 z"
+        fill="#A6192E" opacity="0.55"/>
+</svg>

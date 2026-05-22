@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleName</key>
+	<string>Summer 2008</string>
+	<key>CFBundleDisplayName</key>
+	<string>Summer 2008 — An American Girl Archive</string>
+	<key>CFBundleExecutable</key>
+	<string>AGDLauncher</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.coconut.summer2008</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>11.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.entertainment</string>
+	<!-- Allow loading our custom agd:// scheme and outbound Wayback fetches -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+</dict>
+</plist>

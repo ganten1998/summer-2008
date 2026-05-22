@@ -1,0 +1,19 @@
+<markers>
+<marker name="Amalfi Hotel Chicago" address="20 W. Kinzie St., 312-395-9000" lng="-87.628927" lat="41.889292" category="hotel" />
+<marker name="Ambassador East" address="1301 N. State Pkwy., 312-787-7200" lng="-87.628691" lat="41.905838" category="hotel" />
+<marker name="Chicago City Centre" address="300 E. Ohio St., 312-787-6100" lng="-87.620215" lat="41.892614" category="hotel" />
+<marker name="Four Points by Sheraton" address="630 N. Rush St., 312-981-6600" lng="-87.625408" lat="41.893461" category="hotel" />
+<marker name="Hilton Suites Chicago" address="198 E. Delaware Pl,, 312-664-1100" lng="-87.621911" lat="41.899259" category="hotel" />
+<marker name="InterContinental Chicago" address="505 N. Michigan Ave., 800-628-2112" lng="-87.624099" lat="41.891065" category="hotel" />
+<marker name="Marriott Downtown" address="540 N. Michigan Ave., 800-228-9290" lng="-87.624185" lat="41.891895" category="hotel" />
+<marker name="Omni Chicago Suites" address="676 N. Michigan Ave., 312-944-6664" lng="-87.624185" lat="41.893892" category="hotel" />
+<marker name="Park Hyatt" address="800 N Michigan Ave., 800-778-7477" lng="-87.62485" lat="41.896799" category="hotel" />
+<marker name="The Peninsula Chicago" address="108 E. Superior St., 312-337-2888" lng="-87.625086" lat="41.895745" category="hotel" />
+<marker name="Sheraton Chicago Hotel and Towers" address="301 East North Water St., 312-464-1000" lng="-87.619636" lat="41.889419" category="hotel" />
+<marker name="Wyndham Chicago" address="633 N. St. Clair St., 312-573-0300" lng="-87.622705" lat="41.893445" category="hotel" />
+<marker name="The Fordham Self Park" address="20 E. Huron" lng="-87.623069" lat="41.893876" category="parking" />
+<marker name="Four Points by Sheraton Parking" address="630 N. Rush St." lng="-87.625408" lat="41.893461" category="parking" />
+<marker name="Standard Parking" address="108 E. Pearson" lng="-87.625408" lat="41.896943" category="parking" />
+<marker name="Standard Parking" address="1 W. Superior Pl." lng="-87.629013" lat="41.895633" category="parking" />
+<marker name="" address="" lng="118.377879" lat="-34.076088" category="hotel" />
+</markers>

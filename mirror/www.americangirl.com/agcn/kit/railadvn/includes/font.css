@@ -1,0 +1,15 @@
+/* AGD-PATCHED v1 */
+.font {
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #000000;
+}
+.stdfont {  font-family: "Times New Roman", Times, serif; font-size: 12px}
+.smallstdfont {
+font-family: "Times New Roman", Times, serif; font-size: 10px
+}

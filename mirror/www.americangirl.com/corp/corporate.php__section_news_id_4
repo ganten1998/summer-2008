@@ -1,0 +1,405 @@
+		
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		
+<script type="text/javascript" src="/corp/js/common.js"></script>
+<script type="text/javascript" src="/corp/js/mootools.svn.js"></script>
+
+<!-- global styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/styles.css" />
+
+<!-- header styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/headNav.css" />
+
+<!-- footer styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/footNav.css" />
+
+<!-- popup styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/styles/popups.css" />
+
+<title>American Girl | E-News Archive</title>
+
+<script type="text/javascript">
+function showDetails(thisElement, showLabel, hideLabel) {
+	if (document.getElementById(thisElement).getElementsByTagName("div").item(0).className == "hide") {
+		document.getElementById(thisElement).className = "show_details";
+		document.getElementById(thisElement).getElementsByTagName("div").item(0).className = "";
+		//document.getElementById(thisElement).getElementsByTagName("a").item(0).innerHTML= hideLabel;
+		//document.getElementById(thisElement).setAttribute("title", hideLabel);
+		} else {
+		document.getElementById(thisElement).className = "";
+		document.getElementById(thisElement).getElementsByTagName("div").item(0).className = "hide";
+		//document.getElementById(thisElement).getElementsByTagName("a").item(0).innerHTML= showLabel;
+		//document.getElementById(thisElement).setAttribute("title", showLabel);
+		}
+}
+window.addEvent('domready', function(){
+	
+}); 
+</script>
+</head>
+<body>
+<div id="maincontainer">
+
+<!-- TOP HEADER -->
+<div id="topsection">
+	<!-- GLOBAL NAVIGATION INCLUDE -->
+<div class="header">
+	<a href="#contentwrapper" id="skip" tabindex="0">Skip to Main Content</a>
+	<div class="search">
+		<img src="/corp/images/spacer.gif" height="18" width="1" />
+		<!--<form name="contentSearch" method="get" action="agd://www.americangirl.com/__agd/dead-form.html">
+			<label for="prodSearch:searchstr">Content Search:</label>
+			<input name="site" value="American Girl Stores" type="hidden"/>
+			<input name="event" value="search" type="hidden"/>
+			<input name="Ntx" value="mode+matchallpartial" type="hidden"/>
+			<input name="Ntk" value="contentSearch" type="hidden"/>
+			<input name="Nty" value="1" type="hidden"/>
+			<input title="Search" name="Ntt" id="prodSearch:searchstr" 	type="text" maxlength="50"/>
+			<div class="searchBtn"><a href="#" onclick="document.contentSearch.submit();return false;">Search</a></div>
+		</form>-->
+	</div>
+	<ul class="globalNav">
+		<li class="agLogo"><a href="agd://www.americangirl.com" title="Celebrate old friends and new!">American Girl</a></li>
+		<li class="shop"><a href="agd://store.americangirl.com" title="Find the dolls, books, clothes, and accessories that girls love!">SHOP</a></li>
+		<li class="ffg"><a href="agd://www.americangirl.com/fun.html" title="Great activities that celebrate American girls!">FUN FOR GIRLS</a></li>
+		<li class="mag"><a href="agd://www.americangirl.com/agmg/" title="Check it out&#8212;Subscribe now!">MAGAZINE</a></li>
+		<li class="movies"><a href="agd://www.americangirl.com/movie/" title="See the stories of your favorite American Girls come to life">MOVIES</a></li>
+		<li class="stores"><a href="agd://www.americangirl.com/stores/" title="More than just a store&#8212;it&#8217;s an experience!">STORES</a></li>
+	</ul>
+	
+</div>
+<!-- END GLOBAL NAVIGATION INCLUDE --></div>
+
+<div id="contentwrapper">
+<!-- MAIN CONTENT -->
+<div id="contentcolumn"><div><img src="/corp/images/headers/events.gif" alt="Celebrating Girls and all they can be" /></div><div id="corpNavcontainer">
+	<ul class="corpNav">
+		<li class="aboutHome"><a href="/corp/">About Us</a></li>
+		<li class="pressroom"><a href="/corp/corporate.php?section=press&amp;id=1" >Press Room</a></li>
+		<li class="company"><a href="/corp/corporate.php?section=about&amp;id=1" >Our Company</a></li>
+		<li class="happening"><a href="/corp/corporate.php?section=new&amp;id=1" class="selected">What's Happening</a></li>
+		</ul>
+</div>	
+	<div id="corpcontent">
+		<div id="newletters">
+
+  <div id="enewsHeader">
+    <h1 id="date">Winter 2007</h1>
+    <h1><em>American Girl E-News</em></h1>
+    <p> The most wonderful time of the year is finally here! In this issue of American Girl E-News, we help make the season bright by reflecting on the special holiday traditions celebrated by our historical charactersand maybe inspire your family to try something new. </p>
+  </div>
+ <div style="margin: 0 10px 0 0;">
+			<a name="section1">
+
+				<h2 style="margin: 13px 13px 8px 11px;">
+					<font face="Trebuchet MS, Helvetica, Arial, sans-serif" size="3" color="#DE217A">
+						<span style="font-size: 16px; line-height: 18px; text-transform: uppercase;">
+							A Season of Holidays
+						</span>
+					</font>
+				</h2>
+			</a>
+			<p style="margin: 0 11px 10px 11px;">
+
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 11px; line-height: 14px;">
+						We at American Girl wish you all the joys of the holiday season. As this season begins, American families of all backgrounds and beliefs are preparing for the winter holidays, including Hanukkah, Christmas, Kwanzaa, and Chinese New Year, that will bring families together to celebrate and share beloved traditions. Special foods, soft lights, the happy faces of children opening longed-for gifts, and celebrations of faith are among the many joys of the season.
+					</span>
+				</font>
+			</p>
+			
+			<table width="166" border="0" cellpadding="0" cellspacing="0" align="left" style="margin: 10px 0px 10px 10px">
+			  <tr>
+				<td><img src="agd://store.americangirl.com/outbounds/20071211/body_img_01.jpg" width="166" height="170" alt="&nbsp;" align="left" border="0"></td>
+
+			  </tr>
+			  <tr>
+				<td><div style="margin:0px 0px 0px 10px">
+					<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 10px; line-height: 12px;">
+						Kirsten celebrates St. Lucia<br>
+						Day in <a href="agd://store.americangirl.com/agshop/html/ProductPage.jsf/itemId/61/itemType/DISPLAYGROUP/webTemplateId/3/uniqueId/128/saleGroupId/240" style="text-decoration:none"><font color="#990033"><em>Kirstens Surprise</em></font></a>
+
+					</span>
+					</font>
+					</div>
+					</td>
+			  </tr>
+			</table><a name="section2">
+			<h2 style="margin: 13px 13px 8px 11px;">
+					<font face="Trebuchet MS, Helvetica, Arial, sans-serif" size="3" color="#DE217A">
+						<span style="font-size: 16px; line-height: 18px; text-transform: uppercase;">
+
+							Celebrate with the American Girls
+						</span>
+					</font>
+			  </h2></a>
+				<p style="margin: 0 11px 10px 11px;">
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 11px; line-height: 14px;">
+						Along with the joy and beauty of the season, it&#8217;s a busy time! One way you can emphasize the importance of family and make the holidays more personally meaningful is to carve out quiet time with your children. Reading together is a wonderful way to do this. You and your daughter might enjoy reading about how some of the American Girls of the past celebrated. The third book in each character&#8217;s <a href="agd://store.americangirl.com/agshop/html/thumbnail.jsf/title/Historical+Fiction/saleGroupId/687/uniqueId/143/nodeId/12/webMenuId/3/LeftMenu/TRUE" style="text-decoration: none"><font color="#990033">six-book series</font></a> is about her winter celebrations. 
+					</span>
+
+				</font>
+			</p>
+			<p style="margin: 0 11px 10px 11px;">
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 11px; line-height: 14px;">
+						Swedish pioneer <a href="agd://store.americangirl.com/agshop/static/kirstendoll.jsf/title/Kirsten/saleGroupId/0/uniqueId/23/nodeId/11/webMenuId/5/LeftMenu/TRUE" style="text-decoration: none"><font color="#990033">Kirsten Larson</font></a> marks the beginning of her first Christmas season in America by celebrating St. Lucia Day on December 13. The candles in the wreath Kirsten wears bring light to one of the longest nights of the year, reminding Kirsten and her family that spring will come again. For Kirsten, celebrating this beloved tradition is a way to bring a bit of Sweden to their new home. 
+
+					</span>
+				</font>
+
+			</p>
+			<p style="margin: 0 11px 10px 11px;">
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 11px; line-height: 14px;">
+						<a href="agd://store.americangirl.com/agshop/static/josefinadoll.jsf/title/Josefina/saleGroupId/0/uniqueId/32/nodeId/11/webMenuId/5/LeftMenu/TRUE" style="text-decoration: none"><font color="#990033">Josefina Montoya</font></a> finds that the beauty of the Christmas traditions celebrated in her northern New Mexico village helps ease her sorrow over the death of her Mamá.
+
+					</span>
+				</font>
+			</p>
+
+			
+			<table width="160" border="0" cellpadding="0" cellspacing="0" align="left" style="margin: 10px 0px 10px 10px">
+			  <tr>
+				<td><img src="agd://store.americangirl.com/outbounds/20071211/body_img_02.jpg" width="133" height="130" alt="&nbsp;" align="left" border="0"></td>
+			  </tr>
+			  <tr>
+				<td><div style="margin: 5px 0px 0px 10px">
+					<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 10px; line-height: 12px;">
+						Julie and Ivy enjoy <br> Chinese New Year
+						in <a href="agd://store.americangirl.com/agshop/html/ProductPage.jsf/itemId/619/itemType/DISPLAYGROUP/webTemplateId/3/uniqueId/493/saleGroupId/657" style="text-decoration:none"><font color="#990033"><em><br>
+
+Happy New Year, Julie</em></font></a>
+					</span>
+					</font>
+					</div>
+					</td>
+			  </tr>
+			</table>
+			
+			
+			<p style="margin: 0 11px 10px 13px;">
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+
+					<span style="font-size: 11px; line-height: 14px;">
+						<a href="agd://store.americangirl.com/agshop/static/juliedoll.jsf/title/Julie+%26+Ivy/saleGroupId/0/uniqueId/486/nodeId/11/webMenuId/5/LeftMenu/TRUE" style="text-decoration: none"><font color="#990033">Julie Albright</font></a>, growing up in San Francisco in the 1970s, enjoys the holiday traditions of her best friend Ivy Ling. Chinese New Year is a 15-day celebration that begins on the first new moon of the year. Families make a fresh start for the new year by scrubbing their homes, buying new clothes, and settling disagreements. The New Year celebration ends with a huge parade featuring the Golden Dragon, who ushers in the new year with lanterns and the popping of thousands of firecrackers. 
+					</span>
+				</font>
+			</p>
+			
+			<table width="142" border="0" cellpadding="0" cellspacing="0" align="right" style="margin: 10px 10px 0px 10px">
+			  <tr>
+				<td><img src="agd://store.americangirl.com/outbounds/20071211/body_img_03.jpg" width="142" height="135" alt="&nbsp;" align="right" border="0"></td>
+			  </tr>
+
+			  <tr>
+				<td><div style="margin: 5px 0px 0px 10px">
+					<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 10px; line-height: 12px;">
+						Wartime families found comfort in the words &#8220;peace on earth, good will toward men&#8221; &#8211; from <a href="agd://store.americangirl.com/agshop/html/ProductPage.jsf/itemId/86/itemType/DISPLAYGROUP/webTemplateId/3/uniqueId/133/saleGroupId/242" style="text-decoration:none"><font color="#990033"><em>Mollys Surprise</em></font></a></a>
+					</span>
+
+					</font>
+					</div>
+					</td>
+			  </tr>
+			</table>
+			
+			
+			<p style="margin: 0 11px 10px 11px;">
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 11px; line-height: 14px;">
+						In <em>Molly&#8217;s Surprise</em>, <a href="agd://store.americangirl.com/agshop/static/mollydoll.jsf/title/Molly+%26+Emily/saleGroupId/0/uniqueId/68/nodeId/11/webMenuId/5/LeftMenu/TRUE" style="text-decoration: none"><font color="#990033">Molly McIntire</font></a> is discouraged that Christmas in 1944 won&#8217;t be very merry because Dad is away at war. But she finds comfort and joy in the beauty of a candlelit church service&#8212;and in the fun of planning a Christmas surprise for her family. 
+					</span>
+
+				</font>
+			</p>
+
+			<p style="margin: 0 11px 10px 13px;">
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 11px; line-height: 14px;">
+						For other characters, wintertime brings an important change of pace. For <a href="agd://store.americangirl.com/agshop/static/kayadoll.jsf/title/Kaya/saleGroupId/0/uniqueId/5/nodeId/11/webMenuId/5/LeftMenu/TRUE" style="text-decoration: none"><font color="#990033">Kaya</font></a>, a Nez Perce girl growing up in the 1760s, the heart of winter is a special season, when there is time for grandmothers and grandfathers to share stories and legends with children around the fire. 
+					</span>
+				</font>
+
+			</p>
+			
+			
+			<a name="section3">
+			
+			<a href="agd://store.americangirl.com/pls/ag/promo_page?ky=155663&ld=11&adid=155663-20-04" style="text-decoration:none"><font color="#990033"><img src="agd://store.americangirl.com/outbounds/20071211/body_img_04.jpg" width="70" height="76" alt="&nbsp;" align="left" border="0"></font></a>
+				<h2 style="margin: 13px 0px 8px 11px;">
+					<font face="Trebuchet MS, Helvetica, Arial, sans-serif" size="3" color="#DE217A">
+						<span style="font-size: 16px; line-height: 18px; text-transform: uppercase;">
+							A Season of Giving
+						</span>
+					</font>
+
+				</h2>
+			</a>
+			
+			<p style="margin: 0 11px 10px 13px;">
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 11px; line-height: 14px;">
+						For many, this is a season of gift-giving. But giving gifts is only one way to show affection and appreciation. The spirit of giving can be expressed in many ways&#8212;in time spent  
+                        doing something special with those you love, in time spent helping others, in focusing inward on the meaning of family, and in the sharing of holiday traditions. 
+					</span>
+				</font>
+			</p>
+
+			<p style="margin: 0 11px 13px 11px;">
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 11px; line-height: 14px;">
+						Here are some ways your daughter can celebrate the season by giving of herself. Share these suggestions with her&#8212;or help her come up with ideas that will work for her:
+					</span>
+				</font>
+			</p>
+			
+			<h2 style="margin: 13px 0px 8px 20px;">
+					<font face="Trebuchet MS, Helvetica, Arial, sans-serif" size="3" color="#DE217A">
+						<span style="font-size: 13px; line-height: 18px; text-transform: uppercase;">
+							In the spirit of Giving
+						</span>
+					</font>
+			  </h2>
+			
+			<font face="Arial, Helvetica, sans-serif" size="1" color="#353535">
+			<ul style="list-style: none; margin:5px 11px 0 20px; padding:0">
+					<li style="margin: 0 0 5px 0; padding:0 0 0 10px; background-image: url(/corp/images/bullet.gif); background-repeat:no-repeat; background-position: 0px 2px; font-size: 11px; line-height: 14px;">
+						Dig through your bookshelf to find holiday picture books or borrow some from the library. Then offer to read aloud to those who can&#8217;t read themselves&#8212;both the young and the old.  
+					</li>
+
+  					<li style="margin: 0 0 5px 0; padding:0 0 0 10px; background-image: url(/corp/images/bullet.gif); background-repeat:no-repeat; background-position: 0px 2px; font-size: 11px; line-height: 14px;">
+						Pull out treasured family recipes and spend an afternoon baking and making holiday treats with your parents, siblings, or friends. Combine old and new by finding one new recipe to try this holiday season.  
+					</li>
+   					<li style="margin: 0 0 5px 0; padding:0 0 0 10px; background-image: url(/corp/images/bullet.gif); background-repeat:no-repeat; background-position: 0px 2px; font-size: 11px; line-height: 14px;">
+						Deliver homemade treats and hand-made cards to family, friends, and neighbors. 
+					</li>
+					<li style="margin: 0 0 5px 0; padding:0 0 0 10px; background-image: url(/corp/images/bullet.gif); background-repeat:no-repeat; background-position: 0px 2px;font-size: 11px; line-height: 14px;">
+						For holiday get-togethers, suggest that everyone who comes bring a can of food or a toy to donate to a homeless shelter.
+					</li>
+					<li style="margin: 0 0 5px 0; padding:0 0 0 10px; background-image: url(/corp/images/bullet.gif); background-repeat:no-repeat; background-position: 0px 2px; font-size: 11px; line-height: 14px;">
+
+						Host a book exchange with a group of your friends. Wrap gently used books and then let each person pick one. 
+					</li>
+					<li style="margin: 0 0 5px 0; padding:0 0 0 10px; background-image: url(/corp/images/bullet.gif); background-repeat:no-repeat; background-position: 0px 2px; font-size: 11px; line-height: 14px;">
+						Find something that needs to be done around your house. Then, quietly, just do it.
+					</li>
+					<li style="margin: 0 0 5px 0; padding:0 0 0 10px; background-image: url(/corp/images/bullet.gif); background-repeat:no-repeat; background-position: 0px 2px; font-size: 11px; line-height: 14px;">
+						Make a gift: Use some of your favorite digital photos to create a one-of-a-kind calendar that could only come from YOU.
+					</li>
+					<li style="margin: 0 0 5px 0; padding:0 0 0 10px; background-image: url(/corp/images/bullet.gif); background-repeat:no-repeat; background-position: 0px 2px; font-size: 11px; line-height: 14px;">
+						Ask your parents to go with you to volunteer at a food pantry or homeless shelter.
+					</li>
+
+				
+			</ul> 
+			</font>
+			
+			
+			
+		</div>
+		<div style="background-image: url(agd://store.americangirl.com/outbounds/20071211/body_img_05.gif); background-repeat:no-repeat; background-position:center; text-align:center; padding: 32px 0px 12px 0px">
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#990033">
+					<span style="font-size: 16px; line-height: 20px;">
+						Wishing you peace and joy this holiday season,<br>
+					</span>
+				</font>
+
+				<font face="Arial, Helvetica, sans-serif" size="2" color="#353535">
+					<span style="font-size: 11px; line-height: 14px;">
+						Your friends at American Girl
+					</span>
+				</font>
+			
+			</div>
+</div>	</div><!--corporate content-->	
+					
+</div><!-- content column -->
+</div><!-- content wrapper -->
+
+<!-- RIGHT NAV -->
+<div id="rightcolumn">
+<h1>Events</h1>
+
+<ul>
+	<li><a href="/corp/corporate.php?section=fashion&amp;id=1"  >Fashion Show</a> </li>
+		<li><a href="/corp/corporate.php?section=new&id=2"   >Bookstore events</a> </li>
+	<li><a href="/corp/corporate2.php?section=addy&id=1">Addy's Stage Play</a> </li>
+</ul>
+
+<h2>Features</h2>
+<ul>
+	<li><a href="agd://store.americangirl.com/shop/realGoty/realGoty2008.php">2008 Real Girl of the Year contest</a></li>
+	<li><a href="/corp/corporate2.php?section=rgoty&id=1">2007 Real Girl of the Year winners</a></li>
+	
+		<li><a href="/corp/corporate2.php?section=twenty&id=1">American Girl's 20th Anniversary</a> </li>
+</ul>
+
+<h2><em>American Girl E-News</em> Archive</h2>
+<ul>
+	<li><a href="/corp/corporate.php?section=news&id=1">Spring 2007</a>&#8211;Meet Nicki</li>
+	<li><a href="/corp/corporate.php?section=news&id=2">Summer 2007</a>&#8211;Summer Reading</li>
+	<li><a href="/corp/corporate.php?section=news&id=3">Fall 2007</a>&#8211;Meet Julie Albright</li>
+	<li><a href="/corp/corporate.php?section=news&id=4">Winter 2007</a>&#8211;Holiday Traditions</li>
+</ul>
+
+</div><!-- right column -->
+<div>
+
+<!-- Timeline for History Page -->
+</div>
+<!-- End Timeline -->
+
+<!-- FOOTER -->
+<!-- GLOBAL NAVIGATION INCLUDE -->
+<div id="footer" class="footer">
+	<ul id="footerMenu">
+		<li id="priv"><a href="agd://store.americangirl.com/static/popups/privacyPolicy.html" onclick="openPop('agd://store.americangirl.com/static/popups/privacyPolicy.html','600','600');return false;">Privacy Policy</a></li>
+		<li><a href="agd://store.americangirl.com/static/popups/termsConditions.html" onclick="openPop('agd://store.americangirl.com/static/popups/termsConditions.html');return false;">Terms and Conditions</a></li>
+		<li><a href="/corp/corporate.php?section=contact&amp;id=1&amp;type=general">Contact Information</a></li>
+		<li><a href="agd://www.americangirl.com/legal/trademarks.html" onclick="openPop('agd://www.americangirl.com/legal/trademarks.html');return false;">Trademarks</a></li>
+		<li><a href="http://www.mattel.com/careers/">Careers</a></li>
+		<li class="last"><a href="/corp/">About American Girl</a></li>
+	</ul>
+  <p id="copyright">Copyright &#169; 2008 American Girl, LLC. All American Girl marks are trademarks of American Girl, LLC. All rights reserved.</p>
+  <!-- START OF SmartSource Data Collector TAG --> 
+<!-- Copyright (c) 1996-2007 WebTrends Inc.  All rights reserved. --> 
+<!-- V8.0 --> 
+<!-- $DateTime: 2006/11/30 16:52:27 $ --> 
+<SCRIPT TYPE="text/javascript"><!-- 
+// Code section for Use the new first-party cookie generated with this tag. 
+var gFpc="WT_FPC"; 
+var gConvert=true; 
+var gDomain="statse.webtrendslive.com"; 
+var gDcsId="dcsqohyd4100000w02b923wzx_4k5m"; 
+if ((typeof(gConvert)!="undefined")&&gConvert&&(document.cookie.indexOf(gFpc+"=")==-1)&&(document.cookie.indexOf("WTLOPTOUT=")==-1)){
+
+  document.write("<SCR"+"IPT TYPE='text/javascript' SRC='"+"http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+
+} 
+//--> 
+</SCRIPT> 
+<script src="/js/webtrends8_hosted_ag.js" type="text/javascript"></script> 
+<NOSCRIPT> 
+<IMG ALT="" BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="agd://disabled/webtrendslive <agd://disabled/webtrendslive> ">
+
+</NOSCRIPT> 
+<!-- END OF SmartSource Data Collector  TAG --> 
+</div>
+
+</div> <!-- main containter-->	
+
+</body>
+</html>

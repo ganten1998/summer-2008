@@ -1,0 +1,417 @@
+/* AGD-PATCHED v1 */
+/* Stylesheet for American Girl Movie Headquarters */
+
+/******** header styles ********/
+.header {
+	width: 750px;
+	margin: 0 auto;
+	height: 80px;
+	}
+
+	.header ul {
+		clear: both;
+		margin:0;
+		padding:0;
+	}
+	
+	.header * {
+		margin:0;
+		padding:0;
+	}
+  
+/******** shop tools ********/
+ul.shopTools, .shopTools li {
+		list-style: none;
+		display: inline;
+		margin:0;
+		padding:0;
+		float:right;
+		clear:both;
+		}
+
+ul.shopTools{
+ 	height: 20px;
+	width: 750px; /* this needs to be removed if other tools are added */
+  }
+    	
+	.search label {
+		font-size: 90%;
+		padding: 0 4px 0 10px;
+		}
+		
+	.search input {
+		border-right: 1px solid #FFF1F8;
+		border-bottom: 1px solid #FFF1F8;
+		font: 80% Arial, Helvetica, sans-serif; 
+		padding-left:2px;
+		}		
+
+	.search a {
+	color: #222;
+		}
+
+.searchBtn {
+	display: inline;
+	padding-left:10px;
+	}
+
+	.searchBtn a {
+		background-color: #F9CDE2;
+		padding: 2px 6px 2px 6px;
+		border-right: 1px solid #888;
+		border-bottom:  1px solid #888;
+		letter-spacing:0px;
+		}
+		
+	.searchBtn a:hover{
+		text-decoration: none;
+		}
+	
+	
+/******** global nav ********/
+ul.globalNav {
+	margin: 0;
+	padding: 0;
+	height: 51px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul.globalNav li, li.agLogo, li.shop, li.ffg, li.club, li.mag, li.movies, li.agp {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	.globalNav a {
+		float: left;
+		padding: 51px 0 0 0;
+		overflow: hidden;
+		height: 0px !important; 
+		height /**/:51px; /* for IE5/Win only */
+		}
+	
+	.globalNav a:hover {
+		background-position: 0 -51px;
+		text-decoration: none;
+		}
+
+	.globalNav a.selected, .globalNav a:hover.selected {
+		background-position: 0 -102px;
+		}
+	
+.agLogo a {
+	width: 168px;
+	background: url(/movie/assets/images/agLogo.gif) top left no-repeat;
+}
+
+.shop a {
+	width: 97px;
+	background: url(/movie/assets/images/shop.gif) top left no-repeat;
+	}
+	
+.ffg a {
+	width: 151px;
+	background: url(/movie/assets/images/ffg.gif) top left no-repeat;
+	}
+
+.mag a {
+	width: 122px;
+	background: url(/movie/assets/images/mag.gif) top left no-repeat;
+	}
+	
+.movies a {
+	width: 103px;
+	background: url(/movie/assets/images/movies.gif) top left no-repeat;
+	}
+
+.stores a, .agp a {
+	width: 109px;
+	background: url(/movie/assets/images/stores.gif) top left no-repeat;
+	}
+
+/* system classes for background and fonts */ 
+body {
+	font: normal 11px Arial, Helvetica, sans-serif;
+	color: #222;
+	background-color: #fff;
+	text-align: center;
+}
+
+a {
+	font-size: 11px;
+	color: #903;
+	text-decoration: none;
+} 
+
+a:hover { text-decoration: underline; }
+
+.hidden {
+	position:absolute;
+	top:-5555px;
+}
+
+#wrapper {
+	margin: 0 auto;
+	width: 750px;
+	text-align: left;
+	position:relative;
+	clear:left;
+}
+
+#content {
+	position: relative;
+	width: 750px;
+	height: 450px;
+	background: #903 url(/movie/assets/images/bkgdKit.jpg) no-repeat top left;
+}
+
+#stories {
+	position: absolute;
+	top:90px;
+	width: 289px;
+	text-align:center;
+}
+
+	#stories p {
+		color:#fff;
+		font-size: 13px;
+		line-height: 20px;
+		padding: 0 28px;
+	}
+
+#wrapper #auditions {
+	position: absolute;
+	top:314px;
+	left:24px;
+	width: 240px;
+	text-align:center;
+}
+
+#wrapper #auditions p {
+	color:#333;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+#wrapper #auditions a {
+	position:relative;
+	top:-10px;
+}
+
+#kitTeaser p {
+	font-size: 12px;
+	line-height: 16px;
+	width: 430px;
+	position: absolute;
+	top: 50px;
+	left: 310px;
+	text-align:center;
+}
+
+#kitTeaser #flashcontent {
+	position: absolute;
+	top: 156px;
+	left: 392px;
+}
+
+/*#kit {
+	position: absolute;
+	top: 17px;
+	left: 310px;
+}
+
+	#kit p {
+		position:relative;
+		top:76px;
+		left: 144px;
+		width: 280px;
+		line-height: 130%;
+	}
+
+#dvds {
+	position: absolute;
+	top: 17px;
+	left: 310px;
+}
+
+	#dvds img {
+		position: relative;
+		top:50px;
+		left: -35px;
+	}
+
+	#dvds p {
+		width: 190px;
+		float: right;
+		font-size: 11px;
+		text-align:center;
+		position: relative;
+		top:-100px;
+		left:-16px;
+	}
+
+	#dvds p a {
+		padding-top:20px;
+		display:block;
+		font: bold 12px "Trebuchet MS", Arial, sans-serif;
+		text-transform: uppercase;
+		background: transparent url(/movie/assets/images/berryInd.gif) no-repeat 166px 24px;		
+	}*/
+
+#characters {
+	position:relative;
+	top:0px;
+	height: 210px;
+	overflow:hidden;
+	margin: 0;
+}
+
+	#characters div {
+		width: 248px;
+		height: 189px;
+	}
+
+	#characters ul, #characters li {
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+
+	#characters li {
+		background: transparent url(/movie/assets/images/bullet.gif) no-repeat 0px 7px;
+	}
+	
+	#characters li a {
+		padding-left: 8px;
+	}
+
+	#characters p {
+		text-align: center;
+		padding:6px 0;
+		margin:0 0 8px 0;
+		color:#fff;
+		text-transform: uppercase;
+		font: bold 11px "Trebuchet MS", Arial, sans-serif;
+	}
+	
+	#characters p a, #characters ul, #characters li a {
+		color: #fff;
+	}
+
+#molly {
+	position: relative;
+	top:10px;
+}	
+	#molly p {
+		position:relative;
+		top:0px;
+		background-color: #093A67;
+		margin-top:0px;
+	}
+
+	#molly ul {
+		position:relative;
+		top:-11px;
+		background-color: #21578A;
+		padding:6px 0 10px 16px;
+	}
+	
+	#molly li {
+		padding: 3px 0;
+	}
+	
+	#molly li a, #molly p a {
+		background: transparent url(/movie/assets/images/whiteBlueInd.gif) no-repeat right 2px;
+		padding-right: 10px;
+	}
+
+#felicity {
+	position: relative;
+	top:-179px;
+	left: 250px;
+}
+
+#felicity p {
+		position:relative;
+		top:0px;
+		background-color: #013122;
+		margin-top:0px;
+	}
+	
+	#felicity ul {
+		position:relative;
+		top:-11px;
+		background-color: #024731;
+		padding:6px 0 10px 16px;
+	}
+	
+	#felicity li {
+		padding: 3px 0;
+	}
+	
+	#felicity li a, #felicity p a {
+		background: transparent url(/movie/assets/images/whiteGreenInd.gif) no-repeat right 2px;
+		padding-right: 10px;
+	}
+
+#samantha {
+	position: relative;
+	top:-368px;
+	left: 500px;
+}
+
+#samantha p {
+		position:relative;
+		top:0px;
+		background-color: #5C101D;
+		margin-top:0;
+	}
+	
+	#samantha ul {
+		position:relative;
+		top:-11px;
+		background-color: #772432;
+		padding:6px 0 10px 16px;
+	}
+	
+	#samantha li {
+		padding: 3px 0;
+	}
+
+	#samantha li a, #samantha p a {
+		background: transparent url(/movie/assets/images/whiteBerryInd.gif) no-repeat right 2px;
+		padding-right: 10px;
+	}
+	
+/******* ******/	
+.ftr {
+	clear: both;
+	font: 10px/12px Arial, Helvetica, sans-serif; 
+	width: 750px;
+	text-align: center;
+	}
+
+	.ftr ul, .ftr li {
+		list-style:none;
+		display:inline;
+		margin:0;
+		padding:0;
+		color: #D884AB;
+	}
+
+	.ftr li a {
+		padding: 0 3px;
+	}
+
+	.ftr a {
+		color: #555;
+		padding: 0;
+		font-size: 10px;
+		}
+		
+	.ftr a:hover {
+		text-decoration:underline;
+		display: inline;
+		}

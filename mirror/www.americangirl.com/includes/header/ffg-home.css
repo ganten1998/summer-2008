@@ -1,0 +1,24 @@
+/* AGD-PATCHED v1 */
+
+body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #333333; }
+table,tr,td,th { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #333333; }
+
+a:link,
+a:visited,
+a:hover,
+a:active {font-family: Arial, Helvetica, sans-serif; font-size: 12px; text-decoration: underline; color: #8A61E0; }
+
+a.ftr:link,
+a.ftr:visited,
+a.ftr:hover,
+a.ftr:active { font-family: Arial, Helvetica, sans-serif; font-size: 9px; text-decoration: none;  color: #333333; }
+
+a.red:link,
+a.red:visited,
+a.red:hover,
+a.red:active { font-family: Arial, Helvetica, sans-serif; font-size: 9px; text-decoration: none; color: #C90025; }
+
+a.tiny:link,
+a.tiny:visited,
+a.tiny:hover,
+a.tiny:active { font-family: Arial, Helvetica, sans-serif; font-size: 8px; text-decoration: underline; color: #8A61E0;}

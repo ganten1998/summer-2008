@@ -1,0 +1,25 @@
+/* AGD-PATCHED v1 */
+/* CSS Document */
+
+
+.links {  font-family: "Times New Roman", Times, serif; font-size: 12px; line-height: 12px;}
+.legal {  font-family: "Times New Roman", Times, serif; font-size: 10px; line-height: 14px;}
+
+.fantext {  font-family: "Times New Roman", Times, serif; font-size: 14px; line-height: normal;}
+.fantext a {
+	FONT-SIZE: 14px;
+	line-height: normal;
+	font-family: "Times New Roman", Times, serif;
+	color: #990033;
+	TEXT-DECORATION: none;
+}
+.txtred {
+	FONT-SIZE: 10px; COLOR: #cc0033; FONT-FAMILY: "Times New Roman", Times, serif;
+}
+.txtDate {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; COLOR: #000000; FONT-FAMILY: "Times New Roman", Times, serif;
+}
+
+.textnav {  font-family: "Times New Roman", Times, serif; font-size: 11px; line-height: 11px;}
+.legal {  font-family: "Times New Roman", Times, serif; font-size: 10px;}
+

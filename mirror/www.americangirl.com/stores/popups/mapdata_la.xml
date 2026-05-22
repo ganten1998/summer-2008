@@ -1,0 +1,10 @@
+<markers>
+ <marker name="The Beverly Hilton" address="9876 Wilshire Blvd. &lt;br&gt; 310-274-7777 &lt;br&gt; http://www.beverlyhilton.com/" lng="-118.413112" lat="34.06705" category="hotel" />
+ <marker name="The Four Seasons Hotel Los Angeles at Beverly Hills" address="300 S. Doheny Dr. &lt;br&gt; 310-273-2222 &lt;br&gt; www.fourseasons.com/losangeles" lng="-118.389702" lat="34.073573" category="hotel" />
+ <marker name="Hyatt West Hollywood" address="8401 W. Sunset Blvd. &lt;br&gt; 310-233-1234 &lt;br&gt; www.westhollywoodhyatt.com" lng="-118.372772" lat="34.095219" category="hotel" />
+ <marker name="Le Parc Suites" address="733 W. Knoll Dr. &lt;br&gt; 800-5-SUITES &lt;br&gt;www.leparcsuites.com " lng="-118.377621" lat="34.083072" category="hotel" />
+ <marker name="The Orlando" address="8384 W. Third St. &lt;br&gt; 800-62-HOTEL &lt;br&gt; www.theorlando.com" lng="-118.372793" lat="34.072951" category="hotel" />
+ <marker name="Residence Inn by Marriott Beverly Hills" address="1177 Beverly Dr. &lt;br&gt; 310-228-4100 &lt;br&gt; www.beverlyhillsresidenceinn.com" lng="-118.395731" lat="34.055691" category="hotel" />
+ <marker name="Sofitel" address="8555 Beverly Blvd. &lt;br&gt; 800-521-77772 &lt;br&gt; www.sofitel.com" lng="-118.377879" lat="34.076088" category="hotel" />
+<marker name="" address="" lng="118.377879" lat="-34.076088" category="hotel" />
+</markers>

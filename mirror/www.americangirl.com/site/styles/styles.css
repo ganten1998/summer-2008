@@ -1,0 +1,276 @@
+/* AGD-PATCHED v1 */
+body {
+	font: normal 11px Arial, Helvetica, sans-serif;
+	color: #222;
+	background-color: #fff;
+	text-align: center;
+}
+
+a {
+	font-size: 11px;
+	color: #903;
+	text-decoration: none;
+} 
+
+a:hover {
+	text-decoration: underline;
+	}
+
+/******** header styles ********/
+.header {
+	width: 750px;
+	padding-top: 6px;
+	margin: 0 auto;
+	height: 51px;
+	}
+
+.header ul {
+	clear: both;
+	}
+	
+/******** global nav ********/
+ul.globalNav {
+	margin: 0;
+	padding: 0;
+	height: 51px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul.globalNav li, li.agLogo, li.shop, li.ffg, li.mag, li.movies, li.stores {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	.globalNav a {
+		float: left;
+		padding: 51px 0 0 0;
+		overflow: hidden;
+		height: 0px !important; 
+		height /**/:51px; /* for IE5/Win only */
+		}
+	
+	.globalNav a:hover {
+		background-position: 0 -51px;
+		text-decoration: none;
+		}
+
+	.globalNav a.selected, .globalNav a:hover.selected {
+		background-position: 0 -102px;
+		}
+
+.agLogo a {
+	width: 168px;
+	background: url(/site/images/agLogo.gif) top left no-repeat;
+	}
+	
+.shop a {
+	width: 97px;
+	background: url(/site/images/shop.gif) top left no-repeat;
+	}
+	
+.ffg a {
+	width: 151px;
+	background: url(/site/images/ffg.gif) top left no-repeat;
+	}
+
+.mag a {
+	width: 122px;
+	background: url(/site/images/mag.gif) top left no-repeat;
+	}
+	
+.movies a {
+	width: 103px;
+	background: url(/site/images/movies.gif) top left no-repeat;
+	}
+
+.stores a {
+	width: 109px;
+	background: url(/site/images/stores.gif) top left no-repeat;
+	}
+	
+/****** for page contents ******/
+
+#pageBody {
+	padding-top: 55px;
+	margin: 0 auto;
+	width: 750px;
+	text-align: left;
+}
+
+#content {
+	position: relative;
+	margin: 0 auto;	
+	width: 750px;
+	}
+
+h1, h2 {
+	display: none;
+}
+
+#main {
+	clear:both;
+	margin-top: 3px;
+
+	}
+	
+#kitContent {padding-top: 5px;
+	padding-bottom: 0;
+	margin: 0;
+	}
+	
+#flashContent img {padding: 0;
+	margin: 0;
+	}
+#rgoty {
+	padding: 0px;
+	margin: 0px;
+}
+#sub {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	clear:both;
+	height: 276px;
+	margin-bottom: 11px;
+}
+
+	#sub div {
+		text-align: left;
+		height: 270px;
+	}
+	
+	#sub p {
+		width: 157px;
+		padding: 10px;
+		margin: 0;
+		line-height: 120%;
+		letter-spacing: 0.2pt;
+	}
+	
+	.link {
+		font-weight: bold;
+		padding: 0 0 0px 10px;
+		display: block;
+		letter-spacing: 0.5pt;
+		}
+
+#shop {
+	width: 189px;
+	position: absolute;
+	top:0;
+	left:0;
+	background-color: #FBDEEC;
+	margin: 0;
+	padding: 0;
+}
+
+#play {
+	position: absolute;
+	top:0;
+	left:190px;
+	width: 184px;
+	background-color: #ECE0F0;
+	margin: 0;
+	padding: 0;
+}
+
+#visit {
+	position: absolute;
+	top:0;
+	left:375px;
+	width: 187px;
+	background-color: #EAEDF9;
+	margin: 0;
+	padding: 0;
+}
+
+#watch {
+	position: absolute;
+	top:0;
+	left:563px;
+	width: 187px;
+	background-color: #FEE7DF;
+	margin: 0;
+	padding: 0;
+}
+
+/****** campaigns near the footer ******/
+
+.hidden {
+	position:absolute;
+	overflow:hidden;
+	left:-5555px;
+}
+
+#banner {
+width:750px;
+xbackground: url(/site/images/rgotyBanner.gif) top left no-repeat;
+float:left;
+text-align:left;
+margin-top:-15px;
+margin-bottom:10px;
+position:relative;
+}
+
+	#banner img {
+	float:left;
+	margin:0;
+	padding:0;
+	}
+	
+	#banner p {
+	float:left;
+	margin:28px 0 0 5px;
+	padding:0;
+	font-size:120%;
+	color:#272727;
+	}
+	
+	#banner p a {
+	font-size:100%;
+	}
+
+
+#recall {
+	padding-top: 10px;
+	width:100px;
+	margin:0 auto;
+}
+
+#moviePartners {
+	position: relative;
+	clear: both;
+	margin: 10px auto 10px auto;	
+	text-align: center;
+	width: 750px; 
+	padding-bottom: 10px;
+		color: #555;
+	}
+#moviePartners img {
+	float:none
+	}
+.ftr {
+	margin-top:10px;
+	clear: both;
+	text-align: center;
+	}
+
+	.ftr ul, .ftr li {
+		list-style:none;
+		display:inline;
+		margin:0;
+		padding:0;
+		color: #D884AB;
+	}
+
+	.ftr li a {
+		color: #555;
+		padding: 0 3px;
+		}
+		
+	.ftr a:hover {
+		text-decoration:underline;
+		}

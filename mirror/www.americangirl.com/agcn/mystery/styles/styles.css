@@ -1,0 +1,29 @@
+/* AGD-PATCHED v1 */
+/* Mystery Games Pages Styles */
+
+div#content {
+	margin: 0 auto 13px 20px;
+	width: 700px;
+	float:left;
+}
+
+div#flashcontent {
+clear:both;
+}
+div#flashcontent p {
+	text-align:center;
+	font-size:0.9em;
+	margin:0 0 5px 0;
+	padding:0;
+}
+.searchExclude {
+clear:both;
+}
+.mysteryPage #mysteryNav {
+	margin-bottom:1px;
+	float:left;
+}
+.mysteryPage #charNav,
+.mysteryPage #multiCharButton {
+	margin-left:-10px;
+}

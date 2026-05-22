@@ -1,0 +1,44 @@
+
+
+<html><head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<title>Tell a Friend about Felicity's Movie</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="/movie/felicity/assets/styles/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div align="center">
+<br>
+   	<p>
+	<form name="ecard" method="GET" action="moviehq_customize.php" >
+	<input type="hidden" name='ecard' value='penny' >
+	<input type="hidden" name='theme' value='felicity' >
+	  <input type="hidden" name='ecid' value='594' >
+	
+	
+  <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="600" height="350">
+  	<param name="movie" value='/ecards/sw/agc_felicity_penny.swf?personalMsg=Your+personal+message+goes+here...'>
+  	<param name="quality" value="high">
+  	<embed src='/ecards/sw/agc_felicity_penny.swf?personalMsg=Your+personal+message+goes+here...' quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="600" height="350"></embed>
+ 	</object>
+	<br><br>
+	  <input name="Submit" type="image" value="Submit" src="/movie/felicity/assets/images/btn_custom.gif">
+  </form>		
+	<br><br>
+  <p class="ftr">Note: Flash v5.0 or above is required to view the above E-Card.</p>
+</div>
+<script language="JavaScript" type="text/javascript" src="/js/webtrends_ffg.js"></script>
+<NOSCRIPT>
+<img alt="" BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="http://dcs.mattel.com/DCSCDxDhZa4S3eFS0rbrV83F5_6O9N/njs.gif?dcsuri=/nojavascript">
+</NOSCRIPT>
+<!-- new Webtrends 7.5 include -->
+<script language="JavaScript" type="text/javascript" src="/js/webtrends75_ffg.js"></script>
+<NOSCRIPT>
+<IMG ALT="" BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="http://dcs.mattel.com/dcs9pcvyk100008232gd6jt9v_6e4u/njs.gif?dcsuri=/nojavascript&amp;WT.js=No">
+</NOSCRIPT>
+</body>
+</html>

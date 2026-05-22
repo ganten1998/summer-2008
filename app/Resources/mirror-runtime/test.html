@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ruffle Diagnostic</title>
+<style>
+  body { font-family: -apple-system, Menlo, monospace; background: #FBF6EB; color: #4A2C20; padding: 24px; }
+  h1 { color: #A6192E; font-family: Georgia, serif; }
+  pre { background: #fff; border: 1px solid #ddd; padding: 12px; max-height: 220px; overflow: auto; font-size: 11px; line-height: 1.3; }
+  #stage { display: inline-block; margin-top: 14px; background: #000; }
+</style>
+<script>
+  // Capture console output + errors in the page for visual debugging
+  (function () {
+    var logs = [];
+    function push(level, args) {
+      var line = "[" + level + "] " + Array.prototype.slice.call(args).map(function (a) {
+        try { return typeof a === "string" ? a : JSON.stringify(a); }
+        catch (e) { return String(a); }
+      }).join(" ");
+      logs.push(line);
+      var el = document.getElementById("log");
+      if (el) el.textContent = logs.join("\n");
+    }
+    ["log","warn","error","info"].forEach(function (lvl) {
+      var orig = console[lvl];
+      console[lvl] = function () {
+        push(lvl, arguments);
+        orig && orig.apply(console, arguments);
+      };
+    });
+    window.addEventListener("error", function (e) {
+      push("error", [e.message + " @ " + e.filename + ":" + e.lineno]);
+    });
+    window.addEventListener("unhandledrejection", function (e) {
+      push("reject", [String(e.reason)]);
+    });
+  })();
+</script>
+<script src="agd://runtime/ruffle-boot.js"></script>
+<script src="agd://runtime/ruffle/ruffle.js"></script>
+</head>
+<body>
+<h1>Ruffle Diagnostic</h1>
+<p>If Ruffle works, you should see the AG site's homepage flash content below.</p>
+<div id="stage"></div>
+<pre id="log">loading...</pre>
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+  console.log("DOMContentLoaded. RufflePlayer present?", !!window.RufflePlayer);
+  if (!window.RufflePlayer) {
+    console.error("window.RufflePlayer is undefined -- ruffle.js never ran");
+    return;
+  }
+  console.log("RufflePlayer.config:", JSON.stringify(window.RufflePlayer.config));
+  var r;
+  try { r = window.RufflePlayer.newest(); }
+  catch (e) { console.error("newest() failed:", e); return; }
+  if (!r) { console.error("newest() returned null"); return; }
+  console.log("got source, creating player...");
+  var player = r.createPlayer();
+  player.style.width = "750px";
+  player.style.height = "305px";
+  document.getElementById("stage").appendChild(player);
+  player.addEventListener("loadedmetadata", function () { console.log("loadedmetadata fired"); });
+  player.addEventListener("loaderror", function (e) { console.error("loaderror:", e && e.detail); });
+  player.addEventListener("error",     function (e) { console.error("error:", e && e.message); });
+  console.log("calling player.load()...");
+  var p = player.load({
+    url: "agd://www.americangirl.com/site/video/7_2sitehome.swf",
+    autoplay: "on",
+    allowScriptAccess: true,
+  });
+  if (p && p.then) {
+    p.then(function () { console.log("load() resolved"); })
+     .catch(function (e) { console.error("load() rejected:", e && (e.message || e)); });
+  } else {
+    console.log("load() returned", p);
+  }
+});
+</script>
+</body>
+</html>

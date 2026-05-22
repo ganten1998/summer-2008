@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>About — American Girl 2008</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="games.css">
+<script src="agd://runtime/volume-control.js"></script>
+</head>
+<body>
+<main class="stage">
+
+  <nav class="topnav">
+    <a class="back" href="agd://dashboard/index.html">‹ Dashboard</a>
+    <span class="crumb"><span class="serif italic">American Girl</span> · About</span>
+  </nav>
+
+  <header class="gallery-head">
+    <p class="tagline">A Preservation Project</p>
+    <h1 class="wordmark">
+      <span class="american">About</span>
+      <span class="girl"> the Archive</span>
+    </h1>
+  </header>
+
+  <article class="prose">
+    <p>
+      This application is a faithful offline snapshot of <span class="serif italic">americangirl.com</span>
+      as it appeared on <strong>11 July 2008</strong> — the era of the <em>Kit Kittredge</em> film,
+      Nicki Fleming as Girl of the Year, and the original lineup of historical characters
+      Felicity, Addy, Kit, Molly, Samantha, Kaya, Josefina, and Kirsten.
+    </p>
+    <p>
+      Every HTML page, stylesheet, and image is pulled from the Internet Archive's Wayback
+      Machine. Every Flash <code>.swf</code> game plays directly inside the launcher window
+      using <em>Ruffle</em>, an open-source Flash emulator (Rust → WebAssembly) — so games
+      load and auto-play exactly as they did in a 2008 browser, without any plugin. A
+      bundled <em>Adobe Flash Player.app</em> projector is included as a fallback for the
+      handful of titles Ruffle hasn't perfected yet.
+    </p>
+    <p class="muted small">
+      Note: a handful of titles (Addy's Mancala, several Kit railway scenes, a few crafts)
+      were authored in Adobe's <em>Shockwave</em> format (<code>.dcr</code>), which is a
+      different runtime that Adobe end-of-lifed in 2019. There is no usable standalone
+      Shockwave projector for modern macOS, so those titles are preserved in the bundle
+      but hidden from the gallery; they can be played in any environment that still has
+      Shockwave Player installed.
+    </p>
+    <p>
+      Where the original snapshots are corrupted or missing, the launcher attempts to
+      pull a repaired copy of the game from the <span class="serif italic">Flashpoint Archive</span>
+      preservation community. Pages that weren't captured in the original mirror are
+      transparently fetched on demand from the Wayback Machine and cached locally so
+      they load instantly next time.
+    </p>
+
+    <h2>How to use</h2>
+    <ul class="tidylist">
+      <li><strong>Enter the Website</strong> — opens the homepage exactly as a visitor would have seen it that summer; Flash hero animations and embedded games auto-play inline.</li>
+      <li><strong>Game Gallery</strong> — a curated index of every playable Flash game we recovered, grouped by character and section. Click any tile to play in the inline viewer.</li>
+      <li><strong>Fallback projector</strong> — if a game shows a crimson "Open in Flash Player" tile, click it to launch the bundled Adobe projector — useful for the few SWFs Ruffle can't render yet.</li>
+    </ul>
+
+    <h2>Credits</h2>
+    <p class="muted">
+      Content © American Girl, LLC — preserved here for nostalgic, archival, and personal
+      use only. Wayback Machine and Flashpoint Archive are independent preservation
+      projects to which this launcher is enormously grateful.
+    </p>
+  </article>
+
+  <footer class="credit">
+    <p>Snapshot anchored at <time>2008-07-11 09:27:43 UTC</time></p>
+  </footer>
+
+</main>
+</body>
+</html>

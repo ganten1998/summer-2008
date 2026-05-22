@@ -1,0 +1,758 @@
+/* AGD-PATCHED v1 */
+/* Stylesheet for American Girl Movie - Felicity 07.11.05 */
+
+/* system classes for background and fonts */ 
+body {
+	font: normal 12px/14px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #222;
+	margin: 0px 0px 0px 0px; 
+	background: #000 url("../images/bkgd.gif") no-repeat fixed 50%;
+	}
+
+div {
+	font: normal 12px/14px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #222;
+	}
+	
+a:link,
+a:visited,
+a:hover,
+a:active { font: 12px/14px "Trebuchet MS", Arial, Helvetica, sans-serif; color: #222; text-decoration: underline; }
+
+.encore {
+	text-align:center;
+	text-transform:uppercase;
+	font: 14px "Trebuchet MS", Arial, sans-serif;
+	color:#042;
+}
+
+.encore sup{
+	font-size: 10px;
+}
+
+/* used for all sections shorter than the background image */
+.bkgd {
+	width: 754px;
+	height: 600px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgd {	margin-top: -5px;
+	}	
+/* */
+	
+.bkgdHome {
+	margin: 0px;
+	}	
+
+/* ie hack to remove top margin \*/
+* html .bkgdHome {	margin-top: -5px;
+	}	
+/* */
+ 
+/* used for all top nav includes */
+.topNav {
+ 	margin: 0px;
+	width: 754px;
+	}
+
+/* used for about the movie upper navigation div */ 
+.aboutNav { 
+	 position: relative;
+	 top: 35px;
+	 left: -5px;
+	 visibility: visible;
+	 }
+
+.aboutSubNav { 
+	 position: relative;
+	 top: 35px;
+	 left: -5px;
+	 visibility: visible;
+	 }
+
+/* used for placement on main about the movie page */
+ 
+#imgAboutMain {
+ 	float: left;
+	position: relative;
+	top: 40px;
+	left: 65px;
+	width: 240px;
+	height: 50px;
+	}
+ 
+#txtAboutMain {
+	font: normal 14px/19px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align: left;
+ 	float: left;
+	position: relative;
+	top: 44px;
+	left: 74px;
+	width: 360px;
+	height: 50px;
+	}
+
+/* pseudo-class for main about the movie text links */
+
+a.txtAbout:link,
+a.txtAbout:visited,
+a.txtAbout:hover,
+a.txtAbout:active {
+	text-decoration: underline;
+	color: #3B0312;
+	}
+
+/* for drop caps */ 
+.dropCap {
+	font: 27px/24px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #333;
+}
+
+/* used for photo gallery */
+.bkgdPhoto {
+	width: 754px;
+	height: 420px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin and make taller \*/
+* html .bkgdPhoto {
+	margin-top: -5px;
+	}	
+/* */
+
+/* used for placement of flash file on photo gallery page */
+#photoMain {
+ 	float: left;
+	position: relative;
+	top: 45px;
+	left: 80px;
+	}
+
+/* \*/
+* html #photoMain {
+ 	float: left;
+	position: relative;
+	margin-top: -5px;
+	}
+/* */
+
+/* used for cast & characters */
+.bkgdCast {
+	width: 754px;
+	height: 1700px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* e hack to remove margin \*/
+* html .bkgdCast {
+	margin-top: -5px;
+	height: 1900px;
+	}	
+/* */
+
+#castContent {
+	float: left;
+	position: relative;
+	top: 54px;
+	left: 67px;
+	width: 617px;
+}
+
+img.ttlCast {
+padding-bottom: 4px;
+}
+
+.txtCastName {
+	font: bold 12px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #2B2B2B;
+	text-align: center;
+	}
+
+img.castChar {
+vertical-align: top;
+}
+
+.charContent {
+	padding-bottom: 10px;
+}
+
+.txtContent {
+	text-align: left;
+	padding-left: 2px;
+}
+
+/* used for photo gallery */
+.bkgdScenes {
+	width: 754px;
+	height: 500px;
+	background:  url("../images/bkgd_tbl.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin and make taller \*/
+* html .bkgdScenes {
+	margin-top: -5px;
+	}	
+/* */
+
+/* used for placement of flash file on photo gallery page */
+#scenesMain {
+ 	float: left;
+	position: relative;
+	top: 41px;
+	left: 51px;
+	}
+
+/* \*/
+* html #scenesMain {
+ 	float: left;
+	position: relative;
+	margin-top: -5px;
+	}
+/* */
+
+/* used for trailer  */
+.bkgdTrailer {
+	width: 754px;
+	height: 450px;
+	background:   url("../images/bkgd_sweeps.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdTrailer {
+	margin-top: -5px;
+	}	
+/* */
+
+/* used for sweeps upper navigation div */ 
+.sweepsNav { 
+	 position: relative;
+	 top: 35px;
+	 left: -5px;
+	 visibility: visible;
+	 }
+
+/* for trailer page */
+#trailerMain {
+	float: left;
+	position: relative;
+	top: 54px;
+	left: 67px;
+	width: 617px;
+	height: 500px;
+}
+
+#leftFleur {
+	float: left;
+	position: relative;
+	top: -150px;
+	left: 129px;
+	}
+	
+#rightFleur {
+	float: left;
+	position: relative;
+	top: -150px;
+	left: 458px;
+	}
+
+#btnQuick { 
+	float: left;
+	position: relative;
+	top: 5px;
+	left: 230px;
+	}
+
+#dvdPromo {
+	float: left;
+	position: relative;
+	top: 50px;
+	left: 133px;
+	}
+
+/* used for felicity's world */
+.bkgdWorld {
+	width: 754px;
+	height: 520px;
+	background:  url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* e hack to remove margin \*/
+* html .bkgdWorld {	margin-top: -5px;
+	}	
+/* */
+
+
+/* used for felicity's world upper navigation div */ 
+.worldNav { 
+	 position: relative;
+	 top: 35px;
+	 left: -5px;
+	 visibility: visible;
+	 }
+
+#txtWorldMain {
+	font: 13px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align: left;
+ 	float: left;
+	position: relative;
+	top: 50px;
+	left: 80px;
+	width: 605px;
+	}
+
+/* for felicity's world thumbnail */
+#worldContent {
+	float: left;
+	position: relative;
+	top: 70px;
+	left: 65px;
+}
+
+/* used for crafts */
+.bkgdCrafts {
+	width: 754px;
+	height: 1200px;
+	background:  url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* e hack to remove margin \*/
+* html .bkgdCrafts {	margin-top: -5px;
+	height: 1200px;
+	}	
+/* */
+
+img.craft {
+	float: right;
+	vertical-align: top;
+}
+
+.mobcap {
+	height: 100px;
+}
+
+#txtCraftsIntro {
+	font: 13px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align: left;
+ 	float: left;
+	position: relative;
+	top: 45px;
+	left: 80px;
+	width: 600px;
+	}
+
+/* for crafts thumbnail */
+#craftsContent {
+	float: none;
+	position: relative;
+	top: 65px;
+	left: 0px;
+	width: 500px;
+}
+
+.txtCrafts {
+	text-align: left;
+	}
+
+p.ttlCrafts { 
+	font: 13px/15px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #222;
+	margin-top: 10px;
+	margin-bottom: -10px;
+	text-align: left;
+	font-weight: bold;
+}
+
+p.hdrCrafts { 
+	margin-bottom: 2px;
+	text-align: left;
+	font-weight: bold;
+}
+
+/* used for wallpaper */
+.bkgdPaper {
+	width: 754px;
+	height: 690px;
+	background:  url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* e hack to remove margin \*/
+* html .bkgdPaper {	margin-top: -5px;
+	}	
+/* */
+
+#txtPaperIntro {
+	font: 13px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align: left;
+ 	float: none;
+	position: relative;
+	top: 45px;
+	left: 0px;
+	width: 605px;
+	}
+
+/* for wallpaper table */
+#paperContent {
+float: none;
+	position: relative;
+	top: 85px;
+	left: 0px;
+}
+
+a.txtPaper:link,
+a.txtPaper:visited,
+a.txtPaper:hover,
+a.txtPaper:active {
+	font: 13px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #111;
+	text-decoration: underline;
+	}
+
+/* used for book excerpts */
+.bkgdBook {
+	width: 754px;
+	height: 2550px;
+	background:    url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdBook {	margin-top: -5px;
+	height: 2900px;
+	}	
+/* */
+
+/* for excerpts thumbnail */
+#bookContent {
+	float: left;
+	position: relative;
+	top: 54px;
+	left: 80px;
+}
+
+.txtBook {
+	text-align: left;
+	width: 550px;
+	}
+
+img.book {
+	float: left;
+	vertical-align: top;
+}
+
+a.lnkBook:link,
+a.lnkBook:visited,
+a.lnkBook:hover,
+a.lnkBook:active { font: 11px/13px "Trebuchet MS", Arial, Helvetica, sans-serif; color: #772432; text-decoration: underline; }
+
+/* used for ecards  */
+.bkgdEcard {
+	width: 754px;
+	height: 620px;
+	background: url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdEcard {
+	margin-top: -5px;
+	}	
+/* */
+
+div.card { 
+	width: 262px;
+	float: left;
+	text-align: left;
+}
+
+#card1 {
+	padding-right: 10px;
+}
+
+/* for ecard content */
+#ecardContent {
+float: none;
+	position: relative;
+	top: 65px;
+	left: 0px;
+}
+
+/* used for ecards  */
+.bkgdViewEcard {
+	width: 754px;
+	height: 520px;
+	background: url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+
+/* ie hack to remove margin \*/
+* html .bkgdViewEcard {
+	margin-top: -5px;
+	}	
+/* */
+
+/* used for puzzles */
+.bkgdPuzzles {
+	width: 754px;
+	height: 680px;
+	background:    url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdPuzzles {	
+	margin-top: -5px;
+	}	
+/* */
+
+/* for puzzles */
+#puzzlesContent {
+	position: relative;
+	top: 45px;
+	left: 0px;
+width: 550px;
+}
+
+.txtPuzzles {
+	text-align: left;
+	width: 400px;
+	padding-left: 10px;
+	}
+	
+.txtPuzzles a { color: #024731; }
+
+.thumb {
+padding-left:10px;
+}
+
+.left {
+	float: left;
+	}
+
+.right {
+	float: left;
+	}
+
+.row {
+	height: 140px;
+	width: 600px;
+	padding-bottom: 10px;
+}
+
+/* used for blog  */
+.bkgdBlog {
+	width: 754px;
+	height: 400px;
+	background:   url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdBlog {
+	margin-top: -5px;
+	}	
+/* */
+
+/* for word table */
+#blogContent {
+	position: relative;
+	top: 45px;
+	left: 0px;
+	width: 400px;
+}
+
+/* used for sweeps */
+.bkgdSweeps {
+	width: 754px;
+	height: 720px;
+	background:   url("../images/bkgd_sweeps.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdSweeps {
+	margin-top: -5px;
+	}	
+/* */
+
+/* used for sweeps upper navigation div */ 
+.sweepsNav { 
+	 position: relative;
+	 top: 35px;
+	 left: -5px;
+	 visibility: visible;
+	 }
+
+/* */
+#sweepsContent {
+	font-size: 12px;
+	line-height: 16px;
+	position: relative;
+	top: 55px;
+	left: 0px;
+	width: 500px;
+}
+
+#sweepsContent a {
+	font-size: 16px;
+}
+
+#sweepsWinner {
+	font-size: 16px;
+	line-height: 20px;
+	color: #024731;
+	}
+
+/* used for poster */
+.bkgdPoster {
+	width: 754px;
+	height: 460px;
+	background:   url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdPoster {	margin-top: -5px;
+	height: 460px;
+	}	
+/* */
+
+#txtPosterIntro {
+	font: 13px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align: left;
+ 	float: left;
+	position: relative;
+	top: 50px;
+	left: 90px;
+	width: 305px;
+	}
+
+#txtPosterIntro a { color: #024731; }
+
+/* for poster thumbnail */
+#posterContent {
+	float: left;
+	position: relative;
+	top: 50px;
+	left: 160px;
+}
+
+/* used for colonial adventure */
+.bkgdGame {
+	width: 754px;
+	height: 630px;
+	background:   url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdGame {
+	margin-top: -5px;
+	}	
+/* */
+
+/* for word table */
+#gameContent {
+	position: relative;
+	top: 45px;
+	left: 1px;
+}
+
+/* used for party planning */
+.bkgdParty {
+	width: 754px;
+	height: 1550px;
+	background:  url("../images/bkgd_world.jpg") no-repeat;
+	margin: 0px;
+	}
+	
+/* ie hack to remove margin \*/
+* html .bkgdParty {
+	height: 1600px; 
+	margin-top: -5px;
+	}	
+/* */
+
+#txtPartyMain {
+	font: 13px/17px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color: #222;
+	text-align: left;
+ 	float: left;
+	position: relative;
+	top: 50px;
+	left: 80px;
+	width: 605px;
+	}
+
+/* for party planning content */
+#partyContent {
+	float: left;
+	position: relative;
+	top: 20px;
+	left: 0px;
+}
+
+img.party {
+	float: left;
+	vertical-align: top;
+	padding-right: 5px;
+}
+
+.hdrParty { 
+	margin-bottom: 2px;
+	text-align: left;
+	font-weight: bold;
+}
+
+#ingred {
+	float: left;
+}
+
+#equip {
+	padding-left: 25px;
+	float: left;
+}
+
+/* the next three classes are for the visibility toggle */
+.toggle {
+	color: #222;
+}
+.hotspot {
+	width: 147px;
+	cursor: pointer;
+}
+.hotspotall {
+	width: 147px;
+	cursor: pointer;
+}
+
+a.lnkThen:link,
+a.lnkThen:visited,
+a.lnkThen:hover,
+a.lnkThen:active { font: 11px/13px "Trebuchet MS", Arial, Helvetica, sans-serif; color: #772432; text-decoration: underline; }
+
+.ftr {
+	font: 10px/12px Arial, Helvetica, sans-serif; 
+	width: 700px;
+	text-align: center;
+	background-color: #fff;
+	}
+	
+a.ftr:link,
+a.ftr:visited,
+a.ftr:hover,
+a.ftr:active { font: 10px/12px Arial, Helvetica, sans-serif; color: #333333; text-decoration: none; }

@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v3 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script>
+<!-- AGD-PATCHED v2 -->
+<script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script>
+<!-- AGD-PATCHED v1 -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>Kit's Railway Adventure</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- #### BEGIN open another browser window #### -->
+<SCRIPT LANGUAGE="JavaScript">
+<!-- In hiding!
+function openWin(URL){
+    var myTools="toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=auto,width=800,height=500";
+    aWindow=window.open(URL,"anotherwindow",myTools);
+}
+//-->
+</SCRIPT>
+<!-- #### END open another browser window #### -->
+<!-- START function to check for valid email address -->
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+// validate that the email address is valid; using JS1.0 as baseline
+function checkEmail(sVal) {
+
+    var iFound;
+    // check for nulls or spaces
+    if ((sVal == null) || (sVal == "")) {
+        return 1;
+    }
+    // search for @ value
+    iFnd = 0;
+    //if (sVal.indexOf('@') == -1) {
+    for (j=0; j < sVal.length; j++) {
+        if (sVal.substring(j,j+1) == "@") {
+            iFnd = 1;
+        }
+        // there can be no spaces
+        if (sVal.substring(j,j+1) == " ") {
+            return 3;
+        }
+    }
+    if (iFnd == 0) {
+        return 2;
+    }
+    // get out of dodge
+    return 0;
+}
+//-->
+</SCRIPT>
+<!-- END function to check for valid email address -->
+<!-- START function to validate data b4 form submit -->
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function checkParms () {
+
+    var to, message;
+	
+    to = document.theform.to.value;
+
+    // check for required data
+    if ((to == null) || (to == "")) {
+           document.theform.to.focus();
+           document.theform.to.select();
+           return false;
+    }
+
+    // if email is no good, bring focus to it
+    if (checkEmail(to) > 0) {
+        document.theform.to.focus();
+        document.theform.to.value = "VALID EMAIL REQUIRED";
+        document.theform.to.select();
+        return false;
+    }
+
+	message = "Hi! <br><br> Thanks for playing Kit's Railway Adventure at ";
+	message = message + "<a href='agd://www.americangirl.com'>www.americangirl.com</a>. The secret <br>";
+	message = message + "clue for the forth train stop, North Dakota's Empire Builder, is 'Frankie'. Keep this clue <br>";
+	message = message + "in a safe place. You'll need it to open the last game in the Adventure.<br><br>";
+	message = message + "Have fun! <br>";
+	message = message + "Your friends at American Girl<br><br>";
+	message = message + "P.S. If you lose this e-mail, you can still get the secret clue by successfully <br>completing the game again! <br>";
+
+	document.theform.MSGCONTENT.value=message;
+
+
+    document.theform.submit();
+    return true;
+}
+//-->
+</SCRIPT>
+<!-- END function to validate data b4 form submit -->
+
+<link href="includes/font.css" rel="stylesheet" type="text/css">
+</HEAD>
+
+<BODY bgcolor="#FFFFCC" onLoad="window.focus();">
+<p>&nbsp;</p><FORM action="agd://www.americangirl.com/__agd/dead-form.html" method="get" NAME="theform" onSubmit="return checkParms();">
+  <div align="center">
+    <br><table width="400" border="0" align="center" cellpadding="5" cellspacing="5">
+      <tr> 
+        <td width="400" align="left" valign="top"><img src="images/mailto_mast.gif" width="193" height="65"></td>
+      </tr>
+      <tr> 
+        <td width="400" align="left" valign="top" class="font"><p class="stdfont">Please 
+            type in your e-mail address (or your parents') and then press SEND 
+            so we may send you your secret clue for safe keeping.</p></td>
+      </tr>
+      <tr> 
+        <td width="400" align="left" valign="top"> <table width="250" border="0" cellspacing="0" cellpadding="0">
+            <tr> 
+              <td><input name="to" type="text" value="my email address" size="22"></td>
+              <td width="54"> <INPUT TYPE="IMAGE" SRC="images/mailto_sendbtn.gif" width="54" height="25" VALUE=" Send " NAME="SUBMIT" ALT=" Send " BORDER="0" onSubmit="return checkParms();"></td>
+            </tr>
+          </table></td>
+      </tr>
+      <tr> 
+        <td width="400" align="left" valign="top" class="stdfont">Please 
+          read our <a href="javascript:openWin('http://www.americangirlstore.com/pls/ag/icm_privacy')">Privacy 
+          Policy</a>.</td>
+      </tr>
+      <tr> 
+        <td width="400" align="left" valign="top" class="stdfont"><div align="right"><a href="pegsolitaire.html"><img src="images/returngamebtn.gif" border="0"></a></div></td>
+      </tr>
+    </table>
+    <br>
+    <INPUT TYPE="HIDDEN" NAME="from" VALUE="Kit's Railway Adventure <kitrail@americangirl.com>">
+    <INPUT TYPE="HIDDEN" NAME="subject" VALUE="AmericanGirl.com: Your Secret Clue for Game #4">
+     <INPUT TYPE="HIDDEN" NAME="location" VALUE="/agcn/kit/railadvn/thanks.html"> 
+    <INPUT TYPE="HIDDEN" NAME="MSGCONTENT" VALUE=""><!-- #BeginLibraryItem "/includes/footer/agc_footer.lbi" -->
+   <br><!-- #BeginLibraryItem "/includes/library/global_fnav.lbi" --><link href="/includes/css/global.css" rel="stylesheet" type="text/css">
+<DIV ALIGN="center"><br>
+<script language="JavaScript" src="/js/footer_popups.js"></script>
+  <A class="fnav" HREF="/emailus/index.html" TARGET="_parent"> E-mail Us</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/corp/index.html" TARGET="_parent">About Our Company</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/tips/index.html" TARGET="_parent">Online Tips</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/site_index.html" TARGET="_parent">Site Map</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" onClick="openTerms()" href="#" >Terms and Conditions</A>
+  <font color="B32447"> / </font>
+  <a class="fnav" onClick="openTrademarks()" href="#" >Trademarks</a>
+  <font color="B32447"> / </font>
+  <A class="fnav" onClick="openPrivacy()" href="#" ><strong>PRIVACY POLICY</strong></A> </DIV>
+<!-- #EndLibraryItem --><!-- #BeginLibraryItem "/includes/library/agc_legal.lbi" --><link href="/includes/css/global.css" rel="stylesheet" type="text/css"> 
+<DIV ALIGN="center"> 
+  <p class="legal"><br>
+    Copyright <SPAN>&copy;</SPAN> 2007 American Girl, LLC. All rights reserved.<BR>
+    The American Girls Collection<SUP>&#174;</SUP>, Kaya<SUP>&#174;</SUP>, Felicity<SUP>&#174;</SUP>, 
+    Josefina<SUP>&#174;</SUP>, Kirsten<SUP>&#174;</SUP>, Addy<SUP>&#174;</SUP>, 
+    Kit <SUP>&#174;</SUP>, and Molly<SUP>&#174;</SUP> are all registered trademarks 
+    of American Girl, LLC.</p>
+</DIV>
+<!-- #EndLibraryItem --><!-- #BeginLibraryItem "/includes/library/web_trends.lbi" --><!-- START OF SmartSource Data Collector TAG --> 
+<!-- Copyright (c) 1996-2007 WebTrends Inc.  All rights reserved. --> 
+<!-- V8.0 --> 
+<!-- $DateTime: 2006/11/30 16:52:27 $ --> 
+<SCRIPT TYPE="text/javascript"><!-- 
+// Code section for Use the new first-party cookie generated with this tag. 
+var gFpc="WT_FPC"; 
+var gConvert=true; 
+var gDomain="statse.webtrendslive.com"; 
+var gDcsId="dcsqohyd4100000w02b923wzx_4k5m"; 
+if ((typeof(gConvert)!="undefined")&&gConvert&&(document.cookie.indexOf(gFpc+"=")==-1)&&(document.cookie.indexOf("WTLOPTOUT=")==-1)){
+
+  document.write("<SCR"+"IPT TYPE='text/javascript' SRC='"+"http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+
+} 
+//--> 
+</SCRIPT> 
+<script src="/js/webtrends8_hosted_ag.js" type="text/javascript"></script> 
+<NOSCRIPT> 
+<IMG ALT="" BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="agd://disabled/webtrendslive <agd://disabled/webtrendslive> ">
+
+</NOSCRIPT> 
+<!-- END OF SmartSource Data Collector  TAG --> 
+<!-- #EndLibraryItem --><!-- #EndLibraryItem --></div>
+</FORM>
+
+
+</BODY>
+</HTML>

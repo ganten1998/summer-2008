@@ -1,0 +1,11 @@
+/* AGD-PATCHED v1 */
+H1 {  font-family: "Times New Roman", Times, serif; font-size: 18px; font-style: normal; font-weight: bold; margin-top: 25px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px}
+H1.guide {  font-family: "Times New Roman", Times, serif; font-size: 20px; font-style: normal; font-weight: bold}
+H1.guideh {	font-family: "Times New Roman", Times, serif; font-size: 20px; font-style: normal; font-weight: bold; margin-top: 25px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px}
+H2 { font-family: "Times New Roman", Times, serif; font-size: 16px; font-style: normal; font-weight: bold; margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px}
+P { font-family: "Times New Roman", Times, serif; font-size: 14px; font-style: normal; font-weight: normal; margin-top: 4px; margin-bottom: 1px; padding-top: 4px; padding-bottom: 1px}
+OL { list-style-type: decimal; font-family: "Times New Roman", Times, serif}
+LI { font-family: "Times New Roman", Times, serif; font-size: 12px; font-weight: normal}
+P.subhead { font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold}
+input { font-family: "Times New Roman", Times, serif; font-size: 12px}
+textarea {  font-family: "Times New Roman", Times, serif; font-size: 12px}

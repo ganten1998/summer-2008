@@ -1,0 +1,83 @@
+<html>
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<title>Behind the Scenes September/October</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<STYLE TYPE="text/css">
+   .plugin { font-family: "Times New Roman", Times, serif; font-size: 11px; color: #9B007C}
+   </STYLE>
+</head>
+<body bgcolor="#FC793D" text="#9B007C" vlink="#9B007C" alink="#9B007C" link="#9B007C">
+<div align="center">
+  <table width="550" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td>
+        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0" width="550" height="400" bgcolor="#FC793D">
+          <param name=movie value="sw/bts_home_so.swf">
+          <param name=quality value=high>
+          <embed src="sw/bts_home_so.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash"  width="550" height="400" bgcolor="#FC793D">
+          </embed> 
+        </object>
+    </td>
+    </tr>
+  </table>
+  <br>
+  <BR>
+  <TABLE width="500" border="0">
+   <TR>
+      <TD>
+      <DIV align="center" class="plugin">TAKE NOTE! To view Behind the Scenes, you need the Flash 5 plug-in 
+      for your browser.<br>See <A HREF="/tools/index.html">Tools for Super Surfers</A> for more information on 
+      how to download this free plug-in.</DIV>
+      </TD>
+   </TR>
+</TABLE>
+</div>
+<br><br><!-- #BeginLibraryItem "/includes/footer/agm_footer.lbi" --><!-- #BeginLibraryItem "/includes/library/global_fnav.lbi" --><link href="/includes/css/global.css" rel="stylesheet" type="text/css">
+<DIV ALIGN="center"><br>
+<script language="JavaScript" src="/js/footer_popups.js"></script>
+  <A class="fnav" HREF="/emailus/index.html" TARGET="_parent"> E-mail Us</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/corp/index.html" TARGET="_parent">About Our Company</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/tips/index.html" TARGET="_parent">Online Tips</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" HREF="/site_index.html" TARGET="_parent">Site Map</A>
+  <font color="B32447"> / </font>
+  <A class="fnav" onClick="openTerms()" href="#" >Terms and Conditions</A>
+  <font color="B32447"> / </font>
+  <a class="fnav" onClick="openTrademarks()" href="#" >Trademarks</a>
+  <font color="B32447"> / </font>
+  <A class="fnav" onClick="openPrivacy()" href="#" ><strong>PRIVACY POLICY</strong></A> </DIV>
+<!-- #EndLibraryItem --><!-- #BeginLibraryItem "/includes/library/agm_legal.lbi" --><link href="/includes/css/global.css" rel="stylesheet" type="text/css">
+<DIV ALIGN="center"> 
+<p class="legal">Copyright &copy; 2007 American Girl, LLC. All rights reserved.<BR>
+American Girl and the American Girl<SUP>&#174;</SUP> magazine logo are registered trademarks of American Girl, LLC.
+</p>
+</DIV>
+<!-- #EndLibraryItem --><!-- #BeginLibraryItem "/includes/library/web_trends.lbi" --><!-- START OF SmartSource Data Collector TAG --> 
+<!-- Copyright (c) 1996-2007 WebTrends Inc.  All rights reserved. --> 
+<!-- V8.0 --> 
+<!-- $DateTime: 2006/11/30 16:52:27 $ --> 
+<SCRIPT TYPE="text/javascript"><!-- 
+// Code section for Use the new first-party cookie generated with this tag. 
+var gFpc="WT_FPC"; 
+var gConvert=true; 
+var gDomain="statse.webtrendslive.com"; 
+var gDcsId="dcsqohyd4100000w02b923wzx_4k5m"; 
+if ((typeof(gConvert)!="undefined")&&gConvert&&(document.cookie.indexOf(gFpc+"=")==-1)&&(document.cookie.indexOf("WTLOPTOUT=")==-1)){
+
+  document.write("<SCR"+"IPT TYPE='text/javascript' SRC='"+"http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+
+} 
+//--> 
+</SCRIPT> 
+<script src="/js/webtrends8_hosted_ag.js" type="text/javascript"></script> 
+<NOSCRIPT> 
+<IMG ALT="" BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="agd://disabled/webtrendslive <agd://disabled/webtrendslive> ">
+
+</NOSCRIPT> 
+<!-- END OF SmartSource Data Collector  TAG --> 
+<!-- #EndLibraryItem --><!-- #EndLibraryItem --></body>
+</html>

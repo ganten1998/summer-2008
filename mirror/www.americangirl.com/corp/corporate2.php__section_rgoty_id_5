@@ -1,0 +1,427 @@
+	
+	
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<!-- jQuery Styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/jquery-ui.css" />
+<script type="text/javascript" src="/corp/js/common.js"></script>
+<script type="text/javascript" src="/corp/js/mootools.svn.js"></script><script type="text/javascript" language="javascript" src="/includes/js/jquery-1.7.2.min.js"></script>
+<script src="/play/includes/js/jquery-ui.1.8.9.min.js"></script>
+<!-- global styles -->
+<link rel="stylesheet" type="text/css" media="all" href="/corp/css/styles.css" />
+<!-- popup styles -->
+<link rel="stylesheet" type="text/css" media="all" href="/corp/css/popups.css" />
+<!-- print styles -->
+<link rel="stylesheet" type="text/css" media="print" href="/corp/css/print.css" /> 				<link href="/includes/styles/common.css" rel="stylesheet" type="text/css"/>	
+		<link href="/includes/styles/header.css" rel="stylesheet" type="text/css"/>
+		<link href="/includes/styles/footer.css" rel="stylesheet" type="text/css"/>
+		<link href="/includes/styles/narrowFooter.css" rel="stylesheet" type="text/css"/>
+		<link href="/includes/styles/narrowHeader.css" rel="stylesheet" type="text/css"/>
+<title>American Girl | Real Girl Of The Year Contest</title>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<!-- Start Tealium tag Header-->
+<script type="text/javascript">
+    (function(a,b,c,d){
+    a='//tags.tiqcdn.com/utag/mattel/americangirl/prod/utag.js';
+    b=document;c='script';d=b.createElement(c);d.src=a;d.type='text/java'+c;d.async=true;
+    a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a);
+    })();
+    var page_utag_data = {};
+</script>
+<!-- End Tealium tag -->
+<div id="header">
+  <div class="sectionBody">
+        <div class="search">
+      <form name="contentSearch" method="GET" action="agd://store.americangirl.com/agshop/html/search">
+        <label for="prodSearch:searchstr">Content Search:</label>
+        <input name="site" value="About American Girl" type="hidden"/>
+        <input name="event" value="search" type="hidden"/>
+        <input name="Ntx" value="mode+matchallpartial" type="hidden"/>
+        <input name="Ntk" value="contentSearch" type="hidden"/>
+        <input name="Nty" value="1" type="hidden"/>
+        <input title="Search" name="Ntt" id="prodSearch:searchstr" type="text" maxlength="50"/>
+        <div class="searchBtn"><a href="#" onclick="document.contentSearch.submit();return false;">Search</a></div>
+      </form>
+    </div>
+        <ul class="globalNav">
+      <li class="agLogo">
+        <a href="/index.php" >
+
+                    </a>
+      </li>
+      <li class="shop"><a href="agd://store.americangirl.com" title="Find the dolls, books, clothes, and accessories that girls love!">Shop</a></li>
+      <li class="play"><a href="/play" title="Great activities that celebrate American girls!">Play</a></li>
+      <li class="stores"><a href="/stores/" title="More than just a store&#8212;it&#8217;s an experience!">Stores</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="pageBody">  
+<div id="maincontainer">
+  <div id="fullcontentwrapper">
+  <!-- MAIN CONTENT -->
+  <div id="fullcontentcolumn">
+    
+    <div id="template2">
+      <div id="breadcrumb"><a href="/corp/">About Us</a> > <a href="/corp/corporate.php?section=new&id=1">What's Happening</a> > Real Girl of the Year Contest 2008</div>
+<link rel="stylesheet" type="text/css" href="/corp/includes/pages/rgoty/2008/realGoty.css">
+<div id="realgirlwrap">
+	<div id="main">
+		<div id="sectionNav">
+			<ul>
+				<li class="selected">Award Home</li>
+				<!--<li><a href="/corp/corporate2.php?section=rgoty&id=4">Contest Rules</a></li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=3">Contest FAQ</a></li>-->
+				<li><a href="agd://www.americangirl.com/goty/2008Mia/">Mia&#8217;s Fun for Girls page</a></li>
+			</ul>
+		</div>
+		<img src="/corp/images/rgoty08/hdr.gif" id="hdr" width="633" height="63" alt="After more than 14,000 girls shared their stories, here are the 2007 Real Girls of the Year" border="0" />
+		<div id="grandPrize"> <img src="/corp/images/rgoty08/imgGrand.jpg" width="730" height="247" border="0" alt="Grand Prize Winners" usemap="#Map" / >
+			<map name="Map">
+				<area shape="rect" coords="51,14,249,235" href="/corp/corporate2.php?section=rgoty&id=6&girl=aisling" title="Meet Aisling, who's dedicated to her sport">
+				<area shape="rect" coords="265,8,463,238" href="/corp/corporate2.php?section=rgoty&id=6&girl=madison" title="Meet Madison Bella, who's dedicated to her dancing">
+				<area shape="rect" coords="485,12,684,235" href="/corp/corporate2.php?section=rgoty&id=6&girl=kelsie" title="Meet Kelsie, dedicated to her sport">
+			</map>
+		</div>
+		<div id="text">
+			<div id="congrats">
+				<p>The 8,000 essays submitted to our contest helped demonstrate that real girls across the country are working to be their best on the field, on stage, and in everyday life.</p>
+				<p>American Girl applauds these girls for their commitment, leadership, and spirit&#8212;and for showing the same award-winning attitude as our 2008 Girl of the Year, <a href="agd://store.americangirl.com/agshop/static/miadoll.jsf/title/Mia/saleGroupId/0/uniqueId/692/nodeId/11/webMenuId/5/LeftMenu/TRUE">Mia</a>.</p>
+				<p>Read on for more exciting stories from our Award Finalists and Honorable Mention Award Winners.  They're sure to bring a smile to your face and encouragement for your passion in life.</p>
+			</div>
+			<div id="list">
+				<h3>Five ideas to help girls shine:</h3>
+				<ul>
+					<li><strong>Make practice a routine</strong>&#8212;add it to your regular schedule</li>
+					<li><strong>Challenge yourself</strong>&#8212;master a skill, then try a new one</li>
+					<li><strong>Teach a skill to learn it</strong>&#8212;you&#8217;ll become even better at it</li>
+					<li><strong>Relax so that you can focus</strong>&#8212;let your body take over</li>
+					<li><strong>Learn from mistakes</strong>&#8212;practice a challenging skill until it&#8217;s easy</li>
+				</ul>
+			</div>
+		</div>
+		<div id="finalists">
+			<h2>Award Finalists</h2>
+			<img src="/corp/images/rgoty08/imgFinalists.jpg" width="750" height="235" border="0" alt="" usemap="#Map2" / >
+			<map name="Map2">
+				<area shape="rect" coords="19,46,143,208" href="/corp/corporate2.php?section=rgoty&id=6&girl=brooke" title="Meet Brooke&#8212;playing through pain">
+				<area shape="rect" coords="145,41,260,209" href="/corp/corporate2.php?section=rgoty&id=6&girl=karyssa" title="Meet Karyssa&#8212;dedicated to dance">
+				<area shape="rect" coords="261,38,380,209" href="/corp/corporate2.php?section=rgoty&id=6&girl=lia" title="Meet Lia&#8212;leading the way to skating success">
+				<area shape="rect" coords="380,47,501,209" href="/corp/corporate2.php?section=rgoty&id=6&girl=mallorie" title="Meet Mallorie&#8212;learning a language out of love">
+				<area shape="rect" coords="500,46,616,209" href="/corp/corporate2.php?section=rgoty&id=6&girl=margaret" title="Meet Margaret&#8212;setting her sights high in judo">
+				<area shape="rect" coords="618,45,736,213" href="/corp/corporate2.php?section=rgoty&id=6&girl=ryan" title="Meet Ryan&#8212;her heart belongs to hockey">
+			</map>
+		</div>
+		<div id="honorable">
+			<h2>Honorable Mention Award Winners</h2>
+			<ul class="col1">
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=ali">Ali</a>: A dancer with desire</li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=angelina">Angelina</a>: A softball sensation</li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=anna">Anna</a>: An instrumental part of her life</li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=clare">Clare</a>: Riding out a tough time</li>
+			</ul>
+			<ul class="col2">
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=dakota">Dakota</a>: A gymnast who gives it her all</li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=emily">Emily</a>: A winner on the ice&#8212;and in life</li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=fiona">Fiona</a>: Staging a theatrical comeback</li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=georgia">Georgia</a>: Acting&#8212;and reacting&#8212;well on stage</li>
+			</ul>
+			<ul class="col3">
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=hannah">Hannah</a>: Pitching in to help her team</li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=kasey">Kasey</a>: Synchronized for a swimming title</li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=kelly">Kelly</a>: Skating circles around disease</li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=6&girl=megan">Megan</a>: Overcoming obstacles on the ice</li>
+			</ul>
+		</div>
+	</div>
+</div>
+    </div><!--template2-->	
+            
+  </div><!-- fullcontent column -->
+  </div><!-- fullcontent wrapper -->
+  </div> <!-- main containter-->	
+</div>
+<!-- FOOTER -->
+<div id="footer"> 
+        <script src="/includes/js/common.js" type="text/javascript"><!--//--></script>
+        <div class="sectionBody">
+                <div id="footerLinks">
+                        <ul id="footerMenu">
+                                <style>ul#footerMenu li {padding: 0 10px;margin-left:0px;}ul#footerMenu {margin:0px;}</style>
+                          <li style="margin-top:-3px;"><a id="_bapw-link" href="#" target="_blank" style="text-decoration:none !important"><img id="_bapw-icon" style="border:0 !important;display:inline !important;vertical-align:middle !important;padding-right:5px !important"/><span style="vertical-align:middle !important">AdChoices</span></a><script>/*<![CDATA[*/(function(){var g=641,i=2097,j=1,a=false,h=document,l=h.getElementById("_bapw-link"),e=(h.location.protocol=="https:"),f=(e?"https":"http")+"://",c=f+"c.betrad.com/pub/",m=window._bap_p_overrides,k=e||(m&&m.hasOwnProperty(g)&&m[g].new_window);function b(n){var d=new Image();d.src=f+"l.betrad.com/pub/p.gif?pid="+g+"&ocid="+i+"&i"+n+"=1&r="+Math.random()}h.getElementById("_bapw-icon").src=c+"icon1.png";l.onmouseover=function(){if(/#$/.test(l.href)){l.href="http://info.evidon.com/pub_info/"+g+"?v=1&nt="+j+"&nw="+(k?"true":"false")}};l.onclick=function(){function d(p,s){var q=h.getElementsByTagName("head")[0]||h.documentElement,o=a,n=h.createElement("script");function r(){n.onload=n.onreadystatechange=null;q.removeChild(n);s()}n.src=p;n.onreadystatechange=function(){if(!o&&(this.readyState=="loaded"||this.readyState=="complete")){o=true;r()}};n.onload=r;q.insertBefore(n,q.firstChild)}if(k){b("c");return true}this.onclick="return "+a;d(f+"ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js",function(){d(c+"pub2.js",function(){BAPW.i(l,{pid:g,ocid:i})})});return a};b("i")}());/*]]>*/</script></li>
+                                <li><a href="agd://store.americangirl.com/static/popups/privacy.html" onClick="openSupplPop('agd://store.americangirl.com/static/popups/privacy.html','600','700');return false;">NEW Privacy Statement</a></li>
+                                <li><a href="agd://store.americangirl.com/static/popups/termsConditions.html" onClick="openSupplPop('agd://store.americangirl.com/static/popups/termsConditions.html','650','800');return false;">UPDATED Terms & Conditions</a></li>
+                                <li><a href="agd://store.americangirl.com/agshop/static/contactUs.jsp">Contact Us</a></li>
+                                <li><a href="/corp/corporate.php?section=new&id=3">For Parents & Teachers</a></li>
+                                <li><a href="http://corporate.mattel.com/careers/default.aspx">Careers</a></li>
+                                <li class="about"><a href="agd://www.americangirl.com/corp/">About American Girl</a></li>
+                                <li class="social">Find Us <a href="http://www.facebook.com/americangirl"><img src="/includes/images/facebook_logo.png" alt="Facebook"></a><a href="http://www.youtube.com/americangirl"><img src="/includes/images/youtube_logo.png" alt="YouTube"></a></li>
+                        </ul>
+                </div>
+                <div id="legal">
+                        <div id="copyright">Copyright &#169; <script type="text/javascript">var d = new Date(); document.write(d.getFullYear());</script> American Girl. All rights reserved. All American Girl marks are <a href="agd://www.americangirl.com/legal/trademarks.php" onclick="openSupplPop('agd://www.americangirl.com/legal/trademarks.php');return false;">trademarks</a> of American Girl.</div>
+                </div>
+				                <div id="rules" style="width:445px; margin-left:155px;">
+					<p style="color:#fff; font-size:11px;">*Subject to complete official rules found at <a href="http://www.facebook.com/americangirl/notes/">http://www.facebook.com/americangirl.</a> NO PURCHASE NECESSARY. MANY WILL ENTER, FEW WILL WIN.</p>
+					<p style="color:#fff; font-size:11px;">Open to legal residents of the 50 US & DC, 18 & older on date of entry. Sweepstakes starts on 6/3/13 at 10 am CDT and ends 8/22/13 at 8:59:59 pm CDT. Void where prohibited.</p>
+				</div>
+                        </div>
+</div>
+<!--START OF  Google Analytics TAG 090810--> 
+<script  src="/js/gaCustom.js" type="text/javascript"></script> 
+<script   type="text/javascript">
+var gaJsHost = (("https:" ===   document.location.protocol) ? "https://ssl." :   "http://www.");
+document.write(unescape("%3Cscript   src='"+gaJsHost+"google-analytics.com/ga.js'   type='text/javascript'%3E%3C/script%3E"));
+</script> 
+<script   type="text/javascript">
+try {
+var pageTracker =   _gat._getTracker("UA-3478296-1");
+pageTracker._setDomainName(".americangirl.com");
+var   gaGifLoc = (("https:" === document.location.protocol) ? "https:" : "http:");
+pageTracker._setLocalGifPath(gaGifLoc+"//ga.americangirl.com/ga_image.gif");
+pageTracker._setLocalRemoteServerMode();
+gaCollectWTCookie();
+gaTrackSearchResults();
+pageTracker._trackPageview();
+}   catch(err) {}
+</script> 
+<!--END OF Google Analytics   TAG--> 
+
+<!-- Start Tealium tag -->
+<script type="text/javascript">	
+	var utag_data = {
+                            page_id : 'AG:US:HOME',                 // Dynamically Retrieved
+                            category_id : 'AG:US',                 // Dynamically Retrieved
+                            search_term : '',                // Dynamically Retrieved
+                            search_result : '',                    //Dynamically Retrieved
+                            division_attr1 :  '' ,           //Hardcoded in Tealium
+                            site_type_attr2 :  '' ,          //Hardcoded in Tealium  
+                            site_country_attr3 : '',       //Hardcoded in Tealium
+                            site_region_attr4 : '',        //Hardcoded in Tealium  
+                            currency_attr6 : '',           //Hardcoded in Tealium
+                            platform_attr5 : 'mobile',                 // Dynamically Retrieved
+                            language_attr7 : 'EN-US',                 // Dynamically Retrieved
+                            site_section_attr8 : '',                 // Dynamically Retrieved
+                            page_name_attr9 : '',                 //  Dynamically Retrieved
+                            page_type_attr10 : '',                 //  Dynamically Retrieved
+                            page_subtype_attr11 : '',                 //  Dynamically Retrieved
+                            referring_url_attr12 : '',                 //  Dynamically Retrieved
+                            requested_url_attr13 : '/corp/corporate2.php?section=rgoty&id=5',                 //  Dynamically Retrieved
+                            ip_address_attr14 : '10.208.210.3',                 //  Dynamically Retrieved
+                            registration_idattr15 : '',                 //  Dynamically Retrieved
+                            brand_attr20 : '',                 //Dynamically Retrieved
+                            number_reviews_attr27  : '',                   //Dynamically Retrieved
+                            average_review_rating_attr28 : '',        //Dynamically Retrieved
+                            search_type_attr29 : '',                   //Dynamically Retrieved
+                            search_refinement_attr30 : '',                //Dynamically Retrieved
+                            
+                            add_to_cart_method_attr17 : "",
+                            add_to_bag_attr17:"",// Dynamically Retrieved
+                            color_attribute_attr18:"",// Dynamically Retrieved
+                            size_attribute_attr19:"",// Dynamically Retrieved
+                            product_id:"",// Dynamically Retrieved
+                            product_name:"",// Dynamically Retrieved
+                            product_sell_price_attr21:"",// Dynamically Retrieved
+                            product_base_price_attr22:"",// Dynamically Retrieved
+                            unit_price : "",
+                            add_to_Cart_sequence_attr23:"",// Dynamically Retrieved
+                            order_id:"",// Dynamically Retrieved
+                            order_subtotal:"",// Dynamically Retrieved
+                            sales_tax:"",// Dynamically Retrieved
+                            order_shipping:"",// Dynamically Retrieved
+                            quantity:"",// Dynamically Retrieved
+                            product_inventory_status_attr25:"",// Dynamically Retrieved
+                            backorder_date_attr26:"",// Dynamically Retrieved
+                            promotion_code_attr31:"",// Dynamically Retrieved
+                            promotion_code_attr32:"",// Dynamically Retrieved
+                            promotion_code_attr33:"",// Dynamically Retrieved
+                            promotion_code_attr34:"",// Dynamically Retrieved
+                            promotion_code_attr35:"",// Dynamically Retrieved
+                            order_date_attr36:"",// Dynamically Retrieved
+                            account_update_date_latest_attr39:"",// Dynamically Retrieved
+                            review_date_latest_attr41:"",// Dynamically Retrieved
+                            review_id_attr42:"",// Dynamically Retrieved
+                            expres_checkout_indicatr_att43:"",// Dynamically Retrieved
+                            saved_paymnt_mthd_indctr_atr44:"",// Dynamically Retrieved
+                            catalog_mailling_indcatr_att46:"",// Dynamically Retrieved
+                            promotional_email_indcatr_at45:"",// Dynamically Retrieved
+                            registration_city:"",// Dynamically Retrieved
+                            registration_state:"",// Dynamically Retrieved
+                            registration_country:"",// Dynamically Retrieved
+                            registration_postal_code:"",// Dynamically Retrieved
+                            login_most_recent_date_attr38:"",// Dynamically Retrieved
+                            login_site_section_attr40:"",// Dynamically Retrieved
+                            registrtion_date_orignal_att37:"",// Dynamically Retrieved
+                            manual_link_href:"",// Dynamically Retrieved
+                            manual_link_link_name:"",// Dynamically Retrieved
+                            event_id:"",// Dynamically Retrieved
+                            event_action_type:"",// Dynamically Retrieved
+                            event_category_ID:"",// Dynamically Retrieved
+                            event_points:"",// Dynamically Retrieved
+                            event_action_attr46:"",// Dynamically Retrieved
+                            event_detail_attr47:"",// Dynamically Retrieved
+                            event_detail_sub_attr48:"",// Dynamically Retrieved
+                            event_length_attr49:"",// Dynamically Retrieved
+                            event_length_full_attr50:"", // Dynamically Retrieved,
+                            event_type:"",
+                            conv_event_id:"",
+                            breadcrumb: "",
+                            _cevent: ""
+                    };
+			if (navigator.appVersion.indexOf("Win")!=-1 || navigator.appVersion.indexOf("Mac") || navigator.appVersion.indexOf("Linux")!=-1 || navigator.appVersion.indexOf("X11")!=-1) {
+                        utag_data.platform_attr5 = 'desktop';
+                    }
+                    utag_data.page_name_attr9 = document.title;
+			
+
+
+	var win_location = window.location.href;
+	cmProcesTagsFromUrl(win_location);	
+	$.extend(utag_data, page_utag_data);
+	
+	function parseUri(str) {
+    	var	o   = {
+    			strictMode: false,
+    			key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+    			q:   {
+    				name:   "queryKey",
+    				parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+    			},
+    			parser: {
+    				strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+    				loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+    			}
+    		};
+
+    	var	m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+    		uri = {},
+    		i   = 14;
+
+    	while (i--) uri[o.key[i]] = m[i] || "";
+
+    	uri[o.q.name] = {};
+    	uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+    		if ($1) uri[o.q.name][$1] = $2;
+    	});
+
+	
+    	return uri;
+    };
+function cmProcesTagsFromUrl(url) {
+	utag_data.page_id = 'AG:US:HOME';
+	utag_data.category_id = 'AG:US';
+	utag_data.site_section_attr8 = '';
+	utag_data.page_type_attr10 = '';
+	utag_data.page_subtype_attr11 = '';
+	if (url.indexOf('?') > 0) {
+		url = url.replace('#', '&');
+	}else {
+		url = url.replace('#', '?');
+	}
+	var win_location_parsed = parseUri(url);
+	var dir_parsed = [];	
+	if (win_location_parsed.directory != ''){
+		dir_parsed = win_location_parsed.directory.toUpperCase().split('/');
+		//alert(dir_parsed);
+		query_parsed = win_location_parsed.query.toUpperCase().split('&');
+		//cat & page id
+		for (var i=0; i < dir_parsed.length; i++){
+			if (dir_parsed[i] != '') {
+				utag_data.category_id += ':' + dir_parsed[i];
+				utag_data.page_id += ':' + dir_parsed[i];
+				if(i == 1) {
+					utag_data.page_type_attr10 = dir_parsed[i];
+				}
+				if(i == 2) {
+					utag_data.page_subtype_attr11 = dir_parsed[i];
+				}
+			}
+		}
+		for (var i=0; i < query_parsed.length; i++){
+			if (query_parsed[i] != '') {
+			//	alert(query_parsed.length);
+				query_parsed_value = query_parsed[i].split('=');
+			//	alert(query_parsed_value);
+				
+				utag_data.category_id += ':' + query_parsed_value[1];
+				
+
+				if(query_parsed.length > 1){
+				if(i == ((query_parsed.length)-1)){
+//alert('value 1 adding now'+ query_parsed_value[1]);
+				utag_data.page_id += ':' + query_parsed_value[1];
+				
+
+					}
+//alert('value 1 adding asasanow'+ query_parsed_value[1]);
+
+				}
+				else if(query_parsed.length <= 1){
+				if(i ==0){
+//alert('value 2 adding now'+ query_parsed_value[1]);
+				utag_data.page_id += ':' + query_parsed_value[1];
+				
+					}
+//alert('value 1 addingdfdsdfd now'+ query_parsed_value[1]);
+
+				}	
+			}		
+			
+		}
+		//site section
+		if (dir_parsed[dir_parsed.length-1] != '') {
+			utag_data.site_section_attr8 = dir_parsed[dir_parsed.length-1];
+		}else if (dir_parsed[dir_parsed.length-2] != '') {
+			utag_data.site_section_attr8 = dir_parsed[dir_parsed.length-2];
+		}
+		//if (utag_data.site_section_attr8 != '') {
+			//utag_data.page_id += ':' + utag_data.site_section_attr8;
+		//}
+		//utag_data.site_section_attr8 = dir_parsed[dir_parsed.length-2];
+		//page type
+		//if (typeof win_location_parsed.queryKey.page != 'undefined') {
+			//utag_data.page_type_attr10 = win_location_parsed.queryKey.page.toUpperCase();
+		//}
+		//if (utag_data.page_type_attr10 != '') {
+			//utag_data.page_id += ':' + utag_data.page_type_attr10;
+		//}
+		//page sub type
+		//if (typeof win_location_parsed.queryKey.popup != 'undefined') {
+			//utag_data.page_subtype_attr11 = win_location_parsed.queryKey.popup.toUpperCase();
+		//}
+		//if (utag_data.page_subtype_attr11 != '') {
+			//utag_data.page_id += ':' + utag_data.page_subtype_attr11;
+		//}
+		if(dir_parsed[2] != '') {
+			utag_data.brand_attr20 = dir_parsed[2];
+		}
+		//page sub type
+		if (utag_data.page_subtype_attr11 == '' && typeof win_location_parsed.file != 'undefined') {
+			filename_parsed = win_location_parsed.file.toUpperCase().split('.');
+			utag_data.page_subtype_attr11 = filename_parsed[0];
+		}
+	}
+//console.log('tirgger nav');		
+}
+
+</script>
+
+
+<script src="/includes/js/tealiumtag.js" type="text/javascript"><!--//--></script>
+<!-- End Tealium tag -->
+  
+
+</body>
+</html>
+
+

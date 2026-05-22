@@ -1,0 +1,183 @@
+	
+	
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		
+<script type="text/javascript" src="/corp/js/common.js"></script>
+<script type="text/javascript" src="/corp/js/mootools.svn.js"></script>
+
+<!-- global styles -->
+<link rel="stylesheet" type="text/css" media="all" href="/corp/css/styles.css" />
+
+<!-- header styles -->
+<link rel="stylesheet" type="text/css" media="all" href="/corp/css/headNav.css" />
+
+<!-- footer styles -->
+<link rel="stylesheet" type="text/css" media="all" href="/corp/css/footNav.css" />
+
+<!-- popup styles -->
+<link rel="stylesheet" type="text/css" media="all" href="/corp/css/popups.css" />
+
+<!-- print styles -->
+<link rel="stylesheet" type="text/css" media="print" href="/corp/css/print.css" />
+
+
+<title>American Girl | Real Girl Of The Year Contest</title>
+</head>
+<body>
+<div id="maincontainer">
+
+<!-- TOP HEADER -->
+<div id="topsection">
+	<!-- GLOBAL NAVIGATION INCLUDE -->
+<div class="header">
+	<a href="#contentwrapper" id="skip" tabindex="0">Skip to Main Content</a>
+	<div class="search">
+		<form name="contentSearch" method="get" action="agd://www.americangirl.com/__agd/dead-form.html">
+			<label for="prodSearch:searchstr">Content Search:</label>
+			<input name="site" value="About American Girl" type="hidden"/>
+			<input name="event" value="search" type="hidden"/>
+			<input name="Ntx" value="mode+matchallpartial" type="hidden"/>
+			<input name="Ntk" value="contentSearch" type="hidden"/>
+			<input name="Nty" value="1" type="hidden"/>
+			<input title="Search" name="Ntt" id="prodSearch:searchstr" 	type="text" maxlength="50"/>
+			<div class="searchBtn"><a href="#" onclick="document.contentSearch.submit();return false;">Search</a></div>
+		</form>
+	</div>
+	<ul class="globalNav">
+		<li class="agLogo"><a href="agd://www.americangirl.com" title="Celebrate old friends and new!">American Girl</a></li>
+		<li class="shop"><a href="agd://store.americangirl.com" title="Find the dolls, books, clothes, and accessories that girls love!">SHOP</a></li>
+		<li class="ffg"><a href="agd://www.americangirl.com/fun.html" title="Great activities that celebrate American girls!">FUN FOR GIRLS</a></li>
+		<li class="mag"><a href="agd://www.americangirl.com/agmg/" title="Check it out&#8212;Subscribe now!">MAGAZINE</a></li>
+		<li class="movies"><a href="agd://www.americangirl.com/movie/" title="See the stories of your favorite American Girls come to life">MOVIES</a></li>
+		<li class="stores"><a href="agd://www.americangirl.com/stores/" title="More than just a store&#8212;it&#8217;s an experience!">STORES</a></li>
+	</ul>
+	
+</div>
+<!-- END GLOBAL NAVIGATION INCLUDE --></div>
+
+<div id="fullcontentwrapper">
+<!-- MAIN CONTENT -->
+<div id="fullcontentcolumn">
+	
+	<div id="template2">
+		<div id="breadcrumb"><a href="/corp/">About Us</a> > <a href="/corp/corporate.php?section=new&id=1">What's Happening</a> > Real Girl of the Year Contest 2007</div>
+<link rel="stylesheet" type="text/css" href="/corp/includes/pages/rgoty/2007/realGoty.css">
+<div id="realgirlwrap">
+	<div id="main">
+		<div id="sectionNav">
+			<ul>
+				<li class="selected">Award Home</li>
+				<!--<li><a href="/corp/corporate2.php?section=rgoty&id=4">Contest Rules</a></li>
+				<li><a href="/corp/corporate2.php?section=rgoty&id=3">Contest FAQ</a></li>-->
+				<li><a href="agd://www.americangirl.com/goty/2007Nicki/">Nicki&#8217;s Fun for Girls page</a></li>
+			</ul>
+		</div>
+		<img src="/corp/images/rgoty/hdr.gif" id="hdr" width="633" height="63" alt="After more than 14,000 girls shared their stories, here are the 2007 Real Girls of the Year" border="0" />
+		<div id="grandPrize"> <img src="/corp/images/rgoty/imgGrand.jpg" width="730" height="247" border="0" alt="Grand Prize Winners" usemap="#Map" / >
+			<map name="Map">
+				<area shape="rect" coords="66,15,264,236" href="/corp/corporate2.php?section=rgoty&id=2&girl=bailey" title="Meet Bailey, who's honoring our soldiers">
+				<area shape="rect" coords="265,6,463,236" href="/corp/corporate2.php?section=rgoty&id=2&girl=madison" title="Meet Madison, who's searching for a cure">
+				<area shape="rect" coords="464,12,663,235" href="/corp/corporate2.php?section=rgoty&id=2&girl=ellen" title="Meet Ellen, who's fundraising for the homeless">
+			</map>
+		</div>
+		<div id="text">
+			<div id="congrats">
+				<h2>Congratulations to girls who are helping in ways that are big and small</h2>
+				<p>Just like Grand-Prize Winners Bailey, Madison, and Ellen, girls across the country are contributing to their families and communities in unique ways, every day. American Girl thanks you for your compassion, creativity, and helpfulness. You&#8217;re truly making a difference&#8212;just like the inspiration for the contest, our 2007 Girl of the Year character, <a href="agd://www.americangirl.com/goty/2007Nicki/index.html">Nicki Fleming</a>. </p>
+				<p>For more inspiring stories, meet the Honorable Mention Award Winners and Finalists, girls whose brightest moments will bring a smile to your face.</p>
+			</div>
+			<div id="list">
+				<h3>Here are 5 easy ways to start helping others, inspired by Real Girl of the Year contest entries:</h3>
+				<ul>
+					<li><strong>Be caring</strong> - Instead of a birthday gift, ask for donations to a favorite charity</li>
+					<li><strong>Be creative</strong> - Send care packages to soldiers serving overseas</li>
+					<li><strong>Be compassionate</strong> - Spend time talking with an elderly neighbor</li>
+					<li><strong>Be responsible</strong> - Write to local officials about an environmental issue</li>
+					<li><strong>Be helpful</strong> - Invite the new kid at school to join your lunch table</li>
+				</ul>
+			</div>
+		</div>
+		<div id="honorable">
+			<h2>Honorable Mention Award Winners</h2>
+			<img src="/corp/images/rgoty/imgHonorable.jpg" width="706" height="226" border="0" alt="Honorable Mentions" usemap="#Map2" / >
+			<map name="Map2">
+				<area shape="rect" coords="4,18,147,211" href="/corp/corporate2.php?section=rgoty&id=2&girl=alexandra" title="Meet Alexandra, who's feeding the hungry">
+				<area shape="rect" coords="148,36,289,218" href="/corp/corporate2.php?section=rgoty&id=2&girl=talia" title="Meet Talia, who's mobilizing kids for charity">
+				<area shape="rect" coords="290,3,425,179" href="/corp/corporate2.php?section=rgoty&id=2&girl=caroline" title="Meet Caroline, who's cooking up donations">
+				<area shape="rect" coords="427,24,562,199" href="/corp/corporate2.php?section=rgoty&id=2&girl=hillary" title="Meet Hillary, who's fulfilling basic needs">
+				<area shape="rect" coords="566,5,701,176" href="/corp/corporate2.php?section=rgoty&id=2&girl=caitlyn" title="Meet Caitlyn, who's socking it to poverty">
+			</map>
+		</div>
+		<div id="finalists">
+			<h2>Finalists</h2>
+			<ul>
+				<li class="col1"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=jordan">Jordan</a>: Crossing language barriers</li>
+				<li class="col1"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=megan">Megan</a>: Creating a volunteer club</li>
+				<li class="col1"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=raegan">Raegan</a>: Giving out school supplies</li>
+				<li class="col1"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=taylor">Taylor</a>: Sewing hats for cancer patients</li>
+				<li class="col1"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=suzanna">Suzanna</a>: Recycling medical equipment</li>
+				<li class="col1"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=nicola">Nicola</a>: Rescuing dogs</li>
+				<li class="col2 colTopper"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=hannah">Hannah</a>: Collecting books for needy kids</li>
+				<li class="col2"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=emily">Emily</a>: Organizing a charitable bike ride</li>
+				<li class="col2"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=jesa">Jesa</a>: Rehabilitating horses</li>
+				<li class="col2"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=eliana">Eliana</a>: Comforting hospitalized kids</li>
+				<li class="col2"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=brianna">Brianna</a>: Skating for a cancer cure</li>
+				<li class="col2"><a href="/corp/corporate2.php?section=rgoty&id=2&girl=emily2">Emily</a>: Rescuing small animals</li>
+			</ul>
+		</div>
+	</div>
+</div>
+	</div><!--template2-->	
+					
+</div><!-- fullcontent column -->
+</div><!-- fullcontent wrapper -->
+
+<!-- FOOTER -->
+<!-- GLOBAL NAVIGATION INCLUDE -->
+<div id="footer" class="footer">
+	<ul id="footerMenu">
+		<li id="priv"><a href="agd://store.americangirl.com/static/popups/privacyPolicy.html" onclick="openPop('agd://store.americangirl.com/static/popups/privacyPolicy.html','600','600');return false;">Privacy Policy</a></li>
+		<li><a href="agd://store.americangirl.com/static/popups/termsConditions.html" onclick="openPop('agd://store.americangirl.com/static/popups/termsConditions.html');return false;">Terms and Conditions</a></li>
+		<li><a href="/corp/corporate.php?section=contact&id=1&amp;type=general">Contact Information</a></li>
+		<li><a href="agd://www.americangirl.com/legal/trademarks.html" onclick="openPop('agd://www.americangirl.com/legal/trademarks.html');return false;">Trademarks</a></li>
+		<li><a href="http://www.mattel.com/careers/">Careers</a></li>
+		<li class="last"><a href="/corp/">About American Girl</a></li>
+	</ul>
+  <p id="copyright">Copyright &#169; 2008 American Girl, LLC. All American Girl marks are trademarks of American Girl, LLC. All rights reserved.</p>
+  <!-- START OF SmartSource Data Collector TAG --> 
+<!-- Copyright (c) 1996-2007 WebTrends Inc.  All rights reserved. --> 
+<!-- V8.0 --> 
+<!-- $DateTime: 2006/11/30 16:52:27 $ --> 
+<SCRIPT TYPE="text/javascript"><!-- 
+// Code section for Use the new first-party cookie generated with this tag. 
+var gFpc="WT_FPC"; 
+var gConvert=true; 
+var gDomain="statse.webtrendslive.com"; 
+var gDcsId="dcsqohyd4100000w02b923wzx_4k5m"; 
+if ((typeof(gConvert)!="undefined")&&gConvert&&(document.cookie.indexOf(gFpc+"=")==-1)&&(document.cookie.indexOf("WTLOPTOUT=")==-1)){
+
+  document.write("<SCR"+"IPT TYPE='text/javascript' SRC='"+"http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+
+} 
+//--> 
+</SCRIPT> 
+<script src="/js/webtrends8_hosted_ag.js" type="text/javascript"></script> 
+<NOSCRIPT> 
+<IMG ALT="" BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="agd://disabled/webtrendslive <agd://disabled/webtrendslive> ">
+
+</NOSCRIPT> 
+<!-- END OF SmartSource Data Collector  TAG --> 
+</div>
+
+</div> <!-- main containter-->	
+
+</body>
+</html>

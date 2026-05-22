@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Customize Your E-Card — Summer 2008</title>
+<script src="agd://runtime/ruffle-boot.js"></script>
+<script src="agd://runtime/ruffle/ruffle.js"></script>
+<script src="agd://runtime/flash-bridge.js"></script>
+<script src="agd://runtime/volume-control.js"></script>
+<style>
+  :root { color-scheme: light; }
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+    background: #FBF6EB;
+    color: #4A2C20;
+    font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  }
+  header.bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px;
+    background: #A6192E; color: #FBF6EB;
+    box-shadow: 0 2px 12px rgba(124,12,31,0.18);
+  }
+  header.bar .meta {
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase; opacity: .85;
+  }
+  header.bar h1 {
+    margin: 0;
+    font-family: 'Hoefler Text', Georgia, serif;
+    font-style: italic; font-weight: 400; font-size: 22px;
+  }
+  header.bar a {
+    color: #FBF6EB; text-decoration: none;
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 600;
+    padding: 6px 14px; border-radius: 999px;
+    background: rgba(255,246,229,0.16);
+  }
+  header.bar a:hover { background: rgba(255,246,229,0.28); }
+
+  main.stage {
+    max-width: 880px; margin: 0 auto; padding: 32px 28px 56px;
+  }
+  section.step { display: none; }
+  section.step.is-active { display: block; }
+
+  .breadcrumb {
+    display: flex; justify-content: center; gap: 28px;
+    font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600;
+    color: #b08c7c; margin-bottom: 24px;
+  }
+  .breadcrumb .crumb {
+    position: relative; padding-bottom: 6px;
+  }
+  .breadcrumb .crumb.is-active { color: #A6192E; }
+  .breadcrumb .crumb.is-active::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #A6192E;
+  }
+  .breadcrumb .crumb.is-done { color: #7C0C1F; opacity: .55; }
+  .breadcrumb .sep {
+    color: #d4c2b6; font-weight: 400;
+  }
+
+  h2.title {
+    text-align: center;
+    font-family: 'Hoefler Text', Georgia, serif;
+    font-style: italic; font-weight: 400;
+    font-size: 36px; color: #7C0C1F;
+    margin: 0 0 8px;
+  }
+  p.lede {
+    text-align: center; color: #6a4d40;
+    font-size: 14px; max-width: 540px; margin: 0 auto 28px;
+  }
+
+  .ecard-frame {
+    background: #000;
+    border-radius: 8px; overflow: hidden;
+    box-shadow: 0 16px 50px rgba(124,12,31,0.22), 0 4px 10px rgba(124,12,31,0.16);
+    margin: 0 auto 28px;
+    width: 600px; height: 350px;
+  }
+  .ecard-frame iframe {
+    display: block; width: 600px; height: 350px;
+    border: 0; background: #000;
+  }
+  .ecard-frame ruffle-player { display: block; width: 600px; height: 350px; }
+
+  form .field {
+    margin-bottom: 16px;
+  }
+  form .field label {
+    display: block;
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    font-weight: 600; color: #7C0C1F; margin-bottom: 6px;
+  }
+  form .field input[type="email"],
+  form .field input[type="text"],
+  form .field textarea {
+    width: 100%; box-sizing: border-box;
+    padding: 11px 14px;
+    background: #FFFCF4;
+    border: 1px solid rgba(124,12,31,0.20);
+    border-radius: 6px;
+    font-size: 14px; color: #4A2C20;
+    font-family: 'Hoefler Text', Georgia, serif;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  form .field input:focus, form .field textarea:focus {
+    border-color: #A6192E;
+    box-shadow: 0 0 0 3px rgba(166,25,46,0.12);
+  }
+  form .field textarea {
+    font-style: italic;
+    min-height: 96px; resize: vertical;
+  }
+  /* Placeholder text: light italic, fades on focus. Mirrors the 2008
+     "Your personal message goes here..." hint that originally lived in
+     the SWF's default state — keeps the visual rhythm without
+     polluting the textarea's value. */
+  form .field textarea::placeholder {
+    color: rgba(124,12,31,0.32);
+    font-style: italic;
+    opacity: 1;
+  }
+  form .field textarea:focus::placeholder {
+    color: rgba(124,12,31,0.18);
+  }
+  form .field .date-row {
+    display: flex; gap: 10px;
+  }
+  form .field select {
+    padding: 11px 14px;
+    background: #FFFCF4;
+    border: 1px solid rgba(124,12,31,0.20);
+    border-radius: 6px;
+    font-size: 14px; color: #4A2C20;
+    font-family: 'Hoefler Text', Georgia, serif;
+    cursor: pointer;
+    outline: none;
+  }
+  form .grid-2 {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px;
+  }
+
+  .field-error {
+    margin-top: 6px; font-size: 12px; color: #A6192E; min-height: 14px;
+  }
+
+  .actions {
+    display: flex; justify-content: center; gap: 12px; margin-top: 28px; flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 11px 24px; border-radius: 999px;
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 600;
+    cursor: pointer; text-decoration: none; border: 1px solid transparent;
+    font-family: -apple-system, 'SF Pro Text', sans-serif;
+    transition: filter .12s ease, background .12s ease;
+  }
+  .btn-primary { background: #A6192E; color: #FBF6EB; }
+  .btn-primary:hover { filter: brightness(1.06); }
+  .btn-ghost { background: transparent; color: #A6192E; border-color: #A6192E; }
+  .btn-ghost:hover { background: rgba(166,25,46,0.08); }
+  .btn-cream { background: #FFFCF4; color: #7C0C1F; border-color: rgba(124,12,31,0.20); }
+  .btn-cream:hover { background: #F8EFD9; }
+
+  /* Preview metadata card (step 2/3) */
+  .email-card {
+    max-width: 600px; margin: 0 auto 24px;
+    background: #FFFCF4;
+    border: 1px solid rgba(124,12,31,0.16);
+    border-radius: 10px;
+    padding: 18px 22px;
+    box-shadow: 0 4px 14px rgba(124,12,31,0.08);
+  }
+  .email-card .row {
+    display: grid; grid-template-columns: 80px 1fr;
+    padding: 8px 0;
+    font-size: 13.5px;
+    border-bottom: 1px dashed rgba(124,12,31,0.12);
+  }
+  .email-card .row:last-child { border-bottom: 0; }
+  .email-card .row .lbl {
+    color: #7C0C1F; font-weight: 600;
+    font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
+    align-self: center;
+  }
+  .email-card .row .val {
+    color: #4A2C20; word-break: break-word;
+  }
+  .email-card .message-body {
+    margin-top: 10px; padding-top: 14px;
+    border-top: 1px solid rgba(124,12,31,0.16);
+    font-family: 'Hoefler Text', Georgia, serif; font-style: italic;
+    color: #5a3a2e; line-height: 1.5; white-space: pre-wrap;
+  }
+
+  /* Sent confirmation flourish */
+  .stamp {
+    display: inline-block;
+    padding: 6px 16px; border: 1.5px solid #A6192E; color: #A6192E;
+    font-size: 11px; letter-spacing: .28em; text-transform: uppercase; font-weight: 700;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .ribbon-note {
+    background: rgba(166,25,46,0.06);
+    border-left: 3px solid #A6192E;
+    padding: 12px 16px; font-size: 13px; color: #6a4d40;
+    margin: 18px auto; max-width: 540px; text-align: left; border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <h1>Customize Your E-Card</h1>
+  <span class="meta">E-Card Central · Summer 2008</span>
+  <a id="cancel-link" href="agd://www.americangirl.com/ecards/index.php">Back to E-Cards</a>
+</header>
+
+<main class="stage">
+  <nav class="breadcrumb" id="crumbs">
+    <span class="crumb is-active" data-crumb="1">1 · Customize</span>
+    <span class="sep">—</span>
+    <span class="crumb" data-crumb="2">2 · Preview</span>
+    <span class="sep">—</span>
+    <span class="crumb" data-crumb="3">3 · Send</span>
+  </nav>
+
+  <!-- ─────────────────── Step 1: Customize ─────────────────── -->
+  <section class="step is-active" data-step="1">
+    <h2 class="title">Add Your Personal Touch</h2>
+    <p class="lede">Write a message, tell us who it's for, and pick when it should arrive.</p>
+
+    <div class="ecard-frame" id="frame-1"></div>
+
+    <form id="customize-form" novalidate>
+      <div class="grid-2">
+        <div class="field">
+          <label for="recipient_email">Recipient's Email</label>
+          <input id="recipient_email" name="recipient_email" type="email" autocomplete="off" required>
+          <div class="field-error" data-err="recipient_email"></div>
+        </div>
+        <div class="field">
+          <label for="sender_name">Your Name</label>
+          <input id="sender_name" name="sender_name" type="text" autocomplete="off" required>
+          <div class="field-error" data-err="sender_name"></div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" required
+                  placeholder="Your personal message goes here..."></textarea>
+        <div class="field-error" data-err="message"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="sender_email">Your Email</label>
+          <input id="sender_email" name="sender_email" type="email" autocomplete="off" required>
+          <div class="field-error" data-err="sender_email"></div>
+        </div>
+        <div class="field">
+          <label>Send Date</label>
+          <div class="date-row">
+            <select id="month" name="month"></select>
+            <select id="day"   name="day"></select>
+            <select id="year"  name="year"></select>
+          </div>
+          <div class="field-error" data-err="date"></div>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Preview »</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ─────────────────── Step 2: Preview ─────────────────── -->
+  <section class="step" data-step="2">
+    <h2 class="title">Here's What They'll See</h2>
+    <p class="lede">Take one last look. You can go back to make changes, or send it on.</p>
+
+    <div class="ecard-frame" id="frame-2"></div>
+
+    <div class="email-card">
+      <div class="row"><div class="lbl">To</div>      <div class="val" id="prev-recipient"></div></div>
+      <div class="row"><div class="lbl">From</div>    <div class="val" id="prev-sender"></div></div>
+      <div class="row"><div class="lbl">Send on</div> <div class="val" id="prev-date"></div></div>
+      <div class="message-body" id="prev-message"></div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-ghost"   data-action="back">« Back to Edit</button>
+      <button type="button" class="btn btn-primary" data-action="send">Send »</button>
+    </div>
+  </section>
+
+  <!-- ─────────────────── Step 3: Sent ─────────────────── -->
+  <section class="step" data-step="3">
+    <div style="text-align:center;">
+      <span class="stamp">E-Card Queued</span>
+    </div>
+    <h2 class="title">Your E-Card Is On Its Way</h2>
+    <p class="lede">Saved locally and ready to send. To deliver it for real, open it in your mail app below.</p>
+
+    <div class="email-card">
+      <div class="row"><div class="lbl">To</div>      <div class="val" id="sent-recipient"></div></div>
+      <div class="row"><div class="lbl">From</div>    <div class="val" id="sent-sender"></div></div>
+      <div class="row"><div class="lbl">Send on</div> <div class="val" id="sent-date"></div></div>
+    </div>
+
+    <div class="actions">
+      <a id="mailto-link" href="#" class="btn btn-primary">Open in Mail to send »</a>
+      <button type="button" class="btn btn-cream" data-action="another">Send Another</button>
+      <a class="btn btn-ghost" href="agd://www.americangirl.com/ecards/index.php">Done</a>
+    </div>
+
+    <p class="ribbon-note">
+      The 2008 server-side mail delivery was retired by American Girl long ago. Hitting <em>Open in Mail to send</em>
+      composes the message in your default Mac mail client so the e-card actually goes out — under your own account,
+      from your own address.
+    </p>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  // ───────── parse incoming state from URL ─────────
+  var qp = new URLSearchParams(location.search);
+  var SWF_URL   = qp.get("swf")   || "";
+  var ECARD_ID  = qp.get("id")    || qp.get("ecard_id") || "";
+  var ECARD_KEY = qp.get("ecard") || "";
+  var THEME     = qp.get("theme") || "";
+  var SOURCE    = qp.get("from")  || "";  // back-link target
+  var INITIAL_MSG = qp.get("msg") || extractMsg(SWF_URL) || "";
+
+  function extractMsg(url) {
+    if (!url) return "";
+    var m = url.match(/[?&]personalMsg=([^&]*)/);
+    if (!m) return "";
+    try { return decodeURIComponent(m[1].replace(/\+/g, " ")); }
+    catch (e) { return m[1]; }
+  }
+
+  // Match 2008-era form-URL encoding: spaces → "+", but commas/periods/
+  // apostrophes stay literal. encodeURIComponent's `%2C` for commas
+  // appears to have tripped at least one ecard SWF's ActionScript string
+  // parser; keeping commas literal mirrors what the original site did.
+  function softEncode(s) {
+    return String(s || "")
+      .replace(/%/g, "%25")  // first — every other % later is intentional
+      .replace(/&/g, "%26")
+      .replace(/=/g, "%3D")
+      .replace(/\?/g, "%3F")
+      .replace(/#/g, "%23")
+      .replace(/\+/g, "%2B")
+      .replace(/ /g, "+");
+  }
+  function withMessageEncoded(url, msg) {
+    if (!url) return url;
+    var enc = softEncode(msg);
+    if (/[?&]personalMsg=/.test(url)) {
+      return url.replace(/([?&]personalMsg=)[^&]*/, "$1" + enc);
+    }
+    return url + (url.indexOf("?") < 0 ? "?" : "&") + "personalMsg=" + enc;
+  }
+
+  // ───────── breadcrumb + step navigation ─────────
+  function gotoStep(n) {
+    document.querySelectorAll("section.step").forEach(function (s) {
+      var thisActive = String(s.dataset.step) === String(n);
+      s.classList.toggle("is-active", thisActive);
+      // Quietly stop preview iframes in steps we're leaving — point them
+      // at about:blank first so Ruffle's WASM tears down cleanly. Yanking
+      // an iframe out of the DOM while its WASM is mid-init has been
+      // observed to crash the WebKit content process (instant blank app).
+      // Defer the actual element removal so we never race with WASM.
+      if (!thisActive) {
+        s.querySelectorAll(".ecard-frame iframe").forEach(function (f) {
+          try { f.src = "about:blank"; } catch (e) {}
+        });
+      }
+    });
+    document.querySelectorAll("#crumbs .crumb").forEach(function (c) {
+      var num = parseInt(c.dataset.crumb, 10);
+      c.classList.toggle("is-active", num === n);
+      c.classList.toggle("is-done", num < n);
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // ───────── date dropdowns ─────────
+  var MONTHS = ["January","February","March","April","May","June",
+                "July","August","September","October","November","December"];
+  function populateDate() {
+    var today = new Date();
+    var monthSel = document.getElementById("month");
+    var daySel   = document.getElementById("day");
+    var yearSel  = document.getElementById("year");
+    for (var m = 0; m < 12; m++) {
+      var o = document.createElement("option");
+      o.value = String(m + 1).padStart(2, "0");
+      o.textContent = MONTHS[m];
+      if (m === today.getMonth()) o.selected = true;
+      monthSel.appendChild(o);
+    }
+    for (var d = 1; d <= 31; d++) {
+      var o = document.createElement("option");
+      o.value = String(d).padStart(2, "0");
+      o.textContent = String(d).padStart(2, "0");
+      if (d === today.getDate()) o.selected = true;
+      daySel.appendChild(o);
+    }
+    var y0 = today.getFullYear();
+    for (var y = y0; y <= y0 + 1; y++) {
+      var o = document.createElement("option");
+      o.value = String(y); o.textContent = String(y);
+      if (y === y0) o.selected = true;
+      yearSel.appendChild(o);
+    }
+  }
+
+  // ───────── isolated ecard preview per step ─────────
+  // We render each step's preview inside an iframe that points at
+  // mirror-runtime/ecard-frame.html?swf=&msg=. Each iframe gets its own
+  // browsing context and its own Ruffle WASM instance — no contention
+  // with the other step's preview, which was the trigger for Ruffle's
+  // "Something went wrong" panic when both Step 1 and Step 2 had live
+  // players at the same time.
+  function mountRuffle(containerId, url, msg) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = "";
+    var iframe = document.createElement("iframe");
+    iframe.width = "600";
+    iframe.height = "350";
+    // Strip personalMsg from the swf URL — the frame page splices in
+    // whatever message we pass via the &msg= query.
+    var cleanSwf = url.replace(/([?&])personalMsg=[^&]*/, "$1").replace(/[?&]$/, "");
+    var src = "agd://www.americangirl.com/__agd/ecard-frame.html"
+            + "?swf=" + encodeURIComponent(cleanSwf)
+            + "&msg=" + encodeURIComponent(msg || "");
+    iframe.src = src;
+    container.appendChild(iframe);
+  }
+
+  // ───────── form state ─────────
+  var state = {
+    recipient_email: "",
+    sender_name: "",
+    sender_email: "",
+    message: INITIAL_MSG,
+    month: "", day: "", year: "",
+  };
+
+  // ───────── validation ─────────
+  function isValidEmail(s) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((s || "").trim());
+  }
+  function setError(name, msg) {
+    var el = document.querySelector('[data-err="' + name + '"]');
+    if (el) el.textContent = msg || "";
+  }
+  function clearErrors() {
+    document.querySelectorAll(".field-error").forEach(function (e) { e.textContent = ""; });
+  }
+  function readForm() {
+    var f = document.getElementById("customize-form");
+    state.recipient_email = f.recipient_email.value.trim();
+    state.sender_name     = f.sender_name.value.trim();
+    state.sender_email    = f.sender_email.value.trim();
+    state.message         = f.message.value;
+    state.month           = f.month.value;
+    state.day             = f.day.value;
+    state.year            = f.year.value;
+  }
+  function validate() {
+    clearErrors();
+    var ok = true;
+    if (!isValidEmail(state.recipient_email)) { setError("recipient_email", "Please enter a valid email address."); ok = false; }
+    if (!state.sender_name)                   { setError("sender_name",     "Please enter your name.");             ok = false; }
+    if (!isValidEmail(state.sender_email))    { setError("sender_email",    "Please enter a valid email address."); ok = false; }
+    if (!state.message.trim())                { setError("message",         "Please write a message.");             ok = false; }
+    // Send date in the past?
+    var sendDate = new Date(parseInt(state.year, 10), parseInt(state.month, 10) - 1, parseInt(state.day, 10), 12, 0, 0);
+    var today = new Date(); today.setHours(0,0,0,0);
+    if (sendDate < today) { setError("date", "Send date can't be in the past."); ok = false; }
+    return ok;
+  }
+
+  // ───────── Step 2/3 presentation ─────────
+  function formatDate(state) {
+    var d = new Date(parseInt(state.year, 10), parseInt(state.month, 10) - 1, parseInt(state.day, 10), 12, 0, 0);
+    return d.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  }
+  function renderPreview() {
+    document.getElementById("prev-recipient").textContent = state.recipient_email;
+    document.getElementById("prev-sender").textContent    = state.sender_name + "  ⟨" + state.sender_email + "⟩";
+    document.getElementById("prev-date").textContent      = formatDate(state);
+    document.getElementById("prev-message").textContent   = state.message;
+    mountRuffle("frame-2", SWF_URL, state.message);
+  }
+  function renderSent() {
+    document.getElementById("sent-recipient").textContent = state.recipient_email;
+    document.getElementById("sent-sender").textContent    = state.sender_name + "  ⟨" + state.sender_email + "⟩";
+    document.getElementById("sent-date").textContent      = formatDate(state);
+    // Build a mailto: that opens the user's default mail client with the
+    // message ready to actually send.
+    var subj = (state.sender_name || "A friend") + " sent you an American Girl e-card";
+    var body = [
+      "Hi!",
+      "",
+      state.message,
+      "",
+      "— " + state.sender_name,
+      "",
+      "(Sent from Summer 2008 — An American Girl Archive. The animated greeting",
+      "card was part of americangirl.com's 2008 e-card central. View it in the",
+      "archive app at:",
+      "agd://www.americangirl.com/ecards/choose.php?ecard=" + encodeURIComponent(ECARD_KEY) +
+        "&action=choose&theme=" + encodeURIComponent(THEME) +
+        ")",
+    ].join("\n");
+    var href = "mailto:" + encodeURIComponent(state.recipient_email) +
+               "?subject=" + encodeURIComponent(subj) +
+               "&body="    + encodeURIComponent(body);
+    document.getElementById("mailto-link").setAttribute("href", href);
+  }
+
+  // ───────── wiring ─────────
+  populateDate();
+  // Step 1's ecard preview shows the SWF in its default state — the
+  // original "Your personal message goes here..." placeholder text
+  // baked into the embed URL. The textarea below stays EMPTY so the
+  // light-italic placeholder hint reads correctly; the user types a
+  // real message before previewing.
+  mountRuffle("frame-1", SWF_URL, INITIAL_MSG);
+
+  document.getElementById("customize-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    readForm();
+    if (!validate()) return;
+    renderPreview();
+    gotoStep(2);
+  });
+
+  document.querySelector('[data-action="back"]').addEventListener("click", function () {
+    gotoStep(1);
+  });
+  document.querySelector('[data-action="send"]').addEventListener("click", function () {
+    renderSent();
+    gotoStep(3);
+  });
+  document.querySelector('[data-action="another"]').addEventListener("click", function () {
+    // Soft reset: keep sender's info, clear recipient + message for the next card
+    state.recipient_email = "";
+    state.message = INITIAL_MSG;
+    var f = document.getElementById("customize-form");
+    f.recipient_email.value = "";
+    f.message.value = INITIAL_MSG;
+    clearErrors();
+    gotoStep(1);
+  });
+
+  // Cancel link points back to the ecard wrapper if a source was given.
+  if (SOURCE) {
+    document.getElementById("cancel-link").setAttribute("href", SOURCE);
+  } else if (ECARD_KEY) {
+    document.getElementById("cancel-link").setAttribute(
+      "href",
+      "agd://www.americangirl.com/ecards/choose.php?ecard=" + encodeURIComponent(ECARD_KEY) +
+        "&action=choose&theme=" + encodeURIComponent(THEME)
+    );
+  }
+})();
+</script>
+</body>
+</html>

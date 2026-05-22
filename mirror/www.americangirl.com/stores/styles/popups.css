@@ -1,0 +1,160 @@
+/* AGD-PATCHED v1 */
+body.popup {
+	margin: 0 auto;
+	text-align: left;
+}
+
+#popupContent {
+padding: 0 20px;
+}
+
+body.popup ul {
+margin:0;
+padding: 0 0 20px 20px;
+}
+
+
+body.popup #logoTitle {
+	position: relative;
+	width: 100%;
+	background-color: #E00034;
+	color: #fff;
+}
+
+body.popup #logoTitle p {
+	font-size: 100%;
+	display: inline;
+	position: absolute;
+	left: 180px;
+	top: 18px;
+	font: 110% "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-transform:uppercase;
+	font-weight:bold;
+}
+
+.popup #print {
+	float:right;
+}
+
+#popupContent {
+	clear:both;
+}
+
+#popupContent h2 {
+	text-transform:uppercase;
+	font-size:110%;
+}
+
+.popup h1 {
+	font-weight:normal;
+	color:#80379B;
+	font-size:130%;
+	text-transform:uppercase;
+}
+.popup h3 {
+margin-bottom:0;
+}
+.popup h4 {
+margin-bottom:0;
+}
+
+body.popup .closeWindow {
+	clear: both;
+	text-align: center;
+	padding: 25px 0;
+	}
+
+	body.popup .closeWindow a {
+		font: 70% Arial, Helvetica, sans-serif;
+		color: #FFF;
+		text-decoration: none;
+		font-weight: bold;
+		background: #990033 url(../images/btnShadow.gif) bottom right;
+		padding: 5px 12px 9px 8px;
+		}
+    
+@media print {
+	body.popup .closeWindow,  .popup #print{
+  	display:none;
+	}
+}
+		
+
+/*****  Events *********/
+
+.popup .event h1 {
+	text-transform: none;
+}
+.popup ul.datesTimesInfo {
+	list-style-type:none;
+	list-style-image:none;
+	padding-bottom:10px;
+	xmargin-left:-20px;
+}
+.popup ul.datesTimesInfo span.monthDay {
+	font-weight:bold;
+}
+.popup .generalInfo h3.info {
+	margin:0;
+	padding:15px 0 0 0;
+	font-size:95%;
+	xfont-weight:normal;
+}
+.popup div.generalInfo {
+	background:url(../images/border_horiz.gif) repeat-x top left;
+	margin: 15px 0;
+	
+}
+.popup p.dates {
+font-weight: bold;
+}
+.popup p.times {
+margin-top:-0.8em;
+}
+.popup ul.datesTimesInfo {
+margin-left:-15px;
+}
+.popup ul.datesTimesInfo li {
+background-image:none;
+}
+
+.soldOut {
+text-transform:uppercase;
+font-weight:bold;
+}
+
+/****** Local Accomodations *****/
+#popupContent ol {
+	font-weight:bold;
+}
+#popupContent ol li {
+	padding-bottom:5px;
+}
+#popupContent ol li span {
+	font-weight:normal;
+}
+
+/* Driving Diretions */
+body.drivingDirections h3 {
+  margin:0;
+  padding:0;
+  font-size:90%;
+}
+body.drivingDirections #address {
+	padding-bottom:10px;
+}
+body.drivingDirections ul {
+  margin-left:-5px ;
+  padding-bottom:10px;
+}
+
+/* seating chart */
+#seatingChart #popupContent{
+	text-align:center;
+}
+
+#seatingChart #popupContent h1,
+#seatingChart #popupContent h2{
+	text-align:left;
+}
+

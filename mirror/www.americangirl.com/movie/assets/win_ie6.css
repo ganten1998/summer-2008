@@ -1,0 +1,28 @@
+/* AGD-PATCHED v1 */
+#wrapper #auditions {
+	top:324px;
+}
+
+#kitTeaser p {
+	top: 60px;
+}
+
+#stories {
+	top:100px;
+}
+
+#characters div {
+	height: 200px;
+}
+
+#characters p {
+	margin-top:-3px;
+}
+
+#felicity {
+	top:-192px;
+}
+
+#samantha {
+	top:-394px;
+	}

@@ -1,0 +1,36 @@
+/* AGD-PATCHED v1 */
+/* for Age Warning */
+
+a {
+	color: #903;
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
+#ageWarning{
+	position: absolute;/*required*/
+	border:1px solid #FFE3F6;
+	width: 218px;	
+	background: #fff url(images/warnStars.gif) no-repeat bottom right;
+	text-align:center;
+}
+  #ageWarningContent {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background: transparent url(images/warnX.gif) no-repeat 200px 6px;  
+  }
+  #ageWarningContent p {
+	margin: 10px 18px;	
+	}
+		
+  #ageWarningContent p.eighteen {
+  	font-weight:bold;
+    }
+  
+  #ageWarningContent a {
+  	font-weight:bold;
+	color:#903;}
+  a.ageWarningTrigger{}

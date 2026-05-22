@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>E-Card Preview</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+  body { width: 600px; height: 350px; }
+  embed, ruffle-player { display: block; width: 600px; height: 350px; }
+  .err {
+    color: #FBF6EB; background: #7C0C1F; font-family: -apple-system, sans-serif;
+    font-size: 12px; padding: 16px; text-align: center;
+  }
+</style>
+<script>
+// Splice the user's typed message into the SWF URL BEFORE Ruffle's polyfill
+// runs, so the <embed> we render below has the right personalMsg.
+(function () {
+  "use strict";
+  var qp = new URLSearchParams(location.search);
+  var swf = qp.get("swf") || "";
+  var msg = qp.get("msg");
+  if (msg == null) msg = "";
+  // 2008-era form-URL encoding: keep commas/periods literal, only encode
+  // the characters that genuinely break query-string parsing.
+  function softEncode(s) {
+    return String(s || "")
+      .replace(/%/g, "%25").replace(/&/g, "%26").replace(/=/g, "%3D")
+      .replace(/\?/g, "%3F").replace(/#/g, "%23").replace(/\+/g, "%2B")
+      .replace(/ /g, "+");
+  }
+  if (swf) {
+    var enc = softEncode(msg);
+    if (/[?&]personalMsg=/.test(swf)) {
+      swf = swf.replace(/([?&]personalMsg=)[^&]*/, "$1" + enc);
+    } else {
+      swf += (swf.indexOf("?") < 0 ? "?" : "&") + "personalMsg=" + enc;
+    }
+  }
+  window.__AGD_FRAME_SWF__ = swf;
+})();
+</script>
+<script src="agd://runtime/ruffle-boot.js"></script>
+<script src="agd://runtime/ruffle/ruffle.js"></script>
+<script src="agd://runtime/flash-bridge.js"></script>
+</head>
+<body>
+<!-- Plain Flash <embed> — Ruffle's polyfill + our flash-bridge safety net
+     replace this with a working <ruffle-player>, the exact same code
+     path the ecard wrapper page uses (where playback already works).
+     Doing this via Ruffle's createPlayer() API directly was hitting
+     "Something went wrong" panics on every Step 2 preview. -->
+<script>
+document.write(
+  '<embed src="' + (window.__AGD_FRAME_SWF__ || "") + '" ' +
+  'type="application/x-shockwave-flash" width="600" height="350" ' +
+  'quality="high" bgcolor="#FFFFFF">'
+);
+</script>
+<script>
+window.addEventListener("error", function (e) {
+  try { parent.postMessage({ kind: "ecard-frame-error", msg: e.message + " @ " + (e.filename || "") + ":" + (e.lineno || "") }, "*"); } catch (x) {}
+});
+</script>
+</body>
+</html>

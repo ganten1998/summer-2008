@@ -1,0 +1,3 @@
+/* AGD-PATCHED v1 */
+ol { list-style-type: decimal; font-family: Arial, Helvetica, sans-serif}
+ol.agc { list-style-type: decimal; font-family: "Times New Roman", Times, serif; font-style: normal}

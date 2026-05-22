@@ -1,0 +1,509 @@
+/* AGD-PATCHED v1 */
+/* Stylesheet for Special Events */
+
+/* used for all pages */
+
+body {
+	text-align:center;
+}
+
+#content {
+	font: 12px Arial, sans-serif;
+	color: #333;
+	width: 750px;
+	margin: 0 auto;
+	position: relative;
+}
+
+h1 {
+	position:absolute; 
+	left:0px; 
+	top:-500px; 
+	width:1px; 
+	height:1px; 
+	overflow:hidden;
+	}
+
+ul, li {
+	padding:0;
+	margin:0;
+	list-style:none;
+	display:inline;
+}
+
+li {
+	padding: 0 0 0 5px;
+}
+
+li a {
+	padding: 0 5px 0 0;
+}
+
+a {
+	color: #903;
+	text-decoration: none;
+} 
+
+a:hover { text-decoration: underline; }
+
+.footer {
+	font: 10px Arial, sans-serif;
+	text-align:center;
+	padding-top:10px;
+}
+
+/* special events main page */
+
+#specialEvents {
+	width: 667px;
+	height: 379px;
+	background: #FFF url(/events/images/bkgdEvents.jpg) no-repeat top left;
+}
+
+#specialEvents p, #specialEvents ul {
+	position: relative;
+	top:160px;
+	left:114px;
+}
+
+#specialEvents p {
+	width:350px;
+}
+
+
+/* fashion show main page */
+
+#fashionShow {
+	width: 748px;
+	height: 430px;
+	background: transparent url(/events/images/girlsFashion.jpg) no-repeat top left;
+}
+
+#fashionShow h3, #fashionShow p {
+	width: 375px;
+}
+
+#fashionShow h3 {
+	color: #F06;
+	font: 17px "Trebuchet MS", Arial, sans-serif;
+	margin:0;
+	position: absolute;
+	top: 180px;
+	left: 375px;
+	height: 230px;
+	width: 340px;
+}
+
+	#fashionShow p {
+		position: relative;
+		top: 250px;
+		left: 168px;
+		width: 310px;
+		font-size: 11px;
+	}
+	
+	p#disclaimer {
+		font-size:9px;
+		text-align:left;
+		top: 276px;
+	}
+
+/*\*/
+* html p#disclaimer {
+	top: 246px;
+	}
+/**/
+
+	#fashionShow ul{
+		position: relative;
+		top: 244px;
+		left: 168px;
+		display:inline;
+	}
+
+/******* host an event page *******/
+
+#hostShow {
+	margin-top: 40px;
+	background: transparent url(/events/images/bkgdHost.gif) no-repeat top left;
+	font-size:11px;
+}
+
+ul.links {
+	position: relative;
+	top: -30px;
+	left:-200px;
+}
+
+#description {
+	float: left;
+	padding-left: 20px;	
+	width: 450px;
+}
+
+	#description span { 
+		font: 22px "Trebuchet MS", Arial, sans-serif;
+		color: #F06;
+		text-align:center;
+	}
+	
+	#description span sup {
+		font-size:8px;
+	}
+	
+	#description p {
+		padding:6px 0 0 0;
+		margin:5px 0;
+		text-align:left;
+		line-height: 14px; 
+	}
+
+#guidelines {
+	position: relative;
+	top:-250px;
+	left:250px;
+	text-align:left;
+	width: 230px;
+}
+
+	#guidelines span {
+		font-size: 18px;
+		color: #F06;
+		display:block;
+	}
+
+	#guidelines ul {
+		list-style: disc outside;
+	}
+	
+	#guidelines li {
+		display:block;
+		padding:4px 0;
+		list-style: disc outside;
+	}
+
+#testimonial {
+	position: relative;
+	top:-150px;
+	left:10px;
+	width: 680px;
+	height: 260px;
+	text-align:left;
+	display:block;
+	clear:both;
+}
+
+
+#testimonial span {
+	font-weight: bold;
+	padding-top:10px;
+}
+
+span#hdr {
+	color: #F06;
+	display:block;
+	padding-bottom: 20px;
+	font-weight:normal;
+	font-size: 13px;
+}
+
+	span#hdr em {
+		font-size: 14px;
+		font-style: normal;
+		text-transform: uppercase;
+	}
+
+/********* fashion show locator **********/
+
+#fashionLocator, #bookstore {
+	margin-top: 40px;
+	background: transparent url(/events/images/bkgdIntro.gif) no-repeat top left;
+	font-size:11px;
+}
+
+	 #fashionLocator #intro span {
+		display: block;
+		font: 22px "Trebuchet MS", Arial, sans-serif;
+		color: #F06;
+		text-align:center;
+	}
+	
+	#fashionLocator #intro p {
+		float: left;
+		width: 50%;
+		font-size: 13px;
+		padding-top: 50px;
+	}
+
+	#fashionLocator #data {
+		margin-bottom:100px;
+	}
+
+#data {
+	text-align:left;
+	padding-left:30px;
+}
+	
+	#data h4 {
+		font-size: 15px;
+		color:#333;
+		text-transform:uppercase;
+		clear:both;
+		padding-top: 30px;
+		background: transparent url(/events/images/hrDotted.gif) repeat-x 1px 15px;
+	}
+	
+	#neStates h4 {
+		background:none;
+	}
+	
+	#data h6 {
+		color:#F06;
+		font-size:13px;
+		text-transform:uppercase;
+		margin:0;
+		padding:12px 0 0 0;
+		clear:both;
+		border-bottom: 1px solid #EBADC2;
+	}
+	
+	#data dl {
+		float:left;
+		width: 360px;
+		height: 70px;
+	}
+
+#data dl.tenYears {
+	border:1px solid #EBADC2;
+	background: #FEF6FA url(/events/images/tenYears.gif) no-repeat 200px 14px;
+	padding: 10px 0 10px 10px;
+	margin: 10px 10px 0 -10px;
+	width: 348px;
+}
+
+	#data dt {
+		font-weight: bold;
+	}
+
+	#data dd {
+		margin:0;
+		padding:0;
+	}
+
+	#data div p {
+		float: right;
+		clear:both;
+		font-weight: bold;
+		padding-right:10px;
+		margin-bottom: -10px;
+	}
+
+#legend {
+	display:block;
+	clear:both;
+	margin: 30px 0 0 0;
+}
+
+	#legend img {
+		margin-bottom: -15px;
+	}
+
+/********* bookstore events **********/
+
+#bookstore #intro {
+	height: 200px;
+}
+
+ #bookstore #intro span {
+	display: block;
+	font: 22px "Trebuchet MS", Arial, sans-serif;
+	color: #F06;
+	text-align:center;
+	padding-top:30px;
+	}
+
+#bookstore #intro p {
+	clear: both;
+	float: left;
+	width: 330px;
+	padding-left: 40px;
+	font-size: 13px;
+}
+
+#bookstore #intro img {
+	float:right;
+	margin-top: -130px;
+}
+
+#bookstore #data {
+	margin-bottom:200px;
+}
+
+/********* for email us page *********/
+
+#emailUs {
+	position: relative;
+	top:20px;
+	width: 750px;
+	text-align:left;
+	height: 430px;
+}
+
+#instructions, #form {
+	border:1px solid #EBADC2;
+	background-color: #FEF6FA;
+	padding:14px 20px 14px 20px;
+}
+	
+	#instructions span {
+		display:block;
+		font-size: 14px;
+		padding-bottom: 10px;
+		color: #E0249A;
+	}
+	
+	#instructions p {
+		margin:0;
+		padding:0;
+	}
+
+#form {
+	margin-top:10px;
+}
+
+	form label {
+		display:block;
+		padding-top:10px;
+	}
+	
+	form input {
+		display:block;
+	}
+
+form #button {
+		width: 130px;
+		height: 30px;
+		background:#903 ;
+		outline: none;
+		border:1px solid #D999AE;
+		color: #FFF;
+		font-family: Arial, sans-serif;
+		margin:10px 0 -10px 0;
+}
+
+/********* thanks page **********/
+#thanks {
+	position: relative;
+	top:20px;
+	width: 750px;
+	text-align:left;
+	height: 93px;
+	margin-bottom:30px;
+	border:1px solid #EBADC2;
+	background: #FEF6FA url(/events/images/bkgdThanks.gif) no-repeat 0 0;
+}
+
+	#thanks p {
+		padding-top:14px;
+		text-align:center;
+	}
+
+	#thanks span {
+		display:block;
+		font-size: 14px;
+		padding-bottom: 8px;
+		color: #E0249A;
+	}
+
+/********* other events page **********/
+
+#otherEvents {
+	position: relative;
+	top:50px;
+	background: transparent url(/events/images/bkgdOther.jpg) no-repeat 0 0;
+	height: 240px;
+	margin-bottom:40px;
+	padding:140px 60px 0 340px;
+}
+
+	#otherEvents span {
+		color: #80379B;
+		font-size: 16px;
+	}
+
+/*\ hacks for IE6 */
+
+* html #description {
+	width: 470px;
+}
+
+* html #guidelines {
+	top:30px;
+	left:16px;
+}
+
+* html #testimonial {
+	top:50px;
+	height: 250px;
+	margin-bottom: 60px;
+}
+
+* html #fashionLocator {
+	width: 750px;
+	margin-left: 30px;
+}
+
+* html #fashionLocator #intro p {
+	width: 40%;
+}
+
+* html #data {
+	padding-left:30px;
+}
+
+	* html #data h4 {
+		padding-top:20px;
+		}
+		
+	* html #data dl.tenYears {
+			width: 350px;
+			margin-left:0;
+		}
+	
+	* html dl {
+		padding-top:10px;
+	}
+	
+	* html #data div p {
+		float: right;
+		clear:both;
+		padding-right:10px;
+		margin-bottom: 0px;
+		display:block;
+		width: 100px;
+		padding-top:80px;
+		margin-left: -90px;
+	}
+
+
+* html #data #neStates p {
+		padding-top:60px;
+	}
+	
+* html #otherEvents {
+	height: 370px;
+}
+
+* html #bookstore #intro img{
+	margin-top: 10px;
+}
+
+* html #bookstore #intro p {
+	width: 370px;
+	padding-top: 12px;
+	}
+
+* html #bookstore #legend {
+	margin-top: -180px;
+}
+/**/

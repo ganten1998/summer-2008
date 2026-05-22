@@ -1,0 +1,153 @@
+/* AGD-PATCHED v1 */
+/******** header styles ********/
+.header {
+	width: 750px;
+	padding-top: 6px;
+	height: 86px;	
+	margin: 0 auto 0px auto;
+	text-align: left;
+}
+
+.header ul {
+	clear: both;
+	}
+
+.headerIE {
+	text-align:center;
+	border: 1px solid #fff;
+}
+
+/******** global nav ********/
+ul.globalNav {
+	margin: auto 0;
+	padding: 0;
+	height: 51px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul.globalNav li, li.agLogo, li.shop, li.ffg, li.club, li.mag, li.movies, li.agp {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	.globalNav a {
+		float: left;
+		padding: 51px 0 0 0;
+		overflow: hidden;
+		height: 0px !important; 
+		height /**/:51px; /* for IE Win only */
+		}
+	
+	.globalNav a:hover {
+		background-position: 0 -51px;
+		text-decoration: none;
+		}
+
+	.globalNav a.selected, .globalNav a:hover.selected {
+		background-position: 0 -102px;
+		}
+	
+.agLogo a {
+	width: 163px;
+	background: url(/images/agLogo.gif) top left no-repeat;
+	}
+	
+.shop a {
+	width: 78px;
+	background: url(/images/shop.gif) top left no-repeat;
+	}
+	
+.ffg a {
+	width: 129px;
+	background: url(/images/ffg.gif) top left no-repeat;
+	}
+	
+.mag a {
+	width: 106px;
+	background: url(/images/mag.gif) top left no-repeat;
+	}
+	
+.movies a {
+	width: 84px;
+	background: url(/images/movies.gif) top left no-repeat;
+	}
+
+.agp a {
+	width: 190px;
+	background: url(/images/agp.gif) top left no-repeat;
+	}
+	
+	
+/****** category nav ******/
+
+#menu {
+	padding: 0 0 0 50px;
+	width: 700px;
+	margin: 0 0;
+	float:left;
+	height: 35px;
+	list-style: none;
+	display: inline;
+	border-top: 1px solid #FFF;
+	background: url(/images/catNavBkgd.gif) no-repeat 0 0;
+	}
+
+/*\*/
+* html #menu {
+	width: 750px;
+}
+/**/
+
+ul#menu li, li#histChar, li#magActiv, li#coconut, li#goty, li#quiz, li#ecard, li#journey, li#events {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	#menu a {
+		float: left;
+		padding: 35px 0 0 0;
+		overflow: hidden;
+		height: 0px !important;
+		height /**/:35px; /* for IE Win only */
+		}
+	
+	#menu a:hover {
+		background-position: 0 -35px;
+		text-decoration: none;
+		}
+
+#menu a.selected, #menu a:hover.selected {
+		background-position: 0 -35px;
+		}
+	
+#histChar a { width: 90px; background: url(/images/histChar.gif) top left no-repeat; }
+	
+#magActiv a { width: 90px; background: url(/images/magActiv.gif) top left no-repeat; }
+	
+#coconut a { width: 81px; background: url(/images/coconut.gif) top left no-repeat; }
+
+#goty a { width: 82px; background: url(/images/goty.gif) top left no-repeat; }
+
+#quiz a { width: 75px; background: url(/images/quiz.gif) top left no-repeat; }
+
+#ecard a { width: 73px; background: url(/images/ecard.gif) top left no-repeat; }
+	
+#journey a { width: 82px; background: url(/images/journey.gif) top left no-repeat; }
+	
+#events a { width: 71px; background: url(/images/events.gif) top left no-repeat; }
+
+
+table.content {
+	clear:both;
+	margin:0 auto;	
+}
+
+.swf {
+	padding-top:10px;
+	clear:both;
+}

@@ -1,0 +1,14 @@
+<markers>
+ <marker name="Affinia 50" address="155 East 50th Street&lt;br&gt;212-751-5710&lt;br&gt;www.affinia.com" lng="-73.971698" lat="40.756246" category="hotel" />
+ <marker name="Doubletree Guest Suites Times Square" address="1568 Broadway at 47th Street&lt;br&gt;800-222-TREE&lt;br&gt;www.nyc.doubletreehotels.com" lng="-73.98468" lat="40.759107" category="hotel" />
+ <marker name="The Fitzpatrick Grand Central" address="141 East 44th Street&lt;br&gt;800-367-7701&lt;br&gt;www.fitzpatrickhotels.com" lng="-73.974423" lat="40.752475" category="hotel" />
+ <marker name="The Fitzpatrick Manhattan" address="687 Lexington Avenue&lt;br&gt;800-367-7701&lt;br&gt;www.fitzpatrickhotels.com" lng="-73.969381" lat="40.760553" category="hotel" />
+ <marker name="Grand Hyatt New York" address="109 E. 42nd Street at Grand Central&lt;br&gt;212-883-1234&lt;br&gt;www.grandnewyork.hyatt.com" lng="-73.976698" lat="40.751744" category="hotel" />
+ <marker name="InterContinental The Barclay New York" address="111 East 48th Street&lt;br&gt;866-655-5365&lt;br&gt;www.intercontinental.com/newyork" lng="-73.974295" lat="40.755693," category="hotel" />
+ <marker name="The Kitano New York" address="66 Park Avenue at 38th St.&lt;br&gt;212-885-7000 &lt;br&gt; www.kitano.com" lng="-73.979638" lat="40.749614" category="hotel" />
+ <marker name="Marriott Courtyard Midtown East" address="866 Third Ave.&lt;br&gt;800-894-6380 &lt;br&gt; www.nyccourtyardmidtown.com" lng="-73.969595" lat="40.7574" category="hotel" />
+ <marker name="Marriott Marquis Times Square" address="1535 Broadway&lt;br&gt;800-843-4898 &lt;br&gt; www.nymarriottmarquis.com" lng="-73.985624" lat="40.758213" category="hotel" />
+ <marker name="The New York Palace" address="455 Madison Avenue&lt;br&gt;800-NY-PALACE &lt;br&gt;www.newyorkpalace.com" lng="-73.975453" lat="40.758018," category="hotel" />
+ <marker name="The Omni Berkshire Place" address="21 East 52nd Street at Madison Avenue &lt;br&gt; 800-THE-OMNI &lt;br&gt; www.omnihotels.com" lng="-73.975389" lat="40.759432" category="hotel" />
+  <marker name="" address="" lng="118.377879" lat="-34.076088" category="hotel" />
+</markers>

@@ -1,0 +1,223 @@
+		
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- AGD-PATCHED v5 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v4 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		
+<script type="text/javascript" src="/corp/js/common.js"></script>
+<script type="text/javascript" src="/corp/js/mootools.svn.js"></script>
+
+<!-- global styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/styles.css" />
+
+<!-- header styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/headNav.css" />
+
+<!-- footer styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/footNav.css" />
+
+<!-- popup styles -->
+<link rel="stylesheet" type="text/css" href="/corp/css/styles/popups.css" />
+
+<title>American Girl | Writer's Guidelines</title>
+
+<script type="text/javascript">
+function showDetails(thisElement, showLabel, hideLabel) {
+	if (document.getElementById(thisElement).getElementsByTagName("div").item(0).className == "hide") {
+		document.getElementById(thisElement).className = "show_details";
+		document.getElementById(thisElement).getElementsByTagName("div").item(0).className = "";
+		//document.getElementById(thisElement).getElementsByTagName("a").item(0).innerHTML= hideLabel;
+		//document.getElementById(thisElement).setAttribute("title", hideLabel);
+		} else {
+		document.getElementById(thisElement).className = "";
+		document.getElementById(thisElement).getElementsByTagName("div").item(0).className = "hide";
+		//document.getElementById(thisElement).getElementsByTagName("a").item(0).innerHTML= showLabel;
+		//document.getElementById(thisElement).setAttribute("title", showLabel);
+		}
+}
+window.addEvent('domready', function(){
+	
+}); 
+</script>
+</head>
+<body>
+<div id="maincontainer">
+
+<!-- TOP HEADER -->
+<div id="topsection">
+	<!-- GLOBAL NAVIGATION INCLUDE -->
+<div class="header">
+	<a href="#contentwrapper" id="skip" tabindex="0">Skip to Main Content</a>
+	<div class="search">
+		<form name="contentSearch" method="get" action="agd://www.americangirl.com/__agd/dead-form.html">
+			<label for="prodSearch:searchstr">Content Search:</label>
+			<input name="site" value="About American Girl" type="hidden"/>
+			<input name="event" value="search" type="hidden"/>
+			<input name="Ntx" value="mode+matchallpartial" type="hidden"/>
+			<input name="Ntk" value="contentSearch" type="hidden"/>
+			<input name="Nty" value="1" type="hidden"/>
+			<input title="Search" name="Ntt" id="prodSearch:searchstr" 	type="text" maxlength="50"/>
+			<div class="searchBtn"><a href="#" onclick="document.contentSearch.submit();return false;">Search</a></div>
+		</form>
+	</div>
+	<ul class="globalNav">
+		<li class="agLogo"><a href="agd://www.americangirl.com" title="Celebrate old friends and new!">American Girl</a></li>
+		<li class="shop"><a href="agd://store.americangirl.com" title="Find the dolls, books, clothes, and accessories that girls love!">SHOP</a></li>
+		<li class="ffg"><a href="agd://www.americangirl.com/fun.html" title="Great activities that celebrate American girls!">FUN FOR GIRLS</a></li>
+		<li class="mag"><a href="agd://www.americangirl.com/agmg/" title="Check it out&#8212;Subscribe now!">MAGAZINE</a></li>
+		<li class="movies"><a href="agd://www.americangirl.com/movie/" title="See the stories of your favorite American Girls come to life">MOVIES</a></li>
+		<li class="stores"><a href="agd://www.americangirl.com/stores/" title="More than just a store&#8212;it&#8217;s an experience!">STORES</a></li>
+	</ul>
+	
+</div>
+<!-- END GLOBAL NAVIGATION INCLUDE --></div>
+
+<div id="contentwrapper">
+<!-- MAIN CONTENT -->
+<div id="contentcolumn"><div><img src="/corp/images/headers/celebrating_girls.gif" alt="Celebrating Girls and all they can be" /></div>
+
+<div class="searchExclude">
+<div id="corpNavcontainer">
+	<ul class="corpNav">
+		<li class="aboutHome"><a href="/corp/">About Us</a></li>
+		<li class="pressroom"><a href="/corp/corporate.php?section=press&#038;id=1" >Press Room</a></li>
+		<li class="company"><a href="/corp/corporate.php?section=about&#038;id=1" class="selected">Our Company</a></li>
+		<li class="happening"><a href="/corp/corporate.php?section=new&#038;id=1" >What's Happening</a></li>
+		</ul>
+</div></div>	
+	<div id="corpcontent">
+		
+<div id="writers">
+
+
+	<h1>Writer's Guidelines</h1>
+		<p>Thank you for your interest in writing for American Girl. Please read our writer guidelines for book and magazine submissions:    </p>
+	<h2>Books</h2>
+  <div class="contentblock">
+		<p>American Girl Publishing welcomes nonfiction submissions from authors and agents. We do not accept submissions in the field of fiction.</p>
+		<p>Our advice and activity books cover subjects of interest or concern to girls ages 8&#8211;12, complete with illustrations and photographs. Our goal is to encourage their dreams and to reinforce their self-confidence and curiosity as they prepare to navigate adolescence in the years ahead.    </p>
+		<p>American Girl Publishing invites proposals for:</p>
+		<ul>
+			<li>Well-focused concepts for activity books, craft books, or advice books</li>
+			<li>Nonfiction specifically targeted to girls</li>
+		</ul>
+		<p>Proposals should include a detailed description of your concept, sample chapters or spreads, and lists or samples of previous publications. Complete manuscripts are also acceptable.    </p>
+		<p>American Girl cannot reply or return a manuscript unless it is accompanied by a self-addressed, stamped envelope with sufficient postage. Send submissions to:    </p>
+		<dl>    
+			<dd>Submissions Editor</dd>
+			<dd> American Girl Publications</dd>
+			<dd>8400 Fairway Place</dd>
+			<dd>Middleton, WI 53562</dd>
+		</dl>
+		<p>Please allow 12&#8211;16 weeks for a response.    </p>
+  </div>
+ 
+  <h2>Magazine</h2>
+
+<h3><em>American Girl</em> magazine</h3>
+<p><em>American Girl</em> is a bimonthly, four-color magazine for girls ages 8 and up. <em>American Girl</em> readers are girls in their formative years, girls who dream big dreams. We hope to encourage those dreams and to reinforce each reader&#8217;s self-confidence, curiosity, and self-esteem as she prepares to navigate adolescence in the years ahead. Our lead time is approximately nine months or more.
+</p>
+<h3>Fiction</h3>
+<p>We are not currently looking for fiction.
+</p>
+<h3>Nonfiction</h3>
+<p>We&#8217;re looking for individual girls or groups who are doing something other girls would love to read and learn about. Find a topic about which girls are passionate. Past pieces have featured girl entrepreneurs, girls who attend unusual schools, and girl bands. Look for new twists on familiar topics. Please send queries rather than finished manuscripts.
+</p>
+<h3>Girls Express</h3>
+<p>This section offers the most opportunities for freelance writers. We&#8217;re looking for short profiles of girls who are into sports, the arts, unique hobbies, cultural activities, or other areas of interest. We are also looking for true stories about girls who have had unusual experiences. The girl must be the &#8220;star&#8221; and the story must be from her point of view. Be sure to include the age of the girls you&#8217;re pitching to us. Let us know if you have any photo leads. Stories should be no more than 150 words. In addition, we&#8217;re looking for easy crafts and recipes that can be explained in a few simple steps.
+</p>
+<h3>Craft and Cooking</h3>
+<p>We welcome original craft and cooking ideas that are new and exciting to our readers. Projects should require limited parental involvement and supplies should be inexpensive and readily available. Keep in mind the skill level of our readers. Safety is a priority. Query with a short explanation of the project and an example, photograph, or sketch.
+</p>
+<h3>Sample issues</h3>
+<p>The best way to understand the types of stories we publish is to look at a recent issue.  <em>American Girl</em> costs $4.50 per issue at the newsstand and is available in many children&#8217;s bookstores. To order a sample copy, send a check for $5.50 made out to &#8220;American Girl.&#8221; Please include your mailing address.
+</p>
+<h3>Address</h3>
+<p>All queries and requests for sample magazines should be sent to: 
+</p>
+<dl><dd>Magazine Department Assistant</dd>
+<dd>American Girl</dd>
+<dd>8400 Fairway Place</dd>
+<dd>Middleton, WI 53562-2554</dd>
+</dl>
+<p><strong>Please Note:</strong> American Girl cannot reply or return a manuscript unless you enclose a self-addressed stamped envelope. Please allow 12 weeks for a reply.
+</p>
+
+
+</div>	</div><!--corporate content-->	
+					
+</div><!-- content column -->
+</div><!-- content wrapper -->
+
+<!-- RIGHT NAV -->
+<div id="rightcolumn">
+<div class="searchExclude">
+
+<div id="rightnav">
+<h1>More of Our company</h1>
+<ul>
+	<li><a href="/corp/corporate.php?section=about&#038;id=2"  >Company History</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=3"  > Meet our President</a> </li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=4"   >Awards</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=5"   >Philanthropy &#038; Donations</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=6"   >Fast Facts</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=7"   >Frequently Asked Questions</a></li>
+	<li><a href="/corp/corporate.php?section=about&#038;id=8" class="active"   >Writer's Guidelines</a></li>
+</ul>
+
+
+
+</div>
+
+</div><!-- right column -->
+</div><!-- search Exclude -->
+
+<div><!-- Timeline for History Page -->
+</div><!-- End Timeline -->
+
+<!-- FOOTER -->
+<!-- GLOBAL NAVIGATION INCLUDE -->
+<div id="footer" class="footer">
+	<ul id="footerMenu">
+		<li id="priv"><a href="agd://store.americangirl.com/static/popups/privacyPolicy.html" onclick="openPop('agd://store.americangirl.com/static/popups/privacyPolicy.html','600','600');return false;">Privacy Policy</a></li>
+		<li><a href="agd://store.americangirl.com/static/popups/termsConditions.html" onclick="openPop('agd://store.americangirl.com/static/popups/termsConditions.html');return false;">Terms and Conditions</a></li>
+		<li><a href="/corp/corporate.php?section=contact&amp;id=1&amp;type=general">Contact Information</a></li>
+		<li><a href="agd://www.americangirl.com/legal/trademarks.html" onclick="openPop('agd://www.americangirl.com/legal/trademarks.html');return false;">Trademarks</a></li>
+		<li><a href="http://www.mattel.com/careers/">Careers</a></li>
+		<li class="last"><a href="/corp/">About American Girl</a></li>
+	</ul>
+  <p id="copyright">Copyright &#169; 2008 American Girl, LLC. All American Girl marks are trademarks of American Girl, LLC. All rights reserved.</p>
+  <!-- START OF SmartSource Data Collector TAG --> 
+<!-- Copyright (c) 1996-2007 WebTrends Inc.  All rights reserved. --> 
+<!-- V8.0 --> 
+<!-- $DateTime: 2006/11/30 16:52:27 $ --> 
+<SCRIPT TYPE="text/javascript"><!-- 
+// Code section for Use the new first-party cookie generated with this tag. 
+var gFpc="WT_FPC"; 
+var gConvert=true; 
+var gDomain="statse.webtrendslive.com"; 
+var gDcsId="dcsqohyd4100000w02b923wzx_4k5m"; 
+if ((typeof(gConvert)!="undefined")&&gConvert&&(document.cookie.indexOf(gFpc+"=")==-1)&&(document.cookie.indexOf("WTLOPTOUT=")==-1)){
+
+  document.write("<SCR"+"IPT TYPE='text/javascript' SRC='"+"http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/SCR"+"IPT>");
+
+} 
+//--> 
+</SCRIPT> 
+<script src="/js/webtrends8_hosted_ag.js" type="text/javascript"></script> 
+<NOSCRIPT> 
+<IMG ALT="" BORDER="0" NAME="DCSIMG" WIDTH="1" HEIGHT="1" SRC="agd://disabled/webtrendslive <agd://disabled/webtrendslive> ">
+
+</NOSCRIPT> 
+<!-- END OF SmartSource Data Collector  TAG --> 
+</div>
+
+</div> <!-- main containter-->	
+
+</body>
+</html>
