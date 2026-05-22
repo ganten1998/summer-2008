@@ -155,11 +155,20 @@ def safe_local_path(url: str) -> Path:
         path = path + "/index.html"
     if parts.query:
         q = re.sub(r"[^A-Za-z0-9._-]+", "_", parts.query)[:128]
+        # Win32 API forbids filenames ending in `.` or ` ` (the e-card
+        # placeholders like `personalMsg=Your+personal+message+goes+here...`
+        # would otherwise produce a `..._goes_here...` filename that fails
+        # `git checkout` on Windows runners). Strip the trailing offenders;
+        # the URL scheme handlers do the same trim when resolving lookups.
+        q = q.rstrip(". ")
         path = path + "__" + q
         if "." not in leaf:
             path += ".html"
     segs = [host] + [s for s in path.split("/") if s]
     segs = [re.sub(r"[^A-Za-z0-9._@,~+()=#%-]+", "_", s) for s in segs]
+    # Same trailing-trim for the rendered segments — guards against any
+    # path component that ends with `.` after the regex substitution.
+    segs = [s.rstrip(". ") if s != segs[0] else s for s in segs]
     return MIRROR.joinpath(*segs)
 
 

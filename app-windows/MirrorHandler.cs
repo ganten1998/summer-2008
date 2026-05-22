@@ -194,8 +194,12 @@ public sealed class MirrorHandler
         {
             // Sanitize query the same way build_url_list.py / download_mirror.py do:
             // keep [A-Za-z0-9._-], replace runs of anything else with a single underscore.
+            // Then strip trailing dots / spaces — Win32 API forbids those in filenames,
+            // so ecard placeholders like "personalMsg_..._goes_here..." had to be
+            // renamed on disk and the lookup must match the trimmed form.
             var safe = Regex.Replace(query, "[^A-Za-z0-9._-]+", "_");
-            if (safe.Length > 128) safe = safe[..128];
+            safe = safe.TrimEnd('.', ' ');
+            if (safe.Length > 128) safe = safe[..128].TrimEnd('.', ' ');
             fullPath = fullPath + "__" + safe;
         }
 

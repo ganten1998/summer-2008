@@ -654,12 +654,16 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         var resolved = base
         for s in segs { resolved.appendPathComponent(s) }
         if let q = query, !q.isEmpty {
-            // Append query suffix like the downloader does.
-            let safe = q.map { ch -> String in
+            // Append query suffix like the downloader does. Strip trailing
+            // dots/spaces — Win32 API forbids those in filenames, so for the
+            // Windows port these had to be renamed on disk. We do the same
+            // trim here so the cross-platform mirror file naming agrees.
+            var safe = String(q.map { ch -> String in
                 let s = String(ch)
                 if s.range(of: "[A-Za-z0-9._-]", options: .regularExpression) != nil { return s }
                 return "_"
-            }.joined().prefix(128)
+            }.joined().prefix(128))
+            while safe.hasSuffix(".") || safe.hasSuffix(" ") { safe.removeLast() }
             let last = resolved.lastPathComponent
             resolved = resolved.deletingLastPathComponent().appendingPathComponent("\(last)__\(safe)")
         }
