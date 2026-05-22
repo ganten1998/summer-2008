@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JUMBLES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ITEM>
+		<WORD>cheese</WORD>
+		<HINT>Milk from Red Devons made this.</HINT>
+		<HINT2>Cheddar is a popular one.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>milk</WORD>
+		<HINT>It comes from cows.</HINT>
+		<HINT2>You drink it!</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>Red Devon</WORD>
+		<HINT>A colonial cow</HINT>
+		<HINT2>The first part's a bright color.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>pioneer</WORD>
+		<HINT>Often the first to settle somewhere</HINT>
+		<HINT2>"The last part sounds like "ear.""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>teapot</WORD>
+		<HINT>The drink it held brewed trouble.</HINT>
+		<HINT2>Patriots wouldn't drink its contents.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>China</WORD>
+		<HINT>A land of tea and pottery</HINT>
+		<HINT2>The most populous country today</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>India</WORD>
+		<HINT>Where many teas come from</HINT>
+		<HINT2>A large subcontinent</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>toy horse</WORD>
+		<HINT>A colorful wooden object</HINT>
+		<HINT2>A child's animal plaything.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>doll</WORD>
+		<HINT>Used to display fashions</HINT>
+		<HINT2>A girl's favorite type of toy</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>Checks</WORD>
+		<HINT>A board game that jumps!</HINT>
+		<HINT2>"We add "ers" to our version of it."</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>map</WORD>
+		<HINT>You're lost without one.</HINT>
+		<HINT2>A cartographer drew it. </HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>land</WORD>
+		<HINT>""One if by___ and two if by sea…""</HINT>
+		<HINT2>Another word for earth</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>sea</WORD>
+		<HINT>Smaller than an ocean</HINT>
+		<HINT2>You can see it</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>pewter</WORD>
+		<HINT>"Called "poor man's silver""</HINT>
+		<HINT2>A metal made of tin and lead</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>silver</WORD>
+		<HINT>A precious shiny metal</HINT>
+		<HINT2>Not gold but…</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>pitcher</WORD>
+		<HINT>A jug or ewer for holding liquid</HINT>
+		<HINT2>"Someone who throws a baseball, too!"</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>polish</WORD>
+		<HINT>Silver needs this frequently!</HINT>
+		<HINT2>To make something shine</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>preserves</WORD>
+		<HINT>Food kept in a stone crock</HINT>
+		<HINT2>Fruit boiled with sugar.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>crock</WORD>
+		<HINT>A pottery container for food</HINT>
+		<HINT2>"Rhymes with "shock.""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>wood ash</WORD>
+		<HINT>Used to make soap</HINT>
+		<HINT2>What's left when the fire's out</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>yarn</WORD>
+		<HINT>This was spun from wool. </HINT>
+		<HINT2>You need this for knitting.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>flax</WORD>
+		<HINT>A plant fiber for spinning</HINT>
+		<HINT2>"Rhymes with "snacks""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>spin</WORD>
+		<HINT>How you get yarn from wool</HINT>
+		<HINT2>Twirl around</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>weave</WORD>
+		<HINT>You do this to make blankets</HINT>
+		<HINT2>"It rhymes with "grieve.""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>knit</WORD>
+		<HINT>A good way to make a sweater</HINT>
+		<HINT2>You use needles and yarn to do it</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>salt</WORD>
+		<HINT>Coarse grains were called corns.</HINT>
+		<HINT2>A partner to pepper</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>meat</WORD>
+		<HINT>Goes well with potatoes</HINT>
+		<HINT2>Vegetarians don't eat it.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>cinnamon</WORD>
+		<HINT>Especially good on buns!</HINT>
+		<HINT2>A sweet brown spice</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>mull</WORD>
+		<HINT>To heat and spice wine or cider</HINT>
+		<HINT2>"Ends in "ll""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>cider</WORD>
+		<HINT>It's made from apples.</HINT>
+		<HINT2>Pressed apple juice</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>trunk</WORD>
+		<HINT>Travelers needed at least one.</HINT>
+		<HINT2>"A elephant has one, too."</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>brass</WORD>
+		<HINT>Shiny gold metal</HINT>
+		<HINT2>"Rhymes with "glass""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>lemon water</WORD>
+		<HINT>Sprinkled to cover odors</HINT>
+		<HINT2>Tart yellow fruit in liquid</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>perfume</WORD>
+		<HINT>Flowers are used to make this.</HINT>
+		<HINT2>You wear it to smell nice.</WORD>
+	</ITEM>
+</JUMBLES>

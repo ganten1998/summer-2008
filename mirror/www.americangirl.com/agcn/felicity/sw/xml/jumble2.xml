@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JUMBLES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ITEM>
+		<WORD>blacksmith</WORD>
+		<HINT>He hammers out horseshoes.</HINT>
+		<HINT2>First part's not white but…</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>iron</WORD>
+		<HINT>Metal used by blacksmiths</HINT>
+		<HINT2>"You press your clothes with one, too."</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>chocolate pot</WORD>
+		<HINT>Contained a sweet hot drink</HINT>
+		<HINT2>A good place to put your cocoa</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>fire</WORD>
+		<HINT>You couldn't cook without one.</HINT>
+		<HINT2>It flickers and burns.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>tapers</WORD>
+		<HINT>"A tall, slender candle."</HINT>
+		<HINT2>"It rhymes with "paper.""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>beeswax</WORD>
+		<HINT>The most expensive type of candle</HINT>
+		<HINT2>"Buzzy, busy ones make this."</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>barrel</WORD>
+		<HINT>This was made by a cooper.</HINT>
+		<HINT2>A container for food or drink</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>cooper</WORD>
+		<HINT>He makes barrels.</HINT>
+		<HINT2>You keep chickens in the first part.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>tub</WORD>
+		<HINT>A large container good for washing</HINT>
+		<HINT2>Rub-a-dub-dub in one</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>pail</WORD>
+		<HINT>A good way to carry milk</HINT>
+		<HINT2>Another word for bucket</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>pastry</WORD>
+		<HINT>You roll this out and bake it.</HINT>
+		<HINT2>Tarts and pies are types of this.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>tart</WORD>
+		<HINT>A small pie-like dessert</HINT>
+		<HINT2>The taste of sour fruit</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>patty pan</WORD>
+		<HINT>Used to make miniature tarts</HINT>
+		<HINT2>A nickname for Patricia comes first.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>ginger cake</WORD>
+		<HINT>A spicy baked dessert</HINT>
+		<HINT2>You eat some on your birthday</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>biscuit</WORD>
+		<HINT>An English word for cookie</HINT>
+		<HINT2>Another name for dog treat?</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>queen cake</WORD>
+		<HINT>Her majesty's dessert</HINT>
+		<HINT2>The first part's a royal lady.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>tavern</WORD>
+		<HINT>A place to dine and drink</HINT>
+		<HINT2>"The last part rhymes with "burn.""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>pottery</WORD>
+		<HINT>Ceramic dishware</HINT>
+		<HINT2>"It ends in a "y.""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>ale</WORD>
+		<HINT>Even babies drank this!</HINT>
+		<HINT2>A type of beer</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>petticoat</WORD>
+		<HINT>Girls wore them under their skirts.</HINT>
+		<HINT2>"The last part rhymes with "boat.""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>stockings</WORD>
+		<HINT>Colonial men and women both wore these.</HINT>
+		<HINT2>You wore these on your legs.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>clocks</WORD>
+		<HINT>Embroidery on colonial stockings</HINT>
+		<HINT2>"You keep time with them, too!"</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>fisherman</WORD>
+		<HINT>He's always trying to catch something.</HINT>
+		<HINT2>There's something fishy about him.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>cotton</WORD>
+		<HINT>A common fabric</HINT>
+		<HINT2>"It comes in small white balls, too"</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>linen</WORD>
+		<HINT>A finely woven fabric</HINT>
+		<HINT2>"First part rhymes with "pin""</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>wool</WORD>
+		<HINT>A sheep's warm fleece</HINT>
+		<HINT2>Sweaters are made of this.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>fabric</WORD>
+		<HINT>This showed your social status.</HINT>
+		<HINT2>Wool and silk are examples of this.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>inkwells</WORD>
+		<HINT>You needed these for writing.</HINT>
+		<HINT2>You dipped your quill into one.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>dip pen</WORD>
+		<HINT>A quill is one type.</HINT>
+		<HINT2>A writing instrument you dunk</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>quill</WORD>
+		<HINT>Made from a feather</HINT>
+		<HINT2>You dipped it in ink.</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>fan</WORD>
+		<HINT>Often made of silk or linen</HINT>
+		<HINT2>A good way to keep cool</HINT2>
+	</ITEM>
+	<ITEM>
+		<WORD>silk</WORD>
+		<HINT>A very fine fabric</HINT>
+		<HINT2>Special worms spin this</WORD>
+	</ITEM>
+</JUMBLES>
