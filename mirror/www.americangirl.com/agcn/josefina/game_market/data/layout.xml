@@ -1,0 +1,32 @@
+﻿<!--
+format:
+[intersections]
+4 digits, for paths (U, R, D, L)
+digit codes:: 0:noPath, 1:path, E:screenEdge, C:centerSeam, M:isMerchant
+delimiter: |
+-->
+
+
+<!--
+notes:
+if (screenEdge || merchant) {
+	//check for possibility of leaving/visiting merchant
+	//if not leaving/visiting, randomly choose from other directions
+} else {
+	//randomly choose direction
+}
+	
+	
+always one merchant per row, per screen (three merchants each side)
+randomly choose column, but never allow all three merchants to be in same column
+when building intersections, if all zeroes, don't create an intersection for that coord
+-->
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LAYOUT>
+	<ROW>011E|M101|0111|M101|0E11</ROW>
+	<ROW>111E|M101|1111|M101|1E11</ROW>
+	<ROW>11EE|M101|11E1|M101|1EE1</ROW>
+</LAYOUT>

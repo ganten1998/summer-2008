@@ -1,6 +1,7 @@
+/* AGD-PATCHED v2 */
 /* AGD-PATCHED v1 */
 
-var pollCanGo = true;
+var pollCanGo = false; /* AGD: autopoll disabled */
 //var pollCanGo = false;
 
 

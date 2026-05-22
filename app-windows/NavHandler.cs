@@ -100,26 +100,17 @@ public sealed class NavHandler
 
     public void OnNewWindowRequested(object? sender, CoreWebView2NewWindowRequestedEventArgs args)
     {
-        // The 2008 AG site's /fun.html fires `window.open('/html/hp2_poll_1.html',
-        // 'Weekly_Poll', 'width=260,height=340')` on page load. Scripted popups
-        // always supply an explicit Position/Size; real user-clicked
-        // target=_blank links don't. Suppress on that signal so the autopoll
-        // (whose Flash banner fails in Ruffle) can't replace the host page.
-        var f = args.WindowFeatures;
-        if (f != null && (f.HasPosition || f.HasSize))
-        {
-            args.Handled = true;
-            return;
-        }
-
-        // For a real user-clicked target=_blank: load it in the current
-        // window. This matches the macOS createWebViewWith behaviour.
+        // The /fun.html autopoll is killed at source level by the patcher
+        // (pollCanGo=false in autopoll.js), so we no longer use WindowFeatures
+        // dimensions as a popup-suppress signal — which lets user-clicked
+        // popups (wallpaper installer instructions, share dialogs, etc.) load
+        // inline instead of getting blocked.
         try
         {
             var uri = new Uri(args.Uri);
             if (uri.Scheme is "http" or "https")
             {
-                // External link from a real click → spawn in default browser.
+                // External link → user's default browser
                 ShellOpen(uri.ToString());
                 args.Handled = true;
             }

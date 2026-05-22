@@ -1,3 +1,4 @@
+/* AGD-PATCHED v2 */
 /* AGD-PATCHED v1 */
 // this ticker is for 11 26
 

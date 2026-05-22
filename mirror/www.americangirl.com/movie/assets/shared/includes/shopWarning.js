@@ -1,3 +1,4 @@
+/* AGD-PATCHED v2 */
 /* AGD-PATCHED v1 */
 document.documentElement.onclick = processBodyClick
 

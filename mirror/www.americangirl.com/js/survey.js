@@ -1,3 +1,4 @@
+/* AGD-PATCHED v2 */
 /* AGD-PATCHED v1 */
 
 function createCookie(name,value,days) {

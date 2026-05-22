@@ -1,3 +1,4 @@
+/* AGD-PATCHED v2 */
 /* AGD-PATCHED v1 */
 var theDictionary = new Array();
 var charMap = new Array();

@@ -260,7 +260,9 @@ def _action_is_dead(action: str) -> bool:
     return False
 
 
-CSS_JS_MARKER = "/* AGD-PATCHED v1 */"
+CSS_JS_MARKER = "/* AGD-PATCHED v2 */"
+# Older CSS/JS markers we restore-from-backup + re-patch when we see them.
+OLD_CSS_JS_MARKERS = ("/* AGD-PATCHED v1 */",)
 
 
 def patch_css(text: str) -> tuple[str, bool]:
@@ -278,6 +280,14 @@ def patch_js(text: str) -> tuple[str, bool]:
         return text, False
     new = rewrite_absolute_host(text)
     new = neutralize_trackers(new)
+    # AG's /js/autopoll.js triggers an auto-popup of the Weekly Poll on
+    # page load (specifically from fun.html). The poll popup pulls in
+    # auto_poll7.swf which fails in Ruffle. Disabling the gate flag at
+    # source level kills the popup entirely — cleaner than a navigation
+    # delegate heuristic and lets user-clicked popups through naturally.
+    new = re.sub(r"var\s+pollCanGo\s*=\s*true\s*;",
+                 "var pollCanGo = false; /* AGD: autopoll disabled */",
+                 new)
     new = CSS_JS_MARKER + "\n" + new
     return new, True
 
@@ -343,9 +353,11 @@ def main() -> int:
             # untouched source from BACKUP/ so we can re-patch with the
             # current injection. Without this step, files patched on a
             # previous build would never get the new Ruffle scripts.
+            stale_markers = OLD_SENTINELS + OLD_CSS_JS_MARKERS
+            current_markers = (SENTINEL, CSS_JS_MARKER)
             if (BACKUP.exists()
-                    and any(s in text for s in OLD_SENTINELS)
-                    and SENTINEL not in text):
+                    and any(s in text for s in stale_markers)
+                    and not any(s in text for s in current_markers)):
                 rel = p.relative_to(MIRROR)
                 src = BACKUP / rel
                 if src.exists():

@@ -156,22 +156,31 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
                  createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction,
                  windowFeatures: WKWindowFeatures) -> WKWebView? {
-        // Suppress chrome-less popups (autopoll, ad slots, etc.). The 2008
-        // AG site's /fun.html fires `window.open('/html/hp2_poll_1.html',
-        // 'Weekly_Poll', 'width=260,height=340')` on page load — WebKit's
-        // user-gesture token from the click that navigated TO fun.html
-        // sometimes propagates, so the popup is marked .linkActivated even
-        // though it's script-initiated. The reliable signal is that scripted
-        // window.open calls always supply explicit width/height in
-        // windowFeatures, while user-clicked `target='_blank'` links don't.
-        if windowFeatures.width != nil || windowFeatures.height != nil {
+        // We used to suppress popups that supplied explicit width/height,
+        // because /fun.html's autopoll.js opened the Weekly Poll that way
+        // and the poll's Flash banner failed in Ruffle. That was collateral
+        // damage — useful user-clicked popups (wallpaper installer
+        // instructions on /coconut/wallpapers.html, the "share this card"
+        // dialogs, etc.) also have explicit dimensions and were getting
+        // killed.
+        //
+        // The autopoll is now disarmed at source level by the patcher
+        // (sets pollCanGo=false in autopoll.js), so popups with dimensions
+        // are no longer an autopoll-risk signal. Let user-clicked popups
+        // through; load them in the current webView since this is a
+        // single-window app.
+        guard let url = navigationAction.request.url else {
             return nil
         }
-        guard navigationAction.navigationType == .linkActivated,
-              let url = navigationAction.request.url else {
-            return nil
+        if navigationAction.navigationType != .linkActivated {
+            return nil    // script-initiated, no user gesture → block
         }
-        webView.load(URLRequest(url: url))
+        let scheme = url.scheme?.lowercased() ?? ""
+        if scheme == "http" || scheme == "https" {
+            NSWorkspace.shared.open(url)
+        } else {
+            webView.load(URLRequest(url: url))
+        }
         return nil
     }
 

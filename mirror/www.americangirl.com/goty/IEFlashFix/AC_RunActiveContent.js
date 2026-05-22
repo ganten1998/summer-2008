@@ -1,3 +1,4 @@
+/* AGD-PATCHED v2 */
 /* AGD-PATCHED v1 */
 //v1.0
 //Copyright 2006 Adobe Systems, Inc. All rights reserved.
