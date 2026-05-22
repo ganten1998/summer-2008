@@ -2,8 +2,8 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<!-- AGD-PATCHED v5 -->
-<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script>
+<!-- AGD-PATCHED v6 -->
+<script src="agd://runtime/ruffle-boot.js" data-agd-runtime="ruffle-boot"></script><script src="agd://runtime/ruffle/ruffle.js" data-agd-runtime="ruffle"></script><script src="agd://runtime/flash-bridge.js" data-agd-runtime="flash-bridge"></script><script src="agd://runtime/volume-control.js" data-agd-runtime="volume-control"></script><style data-agd-runtime="hide-dead-ui">li.search,form[name="contentSearch"],form[action*="/__agd/dead-form.html"]{display:none!important;}</style>
 <link rel="shortcut icon" href="favicon.ico">
 <title>American Girl</title>
 <meta name="keywords" content="American Girl, Fun for Girls, Dolls, Historic Dolls, The American Girls Collection, American Girl Today, Coconut, Licorice, Kailey, Lindsey, Bitty Baby, Bitty Twins, American Girl magazine, Pleasant Company Publications, Dress like your doll, Outfits and extras, American Girl Place Chicago, American Girl Place New York, American Girl Place Los Angeles, A Day at American Girl Place, special events, birthday parties, American Girl Theater, Circle of Friends, American Girls Revue, American Girl Cafe, Shop, Doll Hair Salon, gifts, Gift Registry, Wish List, Pleasant Company, Pleasant Rowland, AG Place, American Girl catalogue, Kaya, Felicity, Elizabeth, Josefina, Kirsten, Addy, Samantha, Nellie, Kit, Molly, Emily">

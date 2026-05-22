@@ -32,7 +32,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MIRROR = ROOT / "mirror"
 BACKUP = ROOT / "mirror_unpatched"
-SENTINEL = "<!-- AGD-PATCHED v5 -->"
+SENTINEL = "<!-- AGD-PATCHED v6 -->"
 # Old sentinel markers we know how to recognize so we can force a re-patch
 # when the format changes. When any of these are seen we restore the file
 # from BACKUP/ before re-running the patcher.
@@ -41,6 +41,7 @@ OLD_SENTINELS = (
     "<!-- AGD-PATCHED v2 -->",
     "<!-- AGD-PATCHED v3 -->",
     "<!-- AGD-PATCHED v4 -->",
+    "<!-- AGD-PATCHED v5 -->",
 )
 
 # Hosts we re-route to our scheme. Anything else stays untouched so the
@@ -125,6 +126,16 @@ RUNTIME_TAGS = (
     'data-agd-runtime="flash-bridge"></script>'
     '<script src="agd://runtime/volume-control.js" '
     'data-agd-runtime="volume-control"></script>'
+    # Hide AG's global "Content Search" widget — its CSS lived on a file
+    # we don't have, so it renders as a raw label + text input + bullet
+    # at the top of every wrapper page. The search submits to a dead
+    # backend (the dead-form stub) anyway, so just hide it entirely.
+    '<style data-agd-runtime="hide-dead-ui">'
+    'li.search,'
+    'form[name="contentSearch"],'
+    'form[action*="/__agd/dead-form.html"]'
+    '{display:none!important;}'
+    '</style>'
 )
 
 
