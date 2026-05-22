@@ -123,37 +123,40 @@ internal static class StubPages
                        + (string.IsNullOrEmpty(uri.Query) ? "" : uri.Query);
         var encoded = System.Net.WebUtility.HtmlEncode(url);
         var waybackEncoded = System.Net.WebUtility.HtmlEncode(waybackUrl);
-        return $"""
+        // Double-dollar raw interpolated string: `{` is literal (for CSS),
+        // `{{name}}` is interpolation. Avoids the brace-counting compile
+        // error the single-$ variant hits on CSS-heavy multi-line content.
+        return $$"""
         <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Not in this archive — Summer 2008</title>
         <style>
-          :root {{ color-scheme: light; }}
-          html, body {{ margin:0; padding:0; min-height:100vh; background:#FBF6EB;
-            font-family:-apple-system,'Segoe UI','SF Pro Text',sans-serif; color:#4A2C20; }}
-          .wrap {{ max-width:560px; margin:0 auto; padding:88px 32px 48px; }}
-          .stamp {{ display:inline-block; background:#A6192E; color:#FBF6EB;
+          :root { color-scheme: light; }
+          html, body { margin:0; padding:0; min-height:100vh; background:#FBF6EB;
+            font-family:-apple-system,'Segoe UI','SF Pro Text',sans-serif; color:#4A2C20; }
+          .wrap { max-width:560px; margin:0 auto; padding:88px 32px 48px; }
+          .stamp { display:inline-block; background:#A6192E; color:#FBF6EB;
             font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; font-weight:700;
-            padding:5px 12px; border-radius:999px; margin-bottom:16px; }}
-          h1 {{ font-family:'Hoefler Text',Georgia,serif; font-style:italic; font-weight:400;
-            color:#7C0C1F; font-size:28px; line-height:1.18; margin:0 0 12px; }}
-          p {{ font-size:14px; line-height:1.6; color:#5a3a2e; margin:0 0 14px; }}
-          code {{ background:rgba(166,25,46,0.06); border:1px solid rgba(166,25,46,0.16);
+            padding:5px 12px; border-radius:999px; margin-bottom:16px; }
+          h1 { font-family:'Hoefler Text',Georgia,serif; font-style:italic; font-weight:400;
+            color:#7C0C1F; font-size:28px; line-height:1.18; margin:0 0 12px; }
+          p { font-size:14px; line-height:1.6; color:#5a3a2e; margin:0 0 14px; }
+          code { background:rgba(166,25,46,0.06); border:1px solid rgba(166,25,46,0.16);
             border-radius:4px; padding:2px 7px; font-family:'Segoe UI Mono','SF Mono',Menlo,monospace;
-            font-size:11.5px; color:#7C0C1F; overflow-wrap:anywhere; display:inline-block; max-width:100%; }}
-          .actions {{ display:flex; gap:10px; flex-wrap:wrap; margin-top:24px; }}
-          .btn {{ display:inline-block; padding:9px 20px; border-radius:999px;
+            font-size:11.5px; color:#7C0C1F; overflow-wrap:anywhere; display:inline-block; max-width:100%; }
+          .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:24px; }
+          .btn { display:inline-block; padding:9px 20px; border-radius:999px;
             font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; font-weight:600;
             text-decoration:none; border:1px solid transparent;
-            font-family:-apple-system,'Segoe UI',sans-serif; }}
-          .btn.primary {{ background:#A6192E; color:#FBF6EB; }}
-          .btn.ghost {{ background:transparent; color:#A6192E; border-color:#A6192E; }}
+            font-family:-apple-system,'Segoe UI',sans-serif; }
+          .btn.primary { background:#A6192E; color:#FBF6EB; }
+          .btn.ghost { background:transparent; color:#A6192E; border-color:#A6192E; }
         </style></head><body>
           <main class="wrap">
             <span class="stamp">Not in this archive</span>
             <h1>That page wasn’t crawled.</h1>
-            <p>The URL <code>{encoded}</code> isn’t in the bundled 2008 snapshot.</p>
+            <p>The URL <code>{{encoded}}</code> isn’t in the bundled 2008 snapshot.</p>
             <p>You might find it on the Wayback Machine’s live capture — closest 2008 mirror is here:</p>
             <div class="actions">
-              <a class="btn primary" href="{waybackEncoded}" target="_blank">Try the Wayback Machine</a>
+              <a class="btn primary" href="{{waybackEncoded}}" target="_blank">Try the Wayback Machine</a>
               <a class="btn ghost" href="agd://dashboard/index.html">Back to the Dashboard</a>
             </div>
           </main></body></html>
