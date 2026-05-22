@@ -20,7 +20,12 @@
 
   var PREFS_URL = "agd://runtime/__prefs__/volume";
   var LOCAL_CACHE_KEY = "agd:volume:cache";  // mirrors the server value for instant-render
-  var DEFAULT_VOLUME = 0.8;
+  // Default is muted. A 2008 American Girl game shouldn't blast audio
+  // on launch — users with no prior preference get silence, which they
+  // can lift via the bottom-right slider. Anyone who's set a volume
+  // previously has their value restored through the prefs endpoint +
+  // localStorage cache.
+  var DEFAULT_VOLUME = 0;
 
   // ---------------------------------------------------------------- prefs IO
 

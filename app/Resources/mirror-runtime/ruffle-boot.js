@@ -12,6 +12,23 @@
 (function () {
   "use strict";
 
+  // Cached-volume bootstrap. Read the persisted slider value out of
+  // localStorage BEFORE anything else so the AudioContext capture +
+  // the RufflePlayer.config below both start in the right state. Default
+  // is muted; users who'd set a volume previously get their value back.
+  var bootVol = 0;
+  var bootMuted = true;
+  try {
+    var __cached = localStorage.getItem("agd:volume:cache");
+    if (__cached != null) {
+      var __n = parseFloat(__cached);
+      if (isFinite(__n) && __n >= 0 && __n <= 1) {
+        bootVol = __n;
+        bootMuted = __n <= 0.005;
+      }
+    }
+  } catch (e) {}
+
   /* ──── Master gain injection + hard-mute ──────────────────────────
      We need TWO things to make a global volume slider work:
 
@@ -30,8 +47,8 @@
      wrap the constructor here and run BEFORE ruffle.js loads. */
   (function setupAudio() {
     var contexts = new Set();
-    var muted = false;
-    var currentGain = 1.0;
+    var muted = bootMuted;     // boot in cached / default-muted state
+    var currentGain = bootVol; // 0 by default → silent until slider
 
     function ensureMasterGain(ctx) {
       if (ctx.__agd_master_gain__) return ctx.__agd_master_gain__;
@@ -114,6 +131,12 @@
     autoplay: "on",
     unmuteOverlay: "hidden",
     splashScreen: false,
+
+    /* Default volume / mute state — see volume-control.js. Defaults to
+       muted; persisted via localStorage cache (read just above) so
+       returning users keep whatever they'd set. */
+    volume: bootVol,
+    muted:  bootMuted,
 
     /* Replace <object>, <embed>, and SWFObject calls site-wide */
     polyfills: true,
