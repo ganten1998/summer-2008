@@ -15,6 +15,7 @@ namespace Summer2008;
 public sealed class GameLauncher
 {
     private readonly string _projectorDir;
+    private readonly Action<string>? _notify;
 
     // Per-asset running projector tracking — every stub-click would
     // otherwise stack a fresh process; we focus the existing window
@@ -22,9 +23,10 @@ public sealed class GameLauncher
     private readonly Dictionary<string, Process> _running = new(StringComparer.OrdinalIgnoreCase);
     private readonly object _runningLock = new();
 
-    public GameLauncher(string projectorDir)
+    public GameLauncher(string projectorDir, Action<string>? notify = null)
     {
         _projectorDir = projectorDir;
+        _notify       = notify;
     }
 
     private bool TryFocusExisting(string key)
@@ -69,7 +71,12 @@ public sealed class GameLauncher
         {
             var localPath = ResolveLocal(assetUri, mirrorRootDir);
             if (localPath is null || !File.Exists(localPath))
+            {
+                // The link target points at a SWF/DCR that's not in the bundled
+                // mirror — most likely a piece of content the crawl didn't reach.
+                _notify?.Invoke($"Game asset not in archive: {assetUri.AbsolutePath}");
                 return false;
+            }
 
             var ext = Path.GetExtension(localPath).ToLowerInvariant();
             return ext switch
@@ -95,7 +102,14 @@ public sealed class GameLauncher
         //   projector\Flash\flashplayer_32_sa.exe
         var exe = Path.Combine(_projectorDir, "Flash", "flashplayer_32_sa.exe");
         if (!File.Exists(exe)) exe = Path.Combine(_projectorDir, "flashplayer_32_sa.exe");
-        if (!File.Exists(exe)) return false;
+        if (!File.Exists(exe))
+        {
+            // Silent fail used to surface as "the projector pill does nothing".
+            // Tell the user what's actually missing so they can either reinstall
+            // or, for devs running dotnet run, hydrate projector-windows\.
+            _notify?.Invoke("Flash Player projector not bundled — reinstall the app, or for development, run tools\\fetch-projector-windows.ps1.");
+            return false;
+        }
 
         var psi = new ProcessStartInfo
         {
@@ -114,18 +128,27 @@ public sealed class GameLauncher
         if (TryFocusExisting(dcrPath)) return true;
 
         // We prefer PJ12 (Director 12 player) — same default as the macOS
-        // GameLauncher. Fall back to PJ1159 / PJ1158 / older.
-        string[] candidates =
+        // GameLauncher. Fall back to older runtimes. Each PJ folder ships in
+        // one of two naming conventions:
+        //   • Flashpoint local copy:  Shockwave\PJ12\Projector.exe
+        //   • CI build-deps tarball:  Shockwave\PJ12\PJ12.exe (pre-renamed
+        //     so multiple projectors can co-exist on a flat PATH)
+        // We probe both per PJ version in preference order.
+        string[] versions = { "PJ12", "PJ1159", "PJ1158", "PJ1103", "PJ11_5",
+                              "PJ10", "PJ101", "PJ9", "PJ851" };
+        string? exe = null;
+        foreach (var v in versions)
         {
-            Path.Combine(_projectorDir, "Shockwave", "PJ12", "PJ12.exe"),
-            Path.Combine(_projectorDir, "Shockwave", "PJ1159", "PJ1159.exe"),
-            Path.Combine(_projectorDir, "Shockwave", "PJ1158", "PJ1158.exe"),
-            Path.Combine(_projectorDir, "Shockwave", "PJ11_5", "PJ11_5.exe"),
-            Path.Combine(_projectorDir, "Shockwave", "PJ10", "PJ10.exe"),
-            Path.Combine(_projectorDir, "Shockwave", "PJ851", "PJ851.exe"),
-        };
-        var exe = Array.Find(candidates, File.Exists);
-        if (exe is null) return false;
+            var a = Path.Combine(_projectorDir, "Shockwave", v, "Projector.exe");
+            var b = Path.Combine(_projectorDir, "Shockwave", v, v + ".exe");
+            if (File.Exists(a)) { exe = a; break; }
+            if (File.Exists(b)) { exe = b; break; }
+        }
+        if (exe is null)
+        {
+            _notify?.Invoke("Director (Shockwave) projector not bundled — reinstall the app, or for development, run tools\\fetch-projector-windows.ps1.");
+            return false;
+        }
 
         var psi = new ProcessStartInfo
         {

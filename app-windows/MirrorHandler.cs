@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Web.WebView2.Core;
 
@@ -32,7 +34,23 @@ public sealed class MirrorHandler
     private readonly string _mirrorDir;
     private readonly string _dashboardDir;
     private readonly string _runtimeDir;
+    private readonly string _cacheDir;
     private readonly PrefsStore _prefs;
+
+    // Single static HttpClient — socket exhaustion if we new one per request.
+    private static readonly HttpClient _http = CreateHttpClient();
+
+    private static HttpClient CreateHttpClient()
+    {
+        var c = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+        c.DefaultRequestHeaders.UserAgent.ParseAdd("Summer2008-Windows/1.0 (offline preservation)");
+        return c;
+    }
+
+    // Snapshot the project pins to — same constant as MirrorURLSchemeHandler.swift:21.
+    // The `id_` flag on the Wayback URL returns the raw resource without
+    // Wayback's wrapper HTML/JS injection.
+    private const string SnapshotTimestamp = "20080711092743";
 
     // Subdomains we deliberately didn't crawl (e-commerce, partial captures,
     // ad/email tracking). Show a styled "wasn't preserved" stub when the
@@ -55,12 +73,13 @@ public sealed class MirrorHandler
         ".svg", ".woff", ".woff2", ".ttf"
     };
 
-    public MirrorHandler(string resourcesDir, PrefsStore prefs)
+    public MirrorHandler(string resourcesDir, string userDataDir, PrefsStore prefs)
     {
         _resourcesDir = resourcesDir;
         _mirrorDir    = Path.Combine(resourcesDir, "mirror");
         _dashboardDir = Path.Combine(resourcesDir, "dashboard");
         _runtimeDir   = Path.Combine(resourcesDir, "mirror-runtime");
+        _cacheDir     = Path.Combine(userDataDir, "cache");
         _prefs        = prefs;
     }
 
@@ -169,12 +188,107 @@ public sealed class MirrorHandler
                 }
             }
 
-            // 8. Not in archive.
+            // 8. Runtime cache — anything previously backfilled from Wayback
+            //    lives at %LOCALAPPDATA%\Summer 2008\cache\<host>\<path>.
+            var cachePath = ResolveCachePath(host, path, query);
+            if (cachePath is not null && File.Exists(cachePath))
+            {
+                args.Response = ServeFile(env, cachePath, uri);
+                return;
+            }
+
+            // 9. Last resort: fetch from web.archive.org with our snapshot
+            //    timestamp, cache the result, then serve it. Matches the
+            //    macOS shell's backfillFromWayback at MirrorURLSchemeHandler.swift:564
+            //    so missing assets (e.g. site/images/imgPlay.gif) heal on first view
+            //    instead of showing as broken images. Uses a deferral because the
+            //    WebView2 event handler can't await.
+            if (cachePath is not null)
+            {
+                var deferral = args.GetDeferral();
+                _ = BackfillFromWaybackAsync(env, args, uri, host, path, query, cachePath, deferral);
+                return;
+            }
+
+            // 10. Truly unservable (couldn't compute a cache path).
             args.Response = StubPages.NotFoundResponse(env, uri);
         }
         catch (Exception ex)
         {
             args.Response = StubPages.ErrorResponse((CoreWebView2)sender!, ex);
+        }
+    }
+
+    private string? ResolveCachePath(string host, string path, string query)
+    {
+        try
+        {
+            if (path.EndsWith("/", StringComparison.Ordinal)) path += "index.html";
+            var rel = path.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
+            var full = Path.Combine(_cacheDir, host, rel);
+            if (!string.IsNullOrEmpty(query))
+            {
+                var safe = Regex.Replace(query, "[^A-Za-z0-9._-]+", "_");
+                safe = safe.TrimEnd('.', ' ');
+                if (safe.Length > 128) safe = safe[..128].TrimEnd('.', ' ');
+                full = full + "__" + safe;
+            }
+            return full;
+        }
+        catch { return null; }
+    }
+
+    private async Task BackfillFromWaybackAsync(
+        CoreWebView2 env,
+        CoreWebView2WebResourceRequestedEventArgs args,
+        Uri uri, string host, string path, string query,
+        string cachePath,
+        CoreWebView2Deferral deferral)
+    {
+        try
+        {
+            var qPart = string.IsNullOrEmpty(query) ? "" : "?" + query;
+            var originalUrl = "http://" + host + path + qPart;
+            var wbUrl = $"https://web.archive.org/web/{SnapshotTimestamp}id_/{originalUrl}";
+
+            using var resp = await _http.GetAsync(wbUrl).ConfigureAwait(false);
+            if (!resp.IsSuccessStatusCode)
+            {
+                args.Response = StubPages.NotFoundResponse(env, uri);
+                return;
+            }
+
+            var bytes = await resp.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+
+            // Persist to cache so subsequent views serve offline.
+            try
+            {
+                var dir = Path.GetDirectoryName(cachePath);
+                if (dir is not null) Directory.CreateDirectory(dir);
+                File.WriteAllBytes(cachePath, bytes);
+            }
+            catch { /* best effort — serve from memory if cache write fails */ }
+
+            var mime = MimeFor(cachePath);
+            var stream = new MemoryStream(bytes);
+            var headers = string.Join("\r\n",
+                $"Content-Type: {mime}",
+                $"Content-Length: {bytes.Length}",
+                "Cache-Control: no-store",
+                "Access-Control-Allow-Origin: *",
+                "X-AGD-Source: wayback-backfill");
+            args.Response = env.Environment.CreateWebResourceResponse(stream, 200, "OK", headers);
+        }
+        catch
+        {
+            // Network failure, DNS failure, timeout, etc. — serve the 404 stub
+            // so the user sees a clean "not in this archive" rather than a
+            // browser-default error page.
+            try { args.Response = StubPages.NotFoundResponse(env, uri); } catch { }
+        }
+        finally
+        {
+            deferral.Complete();
         }
     }
 

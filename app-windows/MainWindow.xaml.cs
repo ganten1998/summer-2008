@@ -21,7 +21,19 @@ public partial class MainWindow : Window
     {
         var resources = Path.Combine(App.AppBaseDir, "Resources");
         var prefs     = new PrefsStore(Path.Combine(App.UserDataPath, "prefs.json"));
-        var games     = new GameLauncher(Path.Combine(App.AppBaseDir, "projector"));
+        // notify: surface launch failures as a transient JS toast inside the
+        // WebView instead of silently doing nothing — used when the bundled
+        // projector exe is missing (dev runs that skipped fetch-projector-windows)
+        // or the clicked SWF/DCR isn't in the mirror.
+        var games     = new GameLauncher(
+            Path.Combine(App.AppBaseDir, "projector"),
+            notify: msg => Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (Browser?.CoreWebView2 is null) return;
+                var safe = System.Text.Json.JsonSerializer.Serialize(msg);
+                _ = Browser.CoreWebView2.ExecuteScriptAsync(
+                    $"window.__agd_showToast && window.__agd_showToast({safe})");
+            })));
 
         // Initialise WebView2 with a user-data folder under %LOCALAPPDATA% so
         // localStorage (welcome-modal flag, volume cache) and cookies persist
@@ -65,7 +77,7 @@ public partial class MainWindow : Window
 
         await Browser.EnsureCoreWebView2Async(env);
 
-        _mirror = new MirrorHandler(resources, prefs);
+        _mirror = new MirrorHandler(resources, App.UserDataPath, prefs);
         _nav    = new NavHandler(Browser.CoreWebView2, games);
 
         Browser.CoreWebView2.AddWebResourceRequestedFilter(
@@ -89,6 +101,11 @@ public partial class MainWindow : Window
             else if (msg == "forward" && Browser.CoreWebView2.CanGoForward) Browser.CoreWebView2.GoForward();
         };
         await Browser.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(NavBarJs);
+        // Toast helper used by GameLauncher's notify callback. Registered once
+        // per document so __agd_showToast is available on every page — including
+        // the dashboard, where a failure-to-launch could plausibly happen if
+        // the user clicks a game tile that resolves to a missing asset.
+        await Browser.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(ToastJs);
 
         // Quality-of-life tweaks that match the macOS shell.
         var settings = Browser.CoreWebView2.Settings;
@@ -179,6 +196,56 @@ public partial class MainWindow : Window
       } else {
         inject();
       }
+    })();
+    """;
+
+    // Transient toast surface for host-originated messages (currently:
+    // GameLauncher reporting missing projector exe or missing mirror asset).
+    // Bottom-center pill, autodismisses after ~4.5s. Re-entrant — stacks
+    // multiple toasts vertically if more than one fires close together.
+    private const string ToastJs = """
+    (function () {
+      if (window.__agd_showToast) return;
+      window.__agd_showToast = function (msg) {
+        var run = function () {
+          var stackId = '__agd_toast_stack';
+          var stack = document.getElementById(stackId);
+          if (!stack) {
+            stack = document.createElement('div');
+            stack.id = stackId;
+            stack.style.cssText = [
+              'position:fixed','left:50%','bottom:24px','transform:translateX(-50%)',
+              'z-index:2147483647','display:flex','flex-direction:column','gap:8px',
+              'align-items:center','pointer-events:none'
+            ].join(';');
+            (document.body || document.documentElement).appendChild(stack);
+          }
+          var t = document.createElement('div');
+          t.textContent = String(msg);
+          t.style.cssText = [
+            'padding:11px 20px','background:#3B0F0F','color:#FBF6EB',
+            "font:13.5px/1.4 -apple-system,'Segoe UI',sans-serif",
+            'border-radius:8px','box-shadow:0 6px 22px rgba(0,0,0,.32)',
+            'max-width:80vw','text-align:center','pointer-events:auto',
+            'opacity:0','transform:translateY(8px)',
+            'transition:opacity .2s, transform .2s'
+          ].join(';');
+          stack.appendChild(t);
+          requestAnimationFrame(function () {
+            t.style.opacity = '1';
+            t.style.transform = 'translateY(0)';
+          });
+          setTimeout(function () {
+            t.style.opacity = '0';
+            t.style.transform = 'translateY(8px)';
+            setTimeout(function () {
+              if (t.parentNode) t.parentNode.removeChild(t);
+            }, 250);
+          }, 4500);
+        };
+        if (document.body) run();
+        else document.addEventListener('DOMContentLoaded', run, { once: true });
+      };
     })();
     """;
 }
