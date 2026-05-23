@@ -1,0 +1,533 @@
+/* CSS Document */
+
+/*******  Global Styles ********/
+
+/* Selectors */
+body {
+	margin:0;
+	padding:0;
+	font: small Arial,Helvetica, sans-serif;
+	background-color: #FFFFFF;
+	color:#333333;
+}
+
+p,
+blockquote,
+cite,
+dl,
+#content ul,
+#popupContent ul,
+#popupContent ol,
+#popupContent div.directionStartingPoint {
+	font-size: 85%;
+	line-height: 145%;
+}
+p, blockquote, cite, dl {
+	margin: 0 0 8px 0;
+	padding: 0 30px 0 0px;
+}
+
+a {
+	color:#990033;
+	text-decoration: none;
+}
+sup {
+	font-size:90%;
+	padding:0 0 0 2px; 
+	margin:0;
+}
+ul {
+	list-style-type:none;
+	margin-left:-20px;
+}
+ul li {
+	padding-left:10px;
+	background: url(/stores/images/bullet.gif) no-repeat 2px 3px;
+	margin-left:-15px;
+}
+
+blockquote {
+	margin:0;
+	padding:15px 0 0 0;
+	clear:both;
+}
+cite {
+	padding:10px 0 10px 7px;
+	float:left;
+	clear:both;
+	font-style:normal;
+	background:url(/stores/images/dash.gif) no-repeat 0 17px;
+}
+
+img {
+	border:none;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
+
+/* Classes & ids */
+#wrapper {
+	margin: 0 auto;
+	width: 750px;
+	overflow:hidden;
+}
+
+div#content {
+	width: 750px;
+	top: 4px;
+	padding:0;
+	position:relative;
+	z-index: 0;
+	float:left;
+}
+div#content ul {
+	font-size: 85%;
+	line-height: 150%;
+	margin:0 0 0 -25px;
+}
+
+
+/***************** Section-specific or Multi-page styles ******************/
+div#promo img {
+	margin-top:15px;
+}
+div#main {
+	float:left;
+	width:75%;
+	background: url(/stores/images/border_vert.gif) repeat-y top right;
+	margin-top:15px;
+	margin-right:15px;
+}
+div#sidebar {
+	float:left;
+	width:20%;
+}
+div#sidebar p {
+	padding: 10px 0 10px 0;
+}
+#sidebar div {
+	background: url(/stores/images/border_horiz.gif) repeat-x bottom left;
+	float:left;
+}
+#sidebar div.last {
+	background-image:none;
+}
+.location h2,
+.brand h2,
+.experience h2 {
+	margin:0;
+	padding:15px 0 10px 0;
+	font-size: 130%;
+	font-weight: normal;
+	color:#80379B;
+	text-transform:uppercase;
+}
+div#intro h1 {
+	position:absolute; 
+	left:0px; 
+	top:-500px; 
+	width:1px; 
+	height:1px; 
+	overflow:hidden;
+	}
+div#intro h2 {
+	font-size: 150%;
+	font-weight: normal;
+	color:#e21776;
+	text-transform:none;
+}
+div#intro ul li,
+#pageContents ul li {
+	display: inline;
+	border-right: 1px solid #333333;
+	padding: 0 8px 0 7px;
+	margin:0;
+	background-image:none;
+}
+div#intro ul li.last,
+#pageContents ul li.last {
+	border-right:none;
+}
+
+div#intro ul li.first,
+#pageContents ul li.first {
+	margin-left: 0px;
+	padding-left: 0px ;
+}
+div#storeInfo h3,
+div#sidebar h3 {
+	color:#80379B;
+	font-weight:normal;
+	font-size: 100%;
+}
+div#sidebar h3 {
+	padding:15px 0 0 0;
+	margin:0;
+}
+
+
+
+
+	/*****  Packages ******/
+div#packages h3 {
+	font-size: 94%;
+	color:#990033;
+	width: 120px;
+}
+div.packageDeal {
+	width:135px;
+	height:275px;
+	float:left;
+}
+
+
+
+
+/*****  Promos ******/
+div#eventsPromo {
+	float:right;
+	margin:20px 0 20px 0;
+	width: 25%;
+	height: 200px;
+	background-color: #FCEAF4;
+	border: 1px solid #FAD3E4;
+}
+
+/*****  FAQs ******/
+div#faq {
+	clear:both;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /***** Special Packages ******/
+ #packages #intro {
+	background: url(/stores/images/intro_packages.jpg) no-repeat top left;
+ }
+ body#packages img,
+ body#packages div.packageDescription,
+ body#packages .storeDetails,
+ #eventIndex .eventInfo {
+	 float: left;
+ }
+ body#packages img {
+ 	padding: 20px 10px;
+	clear:left;
+ }
+ 
+.packageDescription {
+	width:550px;
+}
+.experience h3,
+.experience h4,
+#eventIndex h3 {
+	margin:30px 0 0 0;
+	font-size: 100%;
+	color:#333333;
+	font-weight:bold;
+}
+.theaterInfo h4 {
+  font-weight:normal;
+  color: #80379B;
+  font-size:95%;
+  margin:0;
+  padding:0 0 5px 0;
+}
+.storeDetails h4,
+.eventLocations h4 {
+	font-size: 90%;
+	padding-bottom:3px;
+}
+.storeDetails ul,
+.eventLocations ul {
+	list-style:none;
+}
+.eventLocations ul li {
+	background-image:none;
+}
+.storeDetails li {
+	margin-left:-15px;
+}
+div.packageItem,
+#eventIndex div.eventModule,
+.expSection {
+	clear:left;
+	float:left;
+	background: url(/stores/images/border_horiz.gif) repeat-x bottom left;
+	padding-bottom:15px;
+	width:100%;
+}
+div#latePkg {
+	xbackground-image:none;
+}
+div.packageDescription p {
+	padding-bottom:15px;
+}
+.storeDetails {
+	padding-left:20px;
+
+}
+
+.expSection h2 {
+	padding: 25px 0 5px 0;
+}
+.expSection h4 {
+	font-size:90%;
+	margin:0;
+	padding:0 0 3px 0;
+}
+.expSection img {
+	padding: 20px 15px 10px 0;
+	float:left;
+}
+.sectionHeader,
+.expSubSection {
+	width:100%;
+	float:left;
+}
+.sectionHeader h2 {
+	width:430px;
+	float:left;
+}
+.sectionHeader p {
+	width: 300px;
+	float:left;
+}
+.expSubSection {
+	clear:both;
+}
+.expSection p {
+	line-height:125%;
+	padding-right:0;
+}
+.expSubSection h3 {
+	margin:0;
+	padding:0 0 5px 0;
+}
+.expSection .locations ul {
+	list-style:none;
+	margin:0;
+	padding:0 0 20px 25px;
+}
+.expSection .locations ul li {
+	display:inline;
+	border-right: 1px solid #333333;
+	padding:0 6px 0 15px;
+	margin-right:3px;
+	background-image:none;
+}
+.expSection .locations li.last {
+	border:none;
+}
+.expSubSection p,
+.expSubSection h3 {
+	width:430px;
+	float:left;
+}
+.expSection .locations {
+	float:left;
+	padding-left:30px;
+}
+.sectionHeader .locations {
+	margin-top:-20px;
+}
+#shoppingIndex {
+	background-image:none;
+}
+#salonInfo {
+	float:left;
+	width:330px;
+}
+#salon .section {
+	float:left;
+	padding-bottom:6px;
+	margin-right:15px;
+}
+body#salon h3 {
+	margin:0;
+	padding:auto 0 5px 0;
+}
+div.last {
+	background-image:none;
+}
+
+ /***** Contact Us ******/
+ body#contact #intro{
+ 	margin-top:50px;
+	margin-bottom:20px;
+ }
+ body#contact #intro h1{
+	position:static;
+	margin:0;
+	padding-bottom:10px;
+	height: auto;
+	width: auto;
+	text-transform:uppercase;
+	font-size:140%;
+	color:#80379B;
+	font-weight:normal;
+	}
+body#contact #intro ul {
+	list-style-type:disc;
+	margin-left:15px;
+}
+body#contact #intro li{
+ 	margin: auto;
+	padding:0;
+	display: list-item;
+	border:none;
+ }
+body#contact #intro p,
+body#contact #intro ul {
+	padding-left:0;
+}
+
+body#contact #content form,
+body#contact #content select,
+body#contact #content input {
+	font-size:90%;
+}
+
+body#contact #content label,
+body#contact #content input,
+body#contact #content textarea,
+body#contact #content select {
+  margin-top:8px;
+  margin-bottom:8px;
+  width:350px;
+}
+
+form#email_us div{
+	clear:left;
+}
+
+body#contact #content label {
+	display:block;
+	width:95px;
+	float:left;
+	clear:left;
+}
+body#contact input#submit {
+	margin-left:95px;
+	margin-bottom:30px;
+	width:auto;
+	border:0;
+	font: 85% Arial, Helvetica, sans-serif;
+	color: #FFF;
+	text-decoration: none;
+	font-weight: bold;
+	background: #990033 url(/stores/images/btnShadow.gif) no-repeat bottom right;
+	padding: 5px 12px 9px 8px;
+	cursor:pointer;
+}
+
+body#contact #content ul {
+	padding-bottom:10px;
+}
+
+
+	/*****  Events (Location and Events Index page) ******/
+	
+div#specialEvents {
+	float:left;
+	clear:left;
+}
+
+div#events {
+	float:left;
+	width:525px;
+	clear:both;
+}
+div#eventsList h3 {
+	font-size:95%;
+}
+div#events span.monthDay {
+	font-weight:bold;
+display:block;
+}
+#eventIndex #content label,
+#eventIndex #content select {
+	font-size:90%;
+}
+#eventIndex #content label {
+	padding-right:5px;
+}
+
+.eventLocations {
+	width:280px;
+	float:left;
+}
+.eventLocations ul {
+	padding-left:30px;
+}
+
+#eventIndex #intro h1 {
+	padding:25px 0 3px 435px;
+}
+#eventIndex #intro h2 {
+	padding:0 0 40px 398px;
+}
+.allEvents div#intro {
+	background: #FCEBF6 url(/stores/images/intro_index.jpg) no-repeat 0 -20px;
+}
+.events #intro h1 {
+	position:static;
+	margin:0;
+	height: auto;
+	width: auto;
+	text-transform:uppercase;
+	font-size:140%;
+	color:#ffffff;
+	font-weight:normal;
+}
+.events #intro h2 {
+	margin:0 0 0 0;
+	color:#ffffff;
+	font-weight:normal;
+	font-style:italic;
+	font-size:140%;
+}
+
+
+
+#eventIndex #intro {
+	padding-bottom:53px;
+}
+#expIndex #intro {
+	padding-bottom:5px;
+}
+
+#eventIndex #content form {
+	padding-top:30px;
+}
+#eventIndex select {
+	margin-right:30px;
+}
+#eventIndex h3,
+#eventIndex h4 {
+	padding:25px 0 0 0;
+	margin:0;
+}
+#eventIndex .eventInfo {
+	width:465px;
+}
+
+a.jump {
+line-height:0;
+display:block;
+}

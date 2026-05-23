@@ -1,0 +1,117 @@
+/* CSS Document */
+
+/* Shared Styles */
+body {
+	background-color:#000000;
+	margin: 0 auto;
+	width: 700px;
+}
+#wrapper {
+	margin-top:65px;
+}
+
+h1,
+h2,
+div.copy {
+	position:absolute; 
+	left:0px; 
+	top:-500px; 
+	width:1px; 
+	height:1px; 
+	overflow:hidden;
+}
+img {
+	border:none;
+}
+
+
+/* Bookmark Pages */
+body#bookmarkPage div#wrapper {
+	width:700px;
+	height:470px;
+	background: url(../images/bookmark_page.jpg) no-repeat 0 0;
+	float:left;
+}
+
+body#bookmarkPage div#header img {
+	margin:122px 0 0 45px;
+	float:left;
+}
+body#bookmarkPage div#bookmark img {
+	margin:28px 0 0 159px;
+	float:left;
+}
+
+body#bookmarkPage div#button {
+	position:absolute;
+	margin:369px 0 0 45px;
+}
+
+/* Excerpt Pages */
+body#excerptPage div#wrapper {
+	width:700px;
+	height:470px;
+	background: url(../images/excerpt_page.jpg) no-repeat 0 0;
+	float:left;
+}
+body#excerptPage div#image {
+	margin:16px 0 0 18px;
+	float:left;
+}
+body#excerptPage div#bookCopy {
+	height:429px;
+	width:384px;
+	background-color:#f8f0de;
+	border:3px solid #900743;
+	margin:17px 0 0 27px;
+	float:left;
+	overflow:auto;
+}
+div#bookCopy p {
+	color: #333333;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding: 0px 15px 0 15px;
+}
+
+/* Wallpaper pages */
+body#wallpaperPage div#wrapper {
+	width:700px;
+	height:470px;
+	background: url(../images/wallpaper_page.jpg) no-repeat 0 0;
+	float:left;
+}
+body#wallpaperPage div#header {
+	margin:120px 0 0 45px;
+	float:left;
+}
+body#wallpaperPage div#wallpaper {
+	margin:129px 0 0 50px;
+	float:left;
+}
+body#wallpaperPage div#wallpaper div {
+	margin: 23px 0 0 0;
+}
+body#wallpaperPage div#wallpaper div img {
+	margin-right:15px;
+}
+body#wallpaperPage div#buttons {
+	margin:0 0 0 37px;
+	float:left;
+}
+body#wallpaperPage div#buttons img {
+	margin-right:24px;
+}
+
+
+/* Code Book Page */
+body#codebookPage div#wrapper {
+	width:700px;
+	height:470px;
+	background: url(../images/codebook_page.jpg) no-repeat 0 0;
+	float:left;
+}
+body#codebookPage div#button {
+	margin:368px 0 0 42px;
+}
+

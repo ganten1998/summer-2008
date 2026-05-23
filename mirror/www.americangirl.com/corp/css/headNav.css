@@ -1,0 +1,217 @@
+/******** header styles ********/
+.header {
+    width: 750px;
+    }
+
+    .header ul {
+    clear: both;
+    }
+	.header ul li {
+	background-image:none;
+	}
+ 
+ 
+ /********* skip nav *********/
+      a#skip { 
+      	position: absolute;
+        margin-left: -1000px;
+        /*use these rules below to work into design*/
+        font-size: x-small;
+      }
+      a#skip:focus, a#skip:active {
+      	margin-left: 0;
+        display: block;
+    	} 
+
+
+
+/******** shop tools ********/
+div.search {
+    letter-spacing:.5px;
+    float: right; 
+    margin: 8px 0;
+    clear:both;  
+	/*visibility: hidden;  */
+    }
+
+div.search * {
+    padding-top:0;
+    padding-bottom:0;
+    margin-top:0;
+    margin-bottom:0;
+}        
+
+    .shopTools a {
+        color: #903; 
+        font-size: 80%;
+        }
+
+    .search div {
+        clear: none;
+        }
+
+    .search label {
+        font-size: 75%;
+        padding: 0 4px 0 10px;
+        }
+        
+    .search input { 
+        border-right: 1px solid #FFF1F8;
+        border-bottom: 1px solid #FFF1F8;
+        padding-left:2px;
+        }        
+
+    .search a {
+    color: #222;
+        }
+
+.searchBtn {
+    display: inline; 
+    padding-left:10px;
+    
+    }
+
+    .searchBtn a {
+        background-color: #F9CDE2;
+        padding: 2px 6px 2px 6px;
+        border-right: 1px solid #888;
+        border-bottom:  1px solid #888; 
+        letter-spacing:0px;
+		font: 10px Arial, Helvetica, sans-serif;
+		text-decoration: none;
+        }
+
+
+/******** global nav ********/
+ul.globalNav {
+    height: 51px;
+    list-style: none;
+	clear:both;
+	padding:0;
+	margin:0;
+    }
+
+    ul.globalNav li, li.agLogo, li.shop, li.ffg, li.club, li.mag, li.movies, li.agp {
+        margin: 0; 
+        padding: 0;
+        list-style: none; 
+        display: inline;
+        }
+        
+    .globalNav a {
+        float: left;
+        padding: 51px 0 0 0;
+        overflow: hidden;
+        height: 0px !important; 
+        }
+    
+    .globalNav a:hover {
+        background-position: 0 -51px;
+        text-decoration: none;
+        }
+
+    .globalNav a.selected, .globalNav a:hover.selected {
+        background-position: 0 -102px;
+        }
+    
+.agLogo a {
+    width: 168px;
+    background: url(/corp/nav/agLogo.gif) top left no-repeat;
+	clear: both;    
+}
+    
+.shop a {
+    width: 97px;
+    background: url(/corp/nav/shop.gif) top left no-repeat; 
+    }
+    
+.ffg a {
+    width: 151px;
+    background: url(/corp/nav/ffg.gif) top left no-repeat;
+    }
+    
+.club a {
+    display:none;
+    }
+    
+.mag a {
+    width: 122px;
+    background: url(/corp/nav/mag.gif) top left no-repeat;
+    }
+    
+.movies a {
+    width: 103px;
+    background: url(/corp/nav/movies.gif) top left no-repeat;
+    }
+
+.stores a {
+    width: 109px; 
+    background: url(/corp/nav/stores.gif) top left no-repeat;
+    clear:right;
+}
+body#home .stores a:hover {
+	cursor:default;
+}
+    
+
+/*******  Sub Nav *******/
+
+div.subNav {
+    margin:1px 0 0 0;
+	border-top: 11px solid #F24B99;
+    position: relative;
+    z-index: 1;
+}
+
+div.subNav ul {
+    list-style: none;
+    padding:0; 
+    text-align: center;
+}
+
+div.subNav li {
+	display: inline;
+	padding:11px 0 2px 0;
+    background-color: #E0249A;
+    border: 1px solid #F6BEE1;
+    border-top: 1px solid #FFFFFF;
+	position: relative;
+	top:-13px;
+	margin:0;
+}
+
+div.subNav li a {
+	font-size: 90%;
+    text-transform: uppercase; 
+    text-decoration:none;
+	position:relative;
+	top:-4px;
+	margin:0;
+	padding:12px 24px 8px 24px; 
+	color:#FDE8F5;
+	font-weight:bold;
+}
+
+div.subNav li span {
+	text-transform:lowercase;
+}
+
+	/****** change sub navon boutique brand page ********/
+	xdiv.subNav li.brandSelected * {
+	padding-top:0;
+	margin-top:0;
+	padding-bottom:0;
+	margin-bottom:0;
+	}
+	div.subNav li.brandSelected {
+		padding: 11px 15px 8px 15px;
+		font-size: 100%;
+		color: #FFFFFF;
+		text-transform: uppercase; 
+		text-decoration:none;
+		font-weight:bold;	
+	}
+
+div.subNav li a:hover {
+	color:#FFFFFF;
+}

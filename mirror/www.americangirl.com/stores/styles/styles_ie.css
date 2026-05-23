@@ -1,0 +1,138 @@
+/* General Styles for IE 6+ */
+
+/*******  General Styles ********/
+ul {
+	list-style-type:none;
+}
+ul li {
+	padding-left:10px;
+	background: url(../images/bullet.gif) no-repeat 2px 4px;
+	margin-left:25px;
+}
+
+div#content {
+	margin-top: -12px;
+	width:750px;
+}
+div#intro {
+	width:750px;
+	overflow:hidden;
+}
+div#intro ul {
+	margin-left:10px;
+}
+div#intro ul span {
+padding-left:0;
+margin-left:-35px;
+}
+div#intro ul li {
+	margin: 0px;
+	padding: 0 5px 0 9px;
+}
+div#intro ul li.first {
+	margin: 0px;
+	padding: 0 5px 0 5px;
+	
+}
+
+#sidebar h3 {
+padding-top:15px;
+}
+/* Theater */
+#theater div#allShows {
+width:450px;
+}
+.theaterInfo {
+width:340px;
+} 
+
+
+
+/*Shopping*/
+#shopping #intro li {
+xpadding:0 2px 0 2px;
+margin-left:0px;
+}
+
+/*Bistro */
+#bistro ol {
+margin-left:25px;
+}
+#pageContents ul li {
+xpadding: 0 4px 0 9px;
+}
+
+/*Cafe and Bistro*/
+#cafe #tea ul,
+#bistro #sampleMenus ul {
+margin-left:15px;
+}
+#bistro .section {
+width:99%;
+}
+
+#pageContents ul span {
+margin-left:25px;
+}
+
+/* Parties */
+#parties #sampleMenus ul {
+margin-left:15px;
+}
+
+/* Photo Studio */
+#photo #intro ul span {
+margin-right:-5px;
+}
+
+/* Packages */
+div#packages {
+float:none;
+}
+#packages #pageContents ul {
+margin-left:-5px;
+}
+#packages .storeDetails ul {
+margin-left:15px;
+}
+
+
+/* Contact Us */
+body#contact #content label,
+body#contact #content input,
+body#contact #content textarea,
+body#contact #content select {
+	width:300px;
+}
+body#contact #content label {
+	width:110px;
+}
+body#contact #content input#submit {
+	margin-left:113px;
+	width:100px;
+	padding: 5px 4px 9px 0px;
+}
+body#contact #intro ul {
+margin-left:40px;
+}
+body#contact #content ul {
+margin:0;
+padding:0;
+float:left;
+clear:both;
+}
+body#contact #content ul li {
+margin:0;
+float:left;
+clear:both;
+}
+body#contact p {
+clear:both;
+}
+
+
+.location #theater ul li ul li {
+font-size:110%;
+}
+
+

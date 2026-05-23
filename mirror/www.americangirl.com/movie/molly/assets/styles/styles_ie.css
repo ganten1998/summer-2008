@@ -1,0 +1,67 @@
+/* Stylesheet for American Girl Movie - Molly 08.14.06 */
+
+#mollyHome {
+	top:0;
+}
+
+#mollyHome #info {
+	top: 318px;
+}
+
+#worldRecipes #directions ol {
+	margin-left:0px;
+	padding-left: 30px;
+}
+
+#worldActivities #intro p {
+	left: 0px;
+	}
+
+#worldRadio iframe {
+	height: 500px;
+	width:650px;
+	padding:0;
+	margin:0;
+}
+
+#party {
+	margin: 0 0 0 102px;
+}
+
+#party #directions ol {
+	margin-left:0px;
+	padding-left: 30px;
+}
+
+#party #ingredients {
+	left:-150px;
+}
+
+#party #equipment {
+	left:100px;
+}
+
+#PBJ #directions {
+	left:50px;
+}
+
+#popcorn #directions, #shirley #directions {
+	left:-50px;
+}
+
+#shirley #directions p {
+	position:relative;
+	left:40px;
+}
+
+.bio {
+	width: 426px;
+}
+
+#products p img {
+	top:0px;
+}
+
+#products img {
+	top: -74px;
+}

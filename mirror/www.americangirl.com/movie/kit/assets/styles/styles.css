@@ -1,0 +1,191 @@
+#wrapper {
+width:750px;
+margin:0 auto;
+}
+
+.header {
+float:left;
+}
+
+#winners{
+	background:url(/movie/kit/assets/images/sweeps_bg.jpg) no-repeat;
+	width:750px;
+	height: 860px;
+	margin:0  auto 20px auto;
+	text-align:left;
+	position:relative;
+float:left;
+}
+
+#winners h1{
+text-align: center;
+padding: 68px 0 0 0;
+}
+
+#winners h2{
+text-align: center;
+padding: 42px 0 0 0;
+font-size: 14px;
+}
+
+#winners h2 span {
+	padding: 0 0 0 20px;
+	font-size: 16px}
+
+#firstprize {
+	float: left;
+	padding: 42px 0 0 75px;
+	font-size: 14px;
+	line-height:24px;
+}
+
+#secondprize { 
+	margin: 0 0 0 350px;
+	padding: 42px 0 0 0;
+	font-size: 14px;
+	line-height:24px;
+}
+
+#firstprize ul, #secondprize ul {list-style: none; padding: 0; margin:20px 0 0 0; width: 170px;}
+
+
+#firstprize ul li, #secondprize ul li {}
+
+ #secondprize ul {float:left}
+
+#auditions{
+	background:url(/movie/kit/assets/images/bkgdVideo.jpg) no-repeat;
+	width:750px;
+	height: 860px;
+	margin:0px auto;
+	text-align:left;
+	position:relative;
+	margin-top: -20px;
+}
+
+#auditions h1, #auditions h2{
+	position:absolute;
+	left: -9999px;
+	font-size:1px;
+}
+
+#auditions h3 {
+	width: 480px;
+	position: absolute;
+	top:0px;
+	left:224px;
+	font-size: 14px;
+	line-height: 19px;
+	font-weight:normal;
+	text-align:center;
+}
+
+#auditions h4, #girls h4 {
+	color: #e21776;
+	font-size: 180%;
+	font-weight:normal;
+	margin:0;
+	padding:0;
+}
+
+#auditions #flashcontent1 {
+	position:absolute;
+	top:196px;
+	left:75px;
+}
+
+#auditions #flashcontent2 {
+	position:absolute;
+	top:548px;
+	left:75px;
+}
+
+#auditions span.new {
+	text-transform:uppercase;
+	color:#80379b;
+}
+
+#newVideo {
+	position:relative;
+	top: 305px;
+	left: 449px;
+	width: 210px;
+	font-size: 120%;
+	line-height: 120%;
+}
+
+#oldVideo1 {
+	position:relative;
+	top:540px;
+	left: 449px;
+	width: 200px;
+	font-size: 120%;
+	line-height: 120%;
+}
+
+/*#kitInfo {
+	position:absolute;
+	top:296px;
+	left:540px;
+	border: 10px solid #000;
+}
+
+#kitInfo p {
+	text-align:left;
+	padding:0 16px;
+	font-size:12px;
+	line-height: 18px;
+	color:#333;
+	width:176px;
+}
+
+#kitInfo p a {
+	font-size: 12px;
+}
+*/
+#girls {
+	width: 750px;
+	margin:0px auto 20px auto;
+	position: relative;
+}
+
+#girls p {
+	font-size:15px;
+	margin:0;
+}
+
+#bios {
+	margin-top:0px;
+	height: 818px;
+	background:url(/movie/kit/assets/images/girls.jpg) no-repeat;
+}
+
+#bios p {
+	width: 148px;
+	font-size: 12px;
+	line-height:16px;
+	text-align:left;
+	position:absolute;
+	top:360px;
+}
+
+#jordan{
+	left:40px;
+}
+
+#erin {
+	left:216px;
+}
+
+#elisabeth {
+	left:393px;
+}
+
+ #brieanne {
+	left:564px;
+	}
+
+.ftr {
+	width:750px;
+	margin:0px auto;
+}

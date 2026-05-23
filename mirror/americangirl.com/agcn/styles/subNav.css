@@ -1,0 +1,299 @@
+/* Styles for icon nav for Character pages */
+
+#charSubNav {
+	width: 720px;
+	xpadding-top: 1px;
+	margin: 0;
+	xfloat:left;
+	}
+
+	#charSubNav ul {
+	xclear: both;
+	}
+ul#subNavList {
+	margin: 0;
+	padding: 0;
+	height: 33px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul#subNavList li,
+	ul#subNavList li#games,
+	ul#subNavList li#charEcard,
+	ul#subNavList li#wallpaper,
+	ul#subNavList li#book,
+	ul#subNavList li#friends {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	ul#subNavList a {
+		float: left;
+		padding: 33px 0 0 0;
+		overflow: hidden;
+		height: 0px !important; 
+		}
+	
+	ul#subNavList a:hover {
+		background-position: 0 -33px;
+		text-decoration: none;
+		}
+	.gamesPage #subNavList li#games a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.ecardPage #subNavList li#charEcard a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.wallpaperPage #subNavList li#wallpaper a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.bookPage #subNavList li#book a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+	.friendsPage #subNavList li#friends a:hover {
+		background-position: 0 0;
+		cursor:default;
+	}
+
+/*kaya's menu buttons*/
+.kaya #games a {
+	width: 147px;
+	background: url(/agcn/includes/images/kaya/games.gif) top left no-repeat;
+}
+
+.kaya #charEcard a {
+	width: 143px;
+	background: url(/agcn/includes/images/kaya/ecard.gif) top left no-repeat;
+}
+
+.kaya #wallpaper a {
+	width: 143px;
+	background: url(/agcn/includes/images/kaya/wallpaper.gif) top left no-repeat;
+}
+
+.kaya #book a {
+	width: 143px;
+	background: url(/agcn/includes/images/kaya/book.gif) top left no-repeat;
+}
+
+.kaya #friends a {
+	width: 144px;
+	background: url(/agcn/includes/images/kaya/friends.gif) top left no-repeat;
+}
+
+/*felicity's menu buttons*/
+.felicity #games a {
+	width: 147px;
+	background: url(/agcn/includes/images/felicity/games.gif) top left no-repeat;
+}
+
+.felicity #charEcard a {
+	width: 143px;
+	background: url(/agcn/includes/images/felicity/ecard.gif) top left no-repeat;
+}
+
+.felicity #wallpaper a {
+	width: 143px;
+	background: url(/agcn/includes/images/felicity/wallpaper.gif) top left no-repeat;
+}
+
+.felicity #book a {
+	width: 143px;
+	background: url(/agcn/includes/images/felicity/book.gif) top left no-repeat;
+}
+
+.felicity #friends a {
+	width: 144px;
+	background: url(/agcn/includes/images/felicity/friends.gif) top left no-repeat;
+}
+
+/*josefina's menu buttons*/
+.josefina #games a {
+	width: 147px;
+	background: url(/agcn/includes/images/josefina/games.gif) top left no-repeat;
+}
+
+.josefina #charEcard a {
+	width: 143px;
+	background: url(/agcn/includes/images/josefina/ecard.gif) top left no-repeat;
+}
+
+.josefina #wallpaper a {
+	width: 143px;
+	background: url(/agcn/includes/images/josefina/wallpaper.gif) top left no-repeat;
+}
+
+.josefina #book a {
+	width: 143px;
+	background: url(/agcn/includes/images/josefina/book.gif) top left no-repeat;
+}
+
+.josefina #friends a {
+	width: 144px;
+	background: url(/agcn/includes/images/josefina/friends.gif) top left no-repeat;
+}
+
+/*kirsten's menu buttons*/
+.kirsten #games a {
+	width: 147px;
+	background: url(/agcn/includes/images/kirsten/games.gif) top left no-repeat;
+}
+
+.kirsten #charEcard a {
+	width: 143px;
+	background: url(/agcn/includes/images/kirsten/ecard.gif) top left no-repeat;
+}
+
+.kirsten #wallpaper a {
+	width: 143px;
+	background: url(/agcn/includes/images/kirsten/wallpaper.gif) top left no-repeat;
+}
+
+.kirsten #book a {
+	width: 143px;
+	background: url(/agcn/includes/images/kirsten/book.gif) top left no-repeat;
+}
+
+.kirsten #friends a {
+	width: 144px;
+	background: url(/agcn/includes/images/kirsten/friends.gif) top left no-repeat;
+}
+
+/*addy's menu buttons*/
+.addy #games a {
+	width: 147px;
+	background: url(/agcn/includes/images/addy/games.gif) top left no-repeat;
+}
+
+.addy #charEcard a {
+	width: 143px;
+	background: url(/agcn/includes/images/addy/ecard.gif) top left no-repeat;
+}
+
+.addy #wallpaper a {
+	width: 143px;
+	background: url(/agcn/includes/images/addy/wallpaper.gif) top left no-repeat;
+}
+
+.addy #book a {
+	width: 143px;
+	background: url(/agcn/includes/images/addy/book.gif) top left no-repeat;
+}
+
+.addy #friends a {
+	width: 144px;
+	background: url(/agcn/includes/images/addy/friends.gif) top left no-repeat;
+}
+
+/*samantha's menu buttons*/
+.samantha #games a {
+	width: 147px;
+	background: url(/agcn/includes/images/samantha/games.gif) top left no-repeat;
+}
+
+.samantha #charEcard a {
+	width: 143px;
+	background: url(/agcn/includes/images/samantha/ecard.gif) top left no-repeat;
+}
+
+.samantha #wallpaper a {
+	width: 143px;
+	background: url(/agcn/includes/images/samantha/wallpaper.gif) top left no-repeat;
+}
+
+.samantha #book a {
+	width: 143px;
+	background: url(/agcn/includes/images/samantha/book.gif) top left no-repeat;
+}
+
+.samantha #friends a {
+	width: 144px;
+	background: url(/agcn/includes/images/samantha/friends.gif) top left no-repeat;
+}
+
+/*kit's menu buttons*/
+.kit #games a {
+	width: 147px;
+	background: url(/agcn/includes/images/kit/games.gif) top left no-repeat;
+}
+
+.kit #charEcard a {
+	width: 143px;
+	background: url(/agcn/includes/images/kit/ecard.gif) top left no-repeat;
+}
+
+.kit #wallpaper a {
+	width: 143px;
+	background: url(/agcn/includes/images/kit/wallpaper.gif) top left no-repeat;
+}
+
+.kit #book a {
+	width: 143px;
+	background: url(/agcn/includes/images/kit/book.gif) top left no-repeat;
+}
+
+.kit #friends a {
+	width: 144px;
+	background: url(/agcn/includes/images/kit/friends.gif) top left no-repeat;
+}
+
+/*molly's menu buttons*/
+.molly #games a {
+	width: 147px;
+	background: url(/agcn/includes/images/molly/games.gif) top left no-repeat;
+}
+
+.molly #charEcard a {
+	width: 143px;
+	background: url(/agcn/includes/images/molly/ecard.gif) top left no-repeat;
+}
+
+.molly #wallpaper a {
+	width: 143px;
+	background: url(/agcn/includes/images/molly/wallpaper.gif) top left no-repeat;
+}
+
+.molly #book a {
+	width: 143px;
+	background: url(/agcn/includes/images/molly/book.gif) top left no-repeat;
+}
+
+.molly #friends a {
+	width: 144px;
+	background: url(/agcn/includes/images/molly/friends.gif) top left no-repeat;
+}
+
+/*julie's menu buttons*/
+.julie #games a {
+	width: 147px;
+	background: url(/agcn/includes/images/julie/games.gif) top left no-repeat;
+}
+
+.julie #charEcard a {
+	width: 143px;
+	background: url(/agcn/includes/images/julie/ecard.gif) top left no-repeat;
+}
+
+.julie #wallpaper a {
+	width: 143px;
+	background: url(/agcn/includes/images/julie/wallpaper.gif) top left no-repeat;
+}
+
+.julie #book a {
+	width: 143px;
+	background: url(/agcn/includes/images/julie/book.gif) top left no-repeat;
+}
+
+.julie #friends a {
+	width: 144px;
+	background: url(/agcn/includes/images/julie/friends.gif) top left no-repeat;
+}
+
+

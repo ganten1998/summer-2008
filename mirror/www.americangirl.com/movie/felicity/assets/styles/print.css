@@ -1,0 +1,15 @@
+/* Author: Bekee Gibson
+   Date: 08.09.05
+   Description: PRINTING Style Sheet for Mob Cap Craft
+*/
+
+body { background: white; }
+
+/* content id for printed elements */
+#craftsContent { max-width: 500px; float: none; position: absolute; top: 0; left: 0;}
+
+/* classes for non-printed elements */
+.topNav { display: none; }
+.ftr { display: none; }
+.worldNav { display: none; }
+#txtCraftsIntro { display: none; }

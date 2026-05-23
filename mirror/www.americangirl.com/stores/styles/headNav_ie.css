@@ -1,0 +1,54 @@
+/* CSS Document */
+
+.shopTools {
+	letter-spacing:.5px;
+	float: right;
+	margin-bottom: -10px;
+}	
+
+
+
+
+/* hack to get around some unwanted effects from the PNG hack script on the home page */
+ul.globalNav {
+background-color:#E00034;
+}
+
+.stores a {
+    width: 106px; 
+}
+
+
+
+
+/*******  Sub Nav *******/
+
+
+div.subNav li {
+	padding:4px 0 0px 0; 
+	top:-16px;
+}
+div.subNav li#agp {
+margin-right:0px;
+}
+	
+
+div.subNav li a {
+	position:relative;
+	top:-7px;
+	padding:11px 24px 0px 24px; 
+	
+}
+div.subNav li a:hover {
+	text-decoration:none;
+}
+
+
+/****** change sub nav on boutique brand page ********/
+	div.subNav li.brandSelected {
+		padding-top: 14px; 
+}
+
+
+
+

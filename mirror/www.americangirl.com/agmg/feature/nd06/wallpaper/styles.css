@@ -1,0 +1,41 @@
+body {
+	text-align: center;
+}
+#wrap {
+	width: 724px;
+	margin: 0 auto;
+	padding: 0 0 10px 0;
+	background: transparent url(images/box_bottom.gif) no-repeat bottom left;
+}
+#banner, #wallpapers {
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+}
+#wallpapers {
+	padding: 0 95px 10px 95px;
+}
+ul.wallpaper_list {
+	float: left;
+	width: 132px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: center;
+}
+ul.wallpaper_list li {
+	margin: 0;
+	padding: 0;
+	font-family: verdana, arial, sans-serif;
+	font-size: 11px;
+	line-height: 14px;
+}
+.wallpaper_list img {
+	margin: 0 0 10px 0;
+}
+.wallpaper_list a {
+	color: #000;
+	text-decoration: none;
+}
+.wallpaper_list a:hover {
+	text-decoration: underline;
+}
