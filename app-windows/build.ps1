@@ -71,11 +71,14 @@ if ($SkipInstaller) {
     exit 0
 }
 
-# Locate Inno Setup compiler.
+# Locate Inno Setup compiler. winget's default install goes to the
+# user-scoped Programs folder, choco/manual installs go under Program Files —
+# check both so the build works regardless of how Inno was installed.
 $ISCC = $null
 foreach ($candidate in @(
     "$env:ProgramFiles\Inno Setup 6\ISCC.exe",
-    "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+    "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
+    "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe"
 )) {
     if (Test-Path $candidate) { $ISCC = $candidate; break }
 }
