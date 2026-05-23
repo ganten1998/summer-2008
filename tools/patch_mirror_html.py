@@ -260,9 +260,22 @@ def _action_is_dead(action: str) -> bool:
     return False
 
 
-CSS_JS_MARKER = "/* AGD-PATCHED v2 */"
+CSS_JS_MARKER = "/* AGD-PATCHED v3 */"
 # Older CSS/JS markers we restore-from-backup + re-patch when we see them.
-OLD_CSS_JS_MARKERS = ("/* AGD-PATCHED v1 */",)
+OLD_CSS_JS_MARKERS = ("/* AGD-PATCHED v1 */", "/* AGD-PATCHED v2 */")
+
+# Footer popup URL rewrites. footer_popups.js's openTerms() and
+# openPrivacy() called http://www.americangirlstore.com/pls/ag/icm_terms
+# and /icm_privacy — both dead since AG took the store down. The actual
+# T&C and privacy text was captured during the mirror process and lives
+# at /legal/html/{terms,privacy}.html. Rewrite the popup targets so the
+# clicks hit the archived pages instead of falling out to a toast.
+JS_POPUP_REWRITES = [
+    ("http://www.americangirlstore.com/pls/ag/icm_terms",
+     "/legal/html/terms.html"),
+    ("http://www.americangirlstore.com/pls/ag/icm_privacy",
+     "/legal/html/privacy.html"),
+]
 
 
 def patch_css(text: str) -> tuple[str, bool]:
@@ -288,6 +301,8 @@ def patch_js(text: str) -> tuple[str, bool]:
     new = re.sub(r"var\s+pollCanGo\s*=\s*true\s*;",
                  "var pollCanGo = false; /* AGD: autopoll disabled */",
                  new)
+    for old_url, new_url in JS_POPUP_REWRITES:
+        new = new.replace(old_url, new_url)
     new = CSS_JS_MARKER + "\n" + new
     return new, True
 

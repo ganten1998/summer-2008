@@ -1,15 +1,16 @@
+/* AGD-PATCHED v3 */
 /* AGD-PATCHED v2 */
 /* AGD-PATCHED v1 */
 var PopWin;
 
 function openPrivacy() {
-PopWin=window.open('http://www.americangirlstore.com/pls/ag/icm_privacy','Privacy_Policy', config='width=400, height=400, scrollbars=yes, resizable=yes');
+PopWin=window.open('/legal/html/privacy.html','Privacy_Policy', config='width=400, height=400, scrollbars=yes, resizable=yes');
 
 return false;
 }
    
 function openTerms() {
-PopWin=window.open('http://www.americangirlstore.com/pls/ag/icm_terms','Terms_and_Conditions', config='width=400, height=400, scrollbars=yes, resizable=yes');
+PopWin=window.open('/legal/html/terms.html','Terms_and_Conditions', config='width=400, height=400, scrollbars=yes, resizable=yes');
 
 return false;
 }
