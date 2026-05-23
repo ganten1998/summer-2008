@@ -250,6 +250,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             forMainFrameOnly: true,
             in: .page))
 
+        // Hide 2008 popup pages' "Close Window" button. Privacy /
+        // termsConditions / similar popups have a <div class="closeWindow">
+        // wrapping a window.close() link — meaningful when those pages
+        // opened as separate browser windows in 2008, but redundant in
+        // our archive because the popups load inline in the same
+        // WebView and the injected back-arrow navbar already covers it.
+        // (And window.close() on a self-opened window is a no-op in
+        // WKWebView anyway, so leaving the button visible would just
+        // be a dead affordance.)
+        let hidePopupCloseJS = """
+        (function() {
+          var s = document.createElement('style');
+          s.setAttribute('data-agd-runtime', 'hide-popup-close');
+          s.textContent = '.closeWindow{display:none!important;}';
+          (document.head || document.documentElement).appendChild(s);
+        })();
+        """
+        config.userContentController.addUserScript(WKUserScript(
+            source: hidePopupCloseJS,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true,
+            in: .page))
+
         // Inject the drag setup on EVERY page (including dashboard /
         // runtime / games — the previous early-return skipped these and
         // that's why the dashboard wasn't draggable). The back/forward
