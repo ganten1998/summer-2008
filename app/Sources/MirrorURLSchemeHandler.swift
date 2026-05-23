@@ -219,6 +219,16 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
     }
 
     private func serveMirror(task: WKURLSchemeTask, url: URL, host: String, path: String) {
+        // 0a) IE-only stylesheet stub. Source HTML often includes
+        //     <link rel="stylesheet" href="styles_ie6.css"> unconditionally
+        //     (no <!--[if IE]--> wrapper), so WKWebView requests files that
+        //     only ever applied to IE6/7. Serve a 0-byte 200 to short-circuit
+        //     the mirror lookup → cache → Wayback round trip for ~24 dead refs.
+        let leaf = (path as NSString).lastPathComponent.lowercased()
+        if leaf.hasSuffix("_ie.css") || leaf.hasSuffix("_ie6.css") || leaf.hasSuffix("_ie7.css") {
+            sendEmptyCSS(task: task, url: url)
+            return
+        }
         // 0) Reserved synthetic paths -- served from mirror-runtime/ but using
         //    the mirror's host so the synthetic player page is same-origin
         //    with the SWFs/JS it loads. Without this, Ruffle's fetch sees a
@@ -313,8 +323,57 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             respondWithFile(task: task, url: url, file: cacheURL)
             return
         }
+        // 2a) Bare-host alias. Pages occasionally link to
+        //     agd://americangirl.com/foo when the captured asset lives at
+        //     agd://www.americangirl.com/foo (the redirect that the original
+        //     server did before we froze the snapshot). Retry the on-disk
+        //     lookups (mirror + query-strip + cache) under the www. variant
+        //     before paying the Wayback round trip.
+        if host == "americangirl.com" {
+            let aliasHost = "www.americangirl.com"
+            let aliasMirror = mirrorFileURL(host: aliasHost, path: path, query: url.query)
+            if FileManager.default.fileExists(atPath: aliasMirror.path) {
+                respondWithFile(task: task, url: url, file: aliasMirror)
+                return
+            }
+            if url.query != nil {
+                let aliasBase = mirrorFileURL(host: aliasHost, path: path, query: nil)
+                if FileManager.default.fileExists(atPath: aliasBase.path) {
+                    respondWithFile(task: task, url: url, file: aliasBase)
+                    return
+                }
+            }
+            let aliasCache = cacheFileURL(host: aliasHost, path: path, query: url.query)
+            if FileManager.default.fileExists(atPath: aliasCache.path) {
+                respondWithFile(task: task, url: url, file: aliasCache)
+                return
+            }
+        }
         // 3) Fall back to live Wayback fetch.
         backfillFromWayback(task: task, url: url, host: host, path: path, cacheURL: cacheURL)
+    }
+
+    private func sendEmptyCSS(task: WKURLSchemeTask, url: URL) {
+        let body = Data()
+        let resp = HTTPURLResponse(
+            url: url, statusCode: 200, httpVersion: "HTTP/1.1",
+            headerFields: [
+                "Content-Type": "text/css; charset=utf-8",
+                "Content-Length": "0",
+                "Cache-Control": "max-age=31536000",
+            ]
+        )!
+        let key = ObjectIdentifier(task)
+        DispatchQueue.main.async { [weak self] in
+            self?.inFlightLock.lock()
+            let stopped = self?.stoppedKeys.contains(key) ?? true
+            self?.stoppedKeys.remove(key)
+            self?.inFlightLock.unlock()
+            guard !stopped else { return }
+            task.didReceive(resp)
+            task.didReceive(body)
+            task.didFinish()
+        }
     }
 
     // MARK: - File responses

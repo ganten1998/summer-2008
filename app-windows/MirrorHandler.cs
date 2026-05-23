@@ -116,6 +116,18 @@ public sealed class MirrorHandler
                 return;
             }
 
+            // 3a. IE-only stylesheet stub. Source HTML often includes
+            //     <link rel="stylesheet" href="styles_ie6.css"> unconditionally
+            //     (no <!--[if IE]--> wrapper), so WebView2 requests files that
+            //     only ever applied to IE6/7. Serve 0-byte 200 to short-circuit
+            //     the mirror lookup + cache + Wayback round trip on ~24 dead refs.
+            var leaf = Path.GetFileName(path).ToLowerInvariant();
+            if (leaf.EndsWith("_ie.css") || leaf.EndsWith("_ie6.css") || leaf.EndsWith("_ie7.css"))
+            {
+                args.Response = EmptyCssResponse(env);
+                return;
+            }
+
             // 4. Reserved synthetic mirror paths (/__agd/*) — served from
             //    mirror-runtime under the mirror's host so Ruffle treats
             //    them as same-origin with mirror SWFs.
@@ -195,6 +207,38 @@ public sealed class MirrorHandler
             {
                 args.Response = ServeFile(env, cachePath, uri);
                 return;
+            }
+
+            // 8a. Bare-host alias. Pages occasionally link to
+            //     agd://americangirl.com/foo when the captured asset lives at
+            //     agd://www.americangirl.com/foo (a redirect the original server
+            //     did before we froze the snapshot). Retry the on-disk lookups
+            //     (mirror + query-strip + cache) under the www. variant before
+            //     paying the Wayback round trip.
+            if (string.Equals(host, "americangirl.com", StringComparison.OrdinalIgnoreCase))
+            {
+                const string aliasHost = "www.americangirl.com";
+                var aliasMirror = ResolveMirrorPath(aliasHost, path, query);
+                if (aliasMirror is { FullPath: var ap } && File.Exists(ap))
+                {
+                    args.Response = ServeFile(env, ap, uri);
+                    return;
+                }
+                if (!string.IsNullOrEmpty(query))
+                {
+                    var aliasBare = ResolveMirrorPath(aliasHost, path, "");
+                    if (aliasBare is { FullPath: var abp } && File.Exists(abp))
+                    {
+                        args.Response = ServeFile(env, abp, uri);
+                        return;
+                    }
+                }
+                var aliasCache = ResolveCachePath(aliasHost, path, query);
+                if (aliasCache is not null && File.Exists(aliasCache))
+                {
+                    args.Response = ServeFile(env, aliasCache, uri);
+                    return;
+                }
             }
 
             // 9. Last resort: fetch from web.archive.org with our snapshot
@@ -331,6 +375,16 @@ public sealed class MirrorHandler
         var full = Path.Combine(root, lookup);
         if (!File.Exists(full)) return StubPages.NotFoundResponse(env, uri);
         return ServeFile(env, full, uri);
+    }
+
+    private CoreWebView2WebResourceResponse EmptyCssResponse(CoreWebView2 env)
+    {
+        var headers = string.Join("\r\n",
+            "Content-Type: text/css; charset=utf-8",
+            "Content-Length: 0",
+            "Cache-Control: max-age=31536000");
+        return env.Environment.CreateWebResourceResponse(
+            new MemoryStream(Array.Empty<byte>()), 200, "OK", headers);
     }
 
     private CoreWebView2WebResourceResponse ServeFile(CoreWebView2 env, string fullPath, Uri uri)
