@@ -107,19 +107,25 @@ def http_get(url: str, allow_redirects: bool = True, timeout: int = TIMEOUT) -> 
 
 # ───── source 1+2: Wayback CDX exhaustive ──────────────────────────────────
 
-def wayback_cdx_captures(url: str, limit: int = 25) -> list[str]:
+CDX_LIMIT = 25
+CDX_COLLAPSE = "timestamp:8"  # day-level dedupe by default; "" to keep all
+
+
+def wayback_cdx_captures(url: str, limit: int | None = None) -> list[str]:
     """List timestamps for every 200-status capture of <url>, oldest first.
 
     The 'limit' is per-query, and we ask Wayback for the oldest ones (most
     likely to predate site changes that broke the asset)."""
-    api = ("http://web.archive.org/cdx/search/cdx?" + urllib.parse.urlencode({
+    params = {
         "url": url,
         "output": "json",
         "filter": "statuscode:200",
-        "limit": limit,
+        "limit": limit if limit is not None else CDX_LIMIT,
+    }
+    if CDX_COLLAPSE:
         # Drop the most-frequent-timestamp duplicates; we just need distinct ones.
-        "collapse": "timestamp:8",
-    }))
+        params["collapse"] = CDX_COLLAPSE
+    api = "http://web.archive.org/cdx/search/cdx?" + urllib.parse.urlencode(params)
     r = http_get(api, timeout=20)
     if not r or r[0] != 200 or not r[1]:
         return []
@@ -293,7 +299,16 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("urls_file")
     ap.add_argument("--label", default="EXH")
+    ap.add_argument("--cdx-limit", type=int, default=25,
+                    help="how many CDX captures to try per URL (default 25)")
+    ap.add_argument("--cdx-no-collapse", action="store_true",
+                    help="don't day-dedupe CDX results; surface ALL captures")
     args = ap.parse_args()
+
+    global CDX_LIMIT, CDX_COLLAPSE
+    CDX_LIMIT = args.cdx_limit
+    if args.cdx_no_collapse:
+        CDX_COLLAPSE = ""
 
     urls = [l.strip() for l in Path(args.urls_file).read_text().splitlines() if l.strip()]
     print(f"=== {args.label} exhaustive recovery: {len(urls)} URLs across {len(SOURCES)} sources ===", flush=True)
