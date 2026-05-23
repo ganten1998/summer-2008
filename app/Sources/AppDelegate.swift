@@ -194,6 +194,61 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         config.userContentController.add(overlay, name: "dcrRect")
         GameLauncher.shared.overlay = overlay
 
+        // In-page toast helper. NavigationHandler calls window.__agd_showToast
+        // via evaluateJavaScript when the user clicks a non-allowlisted
+        // external link, so the cancel isn't silent. Ported from the
+        // Windows MainWindow.xaml.cs ToastJs constant. Registered atDocStart
+        // so it's available before any user interaction can fire.
+        let toastJS = """
+        (function () {
+          if (window.__agd_showToast) return;
+          window.__agd_showToast = function (msg) {
+            var run = function () {
+              var stackId = '__agd_toast_stack';
+              var stack = document.getElementById(stackId);
+              if (!stack) {
+                stack = document.createElement('div');
+                stack.id = stackId;
+                stack.style.cssText = [
+                  'position:fixed','left:50%','bottom:24px','transform:translateX(-50%)',
+                  'z-index:2147483647','display:flex','flex-direction:column','gap:8px',
+                  'align-items:center','pointer-events:none'
+                ].join(';');
+                (document.body || document.documentElement).appendChild(stack);
+              }
+              var t = document.createElement('div');
+              t.textContent = String(msg);
+              t.style.cssText = [
+                'padding:11px 20px','background:#3B0F0F','color:#FBF6EB',
+                "font:13.5px/1.4 -apple-system,sans-serif",
+                'border-radius:8px','box-shadow:0 6px 22px rgba(0,0,0,.32)',
+                'max-width:80vw','text-align:center','pointer-events:auto',
+                'opacity:0','transform:translateY(8px)',
+                'transition:opacity .2s, transform .2s'
+              ].join(';');
+              stack.appendChild(t);
+              requestAnimationFrame(function () {
+                t.style.opacity = '1';
+                t.style.transform = 'translateY(0)';
+              });
+              setTimeout(function () {
+                t.style.opacity = '0';
+                t.style.transform = 'translateY(8px)';
+                setTimeout(function () {
+                  if (t.parentNode) t.parentNode.removeChild(t);
+                }, 220);
+              }, 3000);
+            };
+            if (document.body) run();
+            else document.addEventListener('DOMContentLoaded', run);
+          };
+        })();
+        """
+        config.userContentController.addUserScript(WKUserScript(
+            source: toastJS,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true))
+
         // Inject the drag setup on EVERY page (including dashboard /
         // runtime / games — the previous early-return skipped these and
         // that's why the dashboard wasn't draggable). The back/forward
@@ -265,6 +320,44 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             // Push body content below the bar.
             var current = parseInt(getComputedStyle(document.body).paddingTop) || 0;
             document.body.style.paddingTop = (current + 40) + 'px';
+
+            // Bottom-left Ko-fi tip pill — same look + position as the one
+            // on the dashboard, inlined so we don't need the dashboard
+            // stylesheet on mirror pages. Ko-fi is the only allowlisted
+            // external host in NavigationHandler, so target='_blank'
+            // escapes to the user's default browser.
+            var kofiPill = document.createElement('a');
+            kofiPill.href = 'https://ko-fi.com/B0B7EF4TJ';
+            kofiPill.target = '_blank';
+            kofiPill.rel = 'noopener';
+            kofiPill.title = 'Keep this archive online \\u2014 tip the archivist on Ko-fi';
+            kofiPill.style.cssText = [
+              'position:fixed','left:22px','bottom:22px',
+              'z-index:2147483647',
+              'display:inline-flex','align-items:center','gap:7px',
+              'padding:8px 14px 8px 12px',
+              'border-radius:999px',
+              'background:rgba(255,252,244,0.92)',
+              'border:1px solid rgba(124,12,31,0.20)',
+              'box-shadow:0 4px 12px rgba(124,12,31,0.10)',
+              'color:#7C0C1F','text-decoration:none',
+              'font:600 11px/1 -apple-system,sans-serif',
+              'letter-spacing:.14em','text-transform:uppercase',
+              'opacity:.82',
+              'transition:opacity .18s ease, transform .18s ease, box-shadow .18s ease'
+            ].join(';');
+            kofiPill.innerHTML = '<span aria-hidden=\"true\" style=\"font-size:13px;line-height:1\">\\u2615</span><span>Tip</span>';
+            kofiPill.onmouseenter = function(){
+              kofiPill.style.opacity = '1';
+              kofiPill.style.transform = 'translateY(-1px)';
+              kofiPill.style.boxShadow = '0 8px 22px rgba(124,12,31,0.18)';
+            };
+            kofiPill.onmouseleave = function(){
+              kofiPill.style.opacity = '.82';
+              kofiPill.style.transform = 'translateY(0)';
+              kofiPill.style.boxShadow = '0 4px 12px rgba(124,12,31,0.10)';
+            };
+            document.body.appendChild(kofiPill);
           }
 
           // -------- Window-drag setup (ALL pages including dashboard) --------

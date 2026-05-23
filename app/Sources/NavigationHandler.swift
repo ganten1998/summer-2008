@@ -11,9 +11,22 @@ import WebKit
 ///   * agd-launch://       -> explicit "open in external projector" scheme,
 ///                            used as a fallback link inside the inline player
 ///                            and by patched wrapper pages
-///   * http / https        -> open in Safari (keep launcher self-contained)
+///   * http / https → allowlist (Ko-fi) → Safari; everything else → toast
 ///   * unknown schemes     -> cancel silently (prevents web-content-process crash)
 final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
+
+    /// Strict allowlist of hosts permitted to open in the user's default
+    /// browser. Everything else (kitkittredge.com, mattel.com careers, etc.)
+    /// is canceled with an in-page toast so the user knows why nothing opened.
+    private static let allowedExternalHosts: Set<String> = ["ko-fi.com", "www.ko-fi.com"]
+
+    private func showExternalToast(in webView: WKWebView) {
+        let msg = "External link — not part of the 2008 archive"
+        let escaped = msg.replacingOccurrences(of: "\\", with: "\\\\")
+                         .replacingOccurrences(of: "\"", with: "\\\"")
+        let js = "window.__agd_showToast && window.__agd_showToast(\"\(escaped)\")"
+        webView.evaluateJavaScript(js, completionHandler: nil)
+    }
 
     /// Wrap a SWF URL in the inline Ruffle player page so the game plays
     /// inside the WebView. Returns nil if the URL can't be wrapped.
@@ -89,12 +102,19 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
             return
         }
 
-        // External http/https: only open in Safari for explicit user link clicks.
-        // Script-initiated navigations (trackers, JS redirects, beacons) are
-        // cancelled silently — they should never escape into the user's browser.
+        // External http/https: only allowlisted hosts (Ko-fi) escape into
+        // Safari. The 2008 page's hardcoded links to kitkittredge.com,
+        // mattel.com careers, etc. get canceled with an in-page toast so
+        // the user knows why nothing opened. Script-initiated navigations
+        // (trackers, JS redirects, beacons) are always cancelled silently.
         if scheme == "http" || scheme == "https" {
             if navigationAction.navigationType == .linkActivated {
-                NSWorkspace.shared.open(url)
+                let host = url.host?.lowercased() ?? ""
+                if Self.allowedExternalHosts.contains(host) {
+                    NSWorkspace.shared.open(url)
+                } else {
+                    showExternalToast(in: webView)
+                }
             }
             decisionHandler(.cancel)
             return
@@ -177,7 +197,14 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
         }
         let scheme = url.scheme?.lowercased() ?? ""
         if scheme == "http" || scheme == "https" {
-            NSWorkspace.shared.open(url)
+            // Same allowlist as the inline-nav path — target="_blank" /
+            // window.open() popups for non-Ko-fi hosts get the toast.
+            let host = url.host?.lowercased() ?? ""
+            if Self.allowedExternalHosts.contains(host) {
+                NSWorkspace.shared.open(url)
+            } else {
+                showExternalToast(in: webView)
+            }
         } else {
             webView.load(URLRequest(url: url))
         }
