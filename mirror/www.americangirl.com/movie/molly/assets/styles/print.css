@@ -1,0 +1,15 @@
+/* Author: Bekee Gibson
+   Date: 08.15.06
+   Description: PRINTING Style Sheet for crossword puzzle
+*/
+
+body { background: white; }
+
+/* content id for printed elements */
+#worldActivities { float: none; position: absolute; top: 0; left: 0;}
+
+/* classes for non-printed elements */
+.topNav { display: none; }
+.ftr { display: none; }
+#worldNav { display: none; }
+#intro p { display:none;}

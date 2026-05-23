@@ -1,0 +1,95 @@
+/* Mystery Game Nav */
+#mysteryNav {
+	width: 700px;
+	padding-top: 1px;
+	margin: auto;
+	}
+
+	#mysteryNav ul {
+	clear: both;
+	}
+ul#mysteryNavList {
+	margin: 0;
+	padding: 0;
+	height: 51px;
+	list-style: none;
+	display: inline;
+	}
+
+	ul#mysteryNavList li, li#home, li#felicity, li#samantha, li#kit, li#molly {
+		margin: 0; 
+		padding: 0;
+		list-style: none;
+		display: inline;
+		}
+		
+	#mysteryNavList a {
+		float: left;
+		padding: 45px 0 0 0;
+		overflow: hidden;
+		height: 0px !important; 
+		}
+	
+	#mysteryNavList a:hover,
+	body#mollyMystery #mysteryNavList li#molly a, 
+	body#mollyMystery #mysteryNavList li#molly a:hover {
+		background-position: 0 -45px;
+		text-decoration: none;
+		}
+	body#mollyMystery #mysteryNavList li#molly a {
+		cursor:default;
+	}
+
+	#mysteryNavList a:hover,
+	body#felicityMystery #mysteryNavList li#felicity a, 
+	body#felicityMystery #mysteryNavList li#felicity a:hover {
+		background-position: 0 -45px;
+		text-decoration: none;
+		}
+	body#felicityMystery #mysteryNavList li#felicity a {
+		cursor:default;
+	}
+	#mysteryNavList a:hover,
+	body#samanthaMystery #mysteryNavList li#samantha a, 
+	body#samanthaMystery #mysteryNavList li#samantha a:hover {
+		background-position: 0 -45px;
+		text-decoration: none;
+		}
+	body#samanthaMystery #mysteryNavList li#samantha a {
+		cursor:default;
+	}
+	#mysteryNavList a:hover,
+	body#kitMystery #mysteryNavList li#kit a, 
+	body#kitMystery #mysteryNavList li#kit a:hover {
+		background-position: 0 -45px;
+		text-decoration: none;
+		}
+	body#kitMystery #mysteryNavList li#kit a {
+		cursor:default;
+	}
+
+#home a {
+	width: 212px;
+	background: url(home.gif) top left no-repeat;
+}
+
+#felicity a {
+	width: 135px;
+	background: url(felicity.gif) top left no-repeat;
+	}
+	
+#samantha a {
+	width: 140px;
+	background: url(samantha.gif) top left no-repeat;
+	}
+		
+#kit a {
+	width: 101px;
+	background: url(kit.gif) top left no-repeat;
+	}
+	
+#molly a {
+	width: 112px;
+	background: url(molly.gif) top left no-repeat;
+	}
+
