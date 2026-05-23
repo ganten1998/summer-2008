@@ -90,12 +90,15 @@
     "  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);",
     "  color:#FBF6EB;font-family:-apple-system,'SF Pro Text','Helvetica Neue',sans-serif;",
     "  padding:7px 14px 7px 11px;border-radius:999px;",
+    /* Hard-coded width matches the flash pill's pixel-perfect bounds. */
+    "  width:65px;overflow:hidden;box-sizing:border-box;",
     "  box-shadow:0 8px 24px rgba(124,12,31,0.30),0 2px 4px rgba(124,12,31,0.16);",
     "  border:1px solid rgba(255,246,229,0.22);",
     "  opacity:.55;",
-    "  transition:opacity .25s ease,padding-right .25s ease;",
+    "  transition:opacity .25s ease,padding-right .25s ease,width .25s ease;",
     "  user-select:none;-webkit-user-select:none;",
     "}",
+    ".agd-volume:hover,.agd-volume.is-open{width:248px;}",
     ".agd-volume:hover,.agd-volume.is-open{opacity:1;padding-right:18px;}",
     ".agd-volume button.agd-vol-icon{",
     "  background:none;border:0;color:#FBF6EB;cursor:pointer;",
@@ -109,8 +112,12 @@
     "  margin:0;",
     "  transition:width .22s ease,opacity .22s ease;",
     "}",
+    /* Slider grows to 158px when expanded — picked so that the total
+       extended pill width (icon+gap+slider+gap+pct = 20+10+158+10+26 =
+       224) matches the Flash pill's extended label width (224). The
+       two pills now have IDENTICAL extended bounds when both open. */
     ".agd-volume:hover input.agd-vol-slider,",
-    ".agd-volume.is-open input.agd-vol-slider{width:118px;opacity:1;}",
+    ".agd-volume.is-open input.agd-vol-slider{width:158px;opacity:1;}",
     ".agd-volume input.agd-vol-slider::-webkit-slider-thumb{",
     "  -webkit-appearance:none;appearance:none;",
     "  width:14px;height:14px;border-radius:50%;",
@@ -127,9 +134,10 @@
     "}",
     ".agd-volume:hover .agd-vol-pct,",
     ".agd-volume.is-open .agd-vol-pct{width:26px;opacity:1;}",
-    /* When the projector FAB and the volume control are both on screen,
-       stack the FAB above the volume — both sit in the bottom-right. */
-    ".agd-projector-fab{bottom:74px !important;}",
+    /* Flash projector pill stacks above the volume pill at bottom:64px;
+       its position is defined by flash-bridge.js directly (matching the
+       volume pill's exact size + gradient so the two read as a single
+       vertical pill stack). */
   ].join("");
 
   function injectStyle() {

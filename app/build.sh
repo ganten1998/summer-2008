@@ -101,24 +101,32 @@ else
 fi
 
 echo "==> Codesign"
-# Prefer a real Developer ID when one is installed in the user's keychain.
-# `find-identity -v -p codesigning` lists usable certs; we grep for the
-# Apple "Developer ID Application" prefix. If found, use it (and notify
-# the user). Otherwise fall back to ad-hoc — the .app still launches on
-# this machine, but other Macs see a Gatekeeper warning until the user
-# right-click → Opens it.
+# Sign with the best available identity, in priority order:
+#   1. Developer ID Application — real Apple-issued, public distribution
+#   2. "Summer 2008 Dev" — local self-signed (created via
+#      tools/setup-codesign-identity.sh). Stable cdhash across rebuilds,
+#      so macOS Accessibility grants persist between dev iterations.
+#   3. ad-hoc — last resort; cdhash changes every build, so every rebuild
+#      revokes Accessibility/TCC permissions.
 DEV_ID="$(security find-identity -v -p codesigning 2>/dev/null \
   | grep -oE 'Developer ID Application: [^"]+' | head -1 || true)"
+LOCAL_ID="$(security find-identity -v -p codesigning 2>/dev/null \
+  | grep -oE '"Summer 2008 Dev"' | head -1 | tr -d '"' || true)"
 
 if [[ -n "$DEV_ID" ]]; then
   echo "    Using $DEV_ID"
   codesign --force --deep --options runtime \
            --sign "$DEV_ID" "$OUT" \
     || echo "(codesign warning; app still runnable)"
+elif [[ -n "$LOCAL_ID" ]]; then
+  echo "    Using local self-signed: $LOCAL_ID"
+  echo "    (cdhash stable across rebuilds → Accessibility grant persists)"
+  codesign --force --deep --sign "$LOCAL_ID" "$OUT" \
+    || echo "(codesign warning; app still runnable)"
 else
-  echo "    No Developer ID found — falling back to ad-hoc signing."
-  echo "    (To codesign for distribution, enroll at https://developer.apple.com"
-  echo "     and run \`security find-identity -v -p codesigning\` to confirm)"
+  echo "    No Developer ID or self-signed cert found — falling back to ad-hoc."
+  echo "    For stable codesigning: bash tools/setup-codesign-identity.sh"
+  echo "    For distribution: enroll at https://developer.apple.com"
   codesign --force --deep --sign - "$OUT" \
     || echo "(codesign warning; app still runnable)"
 fi

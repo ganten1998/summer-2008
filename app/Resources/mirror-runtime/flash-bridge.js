@@ -124,28 +124,141 @@
     "  background:linear-gradient(135deg,#3B3768 0%,#1F1B3C 100%);",
     "  cursor:default;",
     "}",
+    /* DCR stub container: only the pill takes pointer events; the rest of
+       the indigo card is decorative. */
+    ".agd-flash-stub.agd-dcr .agd-inner{pointer-events:none;}",
+    ".agd-flash-stub.agd-dcr .agd-title{pointer-events:none;}",
     ".agd-flash-stub.agd-dcr .agd-pill{",
-    "  background:rgba(255,246,229,0.10);color:#FFF6E5;",
+    "  background:rgba(255,246,229,0.14);color:#FFF6E5;",
+    "  pointer-events:auto;cursor:pointer;text-decoration:none;",
+    "  transition:background .15s ease, transform .12s ease,",
+    "             box-shadow .15s ease, color .15s ease,",
+    "             border-color .15s ease;",
+    "  border:1px solid rgba(255,246,229,0.22);",
+    "  will-change:transform;",
+    "}",
+    ".agd-flash-stub.agd-dcr .agd-pill:hover{",
+    "  background:rgba(255,246,229,0.28) !important;",
+    "  color:#FFFFFF !important;",
+    "  transform:translateY(-1px);",
+    "  box-shadow:0 8px 20px rgba(0,0,0,0.40);",
+    "  border-color:rgba(255,246,229,0.55) !important;",
+    "}",
+    ".agd-flash-stub.agd-dcr .agd-pill:active{",
+    "  transform:translateY(0);",
+    "  background:rgba(255,246,229,0.36) !important;",
+    "}",
+    /* Pixelly Director-style loading overlay — shown after the user clicks
+       the pill (or when auto-launch fires). The 320×240 / 640×480 look of
+       2008-era Director: chunky monospace font, gray gradient background,
+       slow scanline marquee. Bottom-pinned status text. Disappears when
+       the host shell calls the dismiss hook (game window shown). */
+    ".agd-flash-stub.agd-dcr .agd-loading{",
+    "  position:absolute;inset:0;display:none;align-items:center;",
+    "  justify-content:center;flex-direction:column;gap:18px;",
+    "  background:linear-gradient(180deg,#9a9aa8 0%,#5d5d6a 100%);",
+    "  color:#1c1c25;",
+    "  font-family:'Courier New','Andale Mono',monospace;",
+    "  font-size:11px;letter-spacing:.18em;text-transform:uppercase;",
+    "  text-shadow:1px 1px 0 rgba(255,255,255,0.25);",
+    "  image-rendering:pixelated;",
+    "}",
+    /* When the user clicks Play, the embed area must instantly stop
+       showing the idle title + pill text — Wine takes a beat to spawn
+       and Director shows its own intro. Hide the inner content
+       completely (visibility + display, not just opacity, so it can't
+       peek through during the loading state). */
+    ".agd-flash-stub.agd-dcr.is-loading .agd-loading{display:flex;}",
+    ".agd-flash-stub.agd-dcr.is-loading .agd-inner{",
+    "  visibility:hidden!important;opacity:0!important;",
+    "  pointer-events:none!important;",
+    "}",
+    /* Once the projector is alive and overlaid on the embed area, the
+       stub becomes a TRANSPARENT spacer — its only job is to occupy
+       the right amount of layout space so page text below pushes down
+       and doesn't get obscured. Any pixels where Wine's clamped window
+       doesn't fully cover the stub (top title bar, 2px right/bottom)
+       show the page's native bg through the transparent stub. */
+    ".agd-flash-stub.agd-dcr.is-projector-running{",
+    "  background:transparent!important;",
+    "  box-shadow:none!important;border-color:transparent!important;",
+    "}",
+    ".agd-flash-stub.agd-dcr.is-projector-running .agd-inner{",
+    "  display:none!important;",
+    "}",
+    ".agd-flash-stub.agd-dcr.is-projector-running .agd-loading{",
+    "  display:none!important;",
+    "}",
+    ".agd-flash-stub.agd-dcr.is-projector-running::before{display:none!important;}",
+    /* The familiar Director red-and-orange loading swatch. */
+    ".agd-flash-stub.agd-dcr .agd-loading .agd-bar{",
+    "  width:140px;height:14px;background:#3a3a45;",
+    "  border:1px solid #1c1c25;",
+    "  box-shadow:inset 1px 1px 0 rgba(0,0,0,.35);",
+    "  position:relative;overflow:hidden;",
+    "}",
+    ".agd-flash-stub.agd-dcr .agd-loading .agd-bar::after{",
+    "  content:'';position:absolute;inset:0;",
+    "  width:40%;background:repeating-linear-gradient(",
+    "    45deg,#F26C3B 0 8px,#D24A1F 8px 16px);",
+    "  animation:agd-bar 1.4s linear infinite;",
+    "}",
+    "@keyframes agd-bar{0%{transform:translateX(-100%);}100%{transform:translateX(250%);}}",
+    /* The little Director-logo-style square */
+    ".agd-flash-stub.agd-dcr .agd-loading .agd-logo{",
+    "  width:42px;height:42px;",
+    "  background:",
+    "    linear-gradient(135deg,#F26C3B 0%,#D24A1F 50%,#A02F0F 100%);",
+    "  border:2px solid #1c1c25;",
+    "  box-shadow:2px 2px 0 rgba(0,0,0,.30),",
+    "             inset 1px 1px 0 rgba(255,255,255,.30);",
+    "  image-rendering:pixelated;",
     "}",
     /* Floating "Open in Flash Projector" escape button — appears when a
        Ruffle player exists on the page so the user has a one-click way out
        when Ruffle misbehaves mid-game. */
+    /* Sits DIRECTLY ABOVE the volume pill (which lives at bottom:20px,
+       right:20px). Same width/padding/gradient/blur as the volume pill
+       in its collapsed state; expands to the same dimensions as the
+       expanded volume pill, surfacing the label. */
     ".agd-projector-fab{",
-    "  position:fixed;right:20px;bottom:20px;z-index:99998;",
-    "  background:linear-gradient(135deg,#A6192E 0%,#7C0C1F 100%);",
-    "  color:#FBF6EB;font-family:-apple-system,'SF Pro Text',sans-serif;",
-    "  font-size:11px;letter-spacing:.16em;text-transform:uppercase;",
-    "  font-weight:700;text-decoration:none;",
-    "  padding:11px 18px;border-radius:999px;",
-    "  box-shadow:0 8px 24px rgba(124,12,31,0.35),0 2px 4px rgba(124,12,31,0.18);",
+    "  position:fixed;right:20px;bottom:64px;z-index:99998;",
+    "  display:flex;align-items:center;gap:10px;",
+    "  background:linear-gradient(135deg,rgba(124,12,31,0.94) 0%,rgba(166,25,46,0.94) 100%);",
+    "  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);",
+    "  color:#FBF6EB;font-family:-apple-system,'SF Pro Text','Helvetica Neue',sans-serif;",
+    "  padding:7px 14px 7px 11px;border-radius:999px;",
+    /* Hard-coded width — explicit collapsed and expanded sizes ensure
+       PIXEL-IDENTICAL bounds with the volume pill regardless of any
+       intrinsic-content rounding differences from min-width math. */
+    "  width:65px;overflow:hidden;box-sizing:border-box;",
+    "  box-shadow:0 8px 24px rgba(124,12,31,0.30),0 2px 4px rgba(124,12,31,0.16);",
     "  border:1px solid rgba(255,246,229,0.22);",
-    "  display:inline-flex;align-items:center;gap:8px;cursor:pointer;",
-    "  opacity:0;pointer-events:none;transform:translateY(8px);",
-    "  transition:opacity .25s ease,transform .25s ease;",
+    "  opacity:0;pointer-events:none;text-decoration:none;",
+    "  transition:opacity .25s ease,padding-right .25s ease;",
+    "  user-select:none;-webkit-user-select:none;cursor:pointer;",
     "}",
-    ".agd-projector-fab.is-on{opacity:.92;pointer-events:auto;transform:translateY(0);}",
-    ".agd-projector-fab:hover{opacity:1;filter:brightness(1.06);}",
-    ".agd-projector-fab .agd-fab-icon{font-size:13px;}",
+    ".agd-projector-fab.is-on{opacity:.55;pointer-events:auto;}",
+    ".agd-projector-fab.is-on:hover,.agd-projector-fab.is-on.is-open{",
+    "  opacity:1;padding-right:18px;width:248px;",
+    "}",
+    ".agd-projector-fab{transition:opacity .25s ease,padding-right .25s ease,width .25s ease;}",
+    ".agd-projector-fab .agd-fab-icon{",
+    "  width:20px;height:20px;display:flex;align-items:center;",
+    "  justify-content:center;flex-shrink:0;",
+    "}",
+    ".agd-projector-fab .agd-fab-icon svg{display:block;}",
+    ".agd-projector-fab .agd-fab-label{",
+    "  font-size:10px;letter-spacing:.12em;text-transform:uppercase;",
+    "  font-weight:600;color:rgba(255,246,229,0.85);",
+    "  width:0;opacity:0;overflow:hidden;white-space:nowrap;",
+    "  transition:width .22s ease,opacity .22s ease;",
+    "}",
+    /* Label width matched to volume pill's expanded extras (slider 158
+       + gap 10 + pct 26 = 194). Total expanded content = icon 20 + gap
+       10 + label 194 = 224, identical to volume's expanded content. */
+    ".agd-projector-fab:hover .agd-fab-label,",
+    ".agd-projector-fab.is-open .agd-fab-label{width:194px;opacity:1;}",
   ].join("");
 
   function injectStyle() {
@@ -232,9 +345,14 @@
   function buildShockwaveStub(dcrUrl, width, height) {
     var w = parseInt(width, 10) || 0;
     var h = parseInt(height, 10) || 0;
-    var stub = document.createElement("a");
+    // (Used to add 28pt for the Wine title bar, but with Decorated=N
+    //  in the Mac driver registry the Wine window is borderless — no
+    //  title bar, no padding needed.)
+    // Container is a plain DIV — NOT an <a>. Only the pill inside is the
+    // clickable surface, so users get the right hover feedback + pointer
+    // cursor only on the action target.
+    var stub = document.createElement("div");
     stub.className = "agd-flash-stub agd-dcr";
-    stub.href = toLaunchURL(dcrUrl);
     stub.setAttribute("data-agd-dcr", dcrUrl);
     stub.setAttribute("data-agd-original-swf", dcrUrl);  // so the FAB picks it up too
     if (w > 0) stub.style.width = w + "px";
@@ -246,9 +364,120 @@
     inner.className = "agd-inner";
     inner.innerHTML =
       '<div class="agd-title">' + prettyName(dcrUrl) + "</div>" +
-      '<div class="agd-pill">&#9654; Open in Shockwave Player</div>';
+      '<a class="agd-pill" href="' + toLaunchURL(dcrUrl) +
+      '">&#9654; Opens in Director Projector — click to relaunch</a>';
     stub.appendChild(inner);
+
+    // Pixelated retro loading overlay — visible from click until the host
+    // shell tells us the projector window appeared (via __AGD_DCR_READY__
+    // global hook the Swift overlay sets when AX detects the window).
+    var loading = document.createElement("div");
+    loading.className = "agd-loading";
+    loading.innerHTML =
+      '<div class="agd-logo"></div>' +
+      '<div class="agd-bar"></div>' +
+      '<div>Loading Shockwave Content…</div>';
+    stub.appendChild(loading);
+
+    var pill = inner.querySelector(".agd-pill");
+    pill.addEventListener("click", function (e) {
+      // Don't let the <a href="agd-launch://..."> actually navigate —
+      // that pollutes WKWebView's history with a cancelled entry,
+      // costing the user an extra Back press to escape the page.
+      // Instead fire a script-message handler that calls into Swift's
+      // GameLauncher directly. No history mutation.
+      e.preventDefault();
+      stub.classList.add("is-loading");
+      // Re-emit the embed's current viewport rect IMMEDIATELY before
+      // we ask Swift to spawn — guarantees the freshest possible
+      // measurement regardless of any window resize / scroll that
+      // happened since the last debounced emit.
+      reportRect(stub, dcrUrl);
+      try {
+        window.webkit.messageHandlers.launchDCR.postMessage(dcrUrl);
+      } catch (err) {
+        // Fallback: if the host shell doesn't have launchDCR registered
+        // (e.g., older build), do the legacy navigation path.
+        try { window.location.href = pill.href; } catch (e2) {}
+      }
+      // Best-effort: hide loading state after 8s in case the host shell
+      // never signals back (e.g., projector creation failed silently).
+      setTimeout(function () { stub.classList.remove("is-loading"); }, 8000);
+    });
+    // Expose a hook so the Swift overlay can dismiss the loading state
+    // as soon as the projector window is positioned over the embed.
+    // Switch to "running" state — the stub becomes a transparent spacer
+    // so Wine's window covers everything and gaps blend with page bg.
+    stub.__agdDismissLoading = function () {
+      stub.classList.remove("is-loading");
+      stub.classList.add("is-projector-running");
+    };
+    // Reset the stub when the projector process exits (user closed the
+    // window). Drop the loading state + bring the launch pill back to
+    // its idle "click to play" appearance.
+    stub.__agdProjectorClosed = function () {
+      stub.classList.remove("is-loading");
+      stub.classList.remove("is-projector-running");
+      var p = stub.querySelector(".agd-pill");
+      if (p) p.innerHTML = "&#9654; Click to play again";
+    };
+    if (!window.__AGD_DCR_STUBS__) window.__AGD_DCR_STUBS__ = [];
+    window.__AGD_DCR_STUBS__.push(stub);
+
+    // Auto-launch the projector immediately on page load — like a
+    // native game site would auto-start a Director embed. The user
+    // shouldn't have to click an extra "play" pill to get the game
+    // running. 250ms delay lets the page paint + JS report the rect
+    // before we ask Swift to spawn Wine.
+    setTimeout(function () { reportRect(stub, dcrUrl); }, 60);
+    if (!window.__AGD_DCR_AUTOLAUNCHED__) {
+      window.__AGD_DCR_AUTOLAUNCHED__ = true;
+      setTimeout(function () {
+        reportRect(stub, dcrUrl);
+        stub.classList.add("is-loading");
+        try {
+          window.webkit.messageHandlers.launchDCR.postMessage(dcrUrl);
+        } catch (e) {}
+      }, 250);
+    }
+
+    // Re-emit the rect on layout changes so the projector follows when
+    // the user scrolls / resizes the WebView. The host shell additionally
+    // listens for window-frame moves at the AppKit layer and re-applies.
+    var emitT = 0;
+    function emitSoon() {
+      clearTimeout(emitT);
+      emitT = setTimeout(function () { reportRect(stub, dcrUrl); }, 80);
+    }
+    window.addEventListener("scroll", emitSoon, { passive: true });
+    window.addEventListener("resize", emitSoon);
+    var ro;
+    if (typeof ResizeObserver !== "undefined") {
+      try { ro = new ResizeObserver(emitSoon); ro.observe(stub); } catch (e) {}
+    }
+
     return stub;
+  }
+
+  // Post the stub's viewport rect to the host shell so the bundled
+  // projector window can be positioned exactly over it.
+  function reportRect(stub, dcrUrl) {
+    try {
+      if (!window.webkit
+          || !window.webkit.messageHandlers
+          || !window.webkit.messageHandlers.dcrRect) return;
+      var r = stub.getBoundingClientRect();
+      window.webkit.messageHandlers.dcrRect.postMessage({
+        url:    dcrUrl,
+        x:      r.left,
+        y:      r.top,
+        width:  r.width,
+        height: r.height,
+        dpr:    window.devicePixelRatio || 1,
+        vpW:    window.innerWidth  || 0,
+        vpH:    window.innerHeight || 0,
+      });
+    } catch (e) {}
   }
 
   // ----------------------------------------------------------- Ruffle helpers
@@ -574,7 +803,15 @@
       fab = document.createElement("a");
       fab.id = "agd-projector-fab";
       fab.className = "agd-projector-fab";
-      fab.innerHTML = '<span class="agd-fab-icon">&#9654;</span><span>Open in Flash Projector</span>';
+      // Flash logo: a stylized lightning bolt — the universal shorthand
+      // for "Flash content". Same currentColor cream as the volume icon,
+      // same 20×20 footprint, so the two pills line up pixel-for-pixel.
+      fab.innerHTML =
+        '<span class="agd-fab-icon">' +
+        '<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">' +
+        '<path d="M11 1 L4 11 H9 L8 19 L16 8 H11 Z" fill="currentColor"/>' +
+        '</svg></span>' +
+        '<span class="agd-fab-label">Open in Flash Projector</span>';
       (document.body || document.documentElement).appendChild(fab);
     }
     // Pick the LAST (most recently inserted) player whose URL we know.

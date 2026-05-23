@@ -41,9 +41,11 @@ every Quiz Corner personality quiz.
 
 **20 Shockwave Director games.** Addy's Mancala, Josefina's Piano, Molly's Pedal
 Power, Kirsten's Raccoon Caper and Quilt, Kit's egg hunt, peg solitaire, jigsaw,
-Samantha's Sketchbook, the full set of Magazine puzzle pages. These need a
-real Director runtime; the app bundles one (Adobe Shockwave projector via Wine)
-so they actually play.
+Samantha's Sketchbook, the full set of Magazine puzzle pages. These need a real
+Director runtime; the app bundles one (Adobe Shockwave projector via Wine).
+Click a game's page and the projector spawns directly over the embed area, sized
+to the game's native canvas. Drag it anywhere, close it from its window, relaunch
+from the same pill — same gesture as the inline Flash pill.
 
 **The full e-card system.** Choose a card, type a personalized message, preview
 it with your message embedded, send it to a friend by handoff to your Mac's Mail
@@ -76,9 +78,13 @@ gesture, different plumbing.
 
 **A handful of mid-game Ruffle hiccups.** Ruffle's ActionScript support is
 99% there; some clicks inside Kit's Railway Adventure throw mid-play error
-codes. Every game has a one-click "Open in Flash Projector" pill in the
-bottom-right that hands off to the real Adobe Flash Player (bundled in the
-.app) — that's the canonical playback path when Ruffle stumbles.
+codes. The bottom-right of every game page carries a paired control stack — a
+volume pill and an "Open in Flash Projector" pill above it, both sharing the
+same shape, gradient, hover-to-expand behavior. The Flash pill hands off to
+the real Adobe Flash Player (bundled in the .app); the volume pill applies a
+single setting across every inline Ruffle player and persists it between
+sessions. That projector pill is the canonical playback path whenever Ruffle
+stumbles.
 
 ---
 
@@ -206,6 +212,14 @@ scripts at the top of every HTML file in the mirror, rewrites cross-domain
 URLs to the `agd://` scheme, neutralizes 2008-era tracking pixels, and
 intercepts dead form `<form action="…cgi">` patterns so submits land on a
 styled "the live 2008 server is gone" page instead of vanishing into 404.
+
+The window itself is fully draggable from any non-interactive surface — the
+red AG navigation bar, the dashboard's solid-color header, the empty page
+background — using a threshold-based mousedown handler that distinguishes a
+deliberate drag from a single click (links and tile-card clicks pass through
+intact). The Director projector windows are positioned, focused, and torn
+down via macOS Accessibility APIs; on quit, every spawned projector is
+SIGKILLed before the host exits so nothing leaks across launches.
 
 The gallery is regenerated on every build by `tools/build_games_gallery.py` —
 it walks the mirror, groups SWFs by their HTML wrapper, dedupes by SHA-256,

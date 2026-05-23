@@ -16,9 +16,47 @@ public sealed class GameLauncher
 {
     private readonly string _projectorDir;
 
+    // Per-asset running projector tracking — every stub-click would
+    // otherwise stack a fresh process; we focus the existing window
+    // instead. Mirrors the Swift GameLauncher's runningDCRProcesses map.
+    private readonly Dictionary<string, Process> _running = new(StringComparer.OrdinalIgnoreCase);
+    private readonly object _runningLock = new();
+
     public GameLauncher(string projectorDir)
     {
         _projectorDir = projectorDir;
+    }
+
+    private bool TryFocusExisting(string key)
+    {
+        lock (_runningLock)
+        {
+            if (!_running.TryGetValue(key, out var proc)) return false;
+            if (proc.HasExited) { _running.Remove(key); return false; }
+            try
+            {
+                // SetForegroundWindow only works for our own foreground; for
+                // a child process we can poke at the main window handle.
+                var hwnd = proc.MainWindowHandle;
+                if (hwnd != IntPtr.Zero) NativeMethods.SetForegroundWindow(hwnd);
+                return true;
+            }
+            catch { return true; }
+        }
+    }
+
+    private void Track(string key, Process proc)
+    {
+        lock (_runningLock) { _running[key] = proc; }
+        proc.EnableRaisingEvents = true;
+        proc.Exited += (_, _) =>
+        {
+            lock (_runningLock)
+            {
+                if (_running.TryGetValue(key, out var p) && ReferenceEquals(p, proc))
+                    _running.Remove(key);
+            }
+        };
     }
 
     /// <summary>
@@ -51,6 +89,8 @@ public sealed class GameLauncher
 
     private bool LaunchFlash(string swfPath)
     {
+        if (TryFocusExisting(swfPath)) return true;
+
         // Bundled standalone Flash Player.
         //   projector\Flash\flashplayer_32_sa.exe
         var exe = Path.Combine(_projectorDir, "Flash", "flashplayer_32_sa.exe");
@@ -64,12 +104,15 @@ public sealed class GameLauncher
             UseShellExecute = false,
             WorkingDirectory = Path.GetDirectoryName(swfPath) ?? ".",
         };
-        Process.Start(psi);
+        var proc = Process.Start(psi);
+        if (proc != null) Track(swfPath, proc);
         return true;
     }
 
     private bool LaunchDirector(string dcrPath)
     {
+        if (TryFocusExisting(dcrPath)) return true;
+
         // We prefer PJ12 (Director 12 player) — same default as the macOS
         // GameLauncher. Fall back to PJ1159 / PJ1158 / older.
         string[] candidates =
@@ -91,8 +134,18 @@ public sealed class GameLauncher
             UseShellExecute = false,
             WorkingDirectory = Path.GetDirectoryName(dcrPath) ?? ".",
         };
-        Process.Start(psi);
+        var proc = Process.Start(psi);
+        if (proc != null) Track(dcrPath, proc);
         return true;
+    }
+
+    /// <summary>P/Invoke for SetForegroundWindow — used to focus an
+    /// already-running projector when the user clicks the relaunch pill
+    /// a second time.</summary>
+    private static class NativeMethods
+    {
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
     }
 
     /// <summary>

@@ -184,6 +184,20 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
         return nil
     }
 
+    /// Tear down ProjectorOverlay's shadow-mask windows whenever the
+    /// user navigates — masks from a DCR on a previous page would
+    /// otherwise persist as ghost frames on whatever page comes next.
+    /// Hook multiple events because back-nav cached restores may skip
+    /// didCommit entirely, and a single late hook leaves a "white flash"
+    /// frame for ~200ms while the new page loads.
+    func webView(_ webView: WKWebView,
+                 didStartProvisionalNavigation navigation: WKNavigation!) {
+        NotificationCenter.default.post(name: .AGDPageDidNavigate, object: webView)
+    }
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        NotificationCenter.default.post(name: .AGDPageDidNavigate, object: webView)
+    }
+
     /// If the web content process crashes, reload the last URL rather than
     /// leaving the user with a blank white window.
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {

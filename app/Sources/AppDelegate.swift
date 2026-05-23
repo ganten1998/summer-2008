@@ -1,6 +1,80 @@
 import AppKit
 import WebKit
 
+/// Invisible NSView positioned over the top ~28pt of the window's
+/// content area. Its sole job is to make the title-bar region of the
+/// window draggable — `mouseDownCanMoveWindow = true` tells AppKit that
+/// drag gestures starting here should reposition the window. Ordinary
+/// clicks and scrolls pass through to the WebView below, so the AG nav
+/// links remain interactive. Transparent so the WebView's AG red
+/// navbar continues to show through.
+private final class DraggableTitleBarView: NSView {
+    override var mouseDownCanMoveWindow: Bool { true }
+}
+
+/// Window-drag message handler. JS posts here on mousedown over any
+/// data-agd-drag region (the entire body, in practice) once a small
+/// movement threshold has been exceeded. We then call
+/// NSWindow.performDrag with the *cached* most-recent leftMouse event
+/// — NOT NSApp.currentEvent, which is unreliable across async hops
+/// (the WKWebView postMessage round-trip can leave it stale or nil,
+/// which is exactly what was causing drag to fire only intermittently).
+private final class WindowDragHandler: NSObject, WKScriptMessageHandler {
+    weak var window: NSWindow?
+    private var lastMouseEvent: NSEvent?
+    private var monitor: Any?
+
+    override init() {
+        super.init()
+        monitor = NSEvent.addLocalMonitorForEvents(
+            matching: [.leftMouseDown, .leftMouseDragged]
+        ) { [weak self] event in
+            self?.lastMouseEvent = event
+            return event
+        }
+    }
+    deinit {
+        if let m = monitor { NSEvent.removeMonitor(m) }
+    }
+
+    func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let window = window, let event = lastMouseEvent else { return }
+        window.performDrag(with: event)
+    }
+}
+
+/// Diagnostic: receives the element-info string from every drag-tagged
+/// mousedown and appends it to /tmp/agd-debug.log so we can see exactly
+/// what the user is clicking on when something doesn't drag/hover.
+private final class DragDiagHandler: NSObject, WKScriptMessageHandler {
+    func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let info = message.body as? String else { return }
+        let line = "\(Date()) drag-mousedown target=\(info)\n"
+        let p = "/tmp/agd-debug.log"
+        guard let data = line.data(using: .utf8) else { return }
+        if FileManager.default.fileExists(atPath: p),
+           let fh = FileHandle(forWritingAtPath: p) {
+            fh.seekToEndOfFile(); fh.write(data); fh.closeFile()
+        } else {
+            try? data.write(to: URL(fileURLWithPath: p))
+        }
+    }
+}
+
+/// Weak wrapper that receives DCR launch requests from flash-bridge.js
+/// without going through WKWebView navigation. Avoids polluting the
+/// nav-history with cancelled agd-launch:// entries that cost the user
+/// extra Back presses.
+private final class DCRLaunchHandler: NSObject, WKScriptMessageHandler {
+    func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let urlString = message.body as? String,
+              let url = URL(string: urlString) else { return }
+        DispatchQueue.main.async {
+            GameLauncher.shared.launch(originalURL: url)
+        }
+    }
+}
+
 /// Weak wrapper so WKUserContentController doesn't retain AppDelegate.
 private final class NavMessageHandler: NSObject, WKScriptMessageHandler {
     weak var appDelegate: AppDelegate?
@@ -8,8 +82,20 @@ private final class NavMessageHandler: NSObject, WKScriptMessageHandler {
         guard let action = message.body as? String else { return }
         DispatchQueue.main.async { [weak self] in
             switch action {
-            case "back":    self?.appDelegate?.webView.goBack()
-            case "forward": self?.appDelegate?.webView.goForward()
+            case "back", "forward":
+                // Tear masks down IMMEDIATELY on user click. Don't wait
+                // for the WKWebView nav-delegate hooks to fire — back/
+                // forward to a cached page can skip didCommit entirely
+                // and leave the cover NSWindow visible on top of the
+                // new page for hundreds of ms.
+                NotificationCenter.default.post(
+                    name: .AGDPageDidNavigate,
+                    object: self?.appDelegate?.webView)
+                if action == "back" {
+                    self?.appDelegate?.webView.goBack()
+                } else {
+                    self?.appDelegate?.webView.goForward()
+                }
             default: break
             }
         }
@@ -24,9 +110,50 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var navHandler: NavigationHandler!
     var schemeHandler: MirrorURLSchemeHandler!
     private var msgHandler: NavMessageHandler!
+    private var dcrLaunchHandler: DCRLaunchHandler!
+    private var dragHandler: WindowDragHandler!
+    private var dragDiagHandler: DragDiagHandler!
+    var overlay: ProjectorOverlay!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         installMenuBar()
+
+        // Belt-and-suspenders cleanup of any orphan Wine/Director
+        // projectors from a previous run that didn't go through our
+        // applicationWillTerminate path (force-quit, crash, kill -9).
+        // Without this they accumulate and float on screen with title
+        // bars showing — the "centered window with label" the user
+        // reported. Wine-preloader is unambiguously ours.
+        for proc in ["wine-preloader", "Projector.exe", "SPR.exe"] {
+            let task = Process()
+            task.launchPath = "/usr/bin/pkill"
+            task.arguments  = ["-9", "-f", proc]
+            try? task.run()
+            task.waitUntilExit()
+        }
+
+        // Startup AX trust probe — log on launch so we can see if the
+        // PERSISTENT grant works (we'd see trusted=true from the moment
+        // the app starts) vs an in-session-only grant (trusted flips
+        // false→true mid-run, can be cached weirdly). Also dumps the
+        // bundle ID + binary path so any TCC entry-collision is visible.
+        do {
+            let trusted = AXIsProcessTrusted()
+            let bundleID = Bundle.main.bundleIdentifier ?? "(no bundle id)"
+            let exePath  = Bundle.main.executableURL?.path ?? "(no exe path)"
+            NSLog("AGD: startup AXIsProcessTrusted=\(trusted) bundleID=\(bundleID) exe=\(exePath)")
+            let line = "\(Date()) startup AXIsProcessTrusted=\(trusted) bundleID=\(bundleID) exe=\(exePath)\n"
+            if let data = line.data(using: .utf8) {
+                let p = "/tmp/agd-debug.log"
+                if FileManager.default.fileExists(atPath: p) {
+                    if let fh = FileHandle(forWritingAtPath: p) {
+                        fh.seekToEndOfFile(); fh.write(data); fh.closeFile()
+                    }
+                } else {
+                    try? data.write(to: URL(fileURLWithPath: p))
+                }
+            }
+        }
 
         let config = WKWebViewConfiguration()
         config.preferences.javaScriptCanOpenWindowsAutomatically = true
@@ -42,72 +169,134 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         msgHandler.appDelegate = self
         config.userContentController.add(msgHandler, name: "agdNav")
 
-        // Inject a nav bar into every mirrored site page (not dashboard/runtime/games).
-        // Back/forward fire webView.goBack()/goForward() via the agdNav message handler.
+        // DCR launch handler: flash-bridge.js posts the .dcr URL here
+        // when the user clicks the projector pill. Going through a
+        // script message handler (rather than window.location.href to
+        // an agd-launch:// URL) avoids history-pollution that costs the
+        // user an extra Back press to escape the game page.
+        dcrLaunchHandler = DCRLaunchHandler()
+        config.userContentController.add(dcrLaunchHandler, name: "launchDCR")
+
+        // Window-drag handler: JS calls into here on mousedown over any
+        // data-agd-drag region (nav bars). We invoke NSWindow.performDrag
+        // so the user can grab the visible red AG nav or our injected
+        // dashboard bar to move the window — same gesture as dragging
+        // a native title bar.
+        dragHandler = WindowDragHandler()
+        config.userContentController.add(dragHandler, name: "agdDrag")
+        dragDiagHandler = DragDiagHandler()
+        config.userContentController.add(dragDiagHandler, name: "agdDragDiag")
+
+        // Bridge that places the bundled Wine/Director projector window
+        // over the .dcr embed area on game pages. Receives the embed's
+        // bounding rect from flash-bridge.js via the `dcrRect` handler.
+        overlay = ProjectorOverlay()
+        config.userContentController.add(overlay, name: "dcrRect")
+        GameLauncher.shared.overlay = overlay
+
+        // Inject the drag setup on EVERY page (including dashboard /
+        // runtime / games — the previous early-return skipped these and
+        // that's why the dashboard wasn't draggable). The back/forward
+        // bar is still only injected on mirrored AG pages.
         let navBarJS = """
         (function() {
           var h = location.hostname;
-          if (h === 'dashboard' || h === 'runtime' || h === 'games') return;
+          var isInternal = (h === 'dashboard' || h === 'runtime' || h === 'games');
 
-          var bar = document.createElement('div');
-          bar.style.cssText = [
-            'position:fixed','top:0','left:0','right:0','height:40px',
-            'background:#A6192E','z-index:2147483647',
-            'display:flex','align-items:center','justify-content:flex-end',
-            'padding:0 14px','gap:4px',
-            'box-shadow:0 2px 8px rgba(0,0,0,.25)'
-          ].join(';');
+          // -------- Back/forward/Dashboard bar (mirrored AG pages only) --------
+          if (!isInternal) {
+            var bar = document.createElement('div');
+            bar.style.cssText = [
+              'position:fixed','top:0','left:0','right:0','height:40px',
+              'background:#A6192E','z-index:2147483647',
+              'display:flex','align-items:center','justify-content:flex-end',
+              'padding:0 14px','gap:4px',
+              'box-shadow:0 2px 8px rgba(0,0,0,.25)'
+            ].join(';');
+            bar.setAttribute('data-agd-drag', 'true');
 
-          var btnStyle = [
-            'color:#FBF6EB','background:rgba(255,246,235,0.15)',
-            'border:none','border-radius:6px',
-            'font:600 15px/1 -apple-system,sans-serif',
-            'padding:5px 10px','cursor:pointer',
-            'opacity:.85','transition:opacity .15s',
-            'text-decoration:none','display:inline-flex','align-items:center'
-          ].join(';');
+            var btnStyle = [
+              'color:#FBF6EB','background:rgba(255,246,235,0.15)',
+              'border:none','border-radius:6px',
+              'font:600 15px/1 -apple-system,sans-serif',
+              'padding:5px 10px','cursor:pointer',
+              'opacity:.85','transition:opacity .15s',
+              'text-decoration:none','display:inline-flex','align-items:center'
+            ].join(';');
 
-          // Back button
-          var backBtn = document.createElement('button');
-          backBtn.textContent = '\\u2190';
-          backBtn.title = 'Back';
-          backBtn.style.cssText = btnStyle;
-          backBtn.onmouseenter = function(){ backBtn.style.opacity='1'; };
-          backBtn.onmouseleave = function(){ backBtn.style.opacity='0.85'; };
-          backBtn.onclick = function(){ webkit.messageHandlers.agdNav.postMessage('back'); };
+            // Back button
+            var backBtn = document.createElement('button');
+            backBtn.textContent = '\\u2190';
+            backBtn.title = 'Back';
+            backBtn.style.cssText = btnStyle;
+            backBtn.onmouseenter = function(){ backBtn.style.opacity='1'; };
+            backBtn.onmouseleave = function(){ backBtn.style.opacity='0.85'; };
+            backBtn.onclick = function(){ webkit.messageHandlers.agdNav.postMessage('back'); };
 
-          // Forward button
-          var fwdBtn = document.createElement('button');
-          fwdBtn.textContent = '\\u2192';
-          fwdBtn.title = 'Forward';
-          fwdBtn.style.cssText = btnStyle;
-          fwdBtn.style.marginLeft = '4px';
-          fwdBtn.onmouseenter = function(){ fwdBtn.style.opacity='1'; };
-          fwdBtn.onmouseleave = function(){ fwdBtn.style.opacity='0.85'; };
-          fwdBtn.onclick = function(){ webkit.messageHandlers.agdNav.postMessage('forward'); };
+            // Forward button
+            var fwdBtn = document.createElement('button');
+            fwdBtn.textContent = '\\u2192';
+            fwdBtn.title = 'Forward';
+            fwdBtn.style.cssText = btnStyle;
+            fwdBtn.style.marginLeft = '4px';
+            fwdBtn.onmouseenter = function(){ fwdBtn.style.opacity='1'; };
+            fwdBtn.onmouseleave = function(){ fwdBtn.style.opacity='0.85'; };
+            fwdBtn.onclick = function(){ webkit.messageHandlers.agdNav.postMessage('forward'); };
 
-          // Dashboard link
-          var dashLink = document.createElement('a');
-          dashLink.href = 'agd://dashboard/index.html';
-          dashLink.textContent = '\\u2302  Dashboard';
-          dashLink.style.cssText = [
-            'color:#FBF6EB','text-decoration:none',
-            'font:600 11px/1 -apple-system,sans-serif',
-            'letter-spacing:.18em','text-transform:uppercase',
-            'opacity:.9','transition:opacity .15s',
-            'margin-left:6px'
-          ].join(';');
-          dashLink.onmouseenter = function(){ dashLink.style.opacity='1'; };
-          dashLink.onmouseleave = function(){ dashLink.style.opacity='0.9'; };
+            // Dashboard link
+            var dashLink = document.createElement('a');
+            dashLink.href = 'agd://dashboard/index.html';
+            dashLink.textContent = '\\u2302  Dashboard';
+            dashLink.style.cssText = [
+              'color:#FBF6EB','text-decoration:none',
+              'font:600 11px/1 -apple-system,sans-serif',
+              'letter-spacing:.18em','text-transform:uppercase',
+              'opacity:.9','transition:opacity .15s',
+              'margin-left:6px'
+            ].join(';');
+            dashLink.onmouseenter = function(){ dashLink.style.opacity='1'; };
+            dashLink.onmouseleave = function(){ dashLink.style.opacity='0.9'; };
 
-          bar.appendChild(backBtn);
-          bar.appendChild(fwdBtn);
-          bar.appendChild(dashLink);
-          document.body.insertBefore(bar, document.body.firstChild);
+            bar.appendChild(backBtn);
+            bar.appendChild(fwdBtn);
+            bar.appendChild(dashLink);
+            document.body.insertBefore(bar, document.body.firstChild);
 
-          // Push body content below the bar.
-          var current = parseInt(getComputedStyle(document.body).paddingTop) || 0;
-          document.body.style.paddingTop = (current + 40) + 'px';
+            // Push body content below the bar.
+            var current = parseInt(getComputedStyle(document.body).paddingTop) || 0;
+            document.body.style.paddingTop = (current + 40) + 'px';
+          }
+
+          // -------- Window-drag setup (ALL pages including dashboard) --------
+          // Tag the BODY itself as a drag source so EVERY non-interactive
+          // mousedown is a drag candidate, regardless of what's underneath.
+          document.body.setAttribute('data-agd-drag', 'true');
+
+          // Threshold-based drag: ANY mousedown can start a drag candidate,
+          // EVEN on <a>/<button> — the threshold distinguishes click intent
+          // from drag intent. Single click without movement → element's
+          // own handler fires (link nav, button click). Mousedown + move
+          // past 4px → window drag; the click event is naturally suppressed
+          // by WebKit since the pointer left the element. Only true text-
+          // selection contexts (input/textarea/select) are skipped, since
+          // their click-drag is meant to select characters not move windows.
+          var dragStart = null;
+          document.addEventListener('mousedown', function (e) {
+            var t = e.target;
+            if (t.closest('input, select, textarea')) return;
+            if (!t.closest('[data-agd-drag]')) return;
+            dragStart = { x: e.clientX, y: e.clientY };
+          }, true);
+          document.addEventListener('mousemove', function (e) {
+            if (!dragStart) return;
+            var dx = e.clientX - dragStart.x;
+            var dy = e.clientY - dragStart.y;
+            if (dx * dx + dy * dy > 16) {
+              dragStart = null;
+              try { window.webkit.messageHandlers.agdDrag.postMessage(null); } catch (_) {}
+            }
+          }, true);
+          document.addEventListener('mouseup', function () { dragStart = null; }, true);
         })();
         """
         let script = WKUserScript(source: navBarJS,
@@ -133,11 +322,38 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         window.title = "Summer 2008"
         window.center()
-        window.contentView = webView
         window.titlebarAppearsTransparent = true
         window.titleVisibility = .hidden
         window.backgroundColor = NSColor(red: 0.98, green: 0.95, blue: 0.91, alpha: 1.0)
+
+        // WebView is the content view directly. Window-drag is handled
+        // by injected JS that calls into the agdDrag message handler on
+        // mousedown over any [data-agd-drag] region (nav bars).
+        window.contentView = webView
+
         window.makeKeyAndOrderFront(nil)
+        dragHandler.window = window
+
+        // When the main window closes, force-terminate the app explicitly.
+        // applicationShouldTerminateAfterLastWindowClosed checks every
+        // window owned by the app — including our cover + shadow-mask
+        // NSWindows from ProjectorOverlay — so when the user clicks the
+        // red close button, the cover/mask windows are still "open" and
+        // the app would stay alive zombie-style with the white border
+        // still painted on screen. Forcing terminate here guarantees the
+        // app exits cleanly, our overlays go with it, and the synchronous
+        // wine-kill in applicationWillTerminate also fires.
+        NotificationCenter.default.addObserver(
+            forName: NSWindow.willCloseNotification,
+            object: window,
+            queue: .main
+        ) { _ in
+            NSApp.terminate(nil)
+        }
+
+        // Now that window + webview exist, let the overlay subscribe to
+        // window move/resize so the projector follows the host frame.
+        overlay.attachToMainWindow(window, webView: webView)
 
         let startString = ProcessInfo.processInfo.environment["AGD_START_URL"]
             ?? "agd://dashboard/index.html"
@@ -147,6 +363,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
+    }
+
+    /// Kill any running Wine/Director projector children before our
+    /// process exits — otherwise they stay on screen as orphan windows
+    /// the user can't easily close.
+    func applicationWillTerminate(_ notification: Notification) {
+        GameLauncher.shared.terminateAllProjectors()
     }
 
     private func installMenuBar() {
