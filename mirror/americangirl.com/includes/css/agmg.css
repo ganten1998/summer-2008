@@ -1,0 +1,32 @@
+A.quiz:text { text-decoration: none font-family: Arial, Helvetica, sans-serif; font-size: 12pt}
+A.quiz:link { text-decoration: none font-family: Arial, Helvetica, sans-serif; font-size: 12pt}
+A.quiz:visited { text-decoration: none font-family: Arial, Helvetica, sans-serif; font-size: 12pt}
+.body {  font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal; color: #000000}
+.bodyred {  font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal; color: #333333}
+.bodysmall { font-family: Times New Roman, Times, serif; font-size: 10px}
+.boldcopy {  font-family: Georgia, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold}
+.boldhed { font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; text-decoration: overline}
+.copy {  font-family: Georgia, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal}
+.copytext {  font-family: Arial, Helvetica, sans-serif; font-size: 14px}
+.heading { font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: normal}
+.header1 {  font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-weight: bold; color: #000000}
+.header2 {  font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; color: #3399FF}
+.instrctn {  font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 12px}
+.instruct {  font-family: Arial, Helvetica, sans-serif; font-size: 17px; line-height: 17px}
+.instrctn1 {  font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 12px}
+.legal {  font-family: Arial, Helvetica, sans-serif; font-size: 10pt}
+.letters { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; font-weight: bold}
+.names { font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-style: normal; line-height: normal; font-weight: bold; color: #FFFFFF}
+.nav { font-family: Arial, Helvetica, sans-serif; font-size: 12px}
+.response {  font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; line-height: normal; font-weight: bold; color: #000000}
+.subhdr {  font-family: Arial, Helvetica, sans-serif; font-size: 12px;}
+.subjects {  font-family: Arial, Helvetica, sans-serif; font-size: 13px; font-style: italic; text-decoration: none; color: #000000}
+.textnav {  font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 11px} 
+.txtinstr {  font-family: Arial, Helvetica, sans-serif; font-size: 12px} 
+.textnav {  font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 11px}
+.text {  font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 16px}
+.textBold {	font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 16px;	font-weight: bold;}
+.textnav1 {  font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 11px}
+.text1 {  font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 16px}
+.takenote { font-family: Arial, Helvetica, sans-serif; font-size: 11px; line-height: 11px}
+.content td { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 16px}

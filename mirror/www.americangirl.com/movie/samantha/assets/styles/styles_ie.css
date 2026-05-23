@@ -1,0 +1,21 @@
+/* Stylesheet for American Girl Movie - Samantha 06.22.05 */
+
+.bkgd, .bkgdHome, .bkgdPhoto, .bkgdCast, .bkgdWorld, .bkgdDolls, .bkgdHunt, .bkgdCrafts, .bkgdPaper, .bkgdBook, .bkgdThen {
+	margin-top: -5px;
+	}	
+
+.bkgdCast {
+	height: 1380px;
+	}	
+
+.bkgdDolls, .bkgdHunt {
+	height: 660px;
+	}	
+
+.bkgdCrafts {
+	height: 1000px;
+	}	
+	
+.bkgdThen {
+	height: 1850px;
+	}

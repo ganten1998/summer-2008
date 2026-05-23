@@ -1,0 +1,23 @@
+/* Styles for IE 6 */
+
+#main {
+	margin-left:7px;
+	width:750px;
+}
+#multiCharButton {
+	margin-left:7px;
+	padding-right:5px;
+	}		
+#charNav {
+	margin: 0 0 0 14px;
+	}
+
+.historicalSplash #main {
+	padding-right:5px;
+}
+#multiCharGames {
+	margin: 113px 0 0 48px;
+	}
+.kaya .mountain #main {
+	margin:0 0 15px 45px;
+}

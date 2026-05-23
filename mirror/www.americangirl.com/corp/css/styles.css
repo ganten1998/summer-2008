@@ -1,0 +1,1562 @@
+/* CSS Document */
+
+/*******  Global Styles ********/
+
+/* Selectors */
+body {
+margin:0;
+padding:0;
+font: small Arial,Helvetica, sans-serif;
+background-color: #FFFFFF;
+color:#333333;
+font-size: 85%;
+line-height: 145%;
+}
+p,
+blockquote,
+cite,
+dl,
+li,
+#content ul,
+#popupContent ul,
+#popupContent ol,
+#popupContent div.directionStartingPoint {
+font-size: 85%;
+line-height: 145%;
+color: #333333;
+}
+p, blockquote, cite, dl {
+margin: 0 0 8px 0;
+padding: 0 30px 0 0px;
+}
+
+sup, p sup, a sup {
+	font-size:90%;
+	padding:0 0 0 2px; 
+	margin:0;
+}
+
+a {
+color:#990033;
+text-decoration: none;
+}
+sup {
+font-size:70%;
+padding:0 0 0 2px; 
+margin:0;
+}
+ul {
+list-style-type:none;
+margin-left:-20px;
+}
+ul li {
+background: url(/corp/images/bullet.gif) no-repeat 2px 3px;
+margin-left:-15px;
+padding: 0px 0px 0px 10px;
+}
+blockquote {
+margin:0;
+padding:20px;
+clear:both;
+}
+cite {
+padding:10px 0 10px 7px;
+float:left;
+clear:both;
+font-style:normal;
+background:url(/corp/images/dash.gif) no-repeat 0 17px;
+}
+img {
+border:none;
+}
+a:hover {
+text-decoration:underline;
+}
+.required {
+font-weight: bold
+}
+
+
+/*////////////////////////////////////////////////////////////////////
+	about us home	
+////////////////////////////////////////////////////////////////////*/
+
+#abouthome { 
+padding-bottom:0px; 
+background-color:#FFFFFF;
+margin-bottom: 10px;
+padding-bottom: 5px;
+line-height: 100%;
+}
+#abouthome h1, #abouthome h2 {
+margin:0; 
+padding:0;
+}
+#abouthome h4 {
+font-weight: bold;
+font-size: 90%;
+padding:0;
+margin:0 0 5px 0;
+color:#333333;
+}
+#abouthome #pressroom {
+background-color:#dae0f5;
+border-top: 1px solid #ffffff;
+}
+#pressroomcontent, #ourcompanycontent, #whatshappeningcontent {
+padding: 20px 20px 10px 20px ;
+}
+#whatshappeningcontent {
+padding:20px 10px 0px 20px
+}
+#whatshappeningcontent p {
+padding:0px 20px 0px 0px
+}
+
+
+
+
+#featurebug {
+background-image:url(/corp/images/home/featurebug_bg.gif); background-repeat: repeat-y;
+text-align:center;
+float:right;
+width: 200px;
+margin-bottom:10px;
+}
+#featurebug img {
+float:right;
+margin:0px 5px 0px 20px
+}
+
+#featurebug p {
+float:left;
+xborder:1px solid;
+margin-left:20px;
+padding:0;
+line-height:120%;
+font-size:80%;
+}
+#whatshappening ul {
+margin: 0px 0px 10px 0px;
+padding:0;
+}
+#whatshappening ul li{
+margin: 0px 0px 5px 0px;
+line-height: 120%;
+padding-left:10px;
+}
+#abouthome #ourcompany {
+background-color:#fce9f5;
+background-image:url(/corp/images/home/bg_our_company.gif);
+background-repeat: no-repeat;
+background-position:bottom;
+border-top: 2px solid #ffffff;
+}
+#abouthome #whatshappening {
+background-color:#fcedf5;
+background-image:url(/corp/images/home/bg_whats_happening.jpg);
+background-repeat: repeat-x;
+background-position:bottom;
+border-left: 2px solid #ffffff;
+border-top: 1px solid #ffffff;
+border-top: 1px solid #ffffff;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	page structure styles	
+////////////////////////////////////////////////////////////////////*/
+
+#maincontainer{
+width: 750px; /*Width of main container*/
+margin: 0 auto; /*Center container on page*/
+padding: 0;
+}
+#topsection{
+height: 89px; /*Height of top section*/
+}
+#topsection h1{
+margin: 0;
+padding: 0;
+}
+#contentwrapper{
+float: left;
+width: 100%;
+background-image: url(/corp/images/bg/repeat.gif);
+background-repeat:repeat-y;
+}
+#fullcontentwrapper{
+float: left;
+width: 100%;
+background-image: none;
+}
+#contentcolumn{
+padding-right: 210px; /*Set right margin to RightColumnWidth*/
+background-image: url(/corp/images/bg/page.jpg);
+background-position:bottom;
+background-repeat:no-repeat;
+}
+#fullcontentcolumn{
+padding-right: 0px; /*Set right margin to RightColumnWidth*/
+background-image: none;
+background-position:bottom;
+background-repeat:no-repeat;
+}
+#rightcolumn{
+float: left;
+width: 210px; /*Width of right column*/
+margin-left: -210px; /*Set left margin to -(RightColumnWidth) */
+background-image:url(/corp/images/bg/bg_nav.gif);
+}
+#footer{
+clear: left;
+width: 100%;
+text-align: center;
+padding: 12px 0 0 0px;
+}
+#footer a{
+color: #FFFF80;
+line-height: 145%;
+}
+#contentcolumn {
+padding-bottom: 20px;
+}
+#rightcolumn h1 {
+background-image:url(/corp/images/bg/nav_head.gif);
+background-repeat:no-repeat;
+padding: 20px 20px 0px 10px;
+text-transform:uppercase;
+font-weight:bold;
+margin: 0;
+font-size: 80%;
+}
+#rightcolumn h2 {
+padding: 0px 0px 0px 10px;
+margin: 10px 0px 0px 0px; 
+text-transform:uppercase;
+font-weight:bold;
+font-size: 80%;
+}
+#rightcolumn h3 {
+padding: 0px 0px 0px 10px;
+margin: 10px 0px 0px 0px; 
+text-transform:uppercase;
+font-weight:bold;
+font-size: 80%;
+color:#bf2296;
+}
+#rightcolumn dl {
+margin:0;
+padding:0;
+font-weight:bold;
+font-size: 85%;
+}
+#rightcolumn dl dt {
+margin: 10px 10px 0px 10px;
+padding: 0;
+text-transform:uppercase;
+font-size: 95%;
+line-height: 145%;
+}
+#rightcolumn dl dd {
+margin: 0px 10px 0px 10px;
+padding: 0;
+font-weight:normal;
+font-size: 98%;
+}
+#rightcolumn ul { 
+margin: 5px 0 0 0;
+font-size: 85%;
+padding: 0px 15px 10px 10px;
+background-image:url(/corp/images/dot_subnav.gif);
+background-repeat:repeat-x;
+background-position:bottom;
+}
+#rightcolumn ul li {
+margin:0;
+padding: 0px 0px 0px 10px;
+font-size: 98%;
+line-height: 145%;
+background-image:url(/corp/images/bullet.gif)
+}
+a.rightsubnav_active{ color:#666666;
+}
+ul#rightsubnav {
+background-image:none;
+padding: 0px 5px 0px 10px;
+line-height: 12px;
+margin: 0;
+font-size: 98%;
+}
+ul#rightsubnav li{
+line-height: 16px;
+margin: 0;
+background-image:url();
+}
+
+#rightcolumn p {
+font-size: 83%;
+margin: 10px 5px 0px 10px;
+}
+.rightemailsignup {
+margin: 10px 25px 20px 10px;
+padding: 5px 0 20px 65px;
+background-image:url(/corp/images/bg/news_signup_bg.gif);
+background-repeat:no-repeat;
+} 
+.rightemailsignup a{
+font-size: 83%;
+line-height: 125%;
+text-decoration:none;
+background-repeat:no-repeat;
+}
+#donationrequest {
+background-image: url(/corp/images/bg/bg_donation_request.jpg);
+background-repeat:no-repeat;
+background-color:#FFFFFF;
+}
+#rightnav h3{margin: 0px;
+padding-top: 20px;
+}
+#rightnav form fieldset {
+border: 0px; 
+margin: 0px;
+padding: 0px;
+border: none
+}
+#rightnav input {
+width: 150px;
+margin: 2px 0px 10px 0px;
+font-size: 85%;
+padding: 3px 2px 3px 2px;
+}
+#rightnav input[type^="checkbox"] {
+float:left;
+width: 15px;
+margin: 2px 10px 10px 0px;
+padding: 3px;
+}
+#rightnav #donation {
+padding: 10px;
+}
+#rightnav #donation label{
+text-align:left;
+float:right;
+width: 150px;
+font-size: 83%;
+line-height: 145%;
+}
+#rightnav .button { 
+width:	94px;
+border: 0px;
+margin: 10px 0px 0px 30px
+}
+#rightnav{	
+background-image:url(/corp/images/dot_subnav.gif);
+background-repeat:repeat-x;
+background-position:bottom;
+}
+#rightnav #donationrequest ul li {background-image: none;
+}
+a.active {color:#666666}
+
+/*////////////////////////////////////////////////////////////////////
+	corporate Nav
+////////////////////////////////////////////////////////////////////*/
+
+#corpNavcontainer {
+padding: 0; 
+margin: 0;
+}
+ul.corpNav {
+height: 30px;
+list-style: none;
+clear:both;
+padding:0;
+margin:0;
+border-top: 1px solid #FFFFFF;
+}
+ul.corpNav li, li.abouthome, li.pressroom, li.company, li.happening {
+margin: 0; 
+padding: 0;
+list-style: none; 
+display: inline;
+}       
+.corpNav a {
+float: left;
+padding: 29px 0 0 0;
+overflow: hidden;
+height: 0px !important;
+border-right: 1px solid #FFFFFF; 
+}
+.corpNav a:hover {
+background-position: 0 -29px;
+text-decoration: none;
+}
+.corpNav a.selected, .corpNav a:hover.selected {
+background-position: 0 -29px;
+}  
+.aboutHome a {
+width: 134px;
+background: url(/corp/images/nav/about_us_home.gif) top left no-repeat;
+clear: both;    
+}
+.pressroom a {
+width: 131px;
+background: url(/corp/images/nav/press_room.gif) top left no-repeat; 
+}
+.company a {
+width: 133px;
+background: url(/corp/images/nav/our_company.gif) top left no-repeat;
+}
+.happening a {
+width: 138px;
+background: url(/corp/images/nav/whats_happening.gif) top left no-repeat;
+}
+#corpcontent {
+padding: 20px 0px 0px 0px
+}
+#corpcontent h1, #timeline h1 {
+color:#bf2296;
+font-size: 130%;
+line-height: 120%;
+padding:0;
+font-weight:normal;
+margin: 0px 0px 10px 0px;
+}
+#corpcontent h2 {
+font-size: 120%;
+padding:0;
+margin: 0px 0px 5px 0px;
+}
+#corpcontent h3 {
+font-size: 100%;
+padding:0;
+margin: 0px 0px 0px 0px;
+color: #333333;
+}
+.contentblock {
+background-image:url(/corp/images/dot_subnav.gif);
+background-repeat:repeat-x;
+background-position:bottom;
+padding:0px 20px 10px 0px;
+margin: 0px 10px 10px 0px;
+}
+.contentblock p {
+font-size: 85%;
+line-height: 145%;
+margin: 0;
+padding: 0}
+	
+/*////////////////////////////////////////////////////////////////////
+	contact Form
+////////////////////////////////////////////////////////////////////*/
+
+#contactForm dl dd {
+padding: 0;
+margin: 0;
+}
+fieldset ol li input, textarea, select {
+border: 1px solid #666666;
+}
+fieldset select, fieldset input {
+font-family: Arial, Helvetica, sans-serif;
+padding: 2px;
+}
+fieldset ol {  
+padding: 1em 1em 0 1em;  
+list-style: none;
+}
+fieldset li, fieldset span li {  
+padding-bottom: 1em;
+}
+fieldset.submit {  
+border-style: none;
+}
+label {  
+display: block;
+float: left;  
+width: 12em;  
+margin-right: .8em;  
+text-align: right;
+}
+fieldset {  
+float: left;  
+clear: both;  
+width: 100%;  
+margin: 0 0 1em 0;  
+padding: 1em 0 1em 0;  
+border-style: none; 
+}
+#contactForm fieldset span { 
+margin: 0;
+padding: 0;
+}
+ label {
+font-size: 100%;
+}
+
+
+/*////////////////////////////////////////////////////////////////////
+	FAQ styles
+////////////////////////////////////////////////////////////////////*/
+
+#faqs, #authors {
+margin: 0 20px 0 0;
+}
+#faqs div, #authors div {
+padding: 0px 0px 0px 0px;
+}
+#faqs div div, #authors div div {
+padding: 0px 10px 2px 10px;
+border: none;
+}
+#faqs div div img, #authors div div img {
+float: right;
+display: inline;
+margin: 0 0 20px 50px;
+padding: 0;
+background-color: #FFF;
+}
+#faqs div.show_details, #authors div.show_details {
+height: auto;
+background-color: #ffeff9;
+background-image:url(/corp/images/dot_subnav.gif);
+background-repeat:repeat-x;
+background-position:bottom;
+}
+#faqs div a.details, #authors div a.details {
+float: right;
+display: inline;
+padding: 2px 12px 2px 2px;
+margin: 5px 5px 0px 50px;
+font-size: 85%;
+line-height: 145%;
+cursor: pointer;
+}
+#faqs div.show_details a.details, #authors div.show_details a.details {
+background: url(/corp/images/toggle_open.gif) no-repeat right center;
+}
+#faqs div a.details, #authors div a.details {
+background: url(/corp/images/toggle_close.gif) no-repeat right center;
+}
+#faqs h2, #authors h2 {
+margin-top: 10px;
+margin-bottom: 0;
+padding-bottom: 5px;
+font-size: 95%;
+line-height: 145%;
+font-weight: bold ;
+}
+#faqs h3, #authors h3 {
+margin-top: 0;
+padding-bottom: 5px;
+font-size: 85%;
+line-height: 145%;
+text-transform: uppercase;
+border-bottom: 3px double #CECBC3;
+}
+#faqs h4, #authors h4 {
+margin-top: 0px;
+margin-bottom: 0px;
+padding: 5px 5px 0px 5px;
+font-size:85%;
+line-height: 145%;
+font-weight: normal;
+cursor: pointer;
+}
+#faqs h5 {
+margin-bottom: 0px;
+font-size: 85%;
+line-height: 145%;
+font-weight: normal;
+}
+#authors h5 {
+margin: 0px;
+}
+#faqs h6 {
+margin-bottom: 1em;
+font: .9em/1 Arial, Helvetica, sans-serif
+}
+#faqs h7 {
+display: inline;
+font: bold 1em/1.125 Arial, Helvetica, sans-serif;
+}
+#faqs .question, #faqs .answer {
+padding: 0px 5px 0px 5px
+}
+#faqs .question a {
+font-size: 85%;
+line-height: 145%;
+font-weight: bold;
+}
+#faqs ul, #authors ul {
+margin: 10px 0px 5px 20px;
+}
+.hide {
+display: none;
+}
+#faqs div a.details, #authors div a.details  {
+border-color: #e33da5;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Press
+////////////////////////////////////////////////////////////////////*/
+
+#press {
+padding: 0px 20px 0px 0px;
+}
+#press ul, #press dl {
+margin:0;
+padding: 5px 0px 5px 0px;
+}
+#press ul li, #press dl dd {
+margin:0;
+padding: 0px 0px 0px 10px;
+font-size: 85%;
+line-height: 165%;
+background-image:url(/corp/images/bullet.gif)
+}
+#press h3 {
+margin: 0px;
+padding-top: 0px;
+font-weight:normal;
+font-size: 95%;
+line-height: 135%;
+}
+#press h4 {
+margin-bottom: 0px;
+font-weight:bold;
+font-size: 95%;
+line-height: 145%;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Press Release
+////////////////////////////////////////////////////////////////////*/
+
+#template2, #pressrelease {
+margin: 0px 0px 40px 0px
+}
+.contentblock p {
+margin: 10px 0px 5px 0px;
+}
+.contentblock ul {
+margin:0;
+padding: 5px 0px 5px 0px;
+font-size: 100%;
+line-height: 145%;
+}
+.contentblock ul li{
+margin:0;
+padding: 0px 0px 5px 10px;
+font-size: 85%;
+line-height: 145%;
+font-weight: normal;
+background-image:url(/corp/images/bullet.gif)
+}
+#template2 h1, #pressrelease h1 {
+color:#bf2296;
+line-height: 110%;
+font-size: 130%;
+padding:0;
+font-weight:normal;
+margin: 10px 0px 0px 0px;
+}
+#template2 h2, #pressrelease h2 {
+font-size: 95%;
+line-height: 110%;
+margin:5px 0 10px 0;
+padding:0;
+font-weight:normal;
+font-style:italic;
+}
+#template2 h3, #pressrelease h3 {
+font-size: 95%;
+line-height: 110%;
+margin:15px 0 2px 0;
+padding:0;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	About
+////////////////////////////////////////////////////////////////////*/
+
+
+#about h3, #history h3, #timeline h3 {
+margin-bottom: 10px
+}
+#history h3 
+{margin-top: 20px;
+}
+
+#about h2 {
+color:#990033;
+font-size: 110%;
+line-height: 120%;
+padding:0;
+font-weight:normal;
+margin: 0px 0px 2px 0px;
+}
+
+#about h1 {
+position:relative;
+}
+
+#about #print {
+font-size:75%;
+right:30px;
+position:absolute;
+}
+
+#about ul { 
+margin: 10px 0 0 0;
+padding: 0px 15px 10px 5px;
+}
+#about ul li {
+margin:0;
+padding: 0px 0px 0px 10px;
+}
+
+
+
+/*////////////////////////////////////////////////////////////////////
+	Awards
+////////////////////////////////////////////////////////////////////*/
+
+#awards {
+margin-right: 20px
+}
+#awards ul {
+margin:0;
+padding: 5px 0px 10px 0px;
+background-image:url(/corp/images/dot_subnav.gif);
+background-repeat:repeat-x;
+background-position:bottom;
+}
+#awards ul li{
+margin:0;
+padding: 0px 0px 0px 10px;
+font-size: 85%;
+line-height: 165%;
+background-image:url(/corp/images/bullet.gif);
+}
+#awards h3 {margin-bottom: 0px;
+font-weight:normal;
+font-size: 95%;
+}
+#awards h4{margin-bottom: 0px;
+font-weight:bold;
+font-size: 95%;
+}
+
+#awards ul.last {background-image: url(none);}
+
+
+/*////////////////////////////////////////////////////////////////////
+	History
+////////////////////////////////////////////////////////////////////*/
+
+#timeline{
+background-color:#FFFFFF;
+padding-top: 20px;
+float: left;}
+
+
+/*////////////////////////////////////////////////////////////////////
+	What's Happening
+////////////////////////////////////////////////////////////////////*/
+
+#happening { 
+padding: 0px;
+margin: 0;
+line-height: 12px;
+}
+#happening img.home{
+float: left; 
+margin: 0 10px 0 0;
+padding: 0;
+}
+#happening .contentblock h1, #happening h1 {
+padding: 0px 0px 0px 0px;
+margin: 0px 0px 0px 0px;
+}
+#happening .contentblock h3, #happening h3, #whintro h3 {
+padding: 7px 0px 0px 0px;
+margin: 0px 0px 0px 0px;
+color:#333333;
+font-size: 95%;
+line-height: 130%;
+}
+#happening p {
+margin: 0px 0px 5px 0px; 
+padding:2px 10px 0px 0px;
+line-height: 145%;
+}
+.clearall {clear:both
+}
+
+#whintro {
+margin: 15px 0px 35px 170px;
+padding: 0;
+}
+
+
+#happening .contentblock #whintro h1 {
+margin: 0;
+padding: 0;
+}
+/*////////////////////////////////////////////////////////////////////
+	General
+////////////////////////////////////////////////////////////////////*/
+
+#breadcrumb {
+font-size: 75%;
+padding: 5px 2px 3px 2px;
+margin: 0px 0px 5px 0px;
+border-bottom: 1px solid #ecbcdf;
+text-align:left;
+}
+
+
+/*////////////////////////////////////////////////////////////////////
+	Donate
+////////////////////////////////////////////////////////////////////*/
+
+#donate h3 {
+margin:15px 0px 0px 0px; 
+font-size: 95%;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Fast Facts
+////////////////////////////////////////////////////////////////////*/
+
+#facts .contentblock p {
+margin:0px 0px 0px 0px;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Writers Guidelines	
+////////////////////////////////////////////////////////////////////*/
+
+#writers h2, #writers .contentblock h2{
+margin-bottom: 5px;
+padding-top:5px;
+font-weight:bold;
+font-size: 95%;
+font-style:normal;
+}
+#writers h3 {margin-bottom: 5px;
+padding-top:5px;
+font-weight:bold;
+font-size: 85%;
+line-height: 145%;
+}
+#writers ul {
+margin:0;
+padding: 0px 0px 5px 0px;
+}
+#writers ul li{
+margin:0;
+padding: 0px 0px 0px 10px;
+font-weight: normal;
+font-family:Arial, Helvetica, sans-serif;
+background-image:url(/corp/images/bullet.gif);
+}
+#writers dl dd {font-weight:bold;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Fashion Show new layout
+////////////////////////////////////////////////////////////////////*/
+
+#fashionShow {
+color: #333;
+margin:0 auto;
+background: transparent url(/corp/images/fashion/girlsFashion_small.jpg) no-repeat top left;
+
+line-height: 145%
+}
+#fashionShow h1 {
+} 
+#fashionShow h3 {
+color: #F06;
+font: 120% "Trebuchet MS", Arial, sans-serif;
+margin-bottom: 10px;
+padding: 145px 30px 0px 265px;
+text-align:center;
+}
+#fashionShow ul{
+display:inline;
+}
+#fashionShow ul li {
+padding: 0 0 0 5px;
+margin:0;
+list-style:none;
+display:inline;
+}
+#fashionShow ul li a {
+padding: 0 5px 0 0;
+list-style:none;
+display:inline;
+}
+#fashionShow a {
+color: #903;
+text-decoration: none;
+}
+#fashionlinks {
+padding: 10px 20px 45px 265px;
+text-align: center
+}
+#fashionShow p {
+text-align: center;
+}
+p#disclaimer {
+font-size:9px;
+text-align:left;
+top: 276px;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Fashion Show old layout
+////////////////////////////////////////////////////////////////////*/
+
+#fashionShow2 {
+font: 12px Arial, sans-serif;
+color: #333;
+width: 750px;
+position: relative;
+margin:0 auto;
+width: 748px;
+height: 430px;
+background: transparent url(/corp/images/fashion/girlsFashion.jpg) no-repeat top left;
+}
+#fashionShow2 h1 {
+position:absolute; 
+left:0px; 
+top:-500px; 
+width:1px; 
+height:1px; 
+overflow:hidden;
+} 
+#fashionShow2 h3 {
+color: #F06;
+font: 17px "Trebuchet MS", Arial, sans-serif;
+margin:0;
+position: absolute;
+top: 180px;
+left: 400px;
+height: 230px;
+width: 340px;
+}
+#fashionShow2 ul{
+position: relative;
+top: 244px;
+left: 400px;
+display:inline;
+padding-left: 20px
+}
+#fashionShow2 ul li {
+padding: 0 0 0 10px;
+margin:0;
+display:inline;
+list-style:none;
+}
+#fashionShow2 ul li a {
+padding: 0 5px 0 0;
+list-style:none;
+display:inline;
+}
+#fashionShow2 a {
+color: #903;
+text-decoration: none;
+}
+#fashionShow2 p {
+position: relative;
+top: 250px;
+left: 400px;
+width: 310px;
+font-size: 11px;
+}
+p#disclaimer {
+font-size:9px;
+text-align:left;
+top: 276px;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Host a Fashion Show
+////////////////////////////////////////////////////////////////////*/
+
+#hostShow {
+background: transparent url(/events/images/bkgdHost.gif) no-repeat top left;
+font-size: 98%
+}
+#hostShow #description {
+float: left;
+padding-left: 20px;
+width: 450px;
+}
+#hostShow #description  h1, #hostShow #guidelines h1{ 
+font: 120% "Trebuchet MS", Arial, sans-serif;
+color: #F06;
+text-align:center;
+}
+#hostShow #description span sup {
+font-size:8px;
+}
+#hostShow #description p, #hostShow #guidelines p {
+padding:10px 0 0 0;
+margin:5px 0;
+text-align:left;
+}
+#hostShow #guidelines {
+float:right;
+width: 240px;
+}
+#hostShow #guidelines ul {
+margin: 0 0 0 15px;
+padding: 0;
+}
+#hostShow #guidelines li {
+padding:0px 10px 4px 10px;
+}
+#hostShow #guidelines p {padding-right: 20px}
+#hostShow #testimonial {
+text-align:left;
+padding-left: 20px;	
+clear:both;
+}
+#hostShow #testimonial span {
+font-weight: bold;
+padding-top:10px;
+}
+span#hdr {
+color: #F06;
+display:block;
+padding-bottom: 20px;
+font-weight:normal;
+}
+span#hdr em {
+font-style: normal;
+text-transform: uppercase;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	host Fashion Show alt layout
+////////////////////////////////////////////////////////////////////*/
+#hostShow2 {
+margin-top: 0px;
+padding:10px 20px 0px 0px;
+}
+#hostShow2 #description h1 {color:#bf2296;
+font-size: 16px;
+padding:0;
+font-weight:normal;
+margin: 0px 0px 5px 0px;
+}
+#hostShow2 .contentblock {
+margin-bottom: 20px
+}
+#hostShow2 h2 {
+padding-top:0px
+}
+#hostShow2 blockquote {
+margin:10px 20px 10px 20px;
+padding:20px;
+clear:both;
+background-color: #fff2fb
+}
+#hostShow2 blockquote p{
+margin:10px 00px 10px 20px;
+}
+blockquote dl dd {
+font-weight: bold;
+}
+blockquote p {
+font-size: 11px;
+line-height: 18px;
+}
+#hostShow2 ul {
+margin: 10px 0px 20px 15px;
+padding: 0;
+}
+#hostShow2 ul li {
+background: none;
+}
+#hostShow2 #description {
+float: left;
+width: 440px;
+padding-right: 290px;
+}
+#hostShow2 #description span sup {
+font-size:10px;
+}
+#hostShow2 #description p {
+padding:6px 0 0 0;
+margin:5px 0;
+}
+#hostShow2 #guidelines {
+float: left;
+width: 230px; 
+margin-left: -240px; 
+padding-top: 10px;
+}
+#hostShow2 #guidelines p {
+margin: 0;
+}
+#hostShow2 #guidelines span {
+color: #F06;
+font: 14px  Arial, sans-serif;
+}
+#hostShow2 #guidelines ul {
+list-style: disc outside;
+line-height:14px;
+}
+#hostShow2 #guidelines li {
+display:block;
+padding:4px 0;
+list-style: disc outside;
+font-size: 11px;
+}
+#testimonial {
+padding-top: 30px;
+clear:both;
+}
+#testimonial span {
+font-weight: bold;
+padding-top:10px;
+}
+span#hdr {
+color: #F06;
+display:block;
+padding-bottom: 20px;
+font-weight:bold;
+font: 12px "Trebuchet MS", Arial, sans-serif;
+color: #F06;
+}
+span#hdr em {
+font-size: 14px;
+font-style: normal;
+text-transform: uppercase;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Fashion Show Locator
+////////////////////////////////////////////////////////////////////*/
+
+#fashionLocator {
+margin-top: 0px;
+padding:0px 20px 20px 0px;
+}
+#fashionLocator #intro span {
+color: #F06;
+text-align:center;
+}
+#locatormap {
+text-align:center;
+padding-top: 20px;
+}
+#data h4 {
+font-size: 15px;
+color:#333;
+text-transform:uppercase;
+clear:both;
+padding-top: 30px;
+background: transparent url(/events/images/hrDotted.gif) repeat-x 1px 15px;
+}
+#neStates h4 {
+background:none;
+}
+#data h6 {
+color:#F06;
+font-size:13px;
+text-transform:uppercase;
+margin:0;
+padding:12px 0 0 0;
+clear:both;
+border-bottom: 1px solid #EBADC2;
+}
+#data dl {
+padding: 0px 0 10px 10px;
+margin: 10px 10px 0 10px;
+}
+#data dl.tenYears {
+background: #FEF6FA url(/events/images/tenYears.gif) no-repeat 240px 14px;
+}
+#data dl.fifteenYears {
+background: #FEF6FA url(/events/images/fifteenYears.gif) no-repeat 240px 14px;
+}
+#data dt {
+font-weight: bold;
+}
+#data dd {
+margin:0;
+padding:0;
+}
+#data div p {
+float: right;
+clear:both;
+font-weight: bold;
+padding-right:10px;
+margin-bottom: -10px;
+}
+#legend {
+display:none;
+clear:both;
+margin: 30px 0 0 0;
+}
+#legend img {
+margin-bottom: -15px;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	E-News
+////////////////////////////////////////////////////////////////////*/
+
+#newsletters {
+padding-right: 20px;
+}
+h1#date {
+float: right;
+}
+#enewsHeader {
+margin-right: 20px;
+padding-bottom: 10px;
+background-image:url(/corp/images/dot_subnav.gif);
+background-repeat:repeat-x;
+background-position:bottom;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Bookstore Events
+////////////////////////////////////////////////////////////////////*/
+
+#bookstore 	{
+width: 520px
+}
+#bookstore #intro span {
+display: block;
+color: #F06;
+text-align:center;
+padding-top:30px;
+}
+#bookstoremap {
+text-align:center;
+padding-top: 20px
+}
+#bookstore #data {
+margin-bottom:200px;
+}
+#bookstore div div dl {
+float: left;
+width: 210px;
+}
+
+.top {
+float: right;
+margin-bottom: 40px;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Addy Stage Play
+////////////////////////////////////////////////////////////////////*/
+
+/* Styles for Addy Theater Events Page */
+
+#addyEvents {padding-bottom: 20px;}
+#addyEvents  p,
+#addyEvents table
+{
+font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Main Section */
+#mainSection {
+float:left;
+width:750px;
+height:388px;
+background: url(/corp/images/events/addyMain.jpg) top left no-repeat;
+}
+#addyEvents #intro {
+text-align:center;
+color:#603813;
+text-transform:uppercase;
+margin-top:80px;
+}
+#addyEvents h1 {
+font-size:200%;
+position:relative; 
+left:0px; 
+top:auto; 
+width:auto; 
+height:auto; 
+overflow:auto;
+text-align:center;
+margin:8px 0 14px 0;
+padding:0;
+color:#603813;
+font-weight:normal;
+font-style:italic;
+}
+#copySection {
+margin-left:323px;
+width:382px;
+}
+#copySection p {
+line-height:115%;
+margin:0 0px 15px 15px;
+font-size:85%;
+}
+
+/* Schedule Section */
+#scheduleSection {
+float:left;
+margin-bottom:40px;
+}
+#addyEvents h2 {
+font-size:150%;
+float:left;
+width:750px;
+height:47px;
+background: url(/events/images/addyHeader.jpg) top left no-repeat;
+margin:0 0 -14px 0;
+padding:14px 0 0 85px;
+color:#FFFFFF;
+font-weight:normal;
+}
+
+#scheduleSection h2 { font-style:normal}
+#addyEvents #scheduleSection table {
+float:left;
+width:750px;
+border-collapse:collapse;
+}
+#addyEvents #scheduleSection tr,
+#addyEvents #scheduleSection td {
+margin:0;
+padding:0;
+}
+#addyEvents #scheduleSection td {
+border-bottom:1px solid #d7a791;
+}
+#may td {
+border-bottom:none;
+}
+#addyEvents #scheduleSection tr {
+xwidth:750px;
+height:36px;
+vertical-align:top;
+}
+#addyEvents #scheduleSection td {
+padding-top:12px;
+
+}
+#addyEvents #scheduleSection td.date,
+#addyEvents #scheduleSection tr.caption td {
+padding-left:85px;
+}
+#addyEvents #scheduleSection td.date {
+width:183px;
+}
+#addyEvents #scheduleSection td.location {
+width: 164px;
+}
+#addyEvents #scheduleSection .phone {
+margin-bottom:5px;
+}
+#addyEvents #scheduleSection table#jan,
+#addyEvents #scheduleSection table#mar,
+#addyEvents #scheduleSection table#may,
+#addyEvents #scheduleSection table#jan caption,
+#addyEvents #scheduleSection table#mar caption,
+#addyEvents #scheduleSection table#may caption {
+background-color:#f7ede9;
+}
+table#feb,
+table#apr,
+table#feb caption,
+table#apr caption {
+background-color:#efddd4;
+}
+.caption {
+width:750px;
+text-align:left;
+color:#b05326;
+font-size:115%;
+font-weight:bold;
+padding-top:10px;
+height:auto;
+border-top:1px solid #d7a791;
+}
+tr.caption td {
+border-bottom:0;
+}
+table#may tr.caption td {
+border-bottom:1px solid #d7a791;
+}
+
+/*////////////////////////////////////////////////////////////////////
+	Addy Stage Play
+////////////////////////////////////////////////////////////////////*/
+
+	
+
+/****** for contest pages ******/
+
+#rgoty {
+	width: 750px;
+	margin: 0 auto;
+	text-align: left;
+	position:relative;
+	background-color:#f3f4fb;
+	xborder-left: 1px solid #e0e5f6;
+	xborder-right: 1px solid #e0e5f6;
+	background: transparent url(/shop/realGoty/images/contentBackground.gif) no-repeat 0 0;
+xheight:508px;
+}
+
+#rgoty h2 { /* for the contest tagline on all pages */
+	position:absolute;
+	top:110px;
+	left: 10px;
+	font: 11px "Trebuchet MS", Arial, sans-serif;
+	color:#19388a;
+	width: 130px;
+	text-align:right;
+}
+
+
+#rgoty .hidden {
+	position:absolute;
+	overflow:hidden;
+	left:-5555px;
+}
+
+
+/***** for main page *****/
+
+#main #prizes {
+	xbackground: transparent url(/shop/realGoty/images/prizes.gif) no-repeat bottom;
+	width: 301px;
+	xheight:387px;
+	position:absolute;
+xborder:1px solid;
+}
+
+#rgoty #prizes * {
+	font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+#rgoty #prizes h3 {
+	position:absolute;
+	overflow:hidden;
+	left:-5555px;
+}
+
+
+
+#rgoty #prizes ul,
+#rgoty #prizes li {
+	margin:16px 0;
+	font-size: 12px;
+	line-height: 12px;
+	padding:0;
+	list-style:none;
+}
+
+#rgoty #prizes ul {
+	position:relative;
+	top:55px;
+	left: 20px;
+	width: 270px;
+}
+
+#rgoty #prizes li {
+	padding-left: 6px;
+	background: transparent url(/shop/realGoty/images/bulletBlack.gif) no-repeat 0px 4px;
+}
+
+#rgoty #prizes p {
+	position:relative;
+	top:55px;
+	left:35px;
+font-size:10px;
+}
+
+#rgoty #enter {
+	position:relative;
+	top: -80px;
+	left:334px;
+	width: 400px;
+	xheight: 625px;
+}
+
+#rgoty #enter h3 {
+	position:absolute;
+	overflow:hidden;
+	left:-5555px;
+}
+
+#rgoty #enter h4 {
+	position:absolute;
+	overflow:hidden;
+	left:-5555px;
+}
+
+#rgoty p {
+font-size:12px;
+line-height:16px;
+}
+#rgoty #about {
+margin-top:110px;
+margin-bottom:20px;
+}
+#rgoty #about p {
+margin:0 0 10px 0;
+}
+
+
+
+#rgoty #values {
+position:relative;
+	background: transparent url(/shop/realGoty/images/dottedRule.gif) no-repeat 0px 0px;
+	padding-top:25px;
+margin-bottom:-40px;
+}
+
+#rgoty #values span {
+	font-size: 15px;
+	color:#19388a;
+}
+
+#rgoty #values p {
+	margin:4px 0px;
+	padding:0;
+	xfont-size: 12px;
+width:240px;
+}
+
+#rgoty #values ul, #rgoty #values li {
+	margin:10px 0;
+	font-size: 11px;
+	line-height: 11px;
+	padding:0;
+	list-style:none;
+}
+
+#rgoty #values ul {
+	width: 380px;
+}
+
+#rgoty #values li {
+	padding-left: 6px;
+	background: transparent url(/shop/realGoty/images/bulletBlack.gif) no-repeat 0px 4px;
+}
+
+#rgoty #values li strong {
+	color:#19388a;
+}
+
+

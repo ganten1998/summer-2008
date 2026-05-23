@@ -1,0 +1,35 @@
+/* Stylesheet for American Girl Movie - Felicity 07.11.05 */
+
+.bkgd, .bkgdHome, .bkgdPhoto, #photoMain, .bkgdCast, .bkgdScenes, #scenesMain, .bkgdTrailer, .bkgdWorld, .bkgdCrafts, .bkgdPaper, .bkgdBook, .bkgdEcard, .bkgdViewEcard, .bkgdPuzzles, .bkgdPoster, .bkgdGame, .bkgdParty {
+	margin-top: -5px;
+}	
+
+#photoMain {
+ 	float: left;
+	position: relative;
+	}
+
+.bkgdCast {
+	height: 1900px;
+	}
+	
+#scenesMain {
+ 	float: left;
+	position: relative;
+	}
+	
+.bkgdCrafts {
+	height: 1200px;
+	}	
+
+.bkgdBook {
+	height: 2900px;
+	}	
+	
+.bkgdPoster {
+	height: 460px;
+	}
+	
+.bkgdParty {
+	height: 1700px; 
+	}	

@@ -1,0 +1,98 @@
+/* CSS Document */
+
+
+div#footer {
+	width: 100%;
+	font-size:95%;
+	margin-bottom:20px;
+	margin-top:-22px;
+	float:left;
+	clear:both;
+	overflow:hidden;
+}
+div#footer ul li {
+	background-image:none;
+}
+
+
+#copyright{
+	text-align:center;
+  margin-top:20px;
+	font-size:85%;
+}
+
+/****** Reservations  *******/
+
+div#reservations ul li.last, div#footer ul li.last {
+	border: none;
+}
+div#reservations ul, div#footer ul {
+	width: 100%;
+}
+div#reservations li, div#footer li {
+	display: inline;
+	list-style-type: none;
+	border-right: 1px solid #A9A9A9;
+}
+
+body#siteHome div#footer > div#reservations {
+	display: none;
+}
+
+div#reservations {
+	margin: 0px 0 5px 19px;
+}
+div#reservations h3 {
+	font-weight: normal;
+	font-size:100%;
+	color: #F64EB0;
+	display: inline;
+	margin:0 0 0 5px;
+	padding:0;
+}
+div#reservations ul {
+	display: inline;
+	margin:0;
+	padding:0;
+}
+div#reservations ul li {
+	padding: 0 10px 0 6px;
+	margin:0;
+	color: #727272;
+}
+body#home div#reservations li{
+	padding: 0 25px 0 5px;
+}
+
+div#reservations strong {
+	font-size: 115%;
+}
+
+
+/******** Footer Menu ********/
+ul#footerMenu {
+	height: 30px;
+	background-color: #F3F3F3;
+	border-top: 1px solid #D6D6D6;
+	padding: 17px 0 0 10px;
+	margin: 0;
+}
+ul#footerMenu li {
+	padding: 0 20px 0 16px;
+	margin:0;
+}
+
+ul#footerMenu li a {
+	color: #727272;
+	text-decoration: none;
+}
+
+ul#footerMenu li#priv a {
+	color: #990033;
+	text-transform: uppercase;
+}
+ul#footerMenu li a:hover {
+text-decoration:underline;
+}
+
+

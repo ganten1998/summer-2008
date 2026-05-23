@@ -1,0 +1,310 @@
+/* CSS Document */
+
+/* General */
+#wrapper {
+width:720px;
+margin:0 auto;
+}
+h1 {
+	position:absolute; 
+	left:0px; 
+	top:-500px; 
+	width:1px; 
+	height:1px; 
+	overflow:hidden;
+}
+
+#main {
+width:720px;
+margin-left:15px;
+}
+#container {
+width:704px;
+float:left;
+}
+#content {
+width:646px;
+xheight:480px;
+margin:22px 0 22px 22px;
+float:left;
+}
+#topSection {
+margin-top:70px;
+height:220px;
+}
+p {
+font-family:'Trebuchet MS', Arial, Helvetica, sans-serif;
+font-size: 1.1em;
+line-height:1.2em;
+width: 60%;
+margin:0 0 25px 240px;
+padding:0;
+}
+#wallpaperSection {
+margin-left:14px;
+float:left;
+}
+.wallpaperModule {
+width: 196px;
+float:left;
+margin:0 0 25px 7px;
+}
+.wallpaperModule ul {
+margin:0;
+padding:0;
+}
+.wallpaperModule .dimensions {
+margin-left:-4px;
+}
+.wallpaperModule ul li {
+list-style-type:none;
+display:inline;
+font-family:'Trebuchet MS', Arial, Helvetica, sans-serif;
+font-size:0.70em;
+margin-left:8px;
+}
+
+
+
+.gotyWallpaper #container a {
+	text-decoration: none;
+}
+
+
+/* Nicki */
+#nickiWallpaper #container {
+border:8px solid #E4432D;
+background-color: #18ADD6;
+}
+
+#nickiWallpaper #content {
+background: url(/goty/2007Nicki/Assets/WPMain.jpg) top left no-repeat;
+background-color: #ffffb5;
+border: 8px solid #C777A5;
+}
+
+#nickiWallpaper #container p,
+#nickiWallpaper #container a {
+color:#b73200;
+}
+
+/* Jess */
+#jessWallpaper #container {
+border:8px solid #FF9D1A;
+background-color: #5CC6A2;
+}
+
+#jessWallpaper #content {
+background: url(/goty/2006Jess/jess/images/WPMain.jpg) top left no-repeat;
+background-color: #FFE5B6;
+border: 8px solid #FFCC70;
+}
+
+#jessWallpaper #container p,
+#jessWallpaper #container a {
+color:#b73200;
+}
+
+#jessWallpaper #charMenu {
+float:left;
+margin-bottom:15px;
+}
+
+/* Marisol */
+#marisolWallpaper #container {
+border:8px solid #FFC64A;
+background-color: #BD6BD6;
+}
+
+#marisolWallpaper #content {
+background: url(/goty/2005Marisol/Assets/WPMain.jpg) top left no-repeat;
+background-color: #ffffb5;
+border: 8px solid #FF845A;
+}
+
+#marisolWallpaper #container p,
+#marisolWallpaper #container a {
+color:#aa5f34;
+}
+
+#marisolWallpaper #wallpaperOne {
+margin-right:70px;
+}
+#marisolWallpaper #wallpaperTwo {
+margin:0;
+}
+#marisolWallpaper .wallpaperModule {
+margin-left:75px;
+}
+#marisolWallpaper .wallpaperModule ul {
+margin-left:5px;
+width:100%;
+}
+
+/* Kailey */
+#kaileyWallpaper #container {
+border:8px solid #104294;
+background-color: #7373FF;
+}
+
+#kaileyWallpaper #content {
+background: url(/goty/2004Kailey/Assets/WPMain.jpg) top left no-repeat;
+background-color: #ffffb5;
+border: 8px solid #31C6BD;
+}
+
+#kaileyWallpaper #container p,
+#kaileyWallpaper #container a {
+color:#aa5f34;
+}
+
+#kaileyWallpaper #wallpaperOne {
+margin-right:70px;
+}
+#kaileyWallpaper #wallpaperTwo {
+margin:0;
+}
+#kaileyWallpaper .wallpaperModule {
+margin-left:75px;
+}
+#kaileyWallpaper .wallpaperModule ul {
+margin-left:5px;
+width:100%;
+}
+
+/* Lindsey */
+#lindseyWallpaper #container {
+border:8px solid #6BB542;
+background-color: #10528C;
+}
+
+#lindseyWallpaper #content {
+background: url(/goty/2001Lindsey/Assets/WPMain.jpg) top left no-repeat;
+background-color: #ffffb5;
+border: 8px solid #FF5A31;
+}
+
+#lindseyWallpaper #container p,
+#lindseyWallpaper #container a {
+color:#bc3a3a;
+}
+
+#lindseyWallpaper #wallpaperSection {
+margin-left:14px;
+}
+#lindseyWallpaper .wallpaperModule {
+margin-left:0px;
+margin-right:14px;
+}
+
+/* Licorice */
+#licoriceWallpaper #container {
+border:none;
+background-color: none;
+}
+
+#licoriceWallpaper #content {
+background: url(/coconut/licorice/images/WPMain.jpg) top left no-repeat;
+background-color: #C6F7F3;
+border: none;
+width:720px;
+margin:0;
+}
+
+#licoriceWallpaper #container p,
+#licoriceWallpaper #container a {
+color:#4ab7b1;
+}
+
+#licoriceWallpaper #wallpaperSection {
+margin-left:68px;
+}
+
+#licoriceWallpaper .wallpaperModule ul {
+margin-left:-12px;
+}
+
+#licoriceWallpaper #topSection {
+margin-left:38px;
+margin-top:74px;
+}
+
+/* Coconut */
+#coconutWallpaper #container {
+border:none;
+background-color: none;
+}
+
+#coconutWallpaper #content {
+background: url(/coconut/images/WPMain.jpg) top left no-repeat;
+background-color: #FFBB4E;
+border: none;
+width:720px;
+margin:0;
+}
+
+#coconutWallpaper #container p,
+#coconutWallpaper #container a {
+color:#ffffff;
+}
+
+#coconutWallpaper #wallpaperSection {
+margin-left:68px;
+}
+
+#coconutWallpaper .wallpaperModule ul {
+margin-left:-12px;
+}
+
+#coconutWallpaper #topSection {
+margin-left:38px;
+margin-top:84px;
+}
+
+/* Mia */
+#miaWallpaper #container {
+border:8px solid #f67ab2;
+background-color: #bf69c9;
+}
+
+#miaWallpaper #content {
+background: url(/goty/2008Mia/assets/WPMain.jpg) top left no-repeat;
+background-color: #e7edf3;
+border: 8px solid #3ec3e4;
+}
+
+#miaWallpaper #container p,
+#miaWallpaper #container a {
+color:#204d9b;
+}
+
+#miaWallpaper #wallpaperOne {
+margin-left:65px;
+}
+#miaWallpaper #wallpaperTwo {
+margin-left:95px;
+}
+
+/* Chrissa */
+#chrissaWallpaper #container {
+border:8px solid #c4178d;
+background-color: #f7b7d3;
+}
+
+#chrissaWallpaper #content {
+background: url(/goty/2009Chrissa/images/WPMain.jpg) top left no-repeat;
+background-color: #fdecf2;
+border: 8px solid #c80a4d;
+}
+
+#chrissaWallpaper #container p,
+#chrissaWallpaper #container a {
+color:#204d9b;
+}
+
+#chrissaWallpaper #wallpaperOne {
+margin-left:65px;
+}
+#chrissaWallpaper #wallpaperTwo {
+margin-left:95px;
+}
