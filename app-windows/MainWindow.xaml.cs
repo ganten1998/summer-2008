@@ -151,6 +151,16 @@ public partial class MainWindow : Window
         // the dashboard, where a failure-to-launch could plausibly happen if
         // the user clicks a game tile that resolves to a missing asset.
         await Browser.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(ToastJs);
+        // Hide the 2008 popup pages' "Close Window" button. Privacy /
+        // termsConditions / similar popups have a <div class="closeWindow">
+        // wrapping a window.close() link — meaningful when those pages
+        // opened as separate browser windows in 2008, but redundant here
+        // because the popups load inline in the same WebView and the
+        // injected navbar's back arrow already covers it. (window.close()
+        // on a non-script-opened window is also a no-op in WebView2, so
+        // leaving the button visible would be a dead affordance.) Mirrors
+        // AppDelegate.swift's hidePopupCloseJS.
+        await Browser.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(HidePopupCloseJs);
 
         // Quality-of-life tweaks that match the macOS shell.
         var settings = Browser.CoreWebView2.Settings;
@@ -329,6 +339,18 @@ public partial class MainWindow : Window
         if (document.body) run();
         else document.addEventListener('DOMContentLoaded', run, { once: true });
       };
+    })();
+    """;
+
+    // Single CSS rule injected atDocumentStart on every page to hide the
+    // 2008-era popup "Close Window" affordance. See registration site for
+    // full rationale.
+    private const string HidePopupCloseJs = """
+    (function () {
+      var s = document.createElement('style');
+      s.setAttribute('data-agd-runtime', 'hide-popup-close');
+      s.textContent = '.closeWindow{display:none!important;}';
+      (document.head || document.documentElement).appendChild(s);
     })();
     """;
 }
