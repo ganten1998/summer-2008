@@ -94,11 +94,21 @@ public partial class MainWindow : Window
         // Back/forward post via chrome.webview.postMessage; WebMessageReceived
         // routes them to CoreWebView2.GoBack/GoForward (WebView2 equivalents
         // of WKWebView.goBack/goForward).
+        var mirrorRoot = Path.Combine(App.AppBaseDir, "Resources", "mirror");
         Browser.CoreWebView2.WebMessageReceived += (_, args) =>
         {
             var msg = args.TryGetWebMessageAsString();
             if (msg == "back"    && Browser.CoreWebView2.CanGoBack)    Browser.CoreWebView2.GoBack();
             else if (msg == "forward" && Browser.CoreWebView2.CanGoForward) Browser.CoreWebView2.GoForward();
+            // flash-bridge.js auto-launch uses chrome.webview.postMessage instead
+            // of navigating to agd-launch://, because scripted navigation to a
+            // custom scheme requires user activation in WebView2 — a setTimeout
+            // from page load has none, so the nav is silently dropped.
+            else if (msg != null && msg.StartsWith("launchDCR:", StringComparison.Ordinal))
+            {
+                try { games.Launch(new Uri(msg.Substring("launchDCR:".Length)), mirrorRoot); }
+                catch { /* malformed URL — JS will hide loading via the 8s safety */ }
+            }
         };
         await Browser.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(NavBarJs);
         // Toast helper used by GameLauncher's notify callback. Registered once

@@ -335,6 +335,30 @@
   }
 
   // ----------------------------------------------------------- DCR stub
+  /* Ask the host shell to launch the bundled Director projector. Tries the
+     Mac WKWebView bridge first, then the Windows WebView2 bridge. Returns
+     true if either accepted the message. Used by both the click handler
+     and the auto-launch path; only the click path falls back to nav
+     because scripted navigation to agd-launch:// silently fails without
+     user activation (which a setTimeout from page load doesn't have). */
+  function postLaunchDCR(dcrUrl) {
+    try {
+      if (window.webkit && window.webkit.messageHandlers
+          && window.webkit.messageHandlers.launchDCR) {
+        window.webkit.messageHandlers.launchDCR.postMessage(dcrUrl);
+        return true;
+      }
+    } catch (e) {}
+    try {
+      if (window.chrome && window.chrome.webview
+          && window.chrome.webview.postMessage) {
+        window.chrome.webview.postMessage("launchDCR:" + dcrUrl);
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
   /* Shockwave Director (.dcr) variant of the crimson Flash stub. AG used
      Director for its richer mini-games — Addy's Mancala, Kit's egg hunt,
      Kirsten's Raccoon Caper, the puzzle pages, etc. Ruffle is Flash-only,
@@ -393,11 +417,10 @@
       // measurement regardless of any window resize / scroll that
       // happened since the last debounced emit.
       reportRect(stub, dcrUrl);
-      try {
-        window.webkit.messageHandlers.launchDCR.postMessage(dcrUrl);
-      } catch (err) {
-        // Fallback: if the host shell doesn't have launchDCR registered
-        // (e.g., older build), do the legacy navigation path.
+      if (!postLaunchDCR(dcrUrl)) {
+        // Final fallback: legacy navigation path. User activation is
+        // present here (we're in a click handler) so the agd-launch://
+        // nav will actually fire and NavHandler will intercept it.
         try { window.location.href = pill.href; } catch (e2) {}
       }
       // Best-effort: hide loading state after 8s in case the host shell
@@ -435,9 +458,16 @@
       setTimeout(function () {
         reportRect(stub, dcrUrl);
         stub.classList.add("is-loading");
-        try {
-          window.webkit.messageHandlers.launchDCR.postMessage(dcrUrl);
-        } catch (e) {}
+        // No nav fallback here — user activation is required for scripted
+        // navigation to a custom scheme, and a setTimeout from page load
+        // has none. postLaunchDCR uses postMessage on both Mac and Windows,
+        // which is exempt from that restriction.
+        postLaunchDCR(dcrUrl);
+        // Safety: dismiss loading in case the host never signals back. On
+        // Mac the overlay signals dismissal in ~1s; on Windows the
+        // projector is a separate window with no signal-back channel, so
+        // this timeout is the dismissal path.
+        setTimeout(function () { stub.classList.remove("is-loading"); }, 8000);
       }, 250);
     }
 
