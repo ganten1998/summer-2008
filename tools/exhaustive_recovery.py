@@ -296,6 +296,10 @@ def recover_one(url: str) -> tuple[str, str, int]:
 
 
 def main() -> int:
+    # Windows' default cp1252 codec can't encode the ✓/✗/· status glyphs we
+    # print per URL — first print would crash. Force UTF-8 on stdout.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser()
     ap.add_argument("urls_file")
     ap.add_argument("--label", default="EXH")
