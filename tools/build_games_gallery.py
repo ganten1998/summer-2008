@@ -117,6 +117,13 @@ TITLE_OVERRIDES: dict[tuple[str, str], str] = {
         "Julie's Basketball",
     ("www.americangirl.com", "/agcn/mystery/mystery_home.swf"):
         "American Girl Mysteries",
+    # /agcn/felicity/ride/index.html's <title> tag says "Colonial
+    # Adventure" but the wrapper actually launches pcride.swf, a
+    # distinct game about riding Penny (Felicity's horse). Without
+    # this override it collides with the real /felicity/colonial.php
+    # tile and shows two Colonial Adventure entries.
+    ("www.americangirl.com", "/agcn/felicity/ride/index.html"):
+        "Felicity's Pony Ride",
 }
 
 # Path prefixes whose SWFs are site chrome (banners, ads, video assets),
@@ -136,6 +143,12 @@ SUPPRESS_PATH_PREFIXES = (
     "/agmg/bts/cheer_so/",
     "/agmg/bts/cookie_so/",
     "/agmg/bts/cover_so/",
+    # /agcn/felicity/adventure/index.html is a 1-SWF launcher that's a
+    # smaller variant of the canonical /agcn/felicity/colonial.php
+    # wrapper (41 SWFs · 2934 KB) and shares its title. Hiding it
+    # leaves the full colonial.php tile as the single Colonial
+    # Adventure entry.
+    "/agcn/felicity/adventure/",
 )
 
 # Wrapper filenames that are internal segments of a larger experience and
@@ -387,6 +400,12 @@ def main() -> int:
 
     for w in wrappers:
         whost, wpath = mirror_url_for(w)
+        # Skip wrappers in suppressed paths — without this filter, BTS
+        # sub-activities (cookie_so/, cheer_so/, cover_so/) and
+        # /felicity/adventure/ get their own gallery tiles even though
+        # their parent wrapper already absorbs them via SWF refs.
+        if any(wpath.startswith(prefix) for prefix in SUPPRESS_PATH_PREFIXES):
+            continue
         for ref in extract_swf_refs(w):
             if (whost, ref) in swf_paths:
                 wrapper_swfs[(whost, wpath)].append(ref)
