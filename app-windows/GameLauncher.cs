@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace Summer2008;
 
@@ -27,6 +29,57 @@ public sealed class GameLauncher
     {
         _projectorDir = projectorDir;
         _notify       = notify;
+    }
+
+    /// <summary>
+    /// Kill every projector process tracked by this launcher AND every
+    /// untracked orphan from a previous run. Called on page-navigate so
+    /// the embedded game doesn't outlive its page, on app-close so we
+    /// don't leak processes, and at startup to reap orphans from a
+    /// previous crash / force-close.
+    /// </summary>
+    public void TerminateAllProjectors()
+    {
+        lock (_runningLock)
+        {
+            foreach (var (_, proc) in _running)
+            {
+                try { if (!proc.HasExited) { proc.Kill(entireProcessTree: true); } }
+                catch { /* race with natural exit — fine */ }
+            }
+            _running.Clear();
+        }
+        ReapOrphanProjectors();
+    }
+
+    /// <summary>
+    /// Kill any projector exe matching a name we ship, regardless of
+    /// whether we launched it. Use at app startup to clean up survivors
+    /// from a previous force-close / crash. Same risk as the macOS shell's
+    /// pkill on Wine/Projector at startup: if the user happens to have
+    /// stock Director's Projector.exe running for unrelated reasons,
+    /// that'd get killed too — acceptable for the cleanup guarantee.
+    /// </summary>
+    public static void ReapOrphanProjectors()
+    {
+        string[] names = {
+            "PJ12", "PJ1159", "PJ1158", "PJ1103", "PJ11_5",
+            "PJ10", "PJ101", "PJ9", "PJ851",
+            "Projector", "SPR",
+            "flashplayer_32_sa",
+        };
+        foreach (var n in names)
+        {
+            Process[] procs;
+            try { procs = Process.GetProcessesByName(n); }
+            catch { continue; }
+            foreach (var p in procs)
+            {
+                try { p.Kill(entireProcessTree: true); }
+                catch { /* permission denied / already gone — skip */ }
+                finally { p.Dispose(); }
+            }
+        }
     }
 
     private bool TryFocusExisting(string key)
@@ -66,6 +119,15 @@ public sealed class GameLauncher
     /// the bundled mirror, then launch the appropriate projector EXE.
     /// </summary>
     public bool Launch(Uri assetUri, string mirrorRootDir)
+        => Launch(assetUri, mirrorRootDir, screenX: null, screenY: null);
+
+    /// <summary>
+    /// Same as Launch but also positions the projector window's top-left
+    /// at (screenX, screenY) in physical screen pixels — used by the
+    /// flash-bridge.js auto-launch path so the projector spawns over the
+    /// embed area instead of wherever Director's default centering lands.
+    /// </summary>
+    public bool Launch(Uri assetUri, string mirrorRootDir, int? screenX, int? screenY)
     {
         try
         {
@@ -82,9 +144,9 @@ public sealed class GameLauncher
             return ext switch
             {
                 ".swf"      => LaunchFlash(localPath),
-                ".dcr"      => LaunchDirector(localPath),
-                ".dir"      => LaunchDirector(localPath),
-                ".dxr"      => LaunchDirector(localPath),
+                ".dcr"      => LaunchDirector(localPath, screenX, screenY),
+                ".dir"      => LaunchDirector(localPath, screenX, screenY),
+                ".dxr"      => LaunchDirector(localPath, screenX, screenY),
                 _           => false,
             };
         }
@@ -123,7 +185,7 @@ public sealed class GameLauncher
         return true;
     }
 
-    private bool LaunchDirector(string dcrPath)
+    private bool LaunchDirector(string dcrPath, int? screenX = null, int? screenY = null)
     {
         if (TryFocusExisting(dcrPath)) return true;
 
@@ -158,9 +220,106 @@ public sealed class GameLauncher
             WorkingDirectory = Path.GetDirectoryName(dcrPath) ?? ".",
         };
         var proc = Process.Start(psi);
-        if (proc != null) Track(dcrPath, proc);
+        if (proc != null)
+        {
+            Track(dcrPath, proc);
+            if (screenX.HasValue && screenY.HasValue)
+            {
+                // Fire-and-forget: the projector window won't exist for the
+                // first few hundred ms after Process.Start, so we poll for
+                // it on a background task and call SetWindowPos when it
+                // appears. Matches the Mac shell's one-shot positioning;
+                // user is free to drag the window after.
+                int pid = proc.Id;
+                int x = screenX.Value;
+                int y = screenY.Value;
+                _ = Task.Run(() => PositionProjectorWindow(pid, x, y));
+            }
+        }
         return true;
     }
+
+    // ─── one-shot positioning over the embed area ───────────────────────
+
+    /// <summary>
+    /// Poll for the projector window owned by <paramref name="pid"/> and
+    /// move its top-left to (screenX, screenY). Director's startup logic
+    /// re-positions the window from inside its own process for ~200ms, so
+    /// we wait until the window settles before placing it — otherwise the
+    /// projector immediately yanks itself back to screen-center.
+    /// </summary>
+    private static async Task PositionProjectorWindow(int pid, int screenX, int screenY)
+    {
+        // Up to ~3s of polling. Director typically creates its window in
+        // 100–800ms; longer-lived polling covers cold-cache projector
+        // launches.
+        for (int attempt = 0; attempt < 60; attempt++)
+        {
+            await Task.Delay(50);
+            var hwnd = FindMainWindowForPid((uint)pid);
+            if (hwnd == IntPtr.Zero) continue;
+
+            // Settle wait: let Director finish its own centering before we
+            // place. Without this, the projector's internal re-position
+            // happens AFTER ours and visibly snaps the window to center.
+            await Task.Delay(200);
+            SetWindowPos(hwnd, IntPtr.Zero, screenX, screenY, 0, 0,
+                SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+            return;
+        }
+    }
+
+    private static IntPtr FindMainWindowForPid(uint pid)
+    {
+        IntPtr found = IntPtr.Zero;
+        long bestArea = 0;
+        EnumWindows((hwnd, _) =>
+        {
+            if (!IsWindowVisible(hwnd)) return true;
+            GetWindowThreadProcessId(hwnd, out uint windowPid);
+            if (windowPid != pid) return true;
+            if (!GetWindowRect(hwnd, out RECT r)) return true;
+            long w = r.Right - r.Left;
+            long h = r.Bottom - r.Top;
+            if (w < 100 || h < 80) return true;  // skip toolwindows/tooltips
+            // Prefer the largest matching window (the actual projector
+            // canvas, not e.g. a hidden splash or invisible message-only).
+            long area = w * h;
+            if (area > bestArea)
+            {
+                bestArea = area;
+                found = hwnd;
+            }
+            return true;
+        }, IntPtr.Zero);
+        return found;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct RECT { public int Left, Top, Right, Bottom; }
+
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
+    [DllImport("user32.dll")]
+    private static extern bool IsWindowVisible(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter,
+        int X, int Y, int cx, int cy, uint uFlags);
+
+    private const uint SWP_NOSIZE     = 0x0001;
+    private const uint SWP_NOZORDER   = 0x0004;
+    private const uint SWP_NOACTIVATE = 0x0010;
 
     /// <summary>P/Invoke for SetForegroundWindow — used to focus an
     /// already-running projector when the user clicks the relaunch pill

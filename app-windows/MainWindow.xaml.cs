@@ -10,11 +10,17 @@ public partial class MainWindow : Window
 {
     private MirrorHandler? _mirror;
     private NavHandler?    _nav;
+    private GameLauncher?  _games;
 
     public MainWindow()
     {
         InitializeComponent();
         Loaded += OnLoaded;
+        // Reap every projector this session spawned when the user closes
+        // the launcher. Without this, a Director game window outlives the
+        // shell — visible as a floating projector after the main window
+        // is gone.
+        Closed += (_, _) => _games?.TerminateAllProjectors();
     }
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -25,7 +31,7 @@ public partial class MainWindow : Window
         // WebView instead of silently doing nothing — used when the bundled
         // projector exe is missing (dev runs that skipped fetch-projector-windows)
         // or the clicked SWF/DCR isn't in the mirror.
-        var games     = new GameLauncher(
+        _games        = new GameLauncher(
             Path.Combine(App.AppBaseDir, "projector"),
             notify: msg => Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -78,7 +84,7 @@ public partial class MainWindow : Window
         await Browser.EnsureCoreWebView2Async(env);
 
         _mirror = new MirrorHandler(resources, App.UserDataPath, prefs);
-        _nav    = new NavHandler(Browser.CoreWebView2, games);
+        _nav    = new NavHandler(Browser.CoreWebView2, _games);
 
         Browser.CoreWebView2.AddWebResourceRequestedFilter(
             "agd://*", CoreWebView2WebResourceContext.All);
@@ -106,8 +112,37 @@ public partial class MainWindow : Window
             // from page load has none, so the nav is silently dropped.
             else if (msg != null && msg.StartsWith("launchDCR:", StringComparison.Ordinal))
             {
-                try { games.Launch(new Uri(msg.Substring("launchDCR:".Length)), mirrorRoot); }
-                catch { /* malformed URL — JS will hide loading via the 8s safety */ }
+                try
+                {
+                    var payload = msg.Substring("launchDCR:".Length);
+                    if (payload.StartsWith("{", StringComparison.Ordinal))
+                    {
+                        // JSON form bundles the embed rect so we can position
+                        // the Director projector window over the embed area in
+                        // one shot — same UX as the Mac shell's overlay path,
+                        // minus the continuous tracking (the Win projector is
+                        // a separate top-level window, freely draggable).
+                        using var doc = System.Text.Json.JsonDocument.Parse(payload);
+                        var root = doc.RootElement;
+                        var url = root.GetProperty("url").GetString()!;
+                        var cssX = root.GetProperty("x").GetDouble();
+                        var cssY = root.GetProperty("y").GetDouble();
+                        var dpr  = root.GetProperty("dpr").GetDouble();
+                        // PointToScreen on WPF with Per-Monitor DPI v2 returns
+                        // physical screen pixels. CSS rect × dpr also lands in
+                        // physical pixels — sum is the embed's top-left in
+                        // screen pixels, which is what SetWindowPos expects.
+                        var topLeft = Browser.PointToScreen(new System.Windows.Point(0, 0));
+                        var screenX = (int)Math.Round(topLeft.X + cssX * dpr);
+                        var screenY = (int)Math.Round(topLeft.Y + cssY * dpr);
+                        _games.Launch(new Uri(url), mirrorRoot, screenX, screenY);
+                    }
+                    else
+                    {
+                        _games.Launch(new Uri(payload), mirrorRoot);
+                    }
+                }
+                catch { /* malformed payload — JS will hide loading via the 8s safety */ }
             }
         };
         await Browser.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(NavBarJs);
@@ -199,6 +234,44 @@ public partial class MainWindow : Window
 
         var current = parseInt(getComputedStyle(document.body).paddingTop) || 0;
         document.body.style.paddingTop = (current + 40) + 'px';
+
+        // Bottom-left Ko-fi tip pill — same look + position as the one on
+        // the dashboard, inlined so we don't need the dashboard stylesheet
+        // on mirror pages. Ko-fi is the only allowlisted external host in
+        // NavHandler, so target='_blank' escapes to the user's default
+        // browser.
+        var kofiPill = document.createElement('a');
+        kofiPill.href = 'https://ko-fi.com/B0B7EF4TJ';
+        kofiPill.target = '_blank';
+        kofiPill.rel = 'noopener';
+        kofiPill.title = 'Keep this archive online — tip the archivist on Ko-fi';
+        kofiPill.style.cssText = [
+          'position:fixed','left:22px','bottom:22px',
+          'z-index:2147483647',
+          'display:inline-flex','align-items:center','gap:7px',
+          'padding:8px 14px 8px 12px',
+          'border-radius:999px',
+          'background:rgba(255,252,244,0.92)',
+          'border:1px solid rgba(124,12,31,0.20)',
+          'box-shadow:0 4px 12px rgba(124,12,31,0.10)',
+          'color:#7C0C1F','text-decoration:none',
+          "font:600 11px/1 -apple-system,'Segoe UI',sans-serif",
+          'letter-spacing:.14em','text-transform:uppercase',
+          'opacity:.82',
+          'transition:opacity .18s ease, transform .18s ease, box-shadow .18s ease'
+        ].join(';');
+        kofiPill.innerHTML = '<span aria-hidden="true" style="font-size:13px;line-height:1">☕</span><span>Tip</span>';
+        kofiPill.onmouseenter = function () {
+          kofiPill.style.opacity = '1';
+          kofiPill.style.transform = 'translateY(-1px)';
+          kofiPill.style.boxShadow = '0 8px 22px rgba(124,12,31,0.18)';
+        };
+        kofiPill.onmouseleave = function () {
+          kofiPill.style.opacity = '.82';
+          kofiPill.style.transform = 'translateY(0)';
+          kofiPill.style.boxShadow = '0 4px 12px rgba(124,12,31,0.10)';
+        };
+        document.body.appendChild(kofiPill);
       }
 
       if (document.readyState === 'loading') {

@@ -340,8 +340,15 @@
      true if either accepted the message. Used by both the click handler
      and the auto-launch path; only the click path falls back to nav
      because scripted navigation to agd-launch:// silently fails without
-     user activation (which a setTimeout from page load doesn't have). */
-  function postLaunchDCR(dcrUrl) {
+     user activation (which a setTimeout from page load doesn't have).
+
+     On Windows the embed rect is bundled with the launch request so the
+     host can position the projector over the embed area in one shot. Mac
+     gets the rect separately via the dcrRect handler driven by
+     reportRect()/observers — that path is used for continuous tracking
+     of the overlaid window, which Windows doesn't need (the projector
+     is a separate floating window, not an overlay). */
+  function postLaunchDCR(dcrUrl, stub) {
     try {
       if (window.webkit && window.webkit.messageHandlers
           && window.webkit.messageHandlers.launchDCR) {
@@ -352,7 +359,16 @@
     try {
       if (window.chrome && window.chrome.webview
           && window.chrome.webview.postMessage) {
-        window.chrome.webview.postMessage("launchDCR:" + dcrUrl);
+        var r = stub ? stub.getBoundingClientRect() : null;
+        var payload = JSON.stringify({
+          url:    dcrUrl,
+          x:      r ? r.left   : 0,
+          y:      r ? r.top    : 0,
+          width:  r ? r.width  : 0,
+          height: r ? r.height : 0,
+          dpr:    window.devicePixelRatio || 1
+        });
+        window.chrome.webview.postMessage("launchDCR:" + payload);
         return true;
       }
     } catch (e) {}
@@ -417,7 +433,7 @@
       // measurement regardless of any window resize / scroll that
       // happened since the last debounced emit.
       reportRect(stub, dcrUrl);
-      if (!postLaunchDCR(dcrUrl)) {
+      if (!postLaunchDCR(dcrUrl, stub)) {
         // Final fallback: legacy navigation path. User activation is
         // present here (we're in a click handler) so the agd-launch://
         // nav will actually fire and NavHandler will intercept it.
@@ -462,7 +478,7 @@
         // navigation to a custom scheme, and a setTimeout from page load
         // has none. postLaunchDCR uses postMessage on both Mac and Windows,
         // which is exempt from that restriction.
-        postLaunchDCR(dcrUrl);
+        postLaunchDCR(dcrUrl, stub);
         // Safety: dismiss loading in case the host never signals back. On
         // Mac the overlay signals dismissal in ~1s; on Windows the
         // projector is a separate window with no signal-back channel, so

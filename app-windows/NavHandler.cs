@@ -13,7 +13,8 @@ namespace Summer2008;
 ///   • agd-launch://&lt;swf-or-dcr&gt;     →  bundled projector via Process.Start
 ///   • &lt;path&gt;.swf navigation         →  bundled Flash Player
 ///   • &lt;path&gt;.dcr navigation         →  bundled Director projector
-///   • http / https link clicks       →  user's default browser (Shell)
+///   • http / https to allowlist      →  user's default browser (Shell)
+///   • http / https everything else   →  cancel + toast (keep archive sealed)
 ///   • mailto / tel / sms / facetime  →  default OS handler (Shell)
 ///   • scripted popups (window.open with explicit width/height)  →  suppress
 /// </summary>
@@ -23,11 +24,26 @@ public sealed class NavHandler
     private readonly GameLauncher _games;
     private readonly string _mirrorRoot;
 
+    // Strict allowlist of hosts that are permitted to escape into the
+    // user's default browser. Everything else — hardcoded 2008 links to
+    // mattel.com, kitkittredge.com, etc. — gets canceled with a toast so
+    // the archive stays sealed.
+    private static readonly HashSet<string> AllowedExternalHosts =
+        new(StringComparer.OrdinalIgnoreCase) { "ko-fi.com", "www.ko-fi.com" };
+
     public NavHandler(CoreWebView2 webview, GameLauncher games)
     {
         _webview = webview;
         _games   = games;
         _mirrorRoot = Path.Combine(App.AppBaseDir, "Resources", "mirror");
+    }
+
+    private void ShowExternalToast()
+    {
+        const string msg = "External link — not part of the 2008 archive";
+        var safe = System.Text.Json.JsonSerializer.Serialize(msg);
+        _ = _webview.ExecuteScriptAsync(
+            $"window.__agd_showToast && window.__agd_showToast({safe})");
     }
 
     public void OnNavigationStarting(object? sender, CoreWebView2NavigationStartingEventArgs args)
@@ -38,6 +54,15 @@ public sealed class NavHandler
 
         var scheme = (uri.Scheme ?? "").ToLowerInvariant();
         var ext    = Path.GetExtension(uri.AbsolutePath).ToLowerInvariant();
+
+        // Kill any running projector before the new page commits — the
+        // Director window from the previous page would otherwise float on
+        // top of the new one. No-op when nothing is running (initial
+        // dashboard load, in-mirror nav to non-DCR pages, etc.). The
+        // agd-launch:// relaunch path lands here too but TryFocusExisting
+        // is irrelevant after the kill — we just spawn fresh, which is the
+        // desired "Click to play again" behavior anyway.
+        _games.TerminateAllProjectors();
 
         // 1. Explicit "open in projector" handoff. flash-bridge.js's FAB
         //    button constructs agd-launch://...swf URLs for this.
@@ -69,13 +94,21 @@ public sealed class NavHandler
             return;
         }
 
-        // 3. http/https — open in user's default browser, only for explicit
-        //    link clicks (NewWindowRequested intercepts the popup-shaped
-        //    invocations separately).
+        // 3. http/https — only allowlisted hosts (Ko-fi tip link) escape
+        //    to the user's default browser. Everything else (the 2008 page's
+        //    hardcoded links to kitkittredge.com, mattel.com careers, etc.)
+        //    gets canceled with a toast so the user knows why nothing opened.
         if (scheme == "http" || scheme == "https")
         {
             args.Cancel = true;
-            ShellOpen(uri.ToString());
+            if (AllowedExternalHosts.Contains(uri.Host))
+            {
+                ShellOpen(uri.ToString());
+            }
+            else
+            {
+                ShowExternalToast();
+            }
             return;
         }
 
@@ -110,8 +143,17 @@ public sealed class NavHandler
             var uri = new Uri(args.Uri);
             if (uri.Scheme is "http" or "https")
             {
-                // External link → user's default browser
-                ShellOpen(uri.ToString());
+                // Same allowlist as OnNavigationStarting — target="_blank"
+                // / window.open() popups for non-Ko-fi hosts get the same
+                // canceled-with-toast treatment as inline clicks.
+                if (AllowedExternalHosts.Contains(uri.Host))
+                {
+                    ShellOpen(uri.ToString());
+                }
+                else
+                {
+                    ShowExternalToast();
+                }
                 args.Handled = true;
             }
             else

@@ -29,6 +29,12 @@ public partial class App : Application
         base.OnStartup(e);
         Directory.CreateDirectory(UserDataPath);
 
+        // Reap any projector exes that survived a previous force-close /
+        // crash. Without this, last session's Director window persists as
+        // a floating top-level window when the user reopens the launcher.
+        // Same approach as the macOS shell's startup pkill on wine-preloader.
+        GameLauncher.ReapOrphanProjectors();
+
         // Surface unhandled exceptions instead of silently crashing the
         // content process. Mirrors the macOS NSLog error trail.
         DispatcherUnhandledException += (_, args) =>
