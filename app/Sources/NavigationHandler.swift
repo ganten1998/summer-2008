@@ -24,12 +24,44 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
         let msg = "External link — not part of the 2008 archive"
         let escaped = msg.replacingOccurrences(of: "\\", with: "\\\\")
                          .replacingOccurrences(of: "\"", with: "\\\"")
-        let js = "window.__agd_showToast && window.__agd_showToast(\"\(escaped)\")"
-        // Explicit .page world matches where AppDelegate's WKUserScript
-        // installs __agd_showToast — without this, on some macOS versions
-        // evaluateJavaScript looks in the default client world and finds
-        // the function undefined, so the toast silently no-ops.
-        webView.evaluateJavaScript(js, in: nil, in: .page, completionHandler: nil)
+        // Self-contained — builds the toast div directly instead of
+        // relying on a pre-injected window.__agd_showToast. Eliminates
+        // any uncertainty about user-script timing or content-world
+        // mismatch.
+        let js = """
+        (function() {
+          var run = function() {
+            var stackId = '__agd_toast_stack';
+            var stack = document.getElementById(stackId);
+            if (!stack) {
+              stack = document.createElement('div');
+              stack.id = stackId;
+              stack.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483647;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none';
+              (document.body || document.documentElement).appendChild(stack);
+            }
+            var t = document.createElement('div');
+            t.textContent = "\(escaped)";
+            t.style.cssText = 'padding:11px 20px;background:#3B0F0F;color:#FBF6EB;font:13.5px/1.4 -apple-system,sans-serif;border-radius:8px;box-shadow:0 6px 22px rgba(0,0,0,.32);max-width:80vw;text-align:center;pointer-events:auto;opacity:0;transform:translateY(8px);transition:opacity .2s, transform .2s';
+            stack.appendChild(t);
+            requestAnimationFrame(function() {
+              t.style.opacity = '1';
+              t.style.transform = 'translateY(0)';
+            });
+            setTimeout(function() {
+              t.style.opacity = '0';
+              t.style.transform = 'translateY(8px)';
+              setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, 220);
+            }, 3000);
+          };
+          if (document.body) run();
+          else document.addEventListener('DOMContentLoaded', run);
+        })();
+        """
+        webView.evaluateJavaScript(js, in: nil, in: .page) { result in
+            if case .failure(let error) = result {
+                NSLog("AGD toast JS error: \(error.localizedDescription)")
+            }
+        }
     }
 
     /// Wrap a SWF URL in the inline Ruffle player page so the game plays
@@ -201,29 +233,35 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
         // For our own agd:// URLs, ALWAYS allow popups regardless of
         // navigationType. The 2008 footer linked /legal/trademarks.html
         // via window.open() from an onclick handler; WKWebView reports
-        // that as .other (script-initiated), and the autopoll guard below
-        // would otherwise eat it. agd:// is our internal scheme — never an
-        // external ad — so just load it in the current webView.
+        // that as .other (script-initiated), and dropping these would
+        // eat the trademarks click. agd:// is our internal scheme —
+        // never an external ad — so just load it in the current webView.
         if scheme == "agd" {
             webView.load(URLRequest(url: url))
             return nil
         }
-
-        if navigationAction.navigationType != .linkActivated {
-            return nil    // script-initiated, no user gesture → block
-        }
+        // For http/https popups (script-initiated or otherwise), apply
+        // the same allowlist + toast policy as the inline-nav path. The
+        // 2008 fun.html footer's "Terms and Conditions" link uses
+        // onclick="openTerms()" which calls window.open() — that's
+        // script-initiated, so without this it'd be silently eaten.
+        // The autopoll that previously made us suppress script popups
+        // is disarmed at source by the patcher (pollCanGo=false), so
+        // legitimate user-clicked openX() handlers can flow through now.
         if scheme == "http" || scheme == "https" {
-            // Same allowlist as the inline-nav path — target="_blank" /
-            // window.open() popups for non-Ko-fi hosts get the toast.
             let host = url.host?.lowercased() ?? ""
             if Self.allowedExternalHosts.contains(host) {
                 NSWorkspace.shared.open(url)
             } else {
                 showExternalToast(in: webView)
             }
-        } else {
-            webView.load(URLRequest(url: url))
+            return nil
         }
+        // Other schemes: only follow if a real user gesture initiated.
+        if navigationAction.navigationType != .linkActivated {
+            return nil
+        }
+        webView.load(URLRequest(url: url))
         return nil
     }
 
