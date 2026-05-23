@@ -531,7 +531,7 @@
      isn't ready yet (which shouldn't happen because we load ruffle.js
      synchronously before this script's effects take hold). The returned
      element auto-loads + auto-plays as soon as it's connected to the DOM. */
-  function makeRuffle(url, width, height, bgColor) {
+  function makeRuffle(url, width, height, bgColor, flashvars) {
     var wantW = parseInt(width, 10) || 0;
     var wantH = parseInt(height, 10) || 0;
 
@@ -564,6 +564,29 @@
       allowScriptAccess: true,
     };
     if (bgColor) loadConfig.backgroundColor = bgColor;
+    // Derive base from SWF directory so any relative loadMovie/loadVars
+    // inside the SWF (e.g. coverpoll.swf's configUrl=coverpoll_config.xml
+    // flashvar) resolves to the SWF's folder, not to the embedding page.
+    try {
+      var lastSlash = url.lastIndexOf("/");
+      if (lastSlash >= 0) loadConfig.base = url.substring(0, lastSlash + 1);
+    } catch (e) {}
+    // Parse flashvars="key1=v1&key2=v2&..." into Ruffle's parameters
+    // object. Without this, ja06/cover_poll and dakotamania SWFs never
+    // get configUrl set, so they loop on a default config that doesn't
+    // exist and stay stuck on the loading bar.
+    if (flashvars && typeof flashvars === "string") {
+      var params = {};
+      flashvars.split("&").forEach(function (pair) {
+        var eq = pair.indexOf("=");
+        if (eq > 0) {
+          try {
+            params[decodeURIComponent(pair.slice(0, eq))] = decodeURIComponent(pair.slice(eq + 1));
+          } catch (e) { /* skip malformed pair */ }
+        }
+      });
+      if (Object.keys(params).length > 0) loadConfig.parameters = params;
+    }
     player.__agdLoadConfig = loadConfig;
     player.setAttribute("data-agd-original-swf", url);
 
@@ -803,7 +826,9 @@
       var h = obj.getAttribute("height") || obj.style.height;
       var bgParam = obj.querySelector('param[name="bgcolor" i]');
       var bg = bgParam ? bgParam.getAttribute("value") : null;
-      var player = makeRuffle(absSwfURL(data), w, h, bg);
+      var fvParam = obj.querySelector('param[name="flashvars" i]');
+      var fv = fvParam ? fvParam.getAttribute("value") : null;
+      var player = makeRuffle(absSwfURL(data), w, h, bg, fv);
       obj.parentNode && obj.parentNode.replaceChild(player, obj);
       loadPlayerWhenAttached(player);
     });
@@ -825,7 +850,7 @@
       if (!isFlashType(type) && !/\.swf(\?|$)/i.test(src)) return;
       var w = em.getAttribute("width") || em.style.width;
       var h = em.getAttribute("height") || em.style.height;
-      var player = makeRuffle(absSwfURL(src), w, h, em.getAttribute("bgcolor"));
+      var player = makeRuffle(absSwfURL(src), w, h, em.getAttribute("bgcolor"), em.getAttribute("flashvars"));
       em.parentNode && em.parentNode.replaceChild(player, em);
       loadPlayerWhenAttached(player);
     });
