@@ -129,6 +129,13 @@ SUPPRESS_PATH_PREFIXES = (
     "/agmg/todotoday/sw/",  # daily mini-game fragments loaded by parent SWF
     "/movie/assets/",       # movie player chrome
     "/movie/molly/assets/", # ditto, scoped
+    # BTS (Behind the Scenes Sept/Oct) sub-activities — Cookie Break,
+    # CheerMaker, Cover Poll. The main /agmg/bts/index.html SWF
+    # internally navigates to all three via getURL on its three buttons,
+    # so listing them as separate gallery tiles would be duplicates.
+    "/agmg/bts/cheer_so/",
+    "/agmg/bts/cookie_so/",
+    "/agmg/bts/cover_so/",
 )
 
 # Wrapper filenames that are internal segments of a larger experience and
