@@ -128,6 +128,23 @@ public sealed class MirrorHandler
                 return;
             }
 
+            // 3b. Directory request without trailing slash. WebView2 otherwise
+            //     leaves the document URL as agd://host/movie (no slash), so
+            //     relative refs like <link href="assets/styles.css"> resolve
+            //     against "/movie" (treated as a file) → /assets/styles.css —
+            //     wrong path, no CSS or images load. Standard web-server fix:
+            //     301 to the trailing-slash variant so the browser re-anchors
+            //     its base URL before re-requesting body assets.
+            if (!path.EndsWith("/", StringComparison.Ordinal))
+            {
+                var dirCheck = Path.Combine(_mirrorDir, host, path.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+                if (Directory.Exists(dirCheck))
+                {
+                    args.Response = DirectoryRedirectResponse(env, uri);
+                    return;
+                }
+            }
+
             // 4. Reserved synthetic mirror paths (/__agd/*) — served from
             //    mirror-runtime under the mirror's host so Ruffle treats
             //    them as same-origin with mirror SWFs.
@@ -375,6 +392,20 @@ public sealed class MirrorHandler
         var full = Path.Combine(root, lookup);
         if (!File.Exists(full)) return StubPages.NotFoundResponse(env, uri);
         return ServeFile(env, full, uri);
+    }
+
+    private CoreWebView2WebResourceResponse DirectoryRedirectResponse(CoreWebView2 env, Uri uri)
+    {
+        var builder = new UriBuilder(uri);
+        if (!builder.Path.EndsWith("/", StringComparison.Ordinal))
+            builder.Path = builder.Path + "/";
+        var location = builder.Uri.ToString();
+        var headers = string.Join("\r\n",
+            $"Location: {location}",
+            "Content-Length: 0",
+            "Cache-Control: max-age=31536000");
+        return env.Environment.CreateWebResourceResponse(
+            new MemoryStream(Array.Empty<byte>()), 301, "Moved Permanently", headers);
     }
 
     private CoreWebView2WebResourceResponse EmptyCssResponse(CoreWebView2 env)

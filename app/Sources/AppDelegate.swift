@@ -247,7 +247,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         config.userContentController.addUserScript(WKUserScript(
             source: toastJS,
             injectionTime: .atDocumentStart,
-            forMainFrameOnly: true))
+            forMainFrameOnly: true,
+            in: .page))
 
         // Inject the drag setup on EVERY page (including dashboard /
         // runtime / games — the previous early-return skipped these and

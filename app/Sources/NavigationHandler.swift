@@ -25,7 +25,11 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
         let escaped = msg.replacingOccurrences(of: "\\", with: "\\\\")
                          .replacingOccurrences(of: "\"", with: "\\\"")
         let js = "window.__agd_showToast && window.__agd_showToast(\"\(escaped)\")"
-        webView.evaluateJavaScript(js, completionHandler: nil)
+        // Explicit .page world matches where AppDelegate's WKUserScript
+        // installs __agd_showToast — without this, on some macOS versions
+        // evaluateJavaScript looks in the default client world and finds
+        // the function undefined, so the toast silently no-ops.
+        webView.evaluateJavaScript(js, in: nil, in: .page, completionHandler: nil)
     }
 
     /// Wrap a SWF URL in the inline Ruffle player page so the game plays

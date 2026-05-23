@@ -229,6 +229,21 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             sendEmptyCSS(task: task, url: url)
             return
         }
+        // 0b) Directory request without trailing slash. WebKit otherwise
+        //     leaves the document URL as agd://host/movie (no slash), so
+        //     relative refs like <link href="assets/styles.css"> resolve
+        //     against "/movie" (treated as a file) → /assets/styles.css —
+        //     wrong path, no CSS or images load. Standard web-server fix:
+        //     301 to the trailing-slash variant so the browser re-anchors
+        //     its base URL before requesting body assets.
+        if !path.hasSuffix("/") {
+            let dirURL = mirrorFileURL(host: host, path: path, query: nil)
+            var isDir: ObjCBool = false
+            if FileManager.default.fileExists(atPath: dirURL.path, isDirectory: &isDir), isDir.boolValue {
+                sendDirectoryRedirect(task: task, url: url)
+                return
+            }
+        }
         // 0) Reserved synthetic paths -- served from mirror-runtime/ but using
         //    the mirror's host so the synthetic player page is same-origin
         //    with the SWFs/JS it loads. Without this, Ruffle's fetch sees a
@@ -351,6 +366,37 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         }
         // 3) Fall back to live Wayback fetch.
         backfillFromWayback(task: task, url: url, host: host, path: path, cacheURL: cacheURL)
+    }
+
+    private func sendDirectoryRedirect(task: WKURLSchemeTask, url: URL) {
+        guard var comps = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            sendNotFound(task: task, url: url)
+            return
+        }
+        if !comps.path.hasSuffix("/") { comps.path += "/" }
+        guard let newURL = comps.url else {
+            sendNotFound(task: task, url: url)
+            return
+        }
+        let resp = HTTPURLResponse(
+            url: url, statusCode: 301, httpVersion: "HTTP/1.1",
+            headerFields: [
+                "Location": newURL.absoluteString,
+                "Content-Length": "0",
+                "Cache-Control": "max-age=31536000",
+            ]
+        )!
+        let key = ObjectIdentifier(task)
+        DispatchQueue.main.async { [weak self] in
+            self?.inFlightLock.lock()
+            let stopped = self?.stoppedKeys.contains(key) ?? true
+            self?.stoppedKeys.remove(key)
+            self?.inFlightLock.unlock()
+            guard !stopped else { return }
+            task.didReceive(resp)
+            task.didReceive(Data())
+            task.didFinish()
+        }
     }
 
     private func sendEmptyCSS(task: WKURLSchemeTask, url: URL) {
