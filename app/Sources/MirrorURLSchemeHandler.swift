@@ -233,15 +233,16 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         //     leaves the document URL as agd://host/movie (no slash), so
         //     relative refs like <link href="assets/styles.css"> resolve
         //     against "/movie" (treated as a file) → /assets/styles.css —
-        //     wrong path, no CSS or images load. Standard web-server fix:
-        //     301 to the trailing-slash variant so the browser re-anchors
-        //     its base URL before requesting body assets.
+        //     wrong path, no CSS or images load. WKURLSchemeTask doesn't
+        //     reliably follow 301 redirects, so instead serve the dir's
+        //     index.html with an injected <base href="<path>/"> so the
+        //     browser uses the right base for relative refs.
+        var injectBaseHref: String? = nil
         if !path.hasSuffix("/") {
             let dirURL = mirrorFileURL(host: host, path: path, query: nil)
             var isDir: ObjCBool = false
             if FileManager.default.fileExists(atPath: dirURL.path, isDirectory: &isDir), isDir.boolValue {
-                sendDirectoryRedirect(task: task, url: url)
-                return
+                injectBaseHref = path + "/"
             }
         }
         // 0) Reserved synthetic paths -- served from mirror-runtime/ but using
@@ -295,7 +296,7 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         // 1) Look in the bundled mirror.
         let mirrorURL = mirrorFileURL(host: host, path: path, query: url.query)
         if FileManager.default.fileExists(atPath: mirrorURL.path) {
-            respondWithFile(task: task, url: url, file: mirrorURL)
+            respondWithFile(task: task, url: url, file: mirrorURL, injectBaseHref: injectBaseHref)
             return
         }
         // 1a) Query-tolerant fallback. The mirror patcher rewrites
@@ -368,37 +369,6 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         backfillFromWayback(task: task, url: url, host: host, path: path, cacheURL: cacheURL)
     }
 
-    private func sendDirectoryRedirect(task: WKURLSchemeTask, url: URL) {
-        guard var comps = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            sendNotFound(task: task, url: url)
-            return
-        }
-        if !comps.path.hasSuffix("/") { comps.path += "/" }
-        guard let newURL = comps.url else {
-            sendNotFound(task: task, url: url)
-            return
-        }
-        let resp = HTTPURLResponse(
-            url: url, statusCode: 301, httpVersion: "HTTP/1.1",
-            headerFields: [
-                "Location": newURL.absoluteString,
-                "Content-Length": "0",
-                "Cache-Control": "max-age=31536000",
-            ]
-        )!
-        let key = ObjectIdentifier(task)
-        DispatchQueue.main.async { [weak self] in
-            self?.inFlightLock.lock()
-            let stopped = self?.stoppedKeys.contains(key) ?? true
-            self?.stoppedKeys.remove(key)
-            self?.inFlightLock.unlock()
-            guard !stopped else { return }
-            task.didReceive(resp)
-            task.didReceive(Data())
-            task.didFinish()
-        }
-    }
-
     private func sendEmptyCSS(task: WKURLSchemeTask, url: URL) {
         let body = Data()
         let resp = HTTPURLResponse(
@@ -424,18 +394,40 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
 
     // MARK: - File responses
 
-    private func respondWithFile(task: WKURLSchemeTask, url: URL, file: URL) {
+    private func respondWithFile(task: WKURLSchemeTask, url: URL, file: URL, injectBaseHref: String? = nil) {
         var resolved = file
         // If the URL points to a directory, try index.html inside it.
         var isDir: ObjCBool = false
         if FileManager.default.fileExists(atPath: resolved.path, isDirectory: &isDir), isDir.boolValue {
             resolved = resolved.appendingPathComponent("index.html")
         }
-        guard let data = try? Data(contentsOf: resolved) else {
+        guard var data = try? Data(contentsOf: resolved) else {
             sendNotFound(task: task, url: url)
             return
         }
         let mime = mimeType(for: resolved)
+        // Inject <base href="..."> for the directory-without-trailing-slash
+        // case (see serveMirror step 0b). Done at serve time rather than at
+        // patch time so it stays correct if the file is moved on disk later.
+        if let href = injectBaseHref, mime.hasPrefix("text/html") {
+            if let html = String(data: data, encoding: .utf8) {
+                let baseTag = "<base href=\"\(href)\">"
+                var patched: String
+                if let headRange = html.range(of: "<head>", options: .caseInsensitive) {
+                    patched = html.replacingCharacters(in: headRange, with: "<head>\(baseTag)")
+                } else if let htmlRange = html.range(of: "<html", options: .caseInsensitive) {
+                    // No <head> — splice base tag right after <html ...>
+                    if let closeBracket = html.range(of: ">", range: htmlRange.lowerBound..<html.endIndex) {
+                        patched = html.replacingCharacters(in: closeBracket, with: "><head>\(baseTag)</head>")
+                    } else {
+                        patched = baseTag + html
+                    }
+                } else {
+                    patched = baseTag + html
+                }
+                data = patched.data(using: .utf8) ?? data
+            }
+        }
         let headers: [String: String] = [
             "Content-Type": mime,
             "Content-Length": "\(data.count)",

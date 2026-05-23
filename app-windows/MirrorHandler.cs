@@ -132,16 +132,18 @@ public sealed class MirrorHandler
             //     leaves the document URL as agd://host/movie (no slash), so
             //     relative refs like <link href="assets/styles.css"> resolve
             //     against "/movie" (treated as a file) → /assets/styles.css —
-            //     wrong path, no CSS or images load. Standard web-server fix:
-            //     301 to the trailing-slash variant so the browser re-anchors
-            //     its base URL before re-requesting body assets.
+            //     wrong path, no CSS or images load. WKURLSchemeTask/WebView2
+            //     don't reliably auto-follow synthetic 301s from custom scheme
+            //     handlers, so instead serve the directory's index.html with
+            //     an injected <base href="<path>/"> so the browser uses the
+            //     right base for relative refs.
+            string? injectBaseHref = null;
             if (!path.EndsWith("/", StringComparison.Ordinal))
             {
                 var dirCheck = Path.Combine(_mirrorDir, host, path.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
                 if (Directory.Exists(dirCheck))
                 {
-                    args.Response = DirectoryRedirectResponse(env, uri);
-                    return;
+                    injectBaseHref = path + "/";
                 }
             }
 
@@ -180,7 +182,7 @@ public sealed class MirrorHandler
             var resolved = ResolveMirrorPath(host, path, query);
             if (resolved is { IsFile: true, FullPath: var hit } && File.Exists(hit))
             {
-                args.Response = ServeFile(env, hit, uri);
+                args.Response = ServeFile(env, hit, uri, injectBaseHref);
                 return;
             }
 
@@ -394,20 +396,6 @@ public sealed class MirrorHandler
         return ServeFile(env, full, uri);
     }
 
-    private CoreWebView2WebResourceResponse DirectoryRedirectResponse(CoreWebView2 env, Uri uri)
-    {
-        var builder = new UriBuilder(uri);
-        if (!builder.Path.EndsWith("/", StringComparison.Ordinal))
-            builder.Path = builder.Path + "/";
-        var location = builder.Uri.ToString();
-        var headers = string.Join("\r\n",
-            $"Location: {location}",
-            "Content-Length: 0",
-            "Cache-Control: max-age=31536000");
-        return env.Environment.CreateWebResourceResponse(
-            new MemoryStream(Array.Empty<byte>()), 301, "Moved Permanently", headers);
-    }
-
     private CoreWebView2WebResourceResponse EmptyCssResponse(CoreWebView2 env)
     {
         var headers = string.Join("\r\n",
@@ -418,11 +406,46 @@ public sealed class MirrorHandler
             new MemoryStream(Array.Empty<byte>()), 200, "OK", headers);
     }
 
-    private CoreWebView2WebResourceResponse ServeFile(CoreWebView2 env, string fullPath, Uri uri)
+    private CoreWebView2WebResourceResponse ServeFile(CoreWebView2 env, string fullPath, Uri uri, string? injectBaseHref = null)
     {
         var bytes = File.ReadAllBytes(fullPath);
-        var stream = new MemoryStream(bytes);
         var mime = MimeFor(fullPath);
+        // Inject <base href="..."> for the directory-without-trailing-slash
+        // case (see step 3b in the routing chain). Done at serve time so it
+        // stays correct if the file is moved on disk later.
+        if (injectBaseHref is not null && mime.StartsWith("text/html", StringComparison.OrdinalIgnoreCase))
+        {
+            try
+            {
+                var html = Encoding.UTF8.GetString(bytes);
+                var baseTag = $"<base href=\"{injectBaseHref}\">";
+                var headIdx = html.IndexOf("<head>", StringComparison.OrdinalIgnoreCase);
+                string patched;
+                if (headIdx >= 0)
+                {
+                    patched = html.Insert(headIdx + "<head>".Length, baseTag);
+                }
+                else
+                {
+                    var htmlIdx = html.IndexOf("<html", StringComparison.OrdinalIgnoreCase);
+                    if (htmlIdx >= 0)
+                    {
+                        var close = html.IndexOf('>', htmlIdx);
+                        if (close >= 0)
+                            patched = html.Insert(close + 1, $"<head>{baseTag}</head>");
+                        else
+                            patched = baseTag + html;
+                    }
+                    else
+                    {
+                        patched = baseTag + html;
+                    }
+                }
+                bytes = Encoding.UTF8.GetBytes(patched);
+            }
+            catch { /* fall through with original bytes if encoding fails */ }
+        }
+        var stream = new MemoryStream(bytes);
         var headers = string.Join("\r\n",
             $"Content-Type: {mime}",
             $"Content-Length: {bytes.Length}",
