@@ -384,14 +384,33 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             document.body.appendChild(kofiPill);
           }
 
-          // -------- Window-drag setup (ALL pages including dashboard) --------
-          // Tag the BODY itself as a drag source so EVERY non-interactive
-          // mousedown is a drag candidate, regardless of what's underneath.
-          document.body.setAttribute('data-agd-drag', 'true');
+          // -------- Window-drag setup (nav bar / header only) --------
+          // For mirrored AG pages, the red bar created above already
+          // has data-agd-drag and is position:fixed top:0 — drag works
+          // anywhere along the top strip.
+          //
+          // For internal pages (dashboard / runtime / games), tagging
+          // the existing header.brand element gave only a needle-in-
+          // haystack drag area because the visible "top strip" is
+          // mostly margin/whitespace AROUND the header content. Inject
+          // an invisible fixed-position drag strip across the top of
+          // the window — same shape as the mirror nav bar, but with
+          // no visual chrome and no buttons. pointer-events: auto so
+          // the mousedown lands here; content below the 36px strip
+          // (cards, links, gallery tiles) is unaffected.
+          if (isInternal) {
+            var dragStrip = document.createElement('div');
+            dragStrip.setAttribute('data-agd-drag', 'true');
+            dragStrip.style.cssText = [
+              'position:fixed','top:0','left:0','right:0','height:36px',
+              'z-index:2147483646',
+              'background:transparent','pointer-events:auto'
+            ].join(';');
+            document.body.appendChild(dragStrip);
+          }
 
-          // Threshold-based drag: ANY mousedown can start a drag candidate,
-          // EVEN on <a>/<button> — the threshold distinguishes click intent
-          // from drag intent. Single click without movement → element's
+          // Threshold-based drag: a mousedown over a tagged region starts
+          // a drag candidate. Single click without movement → element's
           // own handler fires (link nav, button click). Mousedown + move
           // past 4px → window drag; the click event is naturally suppressed
           // by WebKit since the pointer left the element. Only true text-
