@@ -181,11 +181,24 @@
     player.addEventListener("loaderror", replaceWithStub);
     player.addEventListener("error", replaceWithStub);
 
+    // Compute the SWF's directory URL — used as Ruffle's `base` so any
+    // relative loadMovie/loadVars/etc calls inside the SWF resolve to
+    // the SWF's source folder, not to /__agd/. Without this, mystery_
+    // home.swf 404s on a sibling ruby_config.xml, and most "stuck on
+    // loading bar" games are actually waiting on a relative asset that
+    // resolved against player.html and got a 404.
+    var baseURL = "";
+    try {
+      var lastSlash = swfURL.lastIndexOf("/");
+      if (lastSlash >= 0) baseURL = swfURL.substring(0, lastSlash + 1);
+    } catch (e) {}
+
     // IMPORTANT: only call load() after the element is in the document,
     // otherwise Ruffle ignores autoplay on a disconnected element.
     requestAnimationFrame(function () {
       var p = player.load({
         url: swfURL,
+        base: baseURL,
         autoplay: "on",
         unmuteOverlay: "hidden",
         allowScriptAccess: true,
