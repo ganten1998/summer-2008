@@ -16,8 +16,11 @@ Kit, Molly, Samantha, Kaya, Josefina, Kirsten).
 The website went through a major redesign in 2011 and the original lived only in
 the Wayback Machine afterward — a stub of itself, no Flash, dead e-cards, missing
 games. This project pulls it back together: every page that was navigable, every
-Flash game, every Shockwave puzzle, every e-card you remember. All running locally
-on your Mac with no internet required after install.
+Flash game, every Shockwave puzzle, every e-card you remember. Native apps for
+**macOS and Windows** — same content, same Ruffle inline play, same handoff to
+the real Adobe projector when Ruffle stumbles. The bundle covers the common
+path; anything we missed is patched in from the Wayback Machine on first view
+and cached, so by the second visit it's offline too.
 
 ---
 
@@ -185,16 +188,21 @@ developers can produce Windows installers without ever booting Windows.
 
 ## How it works (for the curious)
 
-The app is a native macOS WebKit shell with a custom URL scheme (`agd://`).
-Every request goes through `MirrorURLSchemeHandler.swift`, which:
+Two native shells around the same content. The macOS app is WebKit
+(`WKWebView` + `MirrorURLSchemeHandler.swift`); the Windows app is WPF +
+WebView2 (`MainWindow.xaml.cs` + `MirrorHandler.cs`). Both register the
+same custom URL scheme (`agd://`) and route every request through the
+same pipeline:
 
 - Serves files out of a bundled mirror tree (~111 MB of preserved HTML / CSS
   / JS / SWF / DCR / images).
 - Falls through to a runtime backfill cache if the user hits a URL we don't
-  have, then to a live Wayback fetch as a last resort.
+  have, then to a live Wayback fetch as a last resort — both platforms pin
+  to the same `20080711092743` snapshot timestamp, so the heal-on-first-view
+  behavior is identical.
 - Routes `.swf` clicks into an inline [Ruffle](https://ruffle.rs) player.
-- Routes `.dcr` clicks to a bundled Wine + Adobe Director projector
-  (Flashpoint Archive's distribution).
+- Routes `.dcr` clicks to a bundled Adobe Director projector. macOS uses
+  Wine to run the Windows projector; Windows runs it natively.
 - Serves styled stub pages for known-dead surfaces (`store.*`, magazine
   ecards, search forms, login flows) so dead-ends feel intentional instead
   of broken.
@@ -213,13 +221,20 @@ URLs to the `agd://` scheme, neutralizes 2008-era tracking pixels, and
 intercepts dead form `<form action="…cgi">` patterns so submits land on a
 styled "the live 2008 server is gone" page instead of vanishing into 404.
 
-The window itself is fully draggable from any non-interactive surface — the
-red AG navigation bar, the dashboard's solid-color header, the empty page
-background — using a threshold-based mousedown handler that distinguishes a
-deliberate drag from a single click (links and tile-card clicks pass through
-intact). The Director projector windows are positioned, focused, and torn
-down via macOS Accessibility APIs; on quit, every spawned projector is
-SIGKILLed before the host exits so nothing leaks across launches.
+On macOS the window itself is fully draggable from any non-interactive
+surface — the red AG navigation bar, the dashboard's solid-color header,
+the empty page background — using a threshold-based mousedown handler
+that distinguishes a deliberate drag from a single click (links and
+tile-card clicks pass through intact). The Director projector windows
+are positioned, focused, and torn down via macOS Accessibility APIs; on
+quit, every spawned projector is SIGKILLed before the host exits so
+nothing leaks across launches.
+
+On Windows the bottom-right "Open in Flash Projector" pill spawns the
+bundled `flashplayer_32_sa.exe` (or `Projector.exe` for `.dcr`) as a
+separate top-level window — no AX driving, no overlay positioning. Same
+end result: real Adobe runtime, no Ruffle limits, one click away
+whenever you need it.
 
 The gallery is regenerated on every build by `tools/build_games_gallery.py` —
 it walks the mirror, groups SWFs by their HTML wrapper, dedupes by SHA-256,
