@@ -196,10 +196,22 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
         guard let url = navigationAction.request.url else {
             return nil
         }
+        let scheme = url.scheme?.lowercased() ?? ""
+
+        // For our own agd:// URLs, ALWAYS allow popups regardless of
+        // navigationType. The 2008 footer linked /legal/trademarks.html
+        // via window.open() from an onclick handler; WKWebView reports
+        // that as .other (script-initiated), and the autopoll guard below
+        // would otherwise eat it. agd:// is our internal scheme — never an
+        // external ad — so just load it in the current webView.
+        if scheme == "agd" {
+            webView.load(URLRequest(url: url))
+            return nil
+        }
+
         if navigationAction.navigationType != .linkActivated {
             return nil    // script-initiated, no user gesture → block
         }
-        let scheme = url.scheme?.lowercased() ?? ""
         if scheme == "http" || scheme == "https" {
             // Same allowlist as the inline-nav path — target="_blank" /
             // window.open() popups for non-Ko-fi hosts get the toast.

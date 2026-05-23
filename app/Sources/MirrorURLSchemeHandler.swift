@@ -239,9 +239,16 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         //     browser uses the right base for relative refs.
         var injectBaseHref: String? = nil
         if !path.hasSuffix("/") {
-            let dirURL = mirrorFileURL(host: host, path: path, query: nil)
+            // Bypass mirrorFileURL — it auto-appends /index.html to
+            // extension-less paths, which would point us at the index file
+            // (not the directory) and the isDirectory check would fail.
+            // Build the raw on-disk path directly.
+            let rawDir = bundleResources
+                .appendingPathComponent("mirror", isDirectory: true)
+                .appendingPathComponent(host, isDirectory: true)
+                .appendingPathComponent(path.hasPrefix("/") ? String(path.dropFirst()) : path)
             var isDir: ObjCBool = false
-            if FileManager.default.fileExists(atPath: dirURL.path, isDirectory: &isDir), isDir.boolValue {
+            if FileManager.default.fileExists(atPath: rawDir.path, isDirectory: &isDir), isDir.boolValue {
                 injectBaseHref = path + "/"
             }
         }
