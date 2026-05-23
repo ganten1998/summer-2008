@@ -260,21 +260,32 @@ def _action_is_dead(action: str) -> bool:
     return False
 
 
-CSS_JS_MARKER = "/* AGD-PATCHED v3 */"
+CSS_JS_MARKER = "/* AGD-PATCHED v4 */"
 # Older CSS/JS markers we restore-from-backup + re-patch when we see them.
-OLD_CSS_JS_MARKERS = ("/* AGD-PATCHED v1 */", "/* AGD-PATCHED v2 */")
+OLD_CSS_JS_MARKERS = (
+    "/* AGD-PATCHED v1 */",
+    "/* AGD-PATCHED v2 */",
+    "/* AGD-PATCHED v3 */",
+)
 
 # Footer popup URL rewrites. footer_popups.js's openTerms() and
 # openPrivacy() called http://www.americangirlstore.com/pls/ag/icm_terms
-# and /icm_privacy — both dead since AG took the store down. The actual
-# T&C and privacy text was captured during the mirror process and lives
-# at /legal/html/{terms,privacy}.html. Rewrite the popup targets so the
-# clicks hit the archived pages instead of falling out to a toast.
+# and /icm_privacy — both dead since AG took the store down.
+#
+# Terms: the 17KB T&C body was captured during the mirror process at
+# /legal/html/terms.html — point openTerms there.
+#
+# Privacy: /legal/html/privacy.html turned out to be a redirect stub
+# with no body. The actual privacy text lives at the store popup URL
+# that the homepage links to directly. We backfilled it from Wayback
+# (2007 snapshot) into mirror/store.americangirl.com/static/popups/.
+# Point openPrivacy at the agd://store URL — store-host handler now
+# finds it on disk and serves it instead of the synthetic stub.
 JS_POPUP_REWRITES = [
     ("http://www.americangirlstore.com/pls/ag/icm_terms",
      "/legal/html/terms.html"),
     ("http://www.americangirlstore.com/pls/ag/icm_privacy",
-     "/legal/html/privacy.html"),
+     "agd://store.americangirl.com/static/popups/privacyPolicy.html"),
 ]
 
 

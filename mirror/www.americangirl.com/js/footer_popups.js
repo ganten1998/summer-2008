@@ -1,10 +1,11 @@
+/* AGD-PATCHED v4 */
 /* AGD-PATCHED v3 */
 /* AGD-PATCHED v2 */
 /* AGD-PATCHED v1 */
 var PopWin;
 
 function openPrivacy() {
-PopWin=window.open('/legal/html/privacy.html','Privacy_Policy', config='width=400, height=400, scrollbars=yes, resizable=yes');
+PopWin=window.open('agd://store.americangirl.com/static/popups/privacyPolicy.html','Privacy_Policy', config='width=400, height=400, scrollbars=yes, resizable=yes');
 
 return false;
 }
