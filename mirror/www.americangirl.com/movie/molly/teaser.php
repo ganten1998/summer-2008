@@ -66,15 +66,7 @@ function MM_swapImage() { //v3.0
 			<area shape="rect" coords="419,30,510,42" href="teaser.php" title="Movie Teaser">
 		</map>
 		<div id="teaser">
-			<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" height="260" width="360">
-				<param name="controller" value="TRUE">
-				<param name="type" value="video/quicktime">
-				<param name="autoplay" value="true">
-				<param name="target" value="myself">
-				<param name="src" value="assets/video/teaser_dvd.mov">
-				<param name="pluginspage" value="http://www.apple.com/quicktime/download/indext.html">
-				<embed controller="TRUE" target="myself" src="assets/video/teaser_dvd.mov" type="video/quicktime" bgcolor="#ffffff" pluginspage="http://www.apple.com/quicktime/download/indext.html" border="0" height="260" width="360"></embed>
-				</object>		
+			<video src="assets/video/teaser_dvd.mp4" controls autoplay playsinline width="360" height="260" style="background:#000;display:block"></video>		
 				<div id="links">
 					<a href="http://www.apple.com/quicktime/download/"><img src="assets/images/about/quicktime.gif" alt="Quicktime Required" border="0" height="31" width="88"></a>
 					<a href="agd://store.americangirl.com/pls/ag/AG_pagestyle?catid=375859&groupid=478039">Buy it now on DVD!</a>	

@@ -157,6 +157,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let config = WKWebViewConfiguration()
         config.preferences.javaScriptCanOpenWindowsAutomatically = true
+        // 2008 QuickTime <embed autoplay=true> fired immediately on page
+        // load with sound — no user gesture needed. WKWebView's default
+        // requires a user interaction before audible media plays; clearing
+        // the requirement restores the period-faithful behavior.
+        config.mediaTypesRequiringUserActionForPlayback = []
         if #available(macOS 11.0, *) {
             config.defaultWebpagePreferences.allowsContentJavaScript = true
         }

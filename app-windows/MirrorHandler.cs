@@ -362,6 +362,15 @@ public sealed class MirrorHandler
         // Map "/" to "/index.html" — matches Swift behaviour
         if (path.EndsWith("/", StringComparison.Ordinal))
             path += "index.html";
+        // Extension-less, query-less path → directory ref like /movie/molly.
+        // Auto-append /index.html so the lookup hits mirror/<host>/movie/molly/index.html
+        // instead of a nonexistent file at mirror/<host>/movie/molly. Without
+        // this, the directory case falls through to Wayback backfill which
+        // caches the response with no extension, then serves it as
+        // application/octet-stream (raw HTML dump). Mirrors the Swift
+        // resolveFilePath logic at MirrorURLSchemeHandler.swift:741.
+        else if (!Path.GetFileName(path).Contains('.') && string.IsNullOrEmpty(query))
+            path += "/index.html";
 
         // mirror/<host>/<path>[__<query>]
         var relativePath = path.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);

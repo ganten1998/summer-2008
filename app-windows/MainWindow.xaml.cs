@@ -63,7 +63,12 @@ public partial class MainWindow : Window
         agd.AllowedOrigins.Add("agd://*");
 
         var options = new CoreWebView2EnvironmentOptions(
-            additionalBrowserArguments:               null,
+            // 2008 was the era of plugin autoplay-with-sound. QuickTime
+            // <embed autoplay=true> fired immediately on page load with no
+            // user gesture required. Chromium's modern policy gates audible
+            // autoplay behind a user interaction — overriding restores the
+            // period-faithful behavior the user expects from the archive.
+            additionalBrowserArguments:               "--autoplay-policy=no-user-gesture-required",
             language:                                 null,
             targetCompatibleBrowserVersion:           null,
             allowSingleSignOnUsingOSPrimaryAccount:   false,
@@ -345,12 +350,25 @@ public partial class MainWindow : Window
     // Single CSS rule injected atDocumentStart on every page to hide the
     // 2008-era popup "Close Window" affordance. See registration site for
     // full rationale.
+    //
+    // AddScriptToExecuteOnDocumentCreatedAsync fires at the moment the JS
+    // context is created — BEFORE the HTML parser has produced
+    // document.documentElement. A naive `(document.head ||
+    // document.documentElement).appendChild(...)` throws TypeError because
+    // both are null at that instant. Defer until documentElement exists.
     private const string HidePopupCloseJs = """
     (function () {
-      var s = document.createElement('style');
-      s.setAttribute('data-agd-runtime', 'hide-popup-close');
-      s.textContent = '.closeWindow{display:none!important;}';
-      (document.head || document.documentElement).appendChild(s);
+      function inject() {
+        var s = document.createElement('style');
+        s.setAttribute('data-agd-runtime', 'hide-popup-close');
+        s.textContent = '.closeWindow{display:none!important;}';
+        (document.head || document.documentElement).appendChild(s);
+      }
+      if (document.documentElement) { inject(); return; }
+      var obs = new MutationObserver(function () {
+        if (document.documentElement) { obs.disconnect(); inject(); }
+      });
+      obs.observe(document, { childList: true, subtree: true });
     })();
     """;
 }

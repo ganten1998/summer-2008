@@ -54,15 +54,7 @@ function MM_swapImage() { //v3.0
 		<!-- begin subsection content -->
 		<div id="trailerContent">
 			<div align="center">
-				<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" height="254" width="320">
-				<param name="controller" value="TRUE">
-				<param name="type" value="video/quicktime">
-				<param name="autoplay" value="true">
-				<param name="target" value="myself">
-				<param name="src" value="assets/media/trailer.mov">
-				<param name="pluginspage" value="http://www.apple.com/quicktime/download/indext.html">
-				<embed controller="TRUE" target="myself" src="assets/media/trailer.mov" type="video/quicktime" bgcolor="#ffffff" pluginspage="http://www.apple.com/quicktime/download/indext.html" border="0" height="254" width="320"></embed>
-				</object>
+				<video src="assets/media/trailer.mp4" controls autoplay playsinline width="320" height="254" style="background:#000;display:block"></video>
 			</div>
 			<div id="leftFleur">
 				<img src="assets/images/trailer/fleur_left.gif" width="15" height="47" alt="">
