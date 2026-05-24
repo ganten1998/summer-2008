@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LEVELDATA>
+   <LAYOUT numScreens="1" time="600"/>
+   <INVENTORY cash="50">
+      <ITEM id="apples" amt="5"/>
+      <ITEM id="yarn" amt="3"/>
+   </INVENTORY>
+   <SHOPLIST>
+      <ITEM id="guitar" amt="1"/>
+      <ITEM id="shoes" amt="2"/>
+      <ITEM id="cloth" amt="3"/>
+   </SHOPLIST>
+   <MERCHANTS typesPresent="american,native,pueblo,camino" itemsAvailable="corn,squash,peppers,thread,basket,fan,dish,bracelet,pot,knife,turkey,pan" minNumPresent="5" maxNumPresent="6" spawnDelay="30" spawnNoise="5" ageMed="50" ageNoise="5" dieWarnTime="10"/>
+   <BUYERS typesPresent="american,native,pueblo" minNumPresent="5" maxNumPresent="6" spawnDelay="15" spawnNoise="5" ageMed="30" ageNoise="10" minAmt="1" maxAmt="1" amtWeight="0.0" minCash="2" maxCash="14" achievableFreq="0.75" yellDelay="10" yellNoise="3" moveDelay="4" moveNoise="3" maxPremium="0.5"/>
+</LEVELDATA>
+

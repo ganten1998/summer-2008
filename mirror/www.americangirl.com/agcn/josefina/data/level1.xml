@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LEVELDATA>
+   <LAYOUT numScreens="1" time="500"/>
+   <INVENTORY cash="50">
+      <ITEM id="bread" amt="3"/>
+   </INVENTORY>
+   <SHOPLIST>
+	  <ITEM id="pot" amt="5"/>
+	  <ITEM id="comb" amt="2"/>
+   </SHOPLIST>
+   <MERCHANTS typesPresent="american,native,pueblo,camino" itemsAvailable="corn,squash,peppers,thread,basket,fan,dish" minNumPresent="3" maxNumPresent="6" spawnDelay="30" spawnNoise="5" ageMed="35" ageNoise="5" dieWarnTime="10"/>
+   <BUYERS typesPresent="american,native,pueblo" minNumPresent="2" maxNumPresent="6" spawnDelay="10" spawnNoise="3" ageMed="10" ageNoise="5" minAmt="1" maxAmt="1" amtWeight="0.0" minCash="2" maxCash="14" achievableFreq="1" yellDelay="10" yellNoise="3" moveDelay="8" moveNoise="3" maxPremium="0.5"/>
+</LEVELDATA>
