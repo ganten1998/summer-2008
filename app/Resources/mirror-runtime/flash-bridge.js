@@ -32,6 +32,33 @@
   // "Open in Flash Player" stub when Ruffle errors out.
   window.__AGD_BUILD_STUB__ = function () { return null; };
 
+  // SWFs we know no archive captured — Wayback CDX deep walk, host swap,
+  // Memento aggregator, archive.today, and the live AG CDN all returned
+  // empty during the recovery sweep. Listed at
+  // build/cdx/exhaustive_unrecovered_ecards.txt in the repo. When one of
+  // these is referenced by a page, makeRuffle short-circuits to the
+  // sepia "Lost to time" stub — a deliberate preservation note rather
+  // than the crimson "Open in Flash Player" tile, which promises action
+  // the host can't deliver.
+  var LOST_SWFS = new Set([
+    "2008_Spring_Doodle.swf", "ChristmasStar2007.swf", "Hanukkah2007.swf",
+    "HappyFourth.swf", "Julie_birthday.swf", "Mia_GOTY08.swf",
+    "ag_VdayCutOut.swf", "ag_dove.swf", "ag_ecard_birthday.swf",
+    "ag_ecard_winter.swf", "ag_fday06_doodle.swf", "ag_perfbead.swf",
+    "agc_bday_kit.swf", "agc_kit_banister.swf", "agc_molly_bday.swf",
+    "agl_congrats_ecard.swf", "agtravel_London.swf",
+    "coco_lic_easter_ecard.swf", "ec_ag_hween.swf", "ec_ag_tgiving.swf",
+    "ec_coccovtine.swf", "ec_coco_halloween.swf", "ec_coco_holiday04.swf",
+    "ec_coco_summer06.swf", "goty_lindsey.swf", "goty_marisol.swf"
+  ]);
+  function isLostSWF(url) {
+    try {
+      var u = new URL(url, document.baseURI);
+      var leaf = u.pathname.split("/").pop();
+      return LOST_SWFS.has(leaf);
+    } catch (e) { return false; }
+  }
+
   // BFCache reload: WKWebView preserves DOM state when the user navigates
   // back to a previously-visited mirror page, but Ruffle's WASM module is
   // GC'd between visits. The restored <ruffle-player> elements end up
@@ -116,6 +143,29 @@
     ".agd-flash-stub.agd-small .agd-title{font-size:14px;}",
     ".agd-flash-stub.agd-tiny .agd-title{font-size:12px;}",
     ".agd-flash-stub.agd-tiny .agd-pill{display:none;}",
+    /* Lost-to-time variant. Sepia/cocoa palette — visually distinct
+       from crimson (which suggests clickable Flash) and indigo (DCR).
+       No hover, no pill, not interactive — reads as a preservation
+       note, not a call-to-action. Used for SWFs we know Wayback +
+       Memento + archive.today + live CDN ALL failed to surface. */
+    ".agd-flash-stub.agd-lost{",
+    "  background:linear-gradient(135deg,#5A4A38 0%,#3A2E22 100%);",
+    "  cursor:default;",
+    "}",
+    ".agd-flash-stub.agd-lost:hover{filter:none;}",
+    ".agd-flash-stub.agd-lost::before{display:none;}",
+    ".agd-flash-stub.agd-lost .agd-inner{pointer-events:none;gap:8px;}",
+    ".agd-flash-stub.agd-lost .agd-title{",
+    "  font:600 17px/1.2 -apple-system,'SF Pro Text','Segoe UI',sans-serif;",
+    "  font-style:normal;color:#FBF6EB;letter-spacing:.01em;",
+    "}",
+    ".agd-flash-stub.agd-lost .agd-sub{",
+    "  font:11px/1.45 -apple-system,'SF Pro Text','Segoe UI',sans-serif;",
+    "  color:rgba(251,246,235,0.72);max-width:280px;text-align:center;",
+    "}",
+    ".agd-flash-stub.agd-small.agd-lost .agd-title{font-size:13px;}",
+    ".agd-flash-stub.agd-tiny.agd-lost .agd-title{font-size:11px;}",
+    ".agd-flash-stub.agd-tiny.agd-lost .agd-sub{display:none;}",
     /* Shockwave variant: same chassis as the Flash stub but indigo, with
        an honest "not currently playable" message — Adobe end-of-lifed the
        Shockwave Player in 2019 and Ruffle is Flash-only, so .dcr embeds
@@ -316,6 +366,29 @@
     return stub;
   }
   window.__AGD_BUILD_STUB__ = buildStub;
+
+  /* Sepia placeholder for SWFs in LOST_SWFS. Same sizing chassis as
+     buildStub but plain <div> (not <a>) — not clickable, no Flash
+     Player handoff. Reads as a preservation note. */
+  function buildLostStub(swfUrl, width, height) {
+    var w = parseInt(width, 10) || 0;
+    var h = parseInt(height, 10) || 0;
+    var stub = document.createElement("div");
+    stub.className = "agd-flash-stub agd-lost";
+    stub.setAttribute("data-agd-swf", swfUrl);
+    if (w > 0) stub.style.width = w + "px";
+    if (h > 0) stub.style.height = h + "px";
+    var minDim = Math.min(w || 480, h || 320);
+    if (minDim < 120) stub.classList.add("agd-tiny");
+    else if (minDim < 260) stub.classList.add("agd-small");
+    var inner = document.createElement("div");
+    inner.className = "agd-inner";
+    inner.innerHTML =
+      '<div class="agd-title">Lost to time</div>' +
+      '<div class="agd-sub">This ecard’s animation wasn’t preserved by any archive we could reach.</div>';
+    stub.appendChild(inner);
+    return stub;
+  }
 
   // Resolve a possibly-relative SWF URL against the current page.
   function absSwfURL(swfUrl) {
@@ -534,6 +607,12 @@
   function makeRuffle(url, width, height, bgColor, flashvars) {
     var wantW = parseInt(width, 10) || 0;
     var wantH = parseInt(height, 10) || 0;
+
+    // Known-lost SWFs short-circuit straight to the sepia "Lost to
+    // time" stub. Without this, Ruffle would fetch, hit a 404, fire
+    // loaderror, and fall through to buildStub's crimson "Open in
+    // Flash Player" tile — which promises action that can't deliver.
+    if (isLostSWF(url)) return buildLostStub(url, wantW, wantH);
 
     // Ruffle exposes a per-page registry of "newest" player versions on
     // window.RufflePlayer once ruffle.js has loaded.

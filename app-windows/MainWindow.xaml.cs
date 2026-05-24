@@ -115,6 +115,33 @@ public partial class MainWindow : Window
             // of navigating to agd-launch://, because scripted navigation to a
             // custom scheme requires user activation in WebView2 — a setTimeout
             // from page load has none, so the nav is silently dropped.
+            // Ecard wizard's "Open in Mail" link goes through here instead
+            // of through the WebView2 navigation pipeline, which silently
+            // drops mailto: in many configurations. Process.Start with
+            // UseShellExecute hands off to whichever app the user has
+            // registered for the scheme — Mail/Outlook/Thunderbird for
+            // mailto, plus could be reused for any other shell-out the
+            // wizard needs later. Failure surfaces as a toast so the user
+            // knows the link didn't silently vanish.
+            else if (msg != null && msg.StartsWith("openExternal:", StringComparison.Ordinal))
+            {
+                var target = msg.Substring("openExternal:".Length);
+                try
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName        = target,
+                        UseShellExecute = true,
+                    });
+                }
+                catch (Exception ex)
+                {
+                    var toast = "Couldn't open link — likely no app registered for this URL type. " + ex.Message;
+                    var safe = System.Text.Json.JsonSerializer.Serialize(toast);
+                    _ = Browser.CoreWebView2.ExecuteScriptAsync(
+                        $"window.__agd_showToast && window.__agd_showToast({safe})");
+                }
+            }
             else if (msg != null && msg.StartsWith("launchDCR:", StringComparison.Ordinal))
             {
                 try
@@ -190,6 +217,13 @@ public partial class MainWindow : Window
       function inject() {
         var h = location.hostname;
         if (h === 'dashboard' || h === 'runtime') return;
+        // Skip iframes — the ecard wizard hosts the Ruffle preview in
+        // a same-origin <iframe src=__agd/ecard-frame.html>, which would
+        // otherwise inherit the navbar + Ko-fi pill and end up with TWO
+        // pills on screen (one in the parent wizard, one inside the
+        // tiny 600×350 preview iframe). The navbar is useless in any
+        // iframe context anyway.
+        if (window !== window.top) return;
         if (!document.body) return;
         if (document.getElementById('agd-navbar')) return;
 

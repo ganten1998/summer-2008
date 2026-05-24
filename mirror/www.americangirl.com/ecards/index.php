@@ -77,10 +77,19 @@ window.location=url;
                 <td width="210" height="68" align="center" valign="middle"> <img src="images/collection2.gif" width="150" height="21" align="bottom"> 
                   <select name="category" onchange="selectionFilter1(this);">
 <option></option>
-<option value="agcn">Characters</option>
 <option value="agdc">Americangirl.com</option>
 <option value="agm">American Girl magazine</option>
+<option value="goty">Girl of the Year</option>
+<option value="addy">Addy</option>
 <option value="coco">Coconut</option>
+<option value="felicity">Felicity</option>
+<option value="josefina">Josefina</option>
+<option value="julie">Julie</option>
+<option value="kaya">Kaya</option>
+<option value="kirsten">Kirsten</option>
+<option value="kit">Kit</option>
+<option value="molly">Molly</option>
+<option value="samantha">Samantha</option>
 </select>
                 </td>
                 <td width="40" align="center" valign="middle"><img src="images/ecard_or.gif" width="19" height="21"></td>

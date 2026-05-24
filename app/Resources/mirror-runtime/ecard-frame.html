@@ -13,6 +13,23 @@
   }
 </style>
 <script>
+// Force preserveDrawingBuffer:true on every WebGL context this document
+// creates. Ruffle renders via WebGL2 and by default the back buffer is
+// cleared after each composite — so canvas.toBlob/toDataURL from the
+// parent document would silently return an empty/null PNG. With this
+// patch the buffer survives so the wizard's "capture card for email"
+// flow can actually snapshot what's on screen. Must run BEFORE ruffle.js
+// instantiates its canvas, which is why this sits above the script tags.
+(function () {
+  var orig = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, attrs) {
+    if (type === "webgl" || type === "webgl2" || type === "experimental-webgl") {
+      attrs = attrs || {};
+      attrs.preserveDrawingBuffer = true;
+    }
+    return orig.call(this, type, attrs);
+  };
+})();
 // Splice the user's typed message into the SWF URL BEFORE Ruffle's polyfill
 // runs, so the <embed> we render below has the right personalMsg.
 (function () {

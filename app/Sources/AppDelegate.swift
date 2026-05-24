@@ -75,6 +75,23 @@ private final class DCRLaunchHandler: NSObject, WKScriptMessageHandler {
     }
 }
 
+/// Host bridge for explicit "open this URL in the user's default app"
+/// requests from in-page JS (used by the ecard wizard's Send Email
+/// buttons to launch mailto/Gmail/Yahoo/Outlook compose). Goes through
+/// here rather than `window.location.href` so we bypass
+/// NavigationHandler's strict external-link allowlist — those clicks
+/// are explicit user actions in OUR UI, not stray 2008 page links the
+/// allowlist exists to gate.
+private final class OpenExternalHandler: NSObject, WKScriptMessageHandler {
+    func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let urlString = message.body as? String,
+              let url = URL(string: urlString) else { return }
+        DispatchQueue.main.async {
+            NSWorkspace.shared.open(url)
+        }
+    }
+}
+
 /// Weak wrapper so WKUserContentController doesn't retain AppDelegate.
 private final class NavMessageHandler: NSObject, WKScriptMessageHandler {
     weak var appDelegate: AppDelegate?
@@ -111,6 +128,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var schemeHandler: MirrorURLSchemeHandler!
     private var msgHandler: NavMessageHandler!
     private var dcrLaunchHandler: DCRLaunchHandler!
+    private var openExternalHandler: OpenExternalHandler!
     private var dragHandler: WindowDragHandler!
     private var dragDiagHandler: DragDiagHandler!
     var overlay: ProjectorOverlay!
@@ -181,6 +199,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // user an extra Back press to escape the game page.
         dcrLaunchHandler = DCRLaunchHandler()
         config.userContentController.add(dcrLaunchHandler, name: "launchDCR")
+
+        // External-URL bridge for the ecard wizard's Send Email chooser.
+        // Wizard JS posts mailto:/https://gmail.com/... here; we shell
+        // out via NSWorkspace. Bypasses NavigationHandler's allowlist
+        // (which would otherwise toast-block the webmail compose URLs).
+        openExternalHandler = OpenExternalHandler()
+        config.userContentController.add(openExternalHandler, name: "openExternal")
 
         // Window-drag handler: JS calls into here on mousedown over any
         // data-agd-drag region (nav bars). We invoke NSWindow.performDrag
@@ -285,6 +310,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let navBarJS = """
         (function() {
           var h = location.hostname;
+          // Skip iframes — the ecard wizard hosts the Ruffle preview in a
+          // same-origin <iframe src=__agd/ecard-frame.html>, which would
+          // otherwise inherit the navbar + Ko-fi pill and end up with
+          // TWO pills on screen (one in the parent wizard, one inside
+          // the tiny 600×350 preview iframe). Navbar is useless in any
+          // iframe context anyway.
+          if (window !== window.top) return;
           var isInternal = (h === 'dashboard' || h === 'runtime' || h === 'games');
 
           // -------- Back/forward/Dashboard bar (mirrored AG pages only) --------

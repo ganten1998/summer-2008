@@ -164,6 +164,25 @@
   .btn-ghost:hover { background: rgba(166,25,46,0.08); }
   .btn-cream { background: #FFFCF4; color: #7C0C1F; border-color: rgba(124,12,31,0.20); }
   .btn-cream:hover { background: #F8EFD9; }
+  .send-options {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    padding: 22px 22px 18px; margin: 0 auto 14px; max-width: 540px;
+    background: rgba(255, 246, 229, 0.55);
+    border: 1px solid rgba(124,12,31,0.18);
+    border-radius: 14px;
+  }
+  .btn-big { padding: 14px 36px; font-size: 12px; letter-spacing: .22em; }
+  .send-current, .send-chooser-prompt {
+    font-family: -apple-system, sans-serif; font-size: 11px;
+    color: #7C0C1F; opacity: 0.78; margin: 2px 0 0;
+  }
+  .send-current a, .send-chooser-prompt a { color: #7C0C1F; }
+  .send-chooser-prompt { font-weight: 600; letter-spacing: .04em; }
+  .send-options-row {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+    margin-top: 4px;
+  }
+  .send-options-row .btn { padding: 9px 16px; font-size: 10.5px; }
 
   /* Preview metadata card (step 2/3) */
   .email-card {
@@ -311,16 +330,31 @@
       <div class="row"><div class="lbl">Send on</div> <div class="val" id="sent-date"></div></div>
     </div>
 
+    <div class="send-options">
+      <button type="button" id="send-primary" class="btn btn-primary btn-big">Send Email</button>
+      <p id="send-current" class="send-current" hidden>
+        Sends via <span id="send-current-name"></span> · <a href="#" id="send-change">change</a>
+      </p>
+      <div id="send-chooser" hidden style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <p class="send-chooser-prompt">First-time pick — we'll remember it:</p>
+        <div class="send-options-row">
+          <button type="button" id="send-default" class="btn btn-cream">Default mail app</button>
+          <button type="button" id="send-gmail"   class="btn btn-cream">Gmail</button>
+          <button type="button" id="send-yahoo"   class="btn btn-cream">Yahoo Mail</button>
+          <button type="button" id="send-outlook" class="btn btn-cream">Outlook.com</button>
+          <button type="button" id="send-copy"    class="btn btn-cream">Copy text</button>
+        </div>
+      </div>
+    </div>
     <div class="actions">
-      <a id="mailto-link" href="#" class="btn btn-primary">Open in Mail to send »</a>
       <button type="button" class="btn btn-cream" data-action="another">Send Another</button>
       <a class="btn btn-ghost" href="agd://www.americangirl.com/ecards/index.php">Done</a>
     </div>
 
     <p class="ribbon-note">
-      The 2008 server-side mail delivery was retired by American Girl long ago. Hitting <em>Open in Mail to send</em>
-      composes the message in your default Mac mail client so the e-card actually goes out — under your own account,
-      from your own address.
+      The 2008 server-side mail delivery was retired by American Girl long ago. Pick whichever sender works for
+      you — your OS default mail app, a webmail compose window in your browser, or copy the text and paste it
+      anywhere. The message goes out under your own account, from your own address.
     </p>
   </section>
 </main>
@@ -449,6 +483,63 @@
   }
 
   // ───────── form state ─────────
+  // Stash for the rendered ecard PNG. Captured during the step-2 →
+  // step-3 transition (while frame-2's iframe is still alive); consumed
+  // by the Send Email click handlers in step 3, by which point gotoStep
+  // has pointed the inactive step-2 iframe at about:blank to free
+  // Ruffle's WASM — making the canvas unreachable.
+  var __capturedBlob = null;
+
+  // Pulled up to IIFE scope so the step-2-send-button handler (at file
+  // bottom, outside renderSent) can call it. Walks into the step-2
+  // iframe, finds Ruffle's canvas (deep-searches open shadow roots),
+  // hands a PNG Blob to the callback (or null if anything failed).
+  function getEcardCanvasBlob(cb) {
+    try {
+      var iframe = document.querySelector('#frame-2 iframe');
+      console.log("[ecard-capture] iframe:", !!iframe, iframe && iframe.src);
+      var doc = iframe && (iframe.contentDocument || (iframe.contentWindow && iframe.contentWindow.document));
+      console.log("[ecard-capture] iframe doc accessible:", !!doc, "URL:", doc && doc.URL);
+      if (!doc) return cb(null);
+      var allTags = {};
+      doc.querySelectorAll("*").forEach(function (el) {
+        allTags[el.tagName.toLowerCase()] = (allTags[el.tagName.toLowerCase()] || 0) + 1;
+      });
+      console.log("[ecard-capture] tags JSON:", JSON.stringify(allTags));
+      console.log("[ecard-capture] body innerHTML (first 1200):",
+                  doc.body ? doc.body.innerHTML.substring(0, 1200) : "(no body)");
+      function findCanvasDeep(root) {
+        var c = root.querySelector ? root.querySelector("canvas") : null;
+        if (c) return c;
+        var hosts = root.querySelectorAll ? root.querySelectorAll("*") : [];
+        for (var i = 0; i < hosts.length; i++) {
+          if (hosts[i].shadowRoot) {
+            var d = findCanvasDeep(hosts[i].shadowRoot);
+            if (d) return d;
+          }
+        }
+        return null;
+      }
+      var canvas = findCanvasDeep(doc);
+      console.log("[ecard-capture] canvas (deep search):", !!canvas, canvas && (canvas.width + "x" + canvas.height));
+      if (!canvas) {
+        var withShadow = [];
+        doc.querySelectorAll("*").forEach(function (el) {
+          if (el.shadowRoot) withShadow.push(el.tagName.toLowerCase());
+        });
+        console.log("[ecard-capture] elements with shadowRoot:", withShadow);
+        return cb(null);
+      }
+      canvas.toBlob(function (blob) {
+        console.log("[ecard-capture] toBlob result:", blob && blob.size, "bytes");
+        cb(blob);
+      }, 'image/png');
+    } catch (ex) {
+      console.warn("[ecard-capture] threw:", ex);
+      cb(null);
+    }
+  }
+
   var state = {
     recipient_email: "",
     sender_name: "",
@@ -525,10 +616,201 @@
         "&action=choose&theme=" + encodeURIComponent(THEME) +
         ")",
     ].join("\n");
-    var href = "mailto:" + encodeURIComponent(state.recipient_email) +
-               "?subject=" + encodeURIComponent(subj) +
-               "&body="    + encodeURIComponent(body);
-    document.getElementById("mailto-link").setAttribute("href", href);
+    // Per-service compose URLs. mailto covers OS-default desktop mail
+    // (Outlook / Apple Mail / Thunderbird); the three webmail URLs are
+    // each service's documented compose-intent format that pre-populates
+    // To/Subject/Body in a browser tab using whatever the user's
+    // already-signed-in session is. One-time preference picker below
+    // remembers the user's choice in localStorage so subsequent ecards
+    // skip straight to their preferred send path — one button, one
+    // click, no chooser friction after first use.
+    var to   = state.recipient_email;
+    var enc  = encodeURIComponent;
+    var URLS = {
+      "send-default": "mailto:" + enc(to) + "?subject=" + enc(subj) + "&body=" + enc(body),
+      "send-gmail":   "https://mail.google.com/mail/?view=cm&fs=1&to=" + enc(to) +
+                      "&su=" + enc(subj) + "&body=" + enc(body),
+      "send-yahoo":   "https://compose.mail.yahoo.com/?to=" + enc(to) +
+                      "&subject=" + enc(subj) + "&body=" + enc(body),
+      "send-outlook": "https://outlook.live.com/owa/?path=/mail/action/compose&to=" + enc(to) +
+                      "&subject=" + enc(subj) + "&body=" + enc(body),
+    };
+    var LABELS = {
+      "send-default": "your default mail app",
+      "send-gmail":   "Gmail",
+      "send-yahoo":   "Yahoo Mail",
+      "send-outlook": "Outlook.com",
+      "send-copy":    "Clipboard (paste anywhere)",
+    };
+    var clipboardBlob = "To: " + to + "\nSubject: " + subj + "\n\n" + body;
+    var PREF_KEY = "agd:ecard-send-method";
+
+    function openExternal(url) {
+      try {
+        if (window.chrome && window.chrome.webview && window.chrome.webview.postMessage) {
+          window.chrome.webview.postMessage("openExternal:" + url); return;
+        }
+      } catch (ex) {}
+      try {
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.openExternal) {
+          window.webkit.messageHandlers.openExternal.postMessage(url); return;
+        }
+      } catch (ex) {}
+      try { window.location.href = url; } catch (ex) {}
+    }
+    function copyToClipboard(cb) {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(clipboardBlob).then(function(){cb(true);}, function(){cb(false);});
+          return;
+        }
+      } catch (ex) {}
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = clipboardBlob; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        cb(ok);
+      } catch (ex) { cb(false); }
+    }
+    // (getEcardCanvasBlob lives at IIFE scope — see top of script —
+    // because the step-2 send button calls it before renderSent runs.)
+
+    // Write a PNG blob to the OS clipboard. Requires secure context, a
+    // user gesture, and image/png ClipboardItem support — all should hold
+    // in WebView2/WKWebView under agd:// but the failure modes are
+    // silent, hence the logs.
+    function clipboardWritePng(blob, cb) {
+      console.log("[ecard-capture] ClipboardItem supported:", !!window.ClipboardItem,
+                  "clipboard.write supported:", !!(navigator.clipboard && navigator.clipboard.write));
+      if (!window.ClipboardItem || !navigator.clipboard || !navigator.clipboard.write) return cb(false);
+      try {
+        var item = new ClipboardItem({ 'image/png': blob });
+        navigator.clipboard.write([item]).then(
+          function () { console.log("[ecard-capture] clipboard.write resolved"); cb(true); },
+          function (err) { console.warn("[ecard-capture] clipboard.write rejected:", err); cb(false); }
+        );
+      } catch (ex) {
+        console.warn("[ecard-capture] ClipboardItem ctor threw:", ex);
+        cb(false);
+      }
+    }
+
+    // Trigger a regular browser download of the PNG to the user's
+    // Downloads folder. This is the GUARANTEED fallback — works on
+    // every WebView regardless of clipboard / shadow-DOM / WebGL
+    // permissions. User attaches from Downloads if the clipboard path
+    // didn't take.
+    function savePngDownload(blob) {
+      try {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        // Filename: ecard-recipient-YYYY-MM-DD.png so it's discoverable
+        // and doesn't collide if user sends multiple cards.
+        var slug = (state.recipient_email || "card").replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 40);
+        var stamp = (new Date()).toISOString().replace(/[:T].*$/, "");
+        a.download = "ecard-" + slug + "-" + stamp + ".png";
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 1500);
+        console.log("[ecard-capture] PNG saved as", a.download);
+        return true;
+      } catch (ex) {
+        console.warn("[ecard-capture] download fallback threw:", ex);
+        return false;
+      }
+    }
+
+    function execute(method) {
+      if (method === "send-copy") {
+        copyToClipboard(function (ok) {
+          flashPrimary(ok ? "✓ Copied to clipboard" : "Copy failed — try again");
+        });
+        return;
+      }
+      if (!URLS[method]) return;
+      // Use the blob captured during the step-2 → step-3 transition.
+      // gotoStep already nuked frame-2's iframe to about:blank by the
+      // time this click fires, so we can't re-capture here. The clipboard
+      // write still happens in THIS user-gesture tick (the Send Email
+      // click), which is what the Clipboard API requires — only the
+      // canvas read happened earlier.
+      var blob = __capturedBlob;
+      if (!blob) {
+        openExternal(URLS[method]);
+        flashPrimary("Compose opened — card capture failed");
+        return;
+      }
+      var saved = savePngDownload(blob);
+      clipboardWritePng(blob, function (clipboardOk) {
+        openExternal(URLS[method]);
+        var msg;
+        if (clipboardOk && saved)  msg = "✓ Card on clipboard + saved to Downloads — paste in compose";
+        else if (clipboardOk)      msg = "✓ Card on clipboard — paste in compose";
+        else if (saved)            msg = "✓ Card saved to Downloads — attach in compose";
+        else                       msg = "Compose opened — card capture failed";
+        flashPrimary(msg);
+      });
+    }
+
+    var primary  = document.getElementById("send-primary");
+    var chooser  = document.getElementById("send-chooser");
+    var current  = document.getElementById("send-current");
+    var curName  = document.getElementById("send-current-name");
+    var origLabel;
+
+    function flashPrimary(msg) {
+      var prev = primary.textContent;
+      primary.textContent = msg;
+      setTimeout(function () { primary.textContent = prev; }, 1800);
+    }
+    function updateUI(method) {
+      if (method && LABELS[method]) {
+        primary.textContent = "Send via " + LABELS[method];
+        curName.textContent = LABELS[method];
+        current.hidden = false;
+        chooser.hidden = true;
+      } else {
+        primary.textContent = "Send Email";
+        current.hidden = true;
+        // chooser stays hidden until primary is clicked
+        chooser.hidden = true;
+      }
+      origLabel = primary.textContent;
+    }
+
+    var saved = "";
+    try { saved = localStorage.getItem(PREF_KEY) || ""; } catch (ex) {}
+    if (!LABELS[saved]) saved = "";
+    updateUI(saved);
+
+    primary.onclick = function () {
+      if (saved) { execute(saved); }
+      else       { chooser.hidden = false; }
+    };
+    ["send-default","send-gmail","send-yahoo","send-outlook","send-copy"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.onclick = function () {
+        try { localStorage.setItem(PREF_KEY, id); } catch (ex) {}
+        saved = id;
+        updateUI(saved);
+        execute(saved);
+      };
+    });
+    document.getElementById("send-change").onclick = function (e) {
+      e.preventDefault();
+      try { localStorage.removeItem(PREF_KEY); } catch (ex) {}
+      saved = "";
+      updateUI("");
+      chooser.hidden = false;
+    };
   }
 
   // ───────── wiring ─────────
@@ -552,8 +834,18 @@
     gotoStep(1);
   });
   document.querySelector('[data-action="send"]').addEventListener("click", function () {
-    renderSent();
-    gotoStep(3);
+    // Capture the rendered ecard NOW. gotoStep(3) below points step-2's
+    // iframe at about:blank (its standard teardown to free Ruffle's
+    // WASM), after which the canvas is gone and execute() in step 3
+    // would have nothing to copy/save. Stash the blob so step-3's Send
+    // Email handlers can use it. Async (canvas.toBlob), so the
+    // step-transition waits on the callback.
+    getEcardCanvasBlob(function (blob) {
+      __capturedBlob = blob;
+      console.log("[ecard-capture] stashed for step 3:", blob && blob.size, "bytes");
+      renderSent();
+      gotoStep(3);
+    });
   });
   document.querySelector('[data-action="another"]').addEventListener("click", function () {
     // Soft reset: keep sender's info, clear recipient + message for the next card
