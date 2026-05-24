@@ -21,7 +21,14 @@
     <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <!-- Leave Content files (mirror/, projector/, dashboard/, mirror-runtime/)
+         loose next to the EXE — about 700 MB total. Bundling them into the
+         single-file EXE makes .NET extract everything to %TEMP%\.net\... on
+         every launch (multi-second cold start, GB of temp churn). With this
+         off the EXE stays small, Content stays in {app}\, and
+         AppContext.BaseDirectory already resolves to the install dir so
+         MirrorHandler / GameLauncher find everything without changes. -->
+    <IncludeAllContentForSelfExtract>false</IncludeAllContentForSelfExtract>
 
     <!-- Versioning matches the macOS bundle's CFBundleShortVersionString. -->
     <Version>1.0.0</Version>

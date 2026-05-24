@@ -70,7 +70,13 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppShortName}}"; Filename: "{uninstallex
 Name: "{autodesktop}\{#MyAppShortName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#MyAppShortName}}"; Flags: nowait postinstall skipifsilent
+; runasoriginaluser is critical: the installer runs elevated (Program Files
+; write), but WebView2 silently refuses to load when the host process is
+; elevated and its user-data folder lives under per-user %LOCALAPPDATA%.
+; Without this flag the "Launch Summer 2008" checkbox spawns the EXE as
+; admin and it dies in OnLoaded without ever showing a window. We always
+; want the post-install launch to run as the regular user.
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#MyAppShortName}}"; Flags: nowait postinstall skipifsilent runasoriginaluser
 
 [Code]
 { -----------------------------------------------------------------
