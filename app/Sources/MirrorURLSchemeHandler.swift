@@ -376,16 +376,32 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         backfillFromWayback(task: task, url: url, host: host, path: path, cacheURL: cacheURL)
     }
 
-    private func sendSilentAudio(task: WKURLSchemeTask, url: URL) {
-        // Minimal silent MPEG-1 Layer III frame (32 bytes). Enough for
-        // Sound.loadSound() / Sound.onLoad to fire success and let the
-        // calling AS2/AS3 state machine proceed; the audio simply plays
-        // silence. Saves the day-select / play-callback handlers in
-        // games that gate progress on audio readiness (Josefina market,
-        // etc.) when the original mp3 wasn't preserved in any archive.
+    private static let silentMP3: Data = {
+        // Properly-framed 1-second silent MP3 (with ID3v2 header) loaded
+        // from app/Resources/mirror-runtime/silent.mp3. Ruffle's audio
+        // decoder rejects bare null frames as malformed and never fires
+        // Sound.onLoad — only a valid MP3 keeps the SWF's state machine
+        // moving past the audio-load callback.
+        let bundle = Bundle.main
+        if let url = bundle.url(forResource: "silent", withExtension: "mp3",
+                                subdirectory: "mirror-runtime"),
+           let data = try? Data(contentsOf: url) {
+            return data
+        }
+        // Last-ditch fallback if the resource didn't ship for any reason.
         var bytes: [UInt8] = [0xff, 0xfb, 0x10, 0x64]
         bytes.append(contentsOf: Array(repeating: 0, count: 28))
-        let body = Data(bytes)
+        return Data(bytes)
+    }()
+
+    private func sendSilentAudio(task: WKURLSchemeTask, url: URL) {
+        // Properly-framed silent MP3 from disk. Enough for Sound.loadSound()
+        // / Sound.onLoad to fire success and let the calling AS2/AS3 state
+        // machine proceed; the audio simply plays silence. Saves the
+        // day-select / play-callback handlers in games that gate progress
+        // on audio readiness (Josefina market, etc.) when the original
+        // mp3 wasn't preserved in any archive.
+        let body = Self.silentMP3
         let resp = HTTPURLResponse(
             url: url, statusCode: 200, httpVersion: "HTTP/1.1",
             headerFields: [
