@@ -346,6 +346,27 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             respondWithFile(task: task, url: url, file: cacheURL)
             return
         }
+        // 2b) /sw/foo.htm → ../foo.htm fallback. A handful of 2008 games
+        //     embed their menu SWF in a wrapper page like /addy/freedom/
+        //     menu.htm; the SWF lives at /addy/sw/menu.swf (separate
+        //     /sw/ dir from the wrapper page) and its getURL targets are
+        //     siblings of the WRAPPER (addy3.htm), not of the SWF.
+        //     Adobe Flash resolved getURL against the SWF's URL, so the
+        //     hit ended up at /addy/sw/addy3.htm — which never existed.
+        //     The real file is one directory up at /addy/freedom/
+        //     addy3.htm. Detect /sw/ + .htm[l] miss and try the parent
+        //     directory before falling through to Wayback heal.
+        if (path.range(of: "/sw/", options: .caseInsensitive) != nil) {
+            let ext = (path as NSString).pathExtension.lowercased()
+            if ext == "htm" || ext == "html" {
+                let parentPath = (path as NSString).replacingOccurrences(of: "/sw/", with: "/")
+                let parentURL = mirrorFileURL(host: host, path: parentPath, query: url.query)
+                if FileManager.default.fileExists(atPath: parentURL.path) {
+                    respondWithFile(task: task, url: url, file: parentURL)
+                    return
+                }
+            }
+        }
         // 2a) Bare-host alias. Pages occasionally link to
         //     agd://americangirl.com/foo when the captured asset lives at
         //     agd://www.americangirl.com/foo (the redirect that the original

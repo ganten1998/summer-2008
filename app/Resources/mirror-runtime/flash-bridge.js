@@ -643,20 +643,20 @@
       allowScriptAccess: true,
     };
     if (bgColor) loadConfig.backgroundColor = bgColor;
-    // Derive base from the EMBEDDING PAGE's directory, not the SWF's
-    // directory. Two reasons:
-    //   1. getURL("foo.htm") in the SWF should land in the page's
-    //      directory (the way a browser would resolve an <a href="foo.htm">
-    //      from the page). E.g. addy/freedom/menu.htm embeds sw/menu.swf
-    //      whose buttons do getURL("addy3.htm"); the target lives in
-    //      freedom/, not in sw/, so SWF-dir base would 404.
-    //   2. Same-dir loadVars (e.g. coverpoll.swf's coverpoll_config.xml)
-    //      still works in the common case where the SWF is embedded by
-    //      its own dir's index.html — page-dir == SWF-dir in that case.
+    // Base = SWF's own directory, matching Adobe Flash semantics:
+    // relative loadMovie/loadVars/getURL in the SWF resolves against
+    // the SWF's URL, not the embedding page's URL. Without this, games
+    // whose SWFs live in /sw/ subdirs and reference sibling SWFs
+    // (Felicity Colonial Adventure's about.swf/help.swf/etc., Paper
+    // Dolls' doll*.dcr) silently 404 on their loadMovie calls.
+    //
+    // The one game this DOESN'T fit cleanly is Addy Life in Freedom:
+    // its menu.swf lives in /sw/ but getURL("addy3.htm") targets the
+    // page's directory (/freedom/), not /sw/. That's handled by a
+    // separate /sw/foo.htm → ../foo.htm fallback in the URL handler.
     try {
-      var href = location.href;
-      var hLastSlash = href.lastIndexOf("/");
-      if (hLastSlash >= 0) loadConfig.base = href.substring(0, hLastSlash + 1);
+      var lastSlash = url.lastIndexOf("/");
+      if (lastSlash >= 0) loadConfig.base = url.substring(0, lastSlash + 1);
     } catch (e) {}
     // Parse flashvars="key1=v1&key2=v2&..." into Ruffle's parameters
     // object. Without this, ja06/cover_poll and dakotamania SWFs never
