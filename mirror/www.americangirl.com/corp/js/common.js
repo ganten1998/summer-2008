@@ -1,3 +1,4 @@
+/* AGD-PATCHED v4 */
 // JavaScript Document
 
 //************popups*******************

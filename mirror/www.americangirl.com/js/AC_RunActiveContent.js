@@ -1,3 +1,4 @@
+/* AGD-PATCHED v4 */
 //v1.0
 //Copyright 2006 Adobe Systems, Inc. All rights reserved.
 function AC_AddExtension(src, ext)

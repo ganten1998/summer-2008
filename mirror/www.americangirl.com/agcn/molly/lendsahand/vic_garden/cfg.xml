@@ -1,0 +1,41 @@
+<cfg>
+<!-- match Length, respawn count, grid size horizontal","vertical , icon variation min 5 -- max 11-->
+<levels>
+
+<level><match>3</match><spawn>3</spawn><grid>10,10</grid><icons>7</icons><rank>Pea Picker</rank></level>
+<level><match>3</match><spawn>3</spawn><grid>10,10</grid><icons>9</icons><rank>Corn Shucker</rank></level>
+<level><match>3</match><spawn>3</spawn><grid>9,9</grid><icons>7</icons><rank>Bean Stringer</rank></level>
+<level><match>3</match><spawn>3</spawn><grid>9,9</grid><icons>9</icons><rank>Potato Planter</rank></level>
+<level><match>3</match><spawn>3</spawn><grid>8,8</grid><icons>7</icons><rank>Tomato Stacker</rank></level>
+<level><match>3</match><spawn>3</spawn><grid>8,8</grid><icons>9</icons><rank>Beet Bouncer</rank></level>
+<level><match>4</match><spawn>3</spawn><grid>10,10</grid><icons>7</icons><rank>Turnip Masher</rank></level>
+<level><match>4</match><spawn>3</spawn><grid>10,10</grid><icons>9</icons><rank>Pepper Popper</rank></level>
+<level><match>4</match><spawn>3</spawn><grid>9,9</grid><icons>7</icons><rank>Onion Peeler</rank></level>
+<level><match>4</match><spawn>3</spawn><grid>9,9</grid><icons>9</icons><rank>Pumpkin Eater</rank></level>
+<level><match>5</match><spawn>3</spawn><grid>10,10</grid><icons>7</icons><rank>Carrot Topper</rank></level>
+<level><match>5</match><spawn>3</spawn><grid>10,10</grid><icons>9</icons><rank>Lettuce Leafer</rank></level>
+<level><match>5</match><spawn>3</spawn><grid>10,9</grid><icons>7</icons><rank>Weed Warrior</rank></level>
+<level><match>5</match><spawn>3</spawn><grid>10,9</grid><icons>9</icons><rank>Perfect Planter</rank></level>
+<level><match>5</match><spawn>3</spawn><grid>9,9</grid><icons>9</icons><rank>Grand-Prize Gardener</rank></level>
+</levels>
+
+<tileSize>45</tileSize>
+<totalIcons>11</totalIcons>
+<initTarget>10</initTarget>
+<targetIncrement>3</targetIncrement>
+<basePoints>5</basePoints>
+<levDoneBonus>1</levDoneBonus>
+<zbonus>5</zbonus>
+
+<!-- distance between dots, when dotted line is set -->
+<dotLineSpread>15</dotLineSpread>
+
+<!-- valid line types == "dotted", "vector", "linked" -->
+<lineType>dotted</lineType>
+
+<!--0 for last level end condition, 1 for endless -->
+<endlessGame>0</endlessGame>
+
+<moveTimer>8000</moveTimer>
+<bonusChance>.25</bonusChance>
+</cfg>

@@ -1,3 +1,4 @@
+/* AGD-PATCHED v4 */
 theDate= new Date();
 var day = theDate.getDate();
 var year = theDate.getYear();

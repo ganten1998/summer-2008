@@ -1,0 +1,1 @@
+<level id='gemstones' width='19' height='11' levelName='Greek Wing: room 1 of 3' skin='2' levelTime='300' iconAmmount='3' bonusPercent='5' >	<blocks><block x='0' y='5' rsc='startLocation' /><block x='10' y='5' rsc='key' /><block x='18' y='5' rsc='door' /></blocks></level>

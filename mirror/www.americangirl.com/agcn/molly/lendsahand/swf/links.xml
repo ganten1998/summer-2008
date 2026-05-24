@@ -1,0 +1,10 @@
+<config>
+
+<!-- Game Splash links -->
+<link name="moviesite" url="/movie/" />
+<link name="game1" url="/agcn/molly/lendsahand/vic_garden/index.html" />
+<link name="game2" url="/agcn/molly/lendsahand/b_blitz/index.html" />
+<link name="game3" url="/agcn/molly/lendsahand/skywords/index.html" />
+<link name="game4" url="/agcn/molly/lendsahand/pt_pups/index.html" />
+
+</config>

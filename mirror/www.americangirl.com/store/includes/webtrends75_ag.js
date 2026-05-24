@@ -1,3 +1,4 @@
+/* AGD-PATCHED v4 */
 <!-- START OF SDC Advanced Tracking Code -->
 <!-- Copyright (c) 1996-2005 WebTrends Inc.  All rights reserved. -->
 <!-- V7.5 -->

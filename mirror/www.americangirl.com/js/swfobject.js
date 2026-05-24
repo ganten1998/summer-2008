@@ -1,3 +1,4 @@
+/* AGD-PATCHED v4 */
 /**
  * SWFObject v1.5: Flash Player detection and embed - http://blog.deconcept.com/swfobject/
  *

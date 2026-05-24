@@ -1,0 +1,26 @@
+<cfg id='linked up' >
+	<properties S_levelDirectory='levels/'/>
+	<levelList>
+		<l S_file='level_1.xml' />
+		<l S_file='level_2.xml' />
+		<l S_file='level_3.xml' />
+		<l S_file='level_4.xml' />
+		<l S_file='level_5.xml' />
+		<l S_file='level_6.xml' />
+		<l S_file='level_7.xml' />
+		<l S_file='level_8.xml' />
+		<l S_file='level_9.xml' />
+		<l S_file='level_10.xml' />
+		<l S_file='level_11.xml' />
+		<l S_file='level_12.xml' />
+		<l S_file='level_13.xml' />
+		<l S_file='level_14.xml' />
+		<l S_file='level_15.xml' />
+		<l S_file='level_16.xml' />
+		<l S_file='level_17.xml' />
+		<l S_file='level_18.xml' />
+		<l S_file='level_19.xml' />
+		<l S_file='level_20.xml' />
+	</levelList>
+</cfg>
+

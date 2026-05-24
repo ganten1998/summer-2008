@@ -1,3 +1,4 @@
+/* AGD-PATCHED v4 */
 
 <!--
 //alert('webtrends_Tracked');

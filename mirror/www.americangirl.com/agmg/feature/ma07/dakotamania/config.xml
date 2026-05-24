@@ -1,0 +1,11 @@
+<?xml version="1.0"  encoding="UTF-8" ?> 
+<PollConfig voteUrl="coverpoll.php">
+<color hex="0xFF3399" />
+<color hex="0x00CC33" />
+<color hex="0xFF9900" />
+<color hex="0xFF0033" />
+<color hex="0x6600CC" />
+<color hex="0x3366FF" />
+<color hex="0x99FF00" />
+<color hex="0x33CCCC" />
+</PollConfig>
