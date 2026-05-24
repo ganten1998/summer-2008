@@ -536,6 +536,36 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         sendStubResponse(task: task, url: url, body: body, mime: mime, sourceTag: "blank-image-stub")
     }
 
+    private func sendSyntheticPoll(task: WKURLSchemeTask, url: URL) {
+        // Guess at the format coverpoll.php returned in 2008. The SWFs
+        // (Dakotamania DakotaLookalike.swf et al.) call XML.load on
+        // ?action=read and look for question/choice/text/votes tags
+        // per the string scan of the binary. Real backend is gone — no
+        // captures anywhere in Wayback / archive.today / Memento. This
+        // returns a single plausible question with three balanced
+        // choices so the SWF's parseConfigXML path completes and the
+        // poll UI renders. If the user submits a vote (?action=vote),
+        // we just return success.
+        let query = url.query ?? ""
+        let body: String
+        if query.contains("action=vote") {
+            body = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><result success=\"1\"/>"
+        } else {
+            body = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <root>
+              <question id="1" text="Which Dakota look is your favorite?">
+                <choice id="1" text="Sweet" votes="34"/>
+                <choice id="2" text="Stylish" votes="33"/>
+                <choice id="3" text="Sporty" votes="33"/>
+              </question>
+            </root>
+            """
+        }
+        let data = body.data(using: .utf8) ?? Data()
+        sendStubResponse(task: task, url: url, body: data, mime: "text/xml; charset=utf-8", sourceTag: "synthetic-poll")
+    }
+
     private func sendEmptyOK(task: WKURLSchemeTask, url: URL, contentType: String) {
         sendStubResponse(task: task, url: url, body: Data(), mime: contentType, sourceTag: "empty-200-stub")
     }
@@ -915,7 +945,17 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
                 case "jpg", "jpeg", "gif", "png":
                     self.sendBlankImage(task: task, url: url, ext: ext)
                 case "php", "asp", "aspx", "jsp", "cgi":
-                    self.sendEmptyOK(task: task, url: url, contentType: "text/plain")
+                    // Special case: coverpoll.php served the live poll
+                    // backend (Dakotamania, ja06/cover_poll, mj08/
+                    // coverpoll). Backend is dead and no captures
+                    // exist in any archive. Synthesize a plausible
+                    // XML poll response so the SWF unblocks past its
+                    // loadVars wait and renders the poll results.
+                    if path.lowercased().contains("coverpoll.php") || path.lowercased().contains("/cover_poll.php") {
+                        self.sendSyntheticPoll(task: task, url: url)
+                    } else {
+                        self.sendEmptyOK(task: task, url: url, contentType: "text/plain")
+                    }
                 case "xml":
                     self.sendEmptyOK(task: task, url: url, contentType: "application/xml")
                 default:

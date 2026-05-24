@@ -1,0 +1,120 @@
+<paper_dolls>
+	<outfit id="Addy" xPos="340" yPos="33" year="1864">
+		<level id="doll" src="doll.swf" nav="none" xPos="32" yPos="0" behind="stockings" levelplus="underwear" />
+		<level id="stockings" src="stockings.swf" nav="stockings" xPos="44" yPos="216" behind="underwear" levelplus="none" />
+		<level id="underwear" src="underwear.swf" nav="none" xPos="32" yPos="65" behind="shoes" levelplus="none" />
+		<level id="shoes" src="shoes.swf" nav="shoes" xPos="44" yPos="312" behind="dress" levelplus="none" />
+		<level id ="dress" src="dress.swf" nav="dress" xPos="0" yPos="58" behind="accessory1" levelplus="arms" />
+		<level id="hat" src="hat.swf" nav="hats" xPos="50" yPos="0" behind="none" levelplus="none" />
+		<level id="accessory6" src="toydoll.swf" nav="accessory" xPos="55" yPos="92" behind="accessory4" levelplus="none" />
+		<level id="accessory4" src="coffee.swf" nav="accessory" xPos="42" yPos ="165" behind="accessory5" levelplus="none" />
+		<level id="arms" src="arms.swf" nav="none" xPos="25" yPos ="123" behind="none" levelplus="none" />
+		<congrats rewardurl = "pdfs/Addy.pdf">
+			<p align="center">You correctly matched your paper doll's outfit.  Click the Download button for a printable version of this outfit.</p>
+		</congrats>
+	</outfit>
+	<outfit id="Felicity" xPos="340" yPos="33" year="1774">
+		<level id="doll" src="doll.swf" nav="none" xPos="4" yPos="0" behind="stockings" levelplus="underwear" />
+		<level id="stockings" src="stockings.swf" nav="stockings" xPos="44" yPos="230" behind="underwear" levelplus="none" />
+		<level id="underwear" src="underwear.swf" nav="none" xPos="22" yPos="68" behind="shoes" levelplus="none" />
+		<level id="shoes" src="shoes.swf" nav="shoes" xPos="41" yPos="336" behind="dress" levelplus="none" />
+		<level id ="dress" src="dress.swf" nav="dress" xPos="9" yPos="66" behind="accessory1" levelplus="arms" />
+		<level id="hat" src="hat.swf" nav="hats" xPos="59" yPos="0" behind="none" levelplus="none" />
+		<level id="accessory1" src="apron.swf" nav="accessory" xPos="25" yPos ="137" behind="accessory3" levelplus="arms1" />
+		<!--<level id="arms1" src="arms1.swf" nav="none" xPos="39" yPos="131" behind="accessory3" levelplus="none" />-->
+		<level id="accessory3" src="toydoll.swf" nav="accessory" xPos="80" yPos="94" behind="accessory4" levelplus="arms2" />
+		<!--<level id="arms2" src="arms1.swf" nav="none" xPos="39" yPos="131" behind="shirt" levelplus="none" />-->
+		<level id="arms" src="arms.swf" nav="none" xPos="43" yPos ="134" behind="none" levelplus="none" />
+		<congrats rewardurl = "pdfs/Felicity.pdf">
+			<p align="center">You correctly matched your paper doll's outfit.  Click the Download button for a printable version of this outfit.</p>
+		</congrats>
+	</outfit>
+	<outfit id="Josefina" xPos="340" yPos="33" year="1824">
+	<level id="doll" src="doll.swf" nav="none" xPos="8" yPos="0" behind="stockings" levelplus="underwear" />
+		<level id="underwear" src="underwear.swf" nav="none" xPos="26" yPos="69" behind="shoes" levelplus="none" />
+		<level id="shoes" src="shoes.swf" nav="shoes" xPos="40" yPos="337" behind="dress" levelplus="none" />
+		<level id="dress" src="skirt.swf" nav="dress" xPos="0" yPos="152" behind="shirt" levelplus="arms"  />
+		<level id="shirt" src="blouse.swf" nav="dress" xPos="17" yPos="67" behind="dress" levelplus="arms1" />
+		<level id="accessory2" src="belt.swf" nav="accessory" xPos="45" yPos ="137" behind="accessory3" levelplus="arms2" />
+		<level id="accessory6" src="fan.swf" nav="accessory" xPos="40" yPos ="98" behind="arms" levelplus="arms3" />
+		<level id="accessory4" src="necklace.swf" nav="accessory" xPos="65" yPos="63" behind="none" levelplus="none" />
+		<level id="arms1" src="arms.swf" nav="none" xPos="26" yPos ="106" behind="arms" levelplus="none" />
+		<level id="arms2" src="arms.swf" nav="none" xPos="26" yPos ="106" behind="arms" levelplus="none" />
+		<level id="arms3" src="arms.swf" nav="none" xPos="26" yPos ="106" behind="arms" levelplus="none" />
+		<level id="arms" src="arms.swf" nav="none" xPos="26" yPos ="106" behind="none" levelplus="none" />
+		<congrats rewardurl = "pdfs/Josefina.pdf">
+			<p align="center">You correctly matched your paper doll's outfit.  Click the Download button for a printable version of this outfit.</p>
+		</congrats>
+	</outfit>
+	<outfit id="Kaya" xPos="340" yPos="33" year ="1764">
+		<level id="doll" src="doll.swf" nav="none" xPos="2" yPos="20" behind="stockings" levelplus="underwear" />
+		<level id="shoes" src="shoes.swf" nav="shoes" xPos="41" yPos="327" behind="dress" levelplus="none" />
+		<level id="dress" src="dress.swf" nav="dress" xPos="11" yPos="80" behind="accessory1" levelplus="arms" />
+		<level id="accessory6" src="dog.swf" nav="accessory" xPos="48" yPos="120" behind="arms" levelplus="none" />
+		<level id="accessory4" src="necklace.swf" nav="accessory" xPos="52" yPos="81" behind="accessory5" levelplus="none" />
+		<level id="hat" src="hat.swf" nav="hats" xPos="45" yPos="0" behind="none" levelplus="none" />
+		<level id="arms" src="arms.swf" nav="none" xPos="28" yPos ="154" behind="none" levelplus="none" />
+		<congrats rewardurl = "pdfs/Kaya.pdf">
+			<p align="center">You correctly matched your paper doll's outfit.  Click the Download button for a printable version of this outfit.</p>
+		</congrats>
+	</outfit>
+	<outfit id="Kirsten" xPos="340" yPos="33" year ="1854">
+		<level id="doll" src="doll.swf" nav="none" xPos="8" yPos="0" behind="stockings" levelplus="underwear" />
+		<level id="stockings" src="stockings.swf" nav="stockings" xPos="44" yPos="229" behind="underwear" levelplus="none" />
+		<level id="underwear" src="underwear.swf" nav="none" xPos="9" yPos="62" behind="shoes" levelplus="none" />
+		<level id="shoes" src="shoes.swf" nav="shoes" xPos="48" yPos="309" behind="dress" levelplus="none" />
+		<level id ="dress" src="dress.swf" nav="dress" xPos="0" yPos="61" behind="accessory1" levelplus="arms" />
+		<level id="hat" src="hat.swf" nav="hats" xPos="24" yPos="0" behind="none" levelplus="none" />
+		<level id="accessory4" src="collar.swf" nav="accessory" xPos="44" yPos="60" behind="accessory5" levelplus="none" />
+		<level id="accessory1" src="apron.swf" nav="accessory" xPos="9" yPos ="128" behind="accessory6" levelplus="none" />
+		<level id="arms" src="arms.swf" nav="none" xPos="33" yPos ="132" behind="none" levelplus="none" />
+		<congrats rewardurl = "pdfs/Kirsten.pdf">
+			<p align="center">You correctly matched your paper doll's outfit.  Click the Download button for a printable version of this outfit.</p>
+		</congrats>
+	</outfit>
+	<outfit id="Kit" xPos="340" yPos="33" year ="1934">
+		<level id="doll" src="doll.swf" nav="none" xPos="1" yPos="8" behind="stockings" levelplus="underwear" />
+		<level id="stockings" src="socks.swf" nav="stockings" xPos="40" yPos="288" behind="underwear" levelplus="none" />
+		<level id="underwear" src="underwear.swf" nav="none" xPos="36" yPos="78" behind="shoes" levelplus="none" />
+		<level id="shoes" src="shoes.swf" nav="shoes" xPos="39" yPos="340" behind="dress" levelplus="none" />
+		<level id ="dress" src="skirt.swf" nav="dress" xPos="10" yPos="156" behind="shirt" levelplus="arms1" />
+		<level id="arms1" src="arms1.swf" nav="none" xPos="31" yPos="117" behind="accessory1" levelplus="none" />
+		<level id="shirt" src="sweater.swf" nav="dress" xPos="26" yPos="72" behind="arms1" levelplus="arms2" />
+		<level id="arms2" src="arms1.swf" nav="none" xPos="31" yPos="117" behind="accessory7" levelplus="none" />
+		<level id="accessory7" src="cardigan.swf" nav="dress" xPos="25" yPos ="75" behind="accessory8" levelplus="arms" />
+		<level id="arms" src="arms.swf" nav="none" xPos="42.5" yPos ="155.5" behind="none" levelplus="none" />
+		<level id="hat" src="bow.swf" nav="hats" xPos="42" yPos="0" behind="none" levelplus="none" />
+		<congrats rewardurl = "pdfs/Kit.pdf">
+			<p align="center">You correctly matched your paper doll's outfit.  Click the Download button for a printable version of this outfit.</p>
+		</congrats>
+	</outfit>
+	<outfit id="Molly" xPos="340" yPos="33" year ="1944">
+		<level id="accessory1a" src="purseback.swf" nav="none" xPos="14" yPos="79" behind="doll" levelplus="none" />
+		<level id="doll" src="doll.swf" nav="none" xPos="3" yPos="5" behind="stockings" levelplus="underwear" />
+		<level id="stockings" src="socks.swf" nav="stockings" xPos="36" yPos="322" behind="underwear" levelplus="none" />
+		<!--<level id="underwear" src="none" nav="none" xPos="3" yPos="7" behind="shirt" levelplus="none" />-->
+		<level id="shirt" src="blouse.swf" nav="dress" xPos="1" yPos="67" behind="shoes" levelplus="none" />
+		<level id="shoes" src="shoes.swf" nav="shoes" xPos="36" yPos="340" behind="dress" levelplus="none" />
+		<level id ="dress" src="dress.swf" nav="dress" xPos="14" yPos="72" behind="accessory1" levelplus="arms" />
+		<level id="accessory8" src="purse.swf" nav="accessory" xPos="9" yPos="73" behind="arms" levelplus="accessory1a" />
+		<level id="hat" src="hat.swf" nav="hats" xPos="44" yPos ="0" behind="none" levelplus="none" />
+		<level id="arms" src="arms.swf" nav="none" xPos="31" yPos ="144" behind="none" levelplus="none" />
+		<congrats rewardurl = "pdfs/Molly.pdf">
+			<p align="center">You correctly matched your paper doll's outfit.  Click the Download button for a printable version of this outfit.</p>
+		</congrats>
+	</outfit>
+	<outfit id="Samantha" xPos="340" yPos="33" year ="1904">
+		<level id="hat" src="bow.swf" nav="hats" xPos="36" yPos="0" behind="doll" levelplus="none"/>
+		<level id="doll" src="doll.swf" nav="none" xPos="2" yPos="2" behind="stockings" levelplus="underwear"/>
+		<level id="stockings" src="stockings.swf" nav="stockings" xPos="26" yPos="230" behind="underwear" levelplus="none" />
+		<level id="underwear" src="underwear.swf" nav="none" xPos="14" yPos="71" behind="shoes" levelplus="none" />
+		<level id ="dress" src="dress.swf" nav="dress" xPos="0" yPos="67" behind="accessory1" levelplus="arms" />
+		<level id="shoes" src="shoes.swf" nav="shoes" xPos="25" yPos="319" behind="dress" levelplus="none" />
+		<level id="accessory6" src="basket.swf" nav="accessory" xPos="43" yPos="144" behind="arms" levelplus="none" />
+		<level id="accessory4" src="collar.swf" nav="accessory" xPos="14" yPos="67" behind="accessory5" levelplus="none" />
+		<level id="arms" src="arms.swf" nav="none" xPos="55" yPos ="144" behind="none" levelplus="none" />
+		<congrats rewardurl = "pdfs/Samantha.pdf">
+			<p align="center">You correctly matched your paper doll's outfit.  Click the Download button for a printable version of this outfit.</p>
+		</congrats>
+	</outfit>
+</paper_dolls>
