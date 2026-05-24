@@ -628,6 +628,24 @@ def main() -> int:
                     target_url = f"agd://{host}{path}"
                     meta = f"{count} SWF{'s' if count != 1 else ''} · {size_kb} KB"
                     ext_label = "play"
+                    # Paper Dolls: the /agcn/paperdoll Flash version
+                    # (paper_dolls.swf at Flash version 6) is genuinely
+                    # unplayable. Ruffle's nightly renders it but click
+                    # events on the character portraits don't fire (a
+                    # known Ruffle limitation with nested loadMovie'd
+                    # children's button handlers); Adobe Flash Player 32
+                    # opens it but produces an empty stage (verified by
+                    # direct command-line launch — Felicity Colonial's
+                    # main.swf renders fine, paper_dolls.swf does not,
+                    # despite the SWF byte-stream being valid CWS6). The
+                    # /agmg/paperdoll Shockwave version (dollA-C.dcr +
+                    # friends) is the same archived experience using
+                    # Director instead of Flash, plays cleanly via the
+                    # bundled Wine + Director projector. Route the user
+                    # there.
+                    if (host, path) == ("www.americangirl.com",
+                                        "/agcn/paperdoll/index.html"):
+                        target_url = "agd://www.americangirl.com/agmg/paperdoll/index.html"
                 else:
                     swf_url = f"agd://{host}{path}"
                     # Serve the player under the SWF's own host (via the

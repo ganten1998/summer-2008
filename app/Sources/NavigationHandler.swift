@@ -116,6 +116,25 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
                     swfURL = comps.url ?? url
                 }
             }
+            // Known-broken-in-Ruffle SWFs: button event propagation through
+            // nested loadMovie'd children is incomplete in Ruffle 0.3-nightly,
+            // and these specific games' click handlers never fire on the
+            // doll/character picker. The inline player is a dead end for
+            // them — Ruffle loads the SWF but clicks silently no-op. Route
+            // straight to the bundled Adobe Flash Player projector (64-bit
+            // x86_64, verified loads on modern macOS) which handles the
+            // game's actual Flash semantics correctly.
+            let pathLower = swfURL.path.lowercased()
+            let routeStraightToProjector = [
+                "/agcn/paperdoll/paper_dolls.swf",
+                "/agcn/paperdoll/pick_doll.swf",
+                "/agcn/paperdoll/dress_dolls.swf",
+            ]
+            if routeStraightToProjector.contains(where: { pathLower.hasSuffix($0) }) {
+                GameLauncher.shared.launch(originalURL: swfURL)
+                decisionHandler(.cancel)
+                return
+            }
             if let playerURL = inlinePlayerURL(for: swfURL) {
                 decisionHandler(.cancel)
                 DispatchQueue.main.async {
