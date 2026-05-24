@@ -346,6 +346,20 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             respondWithFile(task: task, url: url, file: cacheURL)
             return
         }
+        // 2c) /sw/sw/ collapse. Some loader SWFs (wrap's loadenvelope.swf,
+        //     BTS sub-activity loaders, etc.) live at <X>/sw/loader.swf
+        //     but were authored assuming they'd be embedded from a page
+        //     in the parent dir — their loadMovie("sw/foo.swf") thus
+        //     resolves against the SWF's URL to <X>/sw/sw/foo.swf which
+        //     404s. Strip the duplicated /sw/ and try again.
+        if path.range(of: "/sw/sw/", options: .caseInsensitive) != nil {
+            let collapsed = (path as NSString).replacingOccurrences(of: "/sw/sw/", with: "/sw/")
+            let collapsedURL = mirrorFileURL(host: host, path: collapsed, query: url.query)
+            if FileManager.default.fileExists(atPath: collapsedURL.path) {
+                respondWithFile(task: task, url: url, file: collapsedURL)
+                return
+            }
+        }
         // 2b) /sw/foo.htm → ../foo.htm fallback. A handful of 2008 games
         //     embed their menu SWF in a wrapper page like /addy/freedom/
         //     menu.htm; the SWF lives at /addy/sw/menu.swf (separate
@@ -430,6 +444,96 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
                 "Content-Length": "\(body.count)",
                 "Access-Control-Allow-Origin": "*",
                 "X-AGD-Source": "silent-audio-stub",
+            ]
+        )!
+        let key = ObjectIdentifier(task)
+        DispatchQueue.main.async { [weak self] in
+            self?.inFlightLock.lock()
+            let stopped = self?.stoppedKeys.contains(key) ?? true
+            self?.stoppedKeys.remove(key)
+            self?.inFlightLock.unlock()
+            guard !stopped else { return }
+            task.didReceive(resp)
+            task.didReceive(body)
+            task.didFinish()
+        }
+    }
+
+    /// 1×1 transparent images (PNG / GIF / JPG) — served when a Flash
+    /// game asks for an image asset Wayback never preserved. Decoder
+    /// accepts the file as a valid pixel, MovieClipLoader.onLoadInit
+    /// fires, the SWF moves on. Without this it gets HTML back, treats
+    /// it as a corrupt image, and often halts.
+    private static let transparentPNG: Data = Data([
+        0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
+        0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
+        0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
+        0x08, 0x06, 0x00, 0x00, 0x00, 0x1F, 0x15, 0xC4,
+        0x89, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x44, 0x41,
+        0x54, 0x78, 0x9C, 0x62, 0x00, 0x01, 0x00, 0x00,
+        0x05, 0x00, 0x01, 0x0D, 0x0A, 0x2D, 0xB4, 0x00,
+        0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE,
+        0x42, 0x60, 0x82,
+    ])
+    private static let transparentGIF: Data = Data([
+        0x47, 0x49, 0x46, 0x38, 0x39, 0x61, 0x01, 0x00,
+        0x01, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0xFF, 0xFF, 0xFF, 0x21, 0xF9, 0x04, 0x01, 0x00,
+        0x00, 0x00, 0x00, 0x2C, 0x00, 0x00, 0x00, 0x00,
+        0x01, 0x00, 0x01, 0x00, 0x00, 0x02, 0x02, 0x44,
+        0x01, 0x00, 0x3B,
+    ])
+    private static let blankJPG: Data = Data([
+        0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46,
+        0x49, 0x46, 0x00, 0x01, 0x01, 0x01, 0x00, 0x48,
+        0x00, 0x48, 0x00, 0x00, 0xFF, 0xDB, 0x00, 0x43,
+        0x00, 0x08, 0x06, 0x06, 0x07, 0x06, 0x05, 0x08,
+        0x07, 0x07, 0x07, 0x09, 0x09, 0x08, 0x0A, 0x0C,
+        0x14, 0x0D, 0x0C, 0x0B, 0x0B, 0x0C, 0x19, 0x12,
+        0x13, 0x0F, 0x14, 0x1D, 0x1A, 0x1F, 0x1E, 0x1D,
+        0x1A, 0x1C, 0x1C, 0x20, 0x24, 0x2E, 0x27, 0x20,
+        0x22, 0x2C, 0x23, 0x1C, 0x1C, 0x28, 0x37, 0x29,
+        0x2C, 0x30, 0x31, 0x34, 0x34, 0x34, 0x1F, 0x27,
+        0x39, 0x3D, 0x38, 0x32, 0x3C, 0x2E, 0x33, 0x34,
+        0x32, 0xFF, 0xC0, 0x00, 0x0B, 0x08, 0x00, 0x01,
+        0x00, 0x01, 0x01, 0x01, 0x11, 0x00, 0xFF, 0xC4,
+        0x00, 0x1F, 0x00, 0x00, 0x01, 0x05, 0x01, 0x01,
+        0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04,
+        0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0xFF,
+        0xC4, 0x00, 0xB5, 0x10, 0x00, 0x02, 0x01, 0x03,
+        0x03, 0x02, 0x04, 0x03, 0x05, 0x05, 0x04, 0x04,
+        0x00, 0x00, 0x01, 0x7D, 0x01, 0x02, 0x03, 0x00,
+        0x04, 0x11, 0x05, 0x12, 0x21, 0x31, 0x41, 0x06,
+        0x13, 0x51, 0x61, 0x07, 0x22, 0x71, 0x14, 0x32,
+        0x81, 0x91, 0xA1, 0x08, 0x23, 0x42, 0xB1, 0xC1,
+        0x15, 0x52, 0xD1, 0xF0, 0x24, 0x33, 0x62, 0x72,
+        0x82, 0xFF, 0xDA, 0x00, 0x08, 0x01, 0x01, 0x00,
+        0x00, 0x3F, 0x00, 0xFB, 0xD0, 0xFF, 0xD9,
+    ])
+
+    private func sendBlankImage(task: WKURLSchemeTask, url: URL, ext: String) {
+        let (body, mime): (Data, String)
+        switch ext {
+        case "gif":          (body, mime) = (Self.transparentGIF, "image/gif")
+        case "jpg", "jpeg":  (body, mime) = (Self.blankJPG,        "image/jpeg")
+        default:             (body, mime) = (Self.transparentPNG,  "image/png")
+        }
+        sendStubResponse(task: task, url: url, body: body, mime: mime, sourceTag: "blank-image-stub")
+    }
+
+    private func sendEmptyOK(task: WKURLSchemeTask, url: URL, contentType: String) {
+        sendStubResponse(task: task, url: url, body: Data(), mime: contentType, sourceTag: "empty-200-stub")
+    }
+
+    private func sendStubResponse(task: WKURLSchemeTask, url: URL, body: Data, mime: String, sourceTag: String) {
+        let resp = HTTPURLResponse(
+            url: url, statusCode: 200, httpVersion: "HTTP/1.1",
+            headerFields: [
+                "Content-Type": mime,
+                "Content-Length": "\(body.count)",
+                "Access-Control-Allow-Origin": "*",
+                "X-AGD-Source": sourceTag,
             ]
         )!
         let key = ObjectIdentifier(task)
@@ -783,16 +887,24 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
                     task.didFinish()
                 }
             } else {
-                // For audio assets, serve a minimal silent MP3 instead of
-                // the 404 stub. Many 2008 Flash games (Josefina's market
-                // day-select, etc.) blocked their state machines on
-                // failed audio loads — a real 404 made the day-select
-                // button do nothing visible. A silent MP3 lets the SWF's
-                // sound callback fire normally and the game proceeds.
+                // For 2008-era Flash games, returning a styled HTML 404
+                // page when the SWF asks for an asset (image / sound /
+                // backend PHP) wedges the SWF — it tries to decode HTML
+                // as image / audio / form-data and blocks its state
+                // machine. Match the requested extension and serve a
+                // minimal stub instead, so the SWF gets a "successful
+                // load" callback and proceeds.
                 let ext = (path as NSString).pathExtension.lowercased()
-                if ext == "mp3" || ext == "wav" {
+                switch ext {
+                case "mp3", "wav":
                     self.sendSilentAudio(task: task, url: url)
-                } else {
+                case "jpg", "jpeg", "gif", "png":
+                    self.sendBlankImage(task: task, url: url, ext: ext)
+                case "php", "asp", "aspx", "jsp", "cgi":
+                    self.sendEmptyOK(task: task, url: url, contentType: "text/plain")
+                case "xml":
+                    self.sendEmptyOK(task: task, url: url, contentType: "application/xml")
+                default:
                     self.sendNotFound(task: task, url: url)
                 }
             }

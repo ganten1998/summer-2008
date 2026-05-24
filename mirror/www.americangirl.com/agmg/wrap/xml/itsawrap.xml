@@ -12,7 +12,6 @@
         <thumb FILENAME="candle_thumb.jpg"/>
         <thumb FILENAME="ornament_thumb.jpg"/>
         <thumb FILENAME="dove_thumb.jpg"/>
-        <thumb FILENAME="coconut_thumb.jpg"/>
         <thumb FILENAME="kwanzaa_thumb.jpg"/>
         <thumb FILENAME="blueburst_thumb.jpg"/>
         <thumb FILENAME="snowman_thumb.jpg"/>
@@ -40,7 +39,6 @@
 		<thumb FILENAME="spring_thumb.jpg"/>
     </cat>
     <cat MENUITEM="Flowers">
-        <thumb FILENAME="daisys_thumb.jpg"/>
         <thumb FILENAME="pinkcircle_thumb.jpg"/>
         <thumb FILENAME="blueflower_thumb.jpg"/>
         <thumb FILENAME="pinkflower_thumb.jpg"/>
@@ -78,14 +76,12 @@
         <thumb FILENAME="pinkflower_thumb.jpg"/>
         <thumb FILENAME="nightsky_thumb.jpg"/>
         <thumb FILENAME="blueflower_thumb.jpg"/>
-        <thumb FILENAME="daisys_thumb.jpg"/>
         <thumb FILENAME="ladybug_thumb.jpg"/>
         <thumb FILENAME="girl_thumb.jpg"/>
         <thumb FILENAME="balloon_thumb.jpg"/>
         <thumb FILENAME="candle_thumb.jpg"/>
         <thumb FILENAME="ornament_thumb.jpg"/>
         <thumb FILENAME="dove_thumb.jpg"/>
-        <thumb FILENAME="coconut_thumb.jpg"/>
         <thumb FILENAME="manorah_thumb.jpg"/>
         <thumb FILENAME="snowman_thumb.jpg"/>
         <thumb FILENAME="snowgirls_thumb.jpg"/>
