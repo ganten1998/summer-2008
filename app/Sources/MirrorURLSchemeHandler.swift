@@ -376,6 +376,38 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         backfillFromWayback(task: task, url: url, host: host, path: path, cacheURL: cacheURL)
     }
 
+    private func sendSilentAudio(task: WKURLSchemeTask, url: URL) {
+        // Minimal silent MPEG-1 Layer III frame (32 bytes). Enough for
+        // Sound.loadSound() / Sound.onLoad to fire success and let the
+        // calling AS2/AS3 state machine proceed; the audio simply plays
+        // silence. Saves the day-select / play-callback handlers in
+        // games that gate progress on audio readiness (Josefina market,
+        // etc.) when the original mp3 wasn't preserved in any archive.
+        var bytes: [UInt8] = [0xff, 0xfb, 0x10, 0x64]
+        bytes.append(contentsOf: Array(repeating: 0, count: 28))
+        let body = Data(bytes)
+        let resp = HTTPURLResponse(
+            url: url, statusCode: 200, httpVersion: "HTTP/1.1",
+            headerFields: [
+                "Content-Type": "audio/mpeg",
+                "Content-Length": "\(body.count)",
+                "Access-Control-Allow-Origin": "*",
+                "X-AGD-Source": "silent-audio-stub",
+            ]
+        )!
+        let key = ObjectIdentifier(task)
+        DispatchQueue.main.async { [weak self] in
+            self?.inFlightLock.lock()
+            let stopped = self?.stoppedKeys.contains(key) ?? true
+            self?.stoppedKeys.remove(key)
+            self?.inFlightLock.unlock()
+            guard !stopped else { return }
+            task.didReceive(resp)
+            task.didReceive(body)
+            task.didFinish()
+        }
+    }
+
     private func sendEmptyCSS(task: WKURLSchemeTask, url: URL) {
         let body = Data()
         let resp = HTTPURLResponse(
@@ -714,7 +746,18 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
                     task.didFinish()
                 }
             } else {
-                self.sendNotFound(task: task, url: url)
+                // For audio assets, serve a minimal silent MP3 instead of
+                // the 404 stub. Many 2008 Flash games (Josefina's market
+                // day-select, etc.) blocked their state machines on
+                // failed audio loads — a real 404 made the day-select
+                // button do nothing visible. A silent MP3 lets the SWF's
+                // sound callback fire normally and the game proceeds.
+                let ext = (path as NSString).pathExtension.lowercased()
+                if ext == "mp3" || ext == "wav" {
+                    self.sendSilentAudio(task: task, url: url)
+                } else {
+                    self.sendNotFound(task: task, url: url)
+                }
             }
         }
 

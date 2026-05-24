@@ -643,12 +643,20 @@
       allowScriptAccess: true,
     };
     if (bgColor) loadConfig.backgroundColor = bgColor;
-    // Derive base from SWF directory so any relative loadMovie/loadVars
-    // inside the SWF (e.g. coverpoll.swf's configUrl=coverpoll_config.xml
-    // flashvar) resolves to the SWF's folder, not to the embedding page.
+    // Derive base from the EMBEDDING PAGE's directory, not the SWF's
+    // directory. Two reasons:
+    //   1. getURL("foo.htm") in the SWF should land in the page's
+    //      directory (the way a browser would resolve an <a href="foo.htm">
+    //      from the page). E.g. addy/freedom/menu.htm embeds sw/menu.swf
+    //      whose buttons do getURL("addy3.htm"); the target lives in
+    //      freedom/, not in sw/, so SWF-dir base would 404.
+    //   2. Same-dir loadVars (e.g. coverpoll.swf's coverpoll_config.xml)
+    //      still works in the common case where the SWF is embedded by
+    //      its own dir's index.html — page-dir == SWF-dir in that case.
     try {
-      var lastSlash = url.lastIndexOf("/");
-      if (lastSlash >= 0) loadConfig.base = url.substring(0, lastSlash + 1);
+      var href = location.href;
+      var hLastSlash = href.lastIndexOf("/");
+      if (hLastSlash >= 0) loadConfig.base = href.substring(0, hLastSlash + 1);
     } catch (e) {}
     // Parse flashvars="key1=v1&key2=v2&..." into Ruffle's parameters
     // object. Without this, ja06/cover_poll and dakotamania SWFs never
@@ -1050,83 +1058,6 @@
       if (f.parentNode) f.parentNode.replaceChild(anchor, f);
     });
 
-    // Decode current message: pluses are spaces in form-encoded URLs.
-    var m = swfUrl.match(/[?&]personalMsg=([^&]*)/);
-    var currentMsg = m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
-
-    // Insert UI right after the player (or just append to body if we can't
-    // find a reasonable parent).
-    var wrap = document.createElement('div');
-    wrap.id = 'agd-personalize';
-    wrap.style.cssText = [
-      'max-width:600px', 'margin:18px auto', 'padding:16px 18px',
-      "font-family:'Hoefler Text',Georgia,serif",
-      'background:linear-gradient(135deg,#FBF6EB 0%,#F1E6CC 100%)',
-      'border:1px solid rgba(124,12,31,0.20)',
-      'border-radius:10px',
-      'box-shadow:0 4px 18px rgba(124,12,31,0.10)',
-      'color:#4A2C20', 'text-align:left',
-    ].join(';');
-
-    var label = document.createElement('div');
-    label.style.cssText = "font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:#7C0C1F;margin-bottom:8px;font-family:-apple-system,'SF Pro Text',sans-serif;";
-    label.textContent = 'Quick Preview — Edit Just the Message';
-    wrap.appendChild(label);
-
-    var ta = document.createElement('textarea');
-    ta.value = currentMsg;
-    ta.rows = 3;
-    ta.style.cssText = "width:100%;box-sizing:border-box;padding:10px 12px;font-family:'Hoefler Text',Georgia,serif;font-style:italic;font-size:15px;color:#4A2C20;background:#FFFCF4;border:1px solid rgba(124,12,31,0.18);border-radius:6px;resize:vertical;outline:none;";
-    wrap.appendChild(ta);
-
-    var row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:12px;';
-
-    var hint = document.createElement('span');
-    hint.style.cssText = "font-size:11.5px;color:#8c6a5c;letter-spacing:.02em;font-family:-apple-system,'SF Pro Text',sans-serif;";
-    hint.textContent = 'Preview only — for the full send flow use the Customize Your E-Card button above.';
-    row.appendChild(hint);
-
-    var apply = document.createElement('button');
-    apply.type = 'button';
-    apply.textContent = 'Apply';
-    apply.style.cssText = "padding:9px 22px;border-radius:999px;background:#A6192E;color:#FBF6EB;border:0;font-family:-apple-system,'SF Pro Text',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;cursor:pointer;";
-    apply.addEventListener('mouseover', function () { apply.style.filter = 'brightness(1.06)'; });
-    apply.addEventListener('mouseout',  function () { apply.style.filter = ''; });
-    apply.addEventListener('click', function () {
-      var msg = ta.value || '';
-      // Form-URL-encode (spaces as +, like the original embed).
-      var enc = encodeURIComponent(msg).replace(/%20/g, '+');
-      var newUrl = swfUrl.replace(/([?&]personalMsg=)[^&]*/, '$1' + enc);
-      // Replace each Ruffle player with a fresh one. Ruffle's load()
-      // misbehaves when called a second time on the same element (state
-      // machine bails into the orange "load failure" icon); swapping in
-      // a brand-new <ruffle-player> built via makeRuffle() avoids that.
-      document.querySelectorAll("ruffle-player,ruffle-object,ruffle-embed").forEach(function (oldP) {
-        try {
-          var w = parseInt(oldP.style.width, 10) || oldP.getAttribute("width") || 0;
-          var h = parseInt(oldP.style.height, 10) || oldP.getAttribute("height") || 0;
-          var fresh = makeRuffle(newUrl, w, h, null);
-          if (oldP.parentNode) {
-            oldP.parentNode.replaceChild(fresh, oldP);
-            loadPlayerWhenAttached(fresh);
-          }
-        } catch (e) {}
-      });
-      swfUrl = newUrl;
-      apply.textContent = 'Applied ✓';
-      setTimeout(function () { apply.textContent = 'Apply'; }, 1400);
-    });
-    row.appendChild(apply);
-    wrap.appendChild(row);
-
-    // Insert after the player's container.
-    var anchor = player.closest('td, div, p, body') || document.body;
-    if (anchor.parentNode) {
-      anchor.parentNode.insertBefore(wrap, anchor.nextSibling);
-    } else {
-      document.body.appendChild(wrap);
-    }
   }
 
   // ----------------------------------------------------------- run

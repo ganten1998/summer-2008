@@ -124,6 +124,13 @@ TITLE_OVERRIDES: dict[tuple[str, str], str] = {
     # tile and shows two Colonial Adventure entries.
     ("www.americangirl.com", "/agcn/felicity/ride/index.html"):
         "Felicity's Pony Ride",
+    # lendsahand/index.html's scraped <title> says "Molly's Pedal
+    # Power" (probably a copy-paste left over from a sibling page);
+    # the actual app inside is Molly Lends a Hand, which launches
+    # the four sub-games (Blanket Blitz, Victory Garden, Pop Top
+    # Pups, Skywords) via getURL buttons.
+    ("www.americangirl.com", "/agcn/molly/lendsahand/index.html"):
+        "Molly Lends a Hand",
 }
 
 # Path prefixes whose SWFs are site chrome (banners, ads, video assets),
@@ -149,6 +156,19 @@ SUPPRESS_PATH_PREFIXES = (
     # leaves the full colonial.php tile as the single Colonial
     # Adventure entry.
     "/agcn/felicity/adventure/",
+    # Kaya's Catch of the Day: catch.php (2 SWFs, 1002 KB) and
+    # catch/index.html (1 SWF, 235 KB) are two captures of the same
+    # game. The catch/ version renders without the black bars
+    # catch.php shows in player, so hide catch.php.
+    "/agcn/kaya/catch.php",
+    # Molly Lends a Hand sub-games (Blanket Blitz, Victory Garden,
+    # Pop Top Pups, Skywords). The main lendsahand/index.html SWF
+    # internally launches all four via getURL on its buttons, so
+    # listing them as separate tiles is duplication.
+    "/agcn/molly/lendsahand/b_blitz/",
+    "/agcn/molly/lendsahand/vic_garden/",
+    "/agcn/molly/lendsahand/pt_pups/",
+    "/agcn/molly/lendsahand/skywords/",
 )
 
 # Wrapper filenames that are internal segments of a larger experience and
