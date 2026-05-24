@@ -61,6 +61,25 @@ private final class DragDiagHandler: NSObject, WKScriptMessageHandler {
     }
 }
 
+/// JS console + JS error capture. Every console.log/warn/error and every
+/// uncaught error on every page is piped here via injected JS, appended
+/// to /tmp/agd-console.log. Lets us debug stuck SWFs / page errors
+/// without requiring the user to open Safari Web Inspector.
+private final class ConsoleBridgeHandler: NSObject, WKScriptMessageHandler {
+    func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let line = message.body as? String else { return }
+        let stamped = "\(Date()) \(line)\n"
+        let p = "/tmp/agd-console.log"
+        guard let data = stamped.data(using: .utf8) else { return }
+        if FileManager.default.fileExists(atPath: p),
+           let fh = FileHandle(forWritingAtPath: p) {
+            fh.seekToEndOfFile(); fh.write(data); fh.closeFile()
+        } else {
+            try? data.write(to: URL(fileURLWithPath: p))
+        }
+    }
+}
+
 /// Weak wrapper that receives DCR launch requests from flash-bridge.js
 /// without going through WKWebView navigation. Avoids polluting the
 /// nav-history with cancelled agd-launch:// entries that cost the user
@@ -131,6 +150,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var openExternalHandler: OpenExternalHandler!
     private var dragHandler: WindowDragHandler!
     private var dragDiagHandler: DragDiagHandler!
+    private var consoleBridge: ConsoleBridgeHandler!
     var overlay: ProjectorOverlay!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -216,6 +236,50 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         config.userContentController.add(dragHandler, name: "agdDrag")
         dragDiagHandler = DragDiagHandler()
         config.userContentController.add(dragDiagHandler, name: "agdDragDiag")
+
+        // Console bridge: pipes every console.log/warn/error and every
+        // uncaught error to /tmp/agd-console.log. Lets us debug stuck
+        // SWFs and page errors without needing Safari Web Inspector.
+        consoleBridge = ConsoleBridgeHandler()
+        config.userContentController.add(consoleBridge, name: "agdConsole")
+        let consoleJS = """
+        (function () {
+          if (window.__agd_console_bridged) return;
+          window.__agd_console_bridged = true;
+          function send(level, args) {
+            try {
+              var parts = [];
+              for (var i = 0; i < args.length; i++) {
+                var a = args[i];
+                if (a == null) { parts.push(String(a)); continue; }
+                if (typeof a === 'string') { parts.push(a); continue; }
+                try { parts.push(JSON.stringify(a)); }
+                catch (e) { parts.push(String(a)); }
+              }
+              window.webkit.messageHandlers.agdConsole.postMessage(
+                '[' + level + '] ' + parts.join(' '));
+            } catch (e) {}
+          }
+          ['log', 'warn', 'error', 'info', 'debug'].forEach(function (lvl) {
+            var orig = console[lvl];
+            console[lvl] = function () {
+              send(lvl, arguments);
+              if (orig) orig.apply(console, arguments);
+            };
+          });
+          window.addEventListener('error', function (e) {
+            send('uncaught', [e.message, '@', (e.filename || '?') + ':' + (e.lineno || 0)]);
+          });
+          window.addEventListener('unhandledrejection', function (e) {
+            send('rejection', [String(e.reason)]);
+          });
+        })();
+        """
+        config.userContentController.addUserScript(WKUserScript(
+            source: consoleJS,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: false,
+            in: .page))
 
         // Bridge that places the bundled Wine/Director projector window
         // over the .dcr embed area on game pages. Receives the embed's

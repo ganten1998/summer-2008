@@ -141,14 +141,6 @@
     /* Replace <object>, <embed>, and SWFObject calls site-wide */
     polyfills: true,
 
-    /* Forward AS2/AS3 trace() output to the JS console so the inline
-       player's Diagnostics panel + Safari Web Inspector both surface
-       what stuck SWFs are doing internally. Some 2008 games (Josefina
-       market day-select, etc.) stall silently mid-state-machine and
-       are only debuggable via their own trace lines. */
-    logLevel: "info",
-    traceTarget: "console",
-
     /* Less chatty UI */
     warnOnUnsupportedContent: false,
     showSwfDownload: false,
