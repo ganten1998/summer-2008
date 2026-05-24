@@ -372,7 +372,21 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
         //     directory before falling through to Wayback heal.
         if (path.range(of: "/sw/", options: .caseInsensitive) != nil) {
             let ext = (path as NSString).pathExtension.lowercased()
-            if ext == "htm" || ext == "html" {
+            // Expanded to game-data extensions too: itsawrap.swf at
+            // /agmg/wrap/sw/ loads xml/itsawrap.xml relative to itself,
+            // resolving to /agmg/wrap/sw/xml/itsawrap.xml. The actual
+            // file is at /agmg/wrap/xml/itsawrap.xml (one /sw/ above).
+            // Same pattern as addy menu.swf → addy3.htm. Limited to
+            // text/data extensions; SWFs themselves stick with the
+            // Adobe-Flash SWF-dir resolution to avoid breaking the
+            // common case (Felicity Colonial main.swf → about.swf etc.).
+            if ext == "htm" || ext == "html" ||
+               ext == "xml" || ext == "txt" ||
+               ext == "json" || ext == "cfg" ||
+               ext == "jpg" || ext == "jpeg" ||
+               ext == "gif" || ext == "png" ||
+               ext == "mp3" || ext == "wav" ||
+               ext == "pdf" {
                 let parentPath = (path as NSString).replacingOccurrences(of: "/sw/", with: "/")
                 let parentURL = mirrorFileURL(host: host, path: parentPath, query: url.query)
                 if FileManager.default.fileExists(atPath: parentURL.path) {

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<stream>
+    <cat MENUITEM="Our Favorites">
+        <thumb FILENAME="pinkheart_thumb.jpg"/>
+        <thumb FILENAME="bird_thumb.jpg"/>
+        <thumb FILENAME="pinkflower_thumb.jpg"/>
+		<thumb FILENAME="birthday_thumb.jpg"/>
+		<thumb FILENAME="spring_thumb.jpg"/>
+		<thumb FILENAME="sunglasses_thumb.jpg"/>
+    </cat>
+    <cat MENUITEM="Winter Holidays">
+        <thumb FILENAME="candle_thumb.jpg"/>
+        <thumb FILENAME="ornament_thumb.jpg"/>
+        <thumb FILENAME="dove_thumb.jpg"/>
+        <thumb FILENAME="kwanzaa_thumb.jpg"/>
+        <thumb FILENAME="blueburst_thumb.jpg"/>
+        <thumb FILENAME="snowman_thumb.jpg"/>
+        <thumb FILENAME="snowgirls_thumb.jpg"/>
+        <thumb FILENAME="pattern_thumb.jpg"/>
+        <thumb FILENAME="gift-ornament_thumb.jpg"/>
+        <thumb FILENAME="licorice_thumb.jpg"/>
+	
+    </cat>
+    <cat MENUITEM="Just For Fun">
+        <thumb FILENAME="flag_thumb.jpg"/>
+        <thumb FILENAME="heartburst_thumb.jpg"/>
+        <thumb FILENAME="emoticon_thumb.jpg"/>
+        <thumb FILENAME="girl_thumb.jpg"/>
+        <thumb FILENAME="balloon_thumb.jpg"/>
+		<thumb FILENAME="sunglasses_thumb.jpg"/>
+    </cat>
+    <cat MENUITEM="Valentines">
+        <thumb FILENAME="heartburst_thumb.jpg"/>
+        <thumb FILENAME="pinkheart_thumb.jpg"/>
+    </cat>
+    <cat MENUITEM="Creatures">
+        <thumb FILENAME="bird_thumb.jpg"/>
+        <thumb FILENAME="ladybug_thumb.jpg"/>
+		<thumb FILENAME="spring_thumb.jpg"/>
+    </cat>
+    <cat MENUITEM="Flowers">
+        <thumb FILENAME="pinkcircle_thumb.jpg"/>
+        <thumb FILENAME="blueflower_thumb.jpg"/>
+        <thumb FILENAME="pinkflower_thumb.jpg"/>
+    </cat>
+    <cat MENUITEM="Sky Patterns">
+        <thumb FILENAME="yellowburst_thumb.jpg"/>
+        <thumb FILENAME="clouds_thumb.jpg"/>
+        <thumb FILENAME="nightsky_thumb.jpg"/>
+        <thumb FILENAME="planet_thumb.jpg"/>
+    </cat>
+    <cat MENUITEM="Personalize It">
+        <thumb FILENAME="balloon_thumb.jpg"/>
+        <thumb FILENAME="pencil_thumb.jpg"/>
+    </cat>
+    <cat MENUITEM="Birthday">
+        <thumb FILENAME="present_thumb.jpg"/>
+		<thumb FILENAME="birthday_thumb.jpg"/>
+    </cat>
+    <cat MENUITEM="Sports">
+        <thumb FILENAME="soccer_thumb.jpg"/>
+    </cat>
+    <cat MENUITEM="All Patterns">
+        <thumb FILENAME="flag_thumb.jpg"/>
+        <thumb FILENAME="soccer_thumb.jpg"/>
+        <thumb FILENAME="pencil_thumb.jpg"/>
+        <thumb FILENAME="heartburst_thumb.jpg"/>
+        <thumb FILENAME="bird_thumb.jpg"/>
+        <thumb FILENAME="planet_thumb.jpg"/>
+        <thumb FILENAME="pinkheart_thumb.jpg"/>
+        <thumb FILENAME="emoticon_thumb.jpg"/>
+        <thumb FILENAME="pinkcircle_thumb.jpg"/>
+        <thumb FILENAME="present_thumb.jpg"/>
+        <thumb FILENAME="blueburst_thumb.jpg"/>
+        <thumb FILENAME="clouds_thumb.jpg"/>
+        <thumb FILENAME="pinkflower_thumb.jpg"/>
+        <thumb FILENAME="nightsky_thumb.jpg"/>
+        <thumb FILENAME="blueflower_thumb.jpg"/>
+        <thumb FILENAME="ladybug_thumb.jpg"/>
+        <thumb FILENAME="girl_thumb.jpg"/>
+        <thumb FILENAME="balloon_thumb.jpg"/>
+        <thumb FILENAME="candle_thumb.jpg"/>
+        <thumb FILENAME="ornament_thumb.jpg"/>
+        <thumb FILENAME="dove_thumb.jpg"/>
+        <thumb FILENAME="manorah_thumb.jpg"/>
+        <thumb FILENAME="snowman_thumb.jpg"/>
+        <thumb FILENAME="snowgirls_thumb.jpg"/>
+        <thumb FILENAME="pattern_thumb.jpg"/>
+        <thumb FILENAME="gift-ornament_thumb.jpg"/>
+        <thumb FILENAME="licorice_thumb.jpg"/>
+		<thumb FILENAME="birthday_thumb.jpg"/>
+		<thumb FILENAME="spring_thumb.jpg"/>
+		<thumb FILENAME="sunglasses_thumb.jpg"/>
+    </cat>
+    
+    
+</stream>
