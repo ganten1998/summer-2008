@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The American Girl Paper Dolls</title>
+<style>
+  :root {
+    --cream: #FBF6EB;
+    --cream-deep: #F1E6CC;
+    --crimson: #A6192E;
+    --crimson-deep: #7C0C1F;
+    --ink: #4A2C20;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+    background: radial-gradient(120% 120% at 50% 0%, #FFFDF7 0%, var(--cream) 45%, var(--cream-deep) 100%);
+    font-family: 'Hoefler Text', Georgia, serif;
+    color: var(--ink);
+  }
+  header.bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 22px; background: var(--crimson); color: var(--cream);
+    box-shadow: 0 2px 14px rgba(124,12,31,0.22);
+    /* Sit above the app's injected 36px window-drag strip (z-index
+       2147483646) so the header buttons receive clicks. Without this
+       the drag overlay eats every click on Download/Back/Gallery. */
+    position: sticky; top: 0; z-index: 2147483647;
+  }
+  header.bar h1 {
+    margin: 0; font-style: italic; font-weight: 400; font-size: 21px; letter-spacing: .4px;
+  }
+  header.bar .actions { display: flex; gap: 8px; }
+  .btn {
+    font-family: -apple-system, 'SF Pro Text', sans-serif;
+    font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600;
+    padding: 8px 15px; border-radius: 999px; border: 1px solid transparent;
+    cursor: pointer; text-decoration: none; transition: all .15s;
+    background: rgba(255,246,235,.16); color: var(--cream);
+  }
+  .btn:hover { background: rgba(255,246,235,.3); }
+  .btn.ghost { background: transparent; border-color: rgba(255,246,235,.4); }
+  .btn.solid { background: var(--cream); color: var(--crimson-deep); }
+  .btn.solid:hover { filter: brightness(1.04); }
+
+  /* ---------- Character picker ---------- */
+  #picker { padding: 36px 22px 60px; text-align: center; }
+  #picker .eyebrow {
+    font-family: -apple-system, sans-serif; font-size: 11px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--crimson-deep); opacity: .8; margin: 0 0 6px;
+  }
+  #picker h2 { margin: 0 0 28px; font-style: italic; font-weight: 400; font-size: 30px; color: var(--crimson-deep); }
+  .grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
+    max-width: 760px; margin: 0 auto;
+  }
+  @media (max-width: 640px){ .grid { grid-template-columns: repeat(2,1fr); } }
+  .doll-card {
+    background: #FFFCF4; border: 1px solid rgba(124,12,31,.18); border-radius: 14px;
+    padding: 14px 10px 16px; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(124,12,31,.08);
+    transition: transform .16s, box-shadow .16s;
+  }
+  .doll-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(124,12,31,.18); }
+  .doll-card img { width: 100%; height: 150px; object-fit: contain; }
+  .doll-card .name { margin-top: 8px; font-weight: 600; color: var(--crimson-deep); font-size: 15px; }
+  .doll-card .year { font-family: -apple-system, sans-serif; font-size: 11px; color: #8c6a5c; letter-spacing: .08em; }
+
+  /* ---------- Dress-up stage ---------- */
+  #dressup { display: none; padding: 24px; }
+  #dressup.active { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; }
+  .stage-wrap { display: flex; flex-direction: column; align-items: center; }
+  .stage {
+    position: relative; width: 320px; height: 420px;
+    background: linear-gradient(160deg,#FFFFFF 0%, #FBF1DF 100%);
+    border: 1px solid rgba(124,12,31,.18); border-radius: 14px;
+    box-shadow: 0 10px 34px rgba(124,12,31,.16); overflow: hidden;
+  }
+  .stage .layer { position: absolute; pointer-events: none; }
+  .stage .layer.hidden { display: none; }
+  .closet { width: 320px; }
+  .closet h3 {
+    margin: 0 0 12px; font-style: italic; font-weight: 400; color: var(--crimson-deep);
+    font-size: 20px; border-bottom: 1px solid rgba(124,12,31,.16); padding-bottom: 8px;
+  }
+  .closet .navgroup { margin-bottom: 18px; }
+  .closet .navlabel {
+    font-family: -apple-system, sans-serif; font-size: 10.5px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--crimson-deep); font-weight: 600; margin-bottom: 7px;
+  }
+  .thumbs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .thumb {
+    width: 64px; height: 64px; border-radius: 10px; cursor: pointer;
+    background: #FFFCF4 center/contain no-repeat; border: 2px solid rgba(124,12,31,.18);
+    transition: all .14s; display: flex; align-items: flex-end; justify-content: center;
+  }
+  .thumb:hover { border-color: var(--crimson); transform: translateY(-2px); }
+  .thumb.on { border-color: var(--crimson); background-color: #FBE3E8; box-shadow: 0 0 0 2px rgba(166,25,46,.25) inset; }
+  .empty-note { color:#8c6a5c; font-size:12.5px; font-family:-apple-system,sans-serif; }
+</style>
+</head>
+<body>
+<header class="bar">
+  <h1 id="title">The American Girl Paper Dolls</h1>
+  <div class="actions">
+    <a class="btn ghost" id="back-btn" href="#" style="display:none">‹ Choose another doll</a>
+    <a class="btn solid" id="print-btn" href="#" target="_blank" style="display:none">Download printable</a>
+    <a class="btn" href="agd://dashboard/games.html">Gallery</a>
+  </div>
+</header>
+
+<section id="picker">
+  <p class="eyebrow">A faithful offline rebuild</p>
+  <h2>Choose a doll to dress</h2>
+  <div class="grid" id="doll-grid"></div>
+</section>
+
+<section id="dressup">
+  <div class="stage-wrap">
+    <div class="stage" id="stage"></div>
+  </div>
+  <div class="closet" id="closet"></div>
+</section>
+
+<script>window.__AGD_PAPERDOLL_MANIFEST__ = {
+ "dolls": [
+  {
+   "id": "Addy",
+   "year": "1864",
+   "layers": [
+    {
+     "id": "doll",
+     "png": "Addy__doll.png",
+     "nav": "none",
+     "x": 32.0,
+     "y": 0.0,
+     "w": 98,
+     "h": 366,
+     "z": 0
+    },
+    {
+     "id": "stockings",
+     "png": "Addy__stockings.png",
+     "nav": "stockings",
+     "x": 44.0,
+     "y": 216.0,
+     "w": 67,
+     "h": 150,
+     "z": 1
+    },
+    {
+     "id": "underwear",
+     "png": "Addy__underwear.png",
+     "nav": "none",
+     "x": 32.0,
+     "y": 65.0,
+     "w": 98,
+     "h": 232,
+     "z": 2
+    },
+    {
+     "id": "shoes",
+     "png": "Addy__shoes.png",
+     "nav": "shoes",
+     "x": 44.0,
+     "y": 312.0,
+     "w": 65,
+     "h": 57,
+     "z": 3
+    },
+    {
+     "id": "dress",
+     "png": "Addy__dress.png",
+     "nav": "dress",
+     "x": 0.0,
+     "y": 58.0,
+     "w": 160,
+     "h": 243,
+     "z": 4
+    },
+    {
+     "id": "hat",
+     "png": "Addy__hat.png",
+     "nav": "hats",
+     "x": 50.0,
+     "y": 0.0,
+     "w": 61,
+     "h": 69,
+     "z": 5
+    },
+    {
+     "id": "accessory6",
+     "png": "Addy__toydoll.png",
+     "nav": "accessory",
+     "x": 55.0,
+     "y": 92.0,
+     "w": 60,
+     "h": 82,
+     "z": 6
+    },
+    {
+     "id": "accessory4",
+     "png": "Addy__coffee.png",
+     "nav": "accessory",
+     "x": 42.0,
+     "y": 165.0,
+     "w": 49,
+     "h": 84,
+     "z": 7
+    },
+    {
+     "id": "arms",
+     "png": "Addy__arms.png",
+     "nav": "none",
+     "x": 25.0,
+     "y": 123.0,
+     "w": 109,
+     "h": 56,
+     "z": 8
+    }
+   ]
+  },
+  {
+   "id": "Felicity",
+   "year": "1774",
+   "layers": [
+    {
+     "id": "doll",
+     "png": "Felicity__doll.png",
+     "nav": "none",
+     "x": 4.0,
+     "y": 0.0,
+     "w": 154,
+     "h": 372,
+     "z": 0
+    },
+    {
+     "id": "stockings",
+     "png": "Felicity__stockings.png",
+     "nav": "stockings",
+     "x": 44.0,
+     "y": 230.0,
+     "w": 80,
+     "h": 140,
+     "z": 1
+    },
+    {
+     "id": "underwear",
+     "png": "Felicity__underwear.png",
+     "nav": "none",
+     "x": 22.0,
+     "y": 68.0,
+     "w": 127,
+     "h": 224,
+     "z": 2
+    },
+    {
+     "id": "shoes",
+     "png": "Felicity__shoes.png",
+     "nav": "shoes",
+     "x": 41.0,
+     "y": 336.0,
+     "w": 85,
+     "h": 36,
+     "z": 3
+    },
+    {
+     "id": "dress",
+     "png": "Felicity__dress.png",
+     "nav": "dress",
+     "x": 9.0,
+     "y": 66.0,
+     "w": 163,
+     "h": 304,
+     "z": 4
+    },
+    {
+     "id": "hat",
+     "png": "Felicity__hat.png",
+     "nav": "hats",
+     "x": 59.0,
+     "y": 0.0,
+     "w": 62,
+     "h": 61,
+     "z": 5
+    },
+    {
+     "id": "accessory1",
+     "png": "Felicity__apron.png",
+     "nav": "accessory",
+     "x": 25.0,
+     "y": 137.0,
+     "w": 134,
+     "h": 206,
+     "z": 6
+    },
+    {
+     "id": "accessory3",
+     "png": "Felicity__toydoll.png",
+     "nav": "accessory",
+     "x": 80.0,
+     "y": 94.0,
+     "w": 52,
+     "h": 100,
+     "z": 7
+    },
+    {
+     "id": "arms",
+     "png": "Felicity__arms.png",
+     "nav": "none",
+     "x": 43.0,
+     "y": 134.0,
+     "w": 94,
+     "h": 32,
+     "z": 8
+    }
+   ]
+  },
+  {
+   "id": "Josefina",
+   "year": "1824",
+   "layers": [
+    {
+     "id": "doll",
+     "png": "Josefina__doll.png",
+     "nav": "none",
+     "x": 8.0,
+     "y": 0.0,
+     "w": 147,
+     "h": 371,
+     "z": 0
+    },
+    {
+     "id": "underwear",
+     "png": "Josefina__underwear.png",
+     "nav": "none",
+     "x": 26.0,
+     "y": 69.0,
+     "w": 114,
+     "h": 209,
+     "z": 1
+    },
+    {
+     "id": "shoes",
+     "png": "Josefina__shoes.png",
+     "nav": "shoes",
+     "x": 40.0,
+     "y": 337.0,
+     "w": 85,
+     "h": 34,
+     "z": 2
+    },
+    {
+     "id": "dress",
+     "png": "Josefina__skirt.png",
+     "nav": "dress",
+     "x": 0.0,
+     "y": 152.0,
+     "w": 163,
+     "h": 187,
+     "z": 3
+    },
+    {
+     "id": "shirt",
+     "png": "Josefina__blouse.png",
+     "nav": "dress",
+     "x": 17.0,
+     "y": 67.0,
+     "w": 134,
+     "h": 93,
+     "z": 4
+    },
+    {
+     "id": "accessory2",
+     "png": "Josefina__belt.png",
+     "nav": "accessory",
+     "x": 45.0,
+     "y": 137.0,
+     "w": 76,
+     "h": 23,
+     "z": 5
+    },
+    {
+     "id": "accessory6",
+     "png": "Josefina__fan.png",
+     "nav": "accessory",
+     "x": 40.0,
+     "y": 98.0,
+     "w": 88,
+     "h": 58,
+     "z": 6
+    },
+    {
+     "id": "arms1",
+     "png": "Josefina__arms.png",
+     "nav": "none",
+     "x": 26.0,
+     "y": 106.0,
+     "w": 115,
+     "h": 63,
+     "z": 8
+    },
+    {
+     "id": "arms2",
+     "png": "Josefina__arms.png",
+     "nav": "none",
+     "x": 26.0,
+     "y": 106.0,
+     "w": 115,
+     "h": 63,
+     "z": 9
+    },
+    {
+     "id": "arms3",
+     "png": "Josefina__arms.png",
+     "nav": "none",
+     "x": 26.0,
+     "y": 106.0,
+     "w": 115,
+     "h": 63,
+     "z": 10
+    },
+    {
+     "id": "arms",
+     "png": "Josefina__arms.png",
+     "nav": "none",
+     "x": 26.0,
+     "y": 106.0,
+     "w": 115,
+     "h": 63,
+     "z": 11
+    }
+   ]
+  },
+  {
+   "id": "Kaya",
+   "year": "1764",
+   "layers": [
+    {
+     "id": "doll",
+     "png": "Kaya__doll.png",
+     "nav": "none",
+     "x": 2.0,
+     "y": 20.0,
+     "w": 147,
+     "h": 367,
+     "z": 0
+    },
+    {
+     "id": "shoes",
+     "png": "Kaya__shoes.png",
+     "nav": "shoes",
+     "x": 41.0,
+     "y": 327.0,
+     "w": 73,
+     "h": 59,
+     "z": 1
+    },
+    {
+     "id": "dress",
+     "png": "Kaya__dress.png",
+     "nav": "dress",
+     "x": 11.0,
+     "y": 80.0,
+     "w": 134,
+     "h": 300,
+     "z": 2
+    },
+    {
+     "id": "accessory4",
+     "png": "Kaya__necklace.png",
+     "nav": "accessory",
+     "x": 52.0,
+     "y": 81.0,
+     "w": 46,
+     "h": 64,
+     "z": 4
+    },
+    {
+     "id": "hat",
+     "png": "Kaya__hat.png",
+     "nav": "hats",
+     "x": 45.0,
+     "y": 0.0,
+     "w": 58,
+     "h": 51,
+     "z": 5
+    },
+    {
+     "id": "arms",
+     "png": "Kaya__arms.png",
+     "nav": "none",
+     "x": 28.0,
+     "y": 154.0,
+     "w": 98,
+     "h": 48,
+     "z": 6
+    }
+   ]
+  },
+  {
+   "id": "Kirsten",
+   "year": "1854",
+   "layers": [
+    {
+     "id": "doll",
+     "png": "Kirsten__doll.png",
+     "nav": "none",
+     "x": 8.0,
+     "y": 0.0,
+     "w": 134,
+     "h": 362,
+     "z": 0
+    },
+    {
+     "id": "stockings",
+     "png": "Kirsten__stockings.png",
+     "nav": "stockings",
+     "x": 44.0,
+     "y": 229.0,
+     "w": 72,
+     "h": 135,
+     "z": 1
+    },
+    {
+     "id": "underwear",
+     "png": "Kirsten__underwear.png",
+     "nav": "none",
+     "x": 9.0,
+     "y": 62.0,
+     "w": 133,
+     "h": 243,
+     "z": 2
+    },
+    {
+     "id": "shoes",
+     "png": "Kirsten__shoes.png",
+     "nav": "shoes",
+     "x": 48.0,
+     "y": 309.0,
+     "w": 69,
+     "h": 55,
+     "z": 3
+    },
+    {
+     "id": "hat",
+     "png": "Kirsten__hat.png",
+     "nav": "hats",
+     "x": 24.0,
+     "y": 0.0,
+     "w": 105,
+     "h": 31,
+     "z": 5
+    },
+    {
+     "id": "accessory4",
+     "png": "Kirsten__collar.png",
+     "nav": "accessory",
+     "x": 44.0,
+     "y": 60.0,
+     "w": 62,
+     "h": 29,
+     "z": 6
+    },
+    {
+     "id": "accessory1",
+     "png": "Kirsten__apron.png",
+     "nav": "accessory",
+     "x": 9.0,
+     "y": 128.0,
+     "w": 135,
+     "h": 140,
+     "z": 7
+    },
+    {
+     "id": "arms",
+     "png": "Kirsten__arms.png",
+     "nav": "none",
+     "x": 33.0,
+     "y": 132.0,
+     "w": 86,
+     "h": 56,
+     "z": 8
+    }
+   ]
+  },
+  {
+   "id": "Kit",
+   "year": "1934",
+   "layers": [
+    {
+     "id": "doll",
+     "png": "Kit__doll.png",
+     "nav": "none",
+     "x": 1.0,
+     "y": 8.0,
+     "w": 159,
+     "h": 373,
+     "z": 0
+    },
+    {
+     "id": "stockings",
+     "png": "Kit__socks.png",
+     "nav": "stockings",
+     "x": 40.0,
+     "y": 288.0,
+     "w": 80,
+     "h": 92,
+     "z": 1
+    },
+    {
+     "id": "underwear",
+     "png": "Kit__underwear.png",
+     "nav": "none",
+     "x": 36.0,
+     "y": 78.0,
+     "w": 78,
+     "h": 165,
+     "z": 2
+    },
+    {
+     "id": "shoes",
+     "png": "Kit__shoes.png",
+     "nav": "shoes",
+     "x": 39.0,
+     "y": 340.0,
+     "w": 84,
+     "h": 44,
+     "z": 3
+    },
+    {
+     "id": "dress",
+     "png": "Kit__skirt.png",
+     "nav": "dress",
+     "x": 10.0,
+     "y": 156.0,
+     "w": 125,
+     "h": 171,
+     "z": 4
+    },
+    {
+     "id": "arms1",
+     "png": "Kit__arms1.png",
+     "nav": "none",
+     "x": 31.0,
+     "y": 117.0,
+     "w": 93,
+     "h": 109,
+     "z": 5
+    },
+    {
+     "id": "shirt",
+     "png": "Kit__sweater.png",
+     "nav": "dress",
+     "x": 26.0,
+     "y": 72.0,
+     "w": 111,
+     "h": 107,
+     "z": 6
+    },
+    {
+     "id": "arms2",
+     "png": "Kit__arms1.png",
+     "nav": "none",
+     "x": 31.0,
+     "y": 117.0,
+     "w": 93,
+     "h": 109,
+     "z": 7
+    },
+    {
+     "id": "accessory7",
+     "png": "Kit__cardigan.png",
+     "nav": "dress",
+     "x": 25.0,
+     "y": 75.0,
+     "w": 103,
+     "h": 119,
+     "z": 8
+    },
+    {
+     "id": "arms",
+     "png": "Kit__arms.png",
+     "nav": "none",
+     "x": 42.5,
+     "y": 155.5,
+     "w": 48,
+     "h": 72,
+     "z": 9
+    },
+    {
+     "id": "hat",
+     "png": "Kit__bow.png",
+     "nav": "hats",
+     "x": 42.0,
+     "y": 0.0,
+     "w": 39,
+     "h": 52,
+     "z": 10
+    }
+   ]
+  },
+  {
+   "id": "Molly",
+   "year": "1944",
+   "layers": [
+    {
+     "id": "doll",
+     "png": "Molly__doll.png",
+     "nav": "none",
+     "x": 3.0,
+     "y": 5.0,
+     "w": 140,
+     "h": 369,
+     "z": 1
+    },
+    {
+     "id": "stockings",
+     "png": "Molly__socks.png",
+     "nav": "stockings",
+     "x": 36.0,
+     "y": 322.0,
+     "w": 96,
+     "h": 54,
+     "z": 2
+    },
+    {
+     "id": "shoes",
+     "png": "Molly__shoes.png",
+     "nav": "shoes",
+     "x": 36.0,
+     "y": 340.0,
+     "w": 97,
+     "h": 37,
+     "z": 4
+    },
+    {
+     "id": "dress",
+     "png": "Molly__dress.png",
+     "nav": "dress",
+     "x": 14.0,
+     "y": 72.0,
+     "w": 129,
+     "h": 216,
+     "z": 5
+    },
+    {
+     "id": "accessory8",
+     "png": "Molly__purse.png",
+     "nav": "accessory",
+     "x": 9.0,
+     "y": 73.0,
+     "w": 46,
+     "h": 137,
+     "z": 6
+    },
+    {
+     "id": "hat",
+     "png": "Molly__hat.png",
+     "nav": "hats",
+     "x": 44.0,
+     "y": 0.0,
+     "w": 66,
+     "h": 43,
+     "z": 7
+    },
+    {
+     "id": "arms",
+     "png": "Molly__arms.png",
+     "nav": "none",
+     "x": 31.0,
+     "y": 144.0,
+     "w": 33,
+     "h": 25,
+     "z": 8
+    }
+   ]
+  },
+  {
+   "id": "Samantha",
+   "year": "1904",
+   "layers": [
+    {
+     "id": "hat",
+     "png": "Samantha__bow.png",
+     "nav": "hats",
+     "x": 36.0,
+     "y": 0.0,
+     "w": 60,
+     "h": 44,
+     "z": 0
+    },
+    {
+     "id": "doll",
+     "png": "Samantha__doll.png",
+     "nav": "none",
+     "x": 2.0,
+     "y": 2.0,
+     "w": 130,
+     "h": 374,
+     "z": 1
+    },
+    {
+     "id": "stockings",
+     "png": "Samantha__stockings.png",
+     "nav": "stockings",
+     "x": 26.0,
+     "y": 230.0,
+     "w": 78,
+     "h": 145,
+     "z": 2
+    },
+    {
+     "id": "underwear",
+     "png": "Samantha__underwear.png",
+     "nav": "none",
+     "x": 14.0,
+     "y": 71.0,
+     "w": 112,
+     "h": 191,
+     "z": 3
+    },
+    {
+     "id": "dress",
+     "png": "Samantha__dress.png",
+     "nav": "dress",
+     "x": 0.0,
+     "y": 67.0,
+     "w": 134,
+     "h": 208,
+     "z": 4
+    },
+    {
+     "id": "shoes",
+     "png": "Samantha__shoes.png",
+     "nav": "shoes",
+     "x": 25.0,
+     "y": 319.0,
+     "w": 81,
+     "h": 59,
+     "z": 5
+    },
+    {
+     "id": "accessory6",
+     "png": "Samantha__basket.png",
+     "nav": "accessory",
+     "x": 43.0,
+     "y": 144.0,
+     "w": 75,
+     "h": 58,
+     "z": 6
+    },
+    {
+     "id": "accessory4",
+     "png": "Samantha__collar.png",
+     "nav": "accessory",
+     "x": 14.0,
+     "y": 67.0,
+     "w": 104,
+     "h": 72,
+     "z": 7
+    },
+    {
+     "id": "arms",
+     "png": "Samantha__arms.png",
+     "nav": "none",
+     "x": 55.0,
+     "y": 144.0,
+     "w": 28,
+     "h": 24,
+     "z": 8
+    }
+   ]
+  }
+ ]
+};</script>
+<script>
+(function () {
+  "use strict";
+  var BASE = "agd://runtime/paperdoll/";
+  var YEARS = {};
+  var dolls = [];
+
+  var PRETTY = {
+    Addy: "Addy Walker", Felicity: "Felicity Merriman", Josefina: "Josefina Montoya",
+    Kaya: "Kaya", Kirsten: "Kirsten Larson", Kit: "Kit Kittredge",
+    Molly: "Molly McIntire", Samantha: "Samantha Parkington"
+  };
+
+  function renderPicker() {
+    var grid = document.getElementById("doll-grid");
+    grid.innerHTML = "";
+    dolls.forEach(function (d) {
+      var card = document.createElement("div");
+      card.className = "doll-card";
+      card.innerHTML =
+        '<img src="' + BASE + 'icons/' + d.id + '.jpg" alt="' + d.id + '">' +
+        '<div class="name">' + (PRETTY[d.id] || d.id) + '</div>' +
+        '<div class="year">' + (d.year ? "c. " + d.year : "") + '</div>';
+      card.addEventListener("click", function () { openDoll(d); });
+      grid.appendChild(card);
+    });
+  }
+
+  function openDoll(d) {
+    document.getElementById("picker").style.display = "none";
+    var du = document.getElementById("dressup");
+    du.classList.add("active");
+    document.getElementById("back-btn").style.display = "";
+    document.getElementById("title").textContent =
+      (PRETTY[d.id] || d.id) + " — Paper Doll";
+
+    // Printable PDF (recovered to /agcn/paperdoll/pdfs/<id>.pdf)
+    var pb = document.getElementById("print-btn");
+    pb.style.display = "";
+    pb.href = "agd://www.americangirl.com/agcn/paperdoll/pdfs/" + d.id + ".pdf";
+
+    // Compute a layout offset so the doll sits centered in the 320x420 stage.
+    // doll.xml coords are relative to the original stage; normalize by the
+    // base doll layer's box.
+    var baseLayer = d.layers.find(function (l) { return l.id === "doll"; }) || d.layers[0];
+    var offX = 160 - (baseLayer.x + baseLayer.w / 2);
+    var offY = 400 - (baseLayer.y + baseLayer.h);
+
+    // Render layers
+    var stage = document.getElementById("stage");
+    stage.innerHTML = "";
+    var sorted = d.layers.slice().sort(function (a, b) { return a.z - b.z; });
+    sorted.forEach(function (l) {
+      var img = document.createElement("img");
+      img.className = "layer" + (l.nav === "none" ? "" : " hidden");
+      img.src = BASE + "pieces/" + l.png;
+      img.style.left = (l.x + offX) + "px";
+      img.style.top = (l.y + offY) + "px";
+      img.style.width = l.w + "px";
+      img.style.zIndex = l.z;
+      img.dataset.layerId = l.id;
+      stage.appendChild(img);
+    });
+
+    // Build closet (toggle buttons grouped by nav type)
+    var closet = document.getElementById("closet");
+    closet.innerHTML = "<h3>Dress " + (PRETTY[d.id] || d.id).split(" ")[0] + "</h3>";
+    var NAV_LABELS = {
+      stockings: "Stockings", shoes: "Shoes", dress: "Dress",
+      hats: "Hats", accessory: "Accessories"
+    };
+    var groups = {};
+    d.layers.forEach(function (l) {
+      if (l.nav === "none") return;
+      (groups[l.nav] = groups[l.nav] || []).push(l);
+    });
+    var order = ["dress", "hats", "stockings", "shoes", "accessory"];
+    order.forEach(function (nav) {
+      if (!groups[nav]) return;
+      var g = document.createElement("div");
+      g.className = "navgroup";
+      g.innerHTML = '<div class="navlabel">' + (NAV_LABELS[nav] || nav) + '</div>';
+      var thumbs = document.createElement("div");
+      thumbs.className = "thumbs";
+      groups[nav].forEach(function (l) {
+        var t = document.createElement("div");
+        t.className = "thumb";
+        t.style.backgroundImage = "url('" + BASE + "pieces/" + l.png + "')";
+        t.title = l.id;
+        t.addEventListener("click", function () {
+          var layerEl = stage.querySelector('[data-layer-id="' + l.id + '"]');
+          if (!layerEl) return;
+          var nowHidden = layerEl.classList.toggle("hidden");
+          t.classList.toggle("on", !nowHidden);
+        });
+        thumbs.appendChild(t);
+      });
+      g.appendChild(thumbs);
+      closet.appendChild(g);
+    });
+  }
+
+  document.getElementById("back-btn").addEventListener("click", function (e) {
+    e.preventDefault();
+    document.getElementById("dressup").classList.remove("active");
+    document.getElementById("picker").style.display = "";
+    document.getElementById("back-btn").style.display = "none";
+    document.getElementById("print-btn").style.display = "none";
+    document.getElementById("title").textContent = "The American Girl Paper Dolls";
+  });
+
+  // ---- bootstrap (runs last, after PRETTY + all functions are defined) ----
+  // The manifest is injected as window.__AGD_PAPERDOLL_MANIFEST__ in a
+  // <script> just before this one (avoids fetch() on the agd:// scheme,
+  // which WebKit blocks).
+  dolls = (window.__AGD_PAPERDOLL_MANIFEST__ || {}).dolls || [];
+  if (dolls.length) {
+    renderPicker();
+  } else {
+    document.getElementById("doll-grid").innerHTML =
+      '<p class="empty-note">Paper dolls manifest missing.</p>';
+  }
+})();
+</script>
+</body>
+</html>

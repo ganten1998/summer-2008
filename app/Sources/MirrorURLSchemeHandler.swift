@@ -600,7 +600,7 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             headerFields: [
                 "Content-Type": "text/css; charset=utf-8",
                 "Content-Length": "0",
-                "Cache-Control": "max-age=31536000",
+                "Cache-Control": "no-store",
             ]
         )!
         let key = ObjectIdentifier(task)
@@ -656,7 +656,13 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             "Content-Type": mime,
             "Content-Length": "\(data.count)",
             "Access-Control-Allow-Origin": "*",
-            "Cache-Control": "max-age=31536000",
+            // no-store, not a long max-age: the mirror is all local so
+            // browser caching buys nothing, and a year-long cache made
+            // WKWebView serve stale dashboard/runtime HTML across rebuilds
+            // (e.g. the paper-doll game.html showing an empty picker after
+            // an update because the old copy was cached). Matches the
+            // Windows handler, which already uses no-store.
+            "Cache-Control": "no-store",
         ]
         let resp = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: headers)!
         let key = ObjectIdentifier(task)

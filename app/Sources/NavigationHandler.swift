@@ -125,11 +125,10 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
             // x86_64, verified loads on modern macOS) which handles the
             // game's actual Flash semantics correctly.
             let pathLower = swfURL.path.lowercased()
-            let routeStraightToProjector = [
-                "/agcn/paperdoll/paper_dolls.swf",
-                "/agcn/paperdoll/pick_doll.swf",
-                "/agcn/paperdoll/dress_dolls.swf",
-            ]
+            // (Empty — paper_dolls.swf was the only blacklist entry and
+            // the projector also can't render it. The gallery routes
+            // its tile to the Shockwave version instead.)
+            let routeStraightToProjector: [String] = []
             if routeStraightToProjector.contains(where: { pathLower.hasSuffix($0) }) {
                 GameLauncher.shared.launch(originalURL: swfURL)
                 decisionHandler(.cancel)

@@ -645,7 +645,14 @@ def main() -> int:
                     # there.
                     if (host, path) == ("www.americangirl.com",
                                         "/agcn/paperdoll/index.html"):
-                        target_url = "agd://www.americangirl.com/agmg/paperdoll/index.html"
+                        # Custom HTML5 rebuild — the original Flash dress-up
+                        # game (paper_dolls.swf) uses Flash 6 shared
+                        # libraries that neither Ruffle nor Flash Player 32
+                        # render. We extracted all 71 outfit-piece bitmaps
+                        # (with alpha) from the recovered SWFs and rebuilt
+                        # the dress-up experience natively per doll.xml's
+                        # layer spec. Lives in mirror-runtime/paperdoll/.
+                        target_url = "agd://runtime/paperdoll/game.html"
                 else:
                     swf_url = f"agd://{host}{path}"
                     # Serve the player under the SWF's own host (via the
