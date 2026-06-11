@@ -894,8 +894,12 @@
     dolls.forEach(function (d) {
       var card = document.createElement("div");
       card.className = "doll-card";
+      // The original Flash select screen's character portraits ship in the
+      // mirror itself: doll_outfits/<Character>/icon.jpg. Use those rather
+      // than a runtime icons/ dir that never existed.
       card.innerHTML =
-        '<img src="' + BASE + 'icons/' + d.id + '.jpg" alt="' + d.id + '">' +
+        '<img src="agd://www.americangirl.com/agcn/paperdoll/doll_outfits/' +
+            d.id + '/icon.jpg" alt="' + d.id + '">' +
         '<div class="name">' + (PRETTY[d.id] || d.id) + '</div>' +
         '<div class="year">' + (d.year ? "c. " + d.year : "") + '</div>';
       card.addEventListener("click", function () { openDoll(d); });
@@ -923,13 +927,33 @@
     var offX = 160 - (baseLayer.x + baseLayer.w / 2);
     var offY = 400 - (baseLayer.y + baseLayer.h);
 
+    // levelplus relationships from the original doll.xml: showing a
+    // garment also shows its companion overlay (dress → arms — the arm
+    // sprite drawn OVER the dress sleeves). Plus-target layers are never
+    // shown on their own: the base doll art already includes arms, so an
+    // unconditional arms overlay reads as a double-arm glitch on the
+    // undressed doll.
+    var plusTargets = {};
+    d.layers.forEach(function (l) {
+      if (l.plus) plusTargets[l.plus] = true;
+    });
+    function isInitiallyVisible(l) {
+      if (l.nav !== "none") return false;           // garments start off
+      if (!plusTargets[l.id]) return true;          // plain base art
+      // plus-target: visible only if some initially-visible layer pluses
+      // it (doll → underwear). Garment-owned overlays start hidden.
+      return d.layers.some(function (o) {
+        return o.plus === l.id && o.nav === "none" && !plusTargets[o.id];
+      });
+    }
+
     // Render layers
     var stage = document.getElementById("stage");
     stage.innerHTML = "";
     var sorted = d.layers.slice().sort(function (a, b) { return a.z - b.z; });
     sorted.forEach(function (l) {
       var img = document.createElement("img");
-      img.className = "layer" + (l.nav === "none" ? "" : " hidden");
+      img.className = "layer" + (isInitiallyVisible(l) ? "" : " hidden");
       img.src = BASE + "pieces/" + l.png;
       img.style.left = (l.x + offX) + "px";
       img.style.top = (l.y + offY) + "px";
@@ -938,6 +962,22 @@
       img.dataset.layerId = l.id;
       stage.appendChild(img);
     });
+
+    // Re-derive every plus-target's visibility from its owners' current
+    // state. Called after each closet toggle.
+    function syncPlusLayers() {
+      Object.keys(plusTargets).forEach(function (tid) {
+        var el = stage.querySelector('[data-layer-id="' + tid + '"]');
+        if (!el) return;  // piece not recovered (yet) — no-op
+        var shown = d.layers.some(function (o) {
+          if (o.plus !== tid) return false;
+          if (o.nav === "none" && !plusTargets[o.id]) return true;  // base art
+          var oEl = stage.querySelector('[data-layer-id="' + o.id + '"]');
+          return oEl && !oEl.classList.contains("hidden");
+        });
+        el.classList.toggle("hidden", !shown);
+      });
+    }
 
     // Build closet (toggle buttons grouped by nav type)
     var closet = document.getElementById("closet");
@@ -969,6 +1009,7 @@
           if (!layerEl) return;
           var nowHidden = layerEl.classList.toggle("hidden");
           t.classList.toggle("on", !nowHidden);
+          syncPlusLayers();
         });
         thumbs.appendChild(t);
       });
