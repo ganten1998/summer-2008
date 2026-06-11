@@ -252,6 +252,22 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
                 injectBaseHref = path + "/"
             }
         }
+        // 0b) The 2008 e-card pickup endpoint. Real sent cards were viewed
+        //     at /ecards/personalecard.php?eci=<design>&vei=<instance>&
+        //     vec=<md5> (verified via Wayback CDX; the parameterized pages
+        //     themselves were private and never archived). Our recreated
+        //     pickup page serves here so the link in a sent e-card email
+        //     reads like the 2008 one. Card content/message arrive in the
+        //     same query string (swf=, msg=, from=).
+        if path.lowercased() == "/ecards/personalecard.php" {
+            let viewPage = bundleResources
+                .appendingPathComponent("mirror-runtime", isDirectory: true)
+                .appendingPathComponent("ecard-view.html")
+            if FileManager.default.fileExists(atPath: viewPage.path) {
+                respondWithFile(task: task, url: url, file: viewPage)
+                return
+            }
+        }
         // 0) Reserved synthetic paths -- served from mirror-runtime/ but using
         //    the mirror's host so the synthetic player page is same-origin
         //    with the SWFs/JS it loads. Without this, Ruffle's fetch sees a
@@ -328,11 +344,40 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             // Glob fallback — any sibling with the same base name and any
             // __<query> suffix. Useful when the file was crawled with a
             // *different* query string than the one the page now requests.
+            //
+            // For BINARY assets the query just conveys runtime config
+            // (personalMsg text, cache-busters) — any captured variant of
+            // the same file is the right answer. For PAGES (.php/.html)
+            // the query SELECTS the content: choose.php?ecard=addysbirthday
+            // and choose.php?ecard=afriendlikeyou are entirely different
+            // cards. Unrestricted globbing here served whichever variant
+            // sorted shortest — the e-card "thumbnail doesn't match what
+            // loads" bug. Pages therefore only match variants whose
+            // crawler-encoded suffix contains every key_value token from
+            // the live query; no token match → fall through to Wayback.
             let dir = baseURL.deletingLastPathComponent()
             let stem = baseURL.lastPathComponent
+            let pageExts: Set<String> = ["php", "html", "htm", "asp", "aspx", "jsp", "cgi"]
+            let isPage = pageExts.contains((path as NSString).pathExtension.lowercased())
+            let queryTokens: [String] = (url.query ?? "")
+                .split(separator: "&")
+                .map { $0.replacingOccurrences(of: "=", with: "_") }
             if let listing = try? FileManager.default.contentsOfDirectory(atPath: dir.path) {
-                let matches = listing.filter { $0 == stem || $0.hasPrefix(stem + "__") }
-                    .sorted { $0.count < $1.count }  // prefer shortest (closest to base)
+                let matches = listing.filter { name in
+                    guard name == stem || name.hasPrefix(stem + "__") else { return false }
+                    if isPage {
+                        // Token-boundary match: ecard=valentine must NOT
+                        // match ..._ecard_valentinewishes_... — pad both
+                        // sides with the crawler's `_` separator before
+                        // substring-testing.
+                        let suffix = String(name.dropFirst(stem.count)) + "_"
+                        return queryTokens.allSatisfy {
+                            suffix.contains("_" + $0 + "_")
+                        }
+                    }
+                    return true
+                }
+                .sorted { $0.count < $1.count }  // prefer shortest (closest to base)
                 if let pick = matches.first {
                     let alt = dir.appendingPathComponent(pick)
                     respondWithFile(task: task, url: url, file: alt)

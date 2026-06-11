@@ -85,6 +85,36 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
         return comps.url
     }
 
+    /// Resolve a navigation that leaked into /__agd/ back onto the SWF's
+    /// real directory. Returns nil when the request is a legitimate
+    /// runtime asset (player.html itself, ruffle/*, ecard pages — anything
+    /// that exists under mirror-runtime/), or when the current page isn't
+    /// the inline player, so normal handling proceeds.
+    static func reanchorPlayerEscape(url: URL, currentPage: URL?) -> URL? {
+        let sub = String(url.path.dropFirst("/__agd/".count))
+        guard !sub.isEmpty else { return nil }
+        if let res = Bundle.main.resourceURL {
+            let runtimeFile = res.appendingPathComponent("mirror-runtime", isDirectory: true)
+                .appendingPathComponent(sub)
+            if FileManager.default.fileExists(atPath: runtimeFile.path) { return nil }
+        }
+        guard let current = currentPage,
+              current.path.hasPrefix("/__agd/player.html"),
+              let comps = URLComponents(url: current, resolvingAgainstBaseURL: false),
+              let swfStr = comps.queryItems?.first(where: { $0.name == "swf" })?.value,
+              let swfURL = URL(string: swfStr)
+        else { return nil }
+        var target = swfURL.deletingLastPathComponent()
+        for piece in sub.split(separator: "/") {
+            target.appendPathComponent(String(piece))
+        }
+        if var rebuilt = URLComponents(url: target, resolvingAgainstBaseURL: false) {
+            rebuilt.query = url.query
+            return rebuilt.url
+        }
+        return target
+    }
+
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -94,6 +124,25 @@ final class NavigationHandler: NSObject, WKNavigationDelegate, WKUIDelegate {
         }
 
         let scheme = url.scheme?.lowercased() ?? ""
+
+        // getURL escapes from gallery-launched games. Ruffle resolves a
+        // relative getURL NAVIGATION target against the host page's URL
+        // (/__agd/player.html), not against the SWF-dir `base` it uses for
+        // asset fetches — so Kit's Railway map clicking "cincinnatiut.html"
+        // navigates to /__agd/cincinnatiut.html, which can never exist and
+        // 404s as "not preserved". Re-anchor: take the leaked leaf path,
+        // resolve it against the SWF's directory (carried in the player
+        // page's ?swf= query), and navigate there instead. The scheme
+        // handler's /sw/-parent fallback covers SWFs whose targets are
+        // siblings of their wrapper page rather than of the SWF itself.
+        if scheme == "agd", url.path.hasPrefix("/__agd/"),
+           let reanchored = Self.reanchorPlayerEscape(url: url, currentPage: webView.url) {
+            decisionHandler(.cancel)
+            DispatchQueue.main.async {
+                webView.load(URLRequest(url: reanchored))
+            }
+            return
+        }
 
         // Explicit "open in external projector" scheme — only reachable when
         // the user clicks the inline player's fallback link, so it really
