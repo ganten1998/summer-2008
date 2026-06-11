@@ -3,16 +3,16 @@ import Foundation
 
 /// Resolves an `agd://` or `agd-launch://` URL to a real on-disk file and
 /// opens it with the right external player:
-///   * `.swf` → bundled Flash Player.app (Adobe standalone projector)
+///   * `.swf` → bundled Wine + Flash 32 standalone projector (Windows EXE)
 ///   * `.dcr` → bundled Wine + Director projector (Director 12 by default)
 ///
-/// Both projector chains live under `Contents/Resources/` so the .app is
-/// fully self-contained; nothing outside the bundle is required at runtime.
+/// Both projector chains are Wine-driven and live under `Contents/Resources/`
+/// so the .app is fully self-contained; nothing outside the bundle is
+/// required at runtime.
 final class GameLauncher {
     static let shared = GameLauncher()
 
     private let bundleResources: URL
-    private let flashProjectorURL: URL?
 
     /// Per-DCR running projector tracking. Each click on the Director stub
     /// would otherwise spawn a fresh Wine/projector process; if one is
@@ -47,11 +47,16 @@ final class GameLauncher {
     /// later if a specific game needs an older runtime.
     private let directorProjectorRelPath = "Shockwave/PJ12/SPR.exe"
 
+    /// Flash 32 standalone projector executable. Windows EXE driven by the
+    /// same bundled Wine that runs the Shockwave projector — keeps the
+    /// .app fully self-contained and avoids needing a macOS-native
+    /// Flash Player.app (Adobe stopped shipping those long before 2008's
+    /// content needed preserving anyway).
+    private let flashProjectorRelPath = "Flash/flashplayer_32_sa.exe"
+
     init() {
         let res = Bundle.main.resourceURL ?? URL(fileURLWithPath: ".")
         self.bundleResources = res
-        let flash = res.appendingPathComponent("Flash Player.app")
-        self.flashProjectorURL = FileManager.default.fileExists(atPath: flash.path) ? flash : nil
     }
 
     func launch(originalURL: URL) {
@@ -78,27 +83,55 @@ final class GameLauncher {
         }
     }
 
-    // MARK: - SWF (Adobe Flash standalone projector)
+    // MARK: - SWF (Wine + Flash 32 standalone projector)
 
     private func launchSWF(at swfPath: URL) {
-        guard let projector = flashProjectorURL else {
-            presentNoFlashProjector(swfPath: swfPath)
+        let wineDir = bundleResources.appendingPathComponent("Wine", isDirectory: true)
+        let wineload = wineDir
+            .appendingPathComponent("bin", isDirectory: true)
+            .appendingPathComponent("wineload")
+        let projector = bundleResources
+            .appendingPathComponent(flashProjectorRelPath)
+
+        let fm = FileManager.default
+        guard fm.isExecutableFile(atPath: wineload.path) else {
+            presentNoWine(dcrPath: swfPath, wineload: wineload)
+            return
+        }
+        guard fm.fileExists(atPath: projector.path) else {
+            presentNoFlashProjector(swfPath: swfPath, projector: projector)
             return
         }
 
-        let cfg = NSWorkspace.OpenConfiguration()
-        cfg.activates = true
-        // Don't also set cfg.arguments to the SWF path — NSWorkspace.open()
-        // already passes [swfPath] to the projector. Setting both makes
-        // Flash Player open the same file twice and pop two windows.
-        NSWorkspace.shared.open([swfPath], withApplicationAt: projector, configuration: cfg) { _, err in
-            if let err = err {
-                DispatchQueue.main.async {
-                    let alert = NSAlert()
-                    alert.messageText = "Couldn't launch the Flash projector"
-                    alert.informativeText = err.localizedDescription
-                    alert.runModal()
-                }
+        // Same WINEPREFIX as the Director projector. First run bootstraps;
+        // subsequent runs (Flash or Director) reuse it.
+        let prefix = applicationSupportRoot()
+            .appendingPathComponent("wineprefix", isDirectory: true)
+        try? fm.createDirectory(at: prefix.deletingLastPathComponent(),
+                                withIntermediateDirectories: true)
+        ensureNativeWineChrome(prefix: prefix)
+
+        let task = Process()
+        task.executableURL = wineload
+        task.arguments = [projector.path, swfPath.path]
+
+        var env = ProcessInfo.processInfo.environment
+        env["WINEPREFIX"] = prefix.path
+        env["WINEARCH"] = "wow64"
+        env["DYLD_FALLBACK_LIBRARY_PATH"] =
+            wineDir.appendingPathComponent("lib").path
+        env["WINEDEBUG"] = "fixme-all,err-all"
+        task.environment = env
+        task.currentDirectoryURL = wineDir
+
+        do {
+            try task.run()
+        } catch {
+            DispatchQueue.main.async {
+                let alert = NSAlert()
+                alert.messageText = "Couldn't launch the Flash projector"
+                alert.informativeText = "Wine failed to start:\n\(error.localizedDescription)\n\nGame: \(swfPath.lastPathComponent)"
+                alert.runModal()
             }
         }
     }
@@ -387,11 +420,11 @@ final class GameLauncher {
         }
     }
 
-    private func presentNoFlashProjector(swfPath: URL) {
+    private func presentNoFlashProjector(swfPath: URL, projector: URL) {
         DispatchQueue.main.async {
             let alert = NSAlert()
             alert.messageText = "Missing Flash Projector"
-            alert.informativeText = "Couldn't find the bundled Flash Player.app at:\n\(self.bundleResources.appendingPathComponent("Flash Player.app").path)\n\nThe game is at: \(swfPath.path)"
+            alert.informativeText = "Couldn't find the bundled Flash standalone projector at:\n\(projector.path)\n\nThe game is at: \(swfPath.path)"
             alert.runModal()
         }
     }

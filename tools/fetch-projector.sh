@@ -75,5 +75,14 @@ ditto "$FP/FPSoftware/Shockwave" "$ROOT/projector/Shockwave"
 echo "✓ projector/Shockwave ready"
 
 echo ""
+echo "==> Hydrating projector/Flash (~15 MB, Flash 32 standalone)"
+# Fallback path for SWFs Ruffle can't play inline. Windows EXE; the bundled
+# Wine launches it. Self-contained on disk + at runtime — no separate macOS
+# Flash Player.app needed.
+mkdir -p "$ROOT/projector/Flash"
+cp "$FP/FPSoftware/Flash/flashplayer_32_sa.exe" "$ROOT/projector/Flash/"
+echo "✓ projector/Flash ready"
+
+echo ""
 echo "==> Done. Run app/build.sh to build the .app."
 du -sh "$ROOT/projector"/* 2>/dev/null | sort -h

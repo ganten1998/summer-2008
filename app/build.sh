@@ -54,11 +54,11 @@ cp -R "$HERE/Resources/dashboard" "$OUT/Contents/Resources/dashboard"
 echo "==> Copying mirror-runtime (flash-bridge.js etc)"
 cp -R "$HERE/Resources/mirror-runtime" "$OUT/Contents/Resources/mirror-runtime"
 
-echo "==> Copying bundled Flash Player projector"
-if [[ -d "$ROOT/projector/Flash Player.app" ]]; then
-  cp -R "$ROOT/projector/Flash Player.app" "$OUT/Contents/Resources/Flash Player.app"
+echo "==> Copying bundled Flash standalone projector (Wine-driven)"
+if [[ -d "$ROOT/projector/Flash" ]]; then
+  ditto "$ROOT/projector/Flash" "$OUT/Contents/Resources/Flash"
 else
-  echo "    !! projector/Flash Player.app missing -- SWF games won't launch"
+  echo "    !! projector/Flash missing -- SWF projector fallback unavailable"
 fi
 
 echo "==> Copying bundled Wine + Director projectors (for .dcr Shockwave games)"
