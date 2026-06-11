@@ -36,5 +36,20 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<!-- Register agd:// with Launch Services so e-card pickup links in a
+	     recipient's email open the app directly on their card — the 2026
+	     equivalent of clicking the 2008 "view your greeting" email link.
+	     (The Windows port registers the same scheme in its installer.) -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Summer 2008 Archive Page</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>agd</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

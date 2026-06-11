@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>You've Received an American Girl E-Card!</title>
+<!-- Recipient pickup page — reconstructs what /ecards/view.php showed in
+     2008 when you clicked the link in the "You've received an E-Card"
+     email: the animated Flash card with the sender's personal message
+     rendered inside it, the sender's name, and a resend path. Evidence
+     base: the Dec-2007 customize.php capture (its "Notify me when
+     greeting is viewed" checkbox = recipients viewed cards on-site) and
+     the four captured customize.php?action=resend&ecard=<hash> pages.
+     Period chrome borrowed from the real ecardcentral.css + choose.php
+     table layout (white bg, 600x350 embed, textEcard styles). -->
+<link href="agd://www.americangirl.com/includes/styles/ecardcentral.css" rel="stylesheet" type="text/css">
+<link href="agd://www.americangirl.com/includes/css/global.css" rel="stylesheet" type="text/css">
+<style>
+  /* Quotes the 2008 page skeleton; minimal modern CSS, mostly to center
+     the legacy table look without the full header include chain. */
+  html, body { margin: 0; padding: 0; background: #ffffff; }
+  body { font-family: Verdana, Arial, Helvetica, sans-serif; color: #23063b; }
+  .pagewrap { width: 760px; margin: 0 auto; }
+  .masthead {
+    padding: 14px 0 10px; text-align: left;
+    border-bottom: 2px solid #b32447;
+  }
+  .masthead img { display: inline-block; }
+  .greeting {
+    text-align: center; padding: 22px 0 4px;
+    font-size: 18px; font-weight: bold; color: #b32447;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+  .subline {
+    text-align: center; font-size: 11px; color: #23063b;
+    padding-bottom: 16px;
+  }
+  .cardframe {
+    width: 600px; margin: 0 auto;
+    border: 1px solid #cccccc;
+  }
+  .cardframe embed, .cardframe ruffle-player {
+    display: block; width: 600px; height: 350px;
+  }
+  .fromline {
+    text-align: center; font-size: 12px; padding: 14px 0 2px;
+  }
+  .fromline b { color: #b32447; }
+  .actions {
+    text-align: center; font-size: 11px; padding: 16px 0 8px;
+  }
+  .actions a {
+    color: #23063b; font-weight: bold;
+    margin: 0 14px; text-decoration: underline;
+  }
+  .stampline { text-align: center; padding: 10px 0 26px; }
+  .footnote {
+    text-align: center; font-size: 10px; color: #888;
+    padding: 8px 0 22px; line-height: 1.5;
+  }
+</style>
+<script>
+// Force preserveDrawingBuffer:true on every WebGL context — same patch as
+// ecard-frame.html. The wizard's step-2 "capture card for email" flow
+// snapshots Ruffle's canvas from the parent document; without this the
+// back buffer is cleared after composite and toBlob returns empty.
+(function () {
+  var orig = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, attrs) {
+    if (type === "webgl" || type === "webgl2" || type === "experimental-webgl") {
+      attrs = attrs || {};
+      attrs.preserveDrawingBuffer = true;
+    }
+    return orig.call(this, type, attrs);
+  };
+})();
+// Splice the personal message into the SWF URL before Ruffle's polyfill
+// runs — identical mechanism to ecard-frame.html. The SWF renders the
+// message in its own message window, exactly as the 2008 view page did
+// (personalMsg arrived as a flashvar on the embed src).
+(function () {
+  "use strict";
+  var qp = new URLSearchParams(location.search);
+  var swf  = qp.get("swf") || "";
+  var msg  = qp.get("msg") || "";
+  function softEncode(s) {
+    return String(s || "")
+      .replace(/%/g, "%25").replace(/&/g, "%26").replace(/=/g, "%3D")
+      .replace(/\?/g, "%3F").replace(/#/g, "%23").replace(/\+/g, "%2B")
+      .replace(/ /g, "+");
+  }
+  if (swf) {
+    var enc = softEncode(msg);
+    if (/[?&]personalMsg=/.test(swf)) {
+      swf = swf.replace(/([?&]personalMsg=)[^&]*/, "$1" + enc);
+    } else {
+      swf += (swf.indexOf("?") < 0 ? "?" : "&") + "personalMsg=" + enc;
+    }
+  }
+  window.__AGD_VIEW_SWF__ = swf;
+  window.__AGD_VIEW_META__ = {
+    from:  qp.get("from")  || "",
+    ecard: qp.get("ecard") || "",
+    theme: qp.get("theme") || "",
+  };
+})();
+</script>
+<script src="agd://runtime/ruffle-boot.js"></script>
+<script src="agd://runtime/ruffle/ruffle.js"></script>
+<script src="agd://runtime/flash-bridge.js"></script>
+<script src="agd://runtime/volume-control.js"></script>
+</head>
+<body>
+
+<div class="pagewrap">
+  <div class="masthead">
+    <img src="agd://www.americangirl.com/ecards/images/agcn_title.gif" alt="American Girl" height="40"
+         onerror="this.style.display='none'">
+  </div>
+
+  <div class="greeting" id="greet">You&rsquo;ve received an American Girl E-Card!</div>
+  <div class="subline">Press play if your card doesn&rsquo;t start on its own. Don&rsquo;t forget your sound!</div>
+
+  <div class="cardframe">
+    <script>
+    document.write(
+      '<embed src="' + (window.__AGD_VIEW_SWF__ || "") + '" ' +
+      'type="application/x-shockwave-flash" width="600" height="350" ' +
+      'quality="high" bgcolor="#FFFFFF">'
+    );
+    </script>
+  </div>
+
+  <div class="fromline" id="fromline" hidden>
+    This greeting was sent to you by <b id="fromname"></b>.
+  </div>
+
+  <div class="actions">
+    <a id="resend-link" href="agd://www.americangirl.com/ecards/index.php">Send this card to a friend</a>
+    <a href="agd://www.americangirl.com/ecards/index.php">Pick a different card</a>
+  </div>
+
+  <div class="stampline">
+    <img src="agd://www.americangirl.com/ecards/images/ecardstamp.gif" alt=""
+         onerror="this.style.display='none'">
+  </div>
+
+  <div class="footnote">
+    In 2008, this page lived at americangirl.com/ecards and your greeting stayed
+    available for pickup&nbsp;&mdash;&nbsp;the sender could even ask to be notified when you viewed it.<br>
+    Recreated by Summer 2008 &mdash; An American Girl Archive.
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var meta = window.__AGD_VIEW_META__ || {};
+  if (meta.from) {
+    document.getElementById("fromname").textContent = meta.from;
+    document.getElementById("fromline").hidden = false;
+    document.getElementById("greet").textContent =
+      meta.from + " has sent you an American Girl E-Card!";
+  }
+  // "Send this card to a friend" = the 2008 resend flow: same card,
+  // straight into the customize step. Route through the chooser page for
+  // this card when we know its key; plain E-Card Central otherwise.
+  if (meta.ecard) {
+    document.getElementById("resend-link").href =
+      "agd://www.americangirl.com/ecards/choose.php?ecard=" +
+      encodeURIComponent(meta.ecard) + "&action=choose" +
+      (meta.theme ? "&theme=" + encodeURIComponent(meta.theme) : "");
+  }
+})();
+</script>
+</body>
+</html>

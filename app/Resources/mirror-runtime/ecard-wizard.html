@@ -84,6 +84,11 @@
     border: 0; background: #000;
   }
   .ecard-frame ruffle-player { display: block; width: 600px; height: 350px; }
+  /* Step 2 shows the RECIPIENT pickup page (ecard-view.html) — the full
+     "you've received an e-card" page they'll land on, not just the bare
+     card. Wider + taller to fit the period chrome. */
+  .ecard-frame.recipient { width: 760px; height: 640px; background: #fff; }
+  .ecard-frame.recipient iframe { width: 760px; height: 640px; background: #fff; }
 
   form .field {
     margin-bottom: 16px;
@@ -270,8 +275,8 @@
       </div>
       <div class="field">
         <label for="message">Your Message</label>
-        <textarea id="message" name="message" required
-                  placeholder="Your personal message goes here..."></textarea>
+        <textarea id="message" name="message" required maxlength="350"
+                  placeholder="Your personal message goes here... (up to 350 characters)"></textarea>
         <div class="field-error" data-err="message"></div>
       </div>
       <div class="grid-2">
@@ -299,9 +304,10 @@
   <!-- ─────────────────── Step 2: Preview ─────────────────── -->
   <section class="step" data-step="2">
     <h2 class="title">Here's What They'll See</h2>
-    <p class="lede">Take one last look. You can go back to make changes, or send it on.</p>
+    <p class="lede">This is the pickup page your recipient lands on — animated card, your message inside it,
+       your name on the greeting — just like the 2008 e-mail link.</p>
 
-    <div class="ecard-frame" id="frame-2"></div>
+    <div class="ecard-frame recipient" id="frame-2"></div>
 
     <div class="email-card">
       <div class="row"><div class="lbl">To</div>      <div class="val" id="prev-recipient"></div></div>
@@ -465,6 +471,44 @@
   // with the other step's preview, which was the trigger for Ruffle's
   // "Something went wrong" panic when both Step 1 and Step 2 had live
   // players at the same time.
+  function cleanSwfURL(url) {
+    // Strip personalMsg from the swf URL — the frame/view page splices in
+    // whatever message we pass via the &msg= query.
+    return url.replace(/([?&])personalMsg=[^&]*/, "$1").replace(/[?&]$/, "");
+  }
+
+  // The recipient pickup URL — shaped like the real 2008 one. Sent cards
+  // were picked up at /ecards/personalecard.php?eci=<design>&vei=<instance>
+  // &vec=<md5> (verified in the Wayback CDX index; the scheme handler
+  // routes this path to our recreated view page). eci carries the card
+  // key; vei/vec are derived deterministically from the card+message so
+  // the same greeting always yields the same link; swf/msg/from carry
+  // what the 2008 server would have looked up server-side.
+  function recipientViewURL(msg, senderName) {
+    var seedStr = ECARD_KEY + "|" + (msg || "") + "|" + (senderName || "");
+    var h = 0x811c9dc5;  // FNV-1a
+    for (var i = 0; i < seedStr.length; i++) {
+      h ^= seedStr.charCodeAt(i);
+      h = (h >>> 0) * 0x01000193 >>> 0;
+    }
+    var vei = 600000 + (h % 99999);  // instance counter was ~644k by 2008
+    var vec = "";
+    var x = h >>> 0;
+    for (var j = 0; j < 8; j++) {
+      vec += ("0000" + x.toString(16)).slice(-4);
+      x = (x * 0x01000193 + 0x9e3779b9) >>> 0;
+    }
+    return "agd://www.americangirl.com/ecards/personalecard.php"
+         + "?eci="   + encodeURIComponent(ECARD_ID || ECARD_KEY)
+         + "&vei="   + vei
+         + "&vec="   + vec
+         + "&swf="   + encodeURIComponent(cleanSwfURL(SWF_URL))
+         + "&msg="   + encodeURIComponent(msg || "")
+         + "&from="  + encodeURIComponent(senderName || "")
+         + "&ecard=" + encodeURIComponent(ECARD_KEY)
+         + "&theme=" + encodeURIComponent(THEME);
+  }
+
   function mountRuffle(containerId, url, msg) {
     var container = document.getElementById(containerId);
     if (!container) return;
@@ -472,13 +516,23 @@
     var iframe = document.createElement("iframe");
     iframe.width = "600";
     iframe.height = "350";
-    // Strip personalMsg from the swf URL — the frame page splices in
-    // whatever message we pass via the &msg= query.
-    var cleanSwf = url.replace(/([?&])personalMsg=[^&]*/, "$1").replace(/[?&]$/, "");
     var src = "agd://www.americangirl.com/__agd/ecard-frame.html"
-            + "?swf=" + encodeURIComponent(cleanSwf)
+            + "?swf=" + encodeURIComponent(cleanSwfURL(url))
             + "&msg=" + encodeURIComponent(msg || "");
     iframe.src = src;
+    container.appendChild(iframe);
+  }
+
+  // Step-2 mount: the full recipient pickup page rather than the bare
+  // 600x350 card, so "Here's What They'll See" is literally true.
+  function mountRecipientView(containerId, msg, senderName) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = "";
+    var iframe = document.createElement("iframe");
+    iframe.width = "760";
+    iframe.height = "640";
+    iframe.src = recipientViewURL(msg, senderName);
     container.appendChild(iframe);
   }
 
@@ -593,7 +647,7 @@
     document.getElementById("prev-sender").textContent    = state.sender_name + "  ⟨" + state.sender_email + "⟩";
     document.getElementById("prev-date").textContent      = formatDate(state);
     document.getElementById("prev-message").textContent   = state.message;
-    mountRuffle("frame-2", SWF_URL, state.message);
+    mountRecipientView("frame-2", state.message, state.sender_name);
   }
   function renderSent() {
     document.getElementById("sent-recipient").textContent = state.recipient_email;
@@ -601,7 +655,7 @@
     document.getElementById("sent-date").textContent      = formatDate(state);
     // Build a mailto: that opens the user's default mail client with the
     // message ready to actually send.
-    var subj = (state.sender_name || "A friend") + " sent you an American Girl e-card";
+    var subj = (state.sender_name || "A friend") + " has sent you an American Girl E-Card!";
     var body = [
       "Hi!",
       "",
@@ -609,12 +663,15 @@
       "",
       "— " + state.sender_name,
       "",
-      "(Sent from Summer 2008 — An American Girl Archive. The animated greeting",
-      "card was part of americangirl.com's 2008 e-card central. View it in the",
-      "archive app at:",
-      "agd://www.americangirl.com/ecards/choose.php?ecard=" + encodeURIComponent(ECARD_KEY) +
-        "&action=choose&theme=" + encodeURIComponent(THEME) +
-        ")",
+      "A picture of your card is attached (or pasted above).",
+      "",
+      "To see the ANIMATED card with this message inside it — the way",
+      "americangirl.com delivered e-cards in 2008 — open this link on a",
+      "computer with the free Summer 2008 archive app installed:",
+      "",
+      recipientViewURL(state.message, state.sender_name),
+      "",
+      "(Sent from Summer 2008 — An American Girl Archive.)",
     ].join("\n");
     // Per-service compose URLs. mailto covers OS-default desktop mail
     // (Outlook / Apple Mail / Thunderbird); the three webmail URLs are

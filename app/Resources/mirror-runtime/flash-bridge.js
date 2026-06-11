@@ -41,15 +41,12 @@
   // than the crimson "Open in Flash Player" tile, which promises action
   // the host can't deliver.
   var LOST_SWFS = new Set([
-    "2008_Spring_Doodle.swf", "ChristmasStar2007.swf", "Hanukkah2007.swf",
-    "HappyFourth.swf", "Julie_birthday.swf", "Mia_GOTY08.swf",
-    "ag_VdayCutOut.swf", "ag_dove.swf", "ag_ecard_birthday.swf",
-    "ag_ecard_winter.swf", "ag_fday06_doodle.swf", "ag_perfbead.swf",
-    "agc_bday_kit.swf", "agc_kit_banister.swf", "agc_molly_bday.swf",
-    "agl_congrats_ecard.swf", "agtravel_London.swf",
-    "coco_lic_easter_ecard.swf", "ec_ag_hween.swf", "ec_ag_tgiving.swf",
-    "ec_coccovtine.swf", "ec_coco_halloween.swf", "ec_coco_holiday04.swf",
-    "ec_coco_summer06.swf", "goty_lindsey.swf", "goty_marisol.swf"
+    "agc_bday_addy.swf", "agc_bday_fcty.swf", "agc_bday_jos.swf", "agc_bday_kaya.swf", "agc_bday_sam.swf",
+    "2008_Spring_Doodle.swf", "ag_dove.swf", "ag_ecard_winter.swf",
+    "ag_fday06_doodle.swf", "ag_VdayCutOut.swf", "agl_congrats_ecard.swf",
+    "ChristmasStar2007.swf", "ec_ag_tgiving.swf", "goty_lindsey.swf",
+    "goty_marisol.swf", "Hanukkah2007.swf", "HappyFourth.swf",
+    "Julie_birthday.swf", "Mia_GOTY08.swf"
   ]);
   function isLostSWF(url) {
     try {

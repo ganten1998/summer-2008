@@ -153,6 +153,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var consoleBridge: ConsoleBridgeHandler!
     var overlay: ProjectorOverlay!
 
+    /// An agd:// URL handed to us by Launch Services before the webview
+    /// existed (cold launch via an e-card pickup link in an email).
+    /// Stashed here and loaded once applicationDidFinishLaunching has
+    /// built the webview.
+    private var pendingOpenURL: URL?
+
+    /// Launch Services hands us agd:// URLs here — both on cold launch
+    /// (before applicationDidFinishLaunching) and while running. This is
+    /// what makes an e-card pickup link in a recipient's email open the
+    /// app directly on their animated card, like the 2008 email link did.
+    func application(_ application: NSApplication, open urls: [URL]) {
+        guard let url = urls.first(where: { $0.scheme?.lowercased() == "agd" }) else { return }
+        if let webView = webView {
+            DispatchQueue.main.async {
+                webView.load(URLRequest(url: url))
+                self.window?.makeKeyAndOrderFront(nil)
+                NSApp.activate(ignoringOtherApps: true)
+            }
+        } else {
+            pendingOpenURL = url
+        }
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         installMenuBar()
 
@@ -592,8 +615,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // window move/resize so the projector follows the host frame.
         overlay.attachToMainWindow(window, webView: webView)
 
-        let startString = ProcessInfo.processInfo.environment["AGD_START_URL"]
+        // A pickup link handed over by Launch Services during cold launch
+        // (e-card "view your greeting" link in an email) outranks the
+        // dashboard as the start page.
+        let startString = pendingOpenURL?.absoluteString
+            ?? ProcessInfo.processInfo.environment["AGD_START_URL"]
             ?? "agd://dashboard/index.html"
+        pendingOpenURL = nil
         let start = URL(string: startString) ?? URL(string: "agd://dashboard/index.html")!
         webView.load(URLRequest(url: start))
     }
