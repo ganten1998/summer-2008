@@ -170,7 +170,9 @@ private final class EcardComposeHandler: NSObject, WKScriptMessageHandler {
                 }
                 svc.recipients = [to]
                 svc.subject = subject
-                svc.perform(withItems: [body, attachURL])
+                // Card FIRST, then the footer a few lines below — the
+                // text is the e-card email's footer, not its opening.
+                svc.perform(withItems: [attachURL, "\n\n" + body])
             }
         }
     }

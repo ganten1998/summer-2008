@@ -308,6 +308,9 @@
        your name on the greeting — just like the 2008 e-mail link.</p>
 
     <div class="ecard-frame recipient" id="frame-2"></div>
+    <p id="capture-note" style="max-width:640px;margin:-16px auto 24px;text-align:center;
+       font-family:-apple-system,'SF Pro Text',sans-serif;font-size:11.5px;color:#7C0C1F;
+       opacity:0;transition:opacity .25s;"></p>
 
     <div class="email-card">
       <div class="row"><div class="lbl">To</div>      <div class="val" id="prev-recipient"></div></div>
@@ -604,13 +607,16 @@
   }
 
   // Record `seconds` of the animating card. onProgress(secondsLeft) ticks
-  // once per second for UI. Always calls cb exactly once.
+  // once per second for UI. Calls cb exactly once — unless cancelled via
+  // the returned handle, in which case cb is never called.
   function recordEcardVideo(seconds, onProgress, cb) {
+    var handle = { cancel: function () {} };
     var canvas = findEcardCanvas();
-    if (!canvas) return cb(null);
+    if (!canvas) { cb(null); return handle; }
     if (!canvas.captureStream || typeof MediaRecorder === "undefined") {
       console.log("[ecard-capture] MediaRecorder unavailable — PNG fallback");
-      return capturePngFallback(canvas, cb);
+      capturePngFallback(canvas, cb);
+      return handle;
     }
     var mime = "";
     ["video/mp4;codecs=avc1", "video/mp4", "video/webm;codecs=vp9", "video/webm"]
@@ -632,12 +638,13 @@
         : { videoBitsPerSecond: bps });
     } catch (ex) {
       console.warn("[ecard-capture] MediaRecorder ctor threw:", ex, "— PNG fallback");
-      return capturePngFallback(canvas, cb);
+      capturePngFallback(canvas, cb);
+      return handle;
     }
-    var chunks = [], done = false;
+    var chunks = [], done = false, cancelled = false, tick = 0;
     rec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
     rec.onstop = function () {
-      if (done) return; done = true;
+      if (done || cancelled) return; done = true;
       if (!chunks.length) return capturePngFallback(canvas, cb);
       var outMime = rec.mimeType || mime || "video/mp4";
       var ext = outMime.indexOf("webm") >= 0 ? "webm" : "mp4";
@@ -647,16 +654,22 @@
       console.warn("[ecard-capture] recorder error:", e);
       try { rec.stop(); } catch (x) {}
     };
+    handle.cancel = function () {
+      cancelled = true;
+      clearInterval(tick);
+      try { rec.stop(); } catch (ex) {}
+    };
     rec.start(250);
     var left = seconds;
-    var tick = setInterval(function () {
+    tick = setInterval(function () {
       left -= 1;
-      if (onProgress) onProgress(Math.max(0, left));
+      if (onProgress && !cancelled) onProgress(Math.max(0, left));
       if (left <= 0) {
         clearInterval(tick);
-        try { rec.stop(); } catch (ex) { if (!done) { done = true; capturePngFallback(canvas, cb); } }
+        try { rec.stop(); } catch (ex) { if (!done && !cancelled) { done = true; capturePngFallback(canvas, cb); } }
       }
     }, 1000);
+    return handle;
   }
 
   var state = {
@@ -707,24 +720,94 @@
     var d = new Date(parseInt(state.year, 10), parseInt(state.month, 10) - 1, parseInt(state.day, 10), 12, 0, 0);
     return d.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
   }
+  // ───────── capture orchestration ─────────
+  // Recording happens DURING the step-2 preview — the preview mount is a
+  // clean take from frame 0, and by the time the user has reviewed and
+  // clicks Send the take is usually finished, so there's no separate
+  // "recording your card" wait. Side benefit: anything the sender clicks
+  // in the preview (the interactive cards' buttons — outfit changes,
+  // etc.) is performed INTO the recording the recipient receives.
+  var __capture = { state: "idle", result: null, handle: null, waiters: [] };
+
+  function setCaptureNote(msg, done) {
+    var n = document.getElementById("capture-note");
+    if (!n) return;
+    n.textContent = msg || "";
+    n.style.opacity = msg ? "1" : "0";
+    n.style.color = done ? "#2e6b30" : "#7C0C1F";
+  }
+
+  function cancelPreviewCapture() {
+    if (__capture.handle && __capture.handle.cancel) {
+      try { __capture.handle.cancel(); } catch (ex) {}
+    }
+    __capture = { state: "cancelled", result: null, handle: null, waiters: [] };
+    setCaptureNote("");
+  }
+
+  function startPreviewCapture() {
+    cancelPreviewCapture();
+    var mine = { state: "pending", result: null, handle: null, waiters: [] };
+    __capture = mine;
+    var iframe = document.querySelector('#frame-2 iframe');
+    var begun = false;
+    function begin() {
+      if (begun || __capture !== mine || mine.state !== "pending") return;
+      begun = true;
+      getCardDuration(function (secs) {
+        if (__capture !== mine || mine.state !== "pending") return;
+        __recordSeconds = secs;
+        mine.state = "recording";
+        setCaptureNote("● Recording for the email — " + secs + "s. Click around the card if it's interactive; your moves are part of the take.");
+        mine.handle = recordEcardVideo(secs, function (left) {
+          if (__capture === mine) {
+            setCaptureNote("● Recording for the email — " + left + "s. Click around the card if it's interactive; your moves are part of the take.");
+          }
+        }, function (captured) {
+          if (__capture !== mine) return;
+          mine.state = captured ? "done" : "failed";
+          mine.result = captured;
+          setCaptureNote(captured
+            ? "✓ Recorded — everything you just watched (and clicked) is in the card they'll get."
+            : "Recording wasn't available — a still picture will be attached instead.", !!captured);
+          mine.waiters.splice(0).forEach(function (w) { w(captured); });
+        });
+      });
+    }
+    if (iframe) iframe.addEventListener("load", function () { setTimeout(begin, 1200); }, { once: true });
+    setTimeout(begin, 3500);
+  }
+
+  function whenCaptureReady(cb) {
+    if (__capture.state === "done" || __capture.state === "failed") return cb(__capture.result);
+    if (__capture.state === "cancelled" || __capture.state === "idle") return cb(null);
+    __capture.waiters.push(cb);
+  }
+
   function renderPreview() {
     document.getElementById("prev-recipient").textContent = state.recipient_email;
     document.getElementById("prev-sender").textContent    = state.sender_name + "  ⟨" + state.sender_email + "⟩";
     document.getElementById("prev-date").textContent      = formatDate(state);
     document.getElementById("prev-message").textContent   = state.message;
     mountRecipientView("frame-2", state.message, state.sender_name);
+    startPreviewCapture();
   }
   function renderSent() {
     document.getElementById("sent-recipient").textContent = state.recipient_email;
     document.getElementById("sent-sender").textContent    = state.sender_name + "  ⟨" + state.sender_email + "⟩";
     document.getElementById("sent-date").textContent      = formatDate(state);
 
-    // The email itself is intentionally minimal: the card IS the message.
-    // Subject + attached video + one small line. The recipient watches
-    // the animation with the personal message inside it — same payload a
-    // 2008 recipient got via the pickup link, no app required.
+    // The email is intentionally minimal: the card IS the message. The
+    // footer (rendered BELOW the card by the Swift compose handler) is
+    // two small lines — provenance, plus the interactive pickup link.
+    // No email format supports interactivity inline, so the link is the
+    // recipient's optional path to the playable card (with this same
+    // message): clickable in Apple Mail via the registered agd:// scheme,
+    // copyable text in webmail.
     var subj = (state.sender_name || "A friend") + " has sent you an American Girl E-Card!";
-    var body = "Sent from Summer 2008 — An American Girl Archive.";
+    var body = "Sent from Summer 2008 — An American Girl Archive.\n" +
+      "Play with the interactive card (message included) in the free archive app:\n" +
+      recipientViewURL(state.message, state.sender_name);
     var to   = state.recipient_email;
 
     var primary = document.getElementById("send-primary");
@@ -859,52 +942,41 @@
   });
 
   document.querySelector('[data-action="back"]').addEventListener("click", function () {
+    // Abandon any in-flight take — the message may change, and step 1's
+    // return remounts a placeholder preview anyway.
+    cancelPreviewCapture();
     gotoStep(1);
   });
   document.querySelector('[data-action="send"]').addEventListener("click", function () {
-    // Record the card while step-2's preview iframe is alive — gotoStep(3)
-    // tears the iframe down to free Ruffle's WASM, after which there's
-    // nothing to record. For a clean take, REMOUNT the preview first so
-    // the card performs from its opening frame (by send-time the preview
-    // has usually already finished and parked on its last frame), give
-    // Ruffle a beat to boot, then roll for the card's own duration.
+    // The take started when the preview mounted; usually it's already in
+    // the can. If the card is still mid-recording, hold the door for the
+    // remainder (the capture note keeps counting down).
     var sendBtn = document.querySelector('[data-action="send"]');
     var backBtn = document.querySelector('[data-action="back"]');
     if (sendBtn.disabled) return;
     sendBtn.disabled = true;
     backBtn.disabled = true;
-    sendBtn.textContent = "Restarting your card…";
-
-    mountRecipientView("frame-2", state.message, state.sender_name);
-    var iframe = document.querySelector('#frame-2 iframe');
-    var started = false;
-    function roll() {
-      if (started) return;
-      started = true;
-      // Size the take to THIS card: Ruffle publishes numFrames/frameRate
-      // once the movie loads; the message reveal is the final frames, so
-      // the recording must run the card's full length.
-      getCardDuration(function (secs) {
-        __recordSeconds = secs;
-        sendBtn.textContent = "Recording your card… " + secs + "s";
-        recordEcardVideo(secs, function (left) {
-          sendBtn.textContent = "Recording your card… " + left + "s";
-        }, function (captured) {
-          __captured = captured;
-          console.log("[ecard-capture] stashed:", captured && captured.kind,
-                      captured && captured.blob.size, "bytes,", captured && captured.mime);
-          sendBtn.disabled = false;
-          backBtn.disabled = false;
-          sendBtn.textContent = "Send »";
-          renderSent();
-          gotoStep(3);
-        });
-      });
+    if (__capture.state === "recording" || __capture.state === "pending") {
+      sendBtn.textContent = "Finishing the recording…";
     }
-    // Wait for the fresh iframe + ~1.2s of Ruffle boot; the safety timer
-    // covers the case where the load event already fired or never comes.
-    if (iframe) iframe.addEventListener("load", function () { setTimeout(roll, 1200); }, { once: true });
-    setTimeout(roll, 3500);
+    whenCaptureReady(function (captured) {
+      function finish(c) {
+        __captured = c;
+        console.log("[ecard-capture] stashed:", c && c.kind,
+                    c && c.blob.size, "bytes,", c && c.mime);
+        sendBtn.disabled = false;
+        backBtn.disabled = false;
+        sendBtn.textContent = "Send »";
+        renderSent();
+        gotoStep(3);
+      }
+      if (captured) return finish(captured);
+      // Recording never happened (or failed) — grab a still while the
+      // preview canvas is alive.
+      var canvas = findEcardCanvas();
+      if (canvas) return capturePngFallback(canvas, finish);
+      finish(null);
+    });
   });
   document.querySelector('[data-action="another"]').addEventListener("click", function () {
     // Soft reset: keep sender's info, clear recipient + message for the next card
