@@ -219,6 +219,28 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
     }
 
     private func serveMirror(task: WKURLSchemeTask, url: URL, host: String, path: String) {
+        // 0a-pre) Neutralized trackers. The patcher rewrites doubleclick/
+        //     omniture/etc beacons to host "disabled" so the page's own JS
+        //     still runs; those requests must die HERE, instantly. Without
+        //     this short-circuit every one of them fell through the whole
+        //     chain to a LIVE Wayback fetch — a dozen network round trips
+        //     per page load, felt as multi-second lag on every Kit's
+        //     Railway click and movie page.
+        if host == "disabled" {
+            sendEmpty204(task: task, url: url)
+            return
+        }
+        // 0a-pre2) Collapse accumulated /sw/ segments. A page served via
+        //     the /sw/-parent fallback (2b) lives at a /sw/<page>.html URL,
+        //     so ITS relative refs resolve one /sw/ deeper — every hop
+        //     through a wrapper page grows the URL another /sw/
+        //     (map → /sw/sw/cincinnatiut.html was the Kit's Railway 404).
+        //     Normalize the LOOKUP path; the response URL keeps whatever
+        //     form the page requested.
+        var path = path
+        while path.range(of: "/sw/sw/", options: .caseInsensitive) != nil {
+            path = (path as NSString).replacingOccurrences(of: "/sw/sw/", with: "/sw/")
+        }
         // 0a) IE-only stylesheet stub. Source HTML often includes
         //     <link rel="stylesheet" href="styles_ie6.css"> unconditionally
         //     (no <!--[if IE]--> wrapper), so WKWebView requests files that
@@ -435,7 +457,16 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
                 let parentPath = (path as NSString).replacingOccurrences(of: "/sw/", with: "/")
                 let parentURL = mirrorFileURL(host: host, path: parentPath, query: url.query)
                 if FileManager.default.fileExists(atPath: parentURL.path) {
-                    respondWithFile(task: task, url: url, file: parentURL)
+                    // For HTML, anchor the page at its CANONICAL directory.
+                    // Served bare, the page's relative refs (its embed's
+                    // sw/<game>.swf, its includes/, its getURL targets)
+                    // resolve against the /sw/ URL it was requested at and
+                    // every hop accumulates another /sw/.
+                    var inject: String? = nil
+                    if ext == "htm" || ext == "html" {
+                        inject = (parentPath as NSString).deletingLastPathComponent + "/"
+                    }
+                    respondWithFile(task: task, url: url, file: parentURL, injectBaseHref: inject)
                     return
                 }
             }
@@ -634,6 +665,27 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             guard !stopped else { return }
             task.didReceive(resp)
             task.didReceive(body)
+            task.didFinish()
+        }
+    }
+
+    /// Instant empty 204 for neutralized tracker beacons (host "disabled").
+    /// Mirrors sendEmptyCSS's stopped-task bookkeeping; 204 (vs 200) makes
+    /// it obvious in any inspector that the response is intentionally void.
+    private func sendEmpty204(task: WKURLSchemeTask, url: URL) {
+        let resp = HTTPURLResponse(
+            url: url, statusCode: 204, httpVersion: "HTTP/1.1",
+            headerFields: ["Content-Length": "0", "Cache-Control": "no-store"]
+        )!
+        let key = ObjectIdentifier(task)
+        DispatchQueue.main.async { [weak self] in
+            self?.inFlightLock.lock()
+            let stopped = self?.stoppedKeys.contains(key) ?? true
+            self?.stoppedKeys.remove(key)
+            self?.inFlightLock.unlock()
+            guard !stopped else { return }
+            task.didReceive(resp)
+            task.didReceive(Data())
             task.didFinish()
         }
     }

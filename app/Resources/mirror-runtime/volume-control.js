@@ -249,6 +249,29 @@
     }
   }
 
+  // HTML5 <video> (the movie-hub trailers): follow the same global
+  // slider. Their native volume/mute UI is hidden via injected CSS (see
+  // hideNativeVideoVolumeUI) so the bottom-right pill is the ONLY volume
+  // control — and it defaults to 0, so autoplaying trailers start silent.
+  function applyToVideo(el, v) {
+    try {
+      var muted = v <= 0.005;
+      el.volume = muted ? 0 : v;
+      el.muted = muted;
+    } catch (e) {}
+  }
+  function hideNativeVideoVolumeUI() {
+    if (document.getElementById("agd-video-vol-css")) return;
+    var s = document.createElement("style");
+    s.id = "agd-video-vol-css";
+    s.textContent =
+      "video::-webkit-media-controls-mute-button," +
+      "video::-webkit-media-controls-volume-slider," +
+      "video::-webkit-media-controls-volume-control-container" +
+      "{display:none!important;width:0!important;}";
+    (document.head || document.documentElement).appendChild(s);
+  }
+
   function applyToAllRufflePlayers(v) {
     var muted = v <= 0.005;
     // Update Ruffle's default config so any future players inherit.
@@ -261,6 +284,10 @@
     } catch (e) {}
     var nodes = document.querySelectorAll("ruffle-player,ruffle-object,ruffle-embed");
     for (var i = 0; i < nodes.length; i++) applyToPlayer(nodes[i], v);
+
+    hideNativeVideoVolumeUI();
+    var vids = document.querySelectorAll("video");
+    for (var k = 0; k < vids.length; k++) applyToVideo(vids[k], v);
 
     // Proportional volume: set per-context master gain. The hijacked
     // AudioNode.connect in ruffle-boot.js routes every node connecting
@@ -381,6 +408,9 @@
         applyToPlayer(nodes[i], v);
         watchPlayer(nodes[i], function () { return v; });
       }
+      hideNativeVideoVolumeUI();
+      var vids = document.querySelectorAll("video");
+      for (var n = 0; n < vids.length; n++) applyToVideo(vids[n], v);
       // New iframes: hook their load event so the iframe's Ruffle/audio
       // gets the current slider value the moment its scripts initialize.
       var frames = document.querySelectorAll("iframe");

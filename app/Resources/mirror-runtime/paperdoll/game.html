@@ -105,7 +105,12 @@
   <h1 id="title">The American Girl Paper Dolls</h1>
   <div class="actions">
     <a class="btn ghost" id="back-btn" href="#" style="display:none">‹ Choose another doll</a>
-    <a class="btn solid" id="print-btn" href="#" target="_blank" style="display:none">Download printable</a>
+    <!-- Authentic print behavior: the 2008 game's congrats screen opened
+         the character's outfit-template PDF (congrats.swf took a pdfurl
+         param; howto.xml: "you'll be able to print out that outfit" —
+         "designed to fit the American Girls Collection® paper dolls").
+         It never printed your custom dress-up state. -->
+    <a class="btn solid" id="print-btn" href="#" target="_blank" style="display:none">Print this outfit (PDF)</a>
     <a class="btn" href="agd://dashboard/games.html">Gallery</a>
   </div>
 </header>
