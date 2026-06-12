@@ -17,6 +17,12 @@
   "use strict";
   if (window.__AGD_VOLUME_CONTROL__) return;
   window.__AGD_VOLUME_CONTROL__ = true;
+  // Never mount inside an iframe: the parent page's pill governs embedded
+  // content (dispatchToIframes reaches in and sets player volume), so an
+  // iframe-local pill is a duplicate UI — and its local default-0 mute
+  // logic fought the parent's. Seen as a second volume bar inside the
+  // e-card wizard's step-2 preview.
+  if (window.top !== window) return;
 
   var PREFS_URL = "agd://runtime/__prefs__/volume";
   var LOCAL_CACHE_KEY = "agd:volume:cache";  // mirrors the server value for instant-render
@@ -296,10 +302,14 @@
     if (typeof window.__AGD_AUDIO_GAIN__ === "function") {
       try { window.__AGD_AUDIO_GAIN__(muted ? 0 : v); } catch (e) {}
     }
-    // Hard mute: suspend the AudioContext entirely. Belt-and-braces
-    // alongside the gain=0 above so audio is definitively dead at 0%.
+    // At 0% we rely on gain=0 + player-level mute and KEEP the
+    // AudioContext running. Suspending it (the old belt-and-braces hard
+    // mute) froze 2008 e-cards right before their message reveal: their
+    // ActionScript advances the timeline on Sound.onSoundComplete, and a
+    // suspended context never completes a sound. Resume if an earlier
+    // build left the context suspended.
     if (typeof window.__AGD_AUDIO_MUTE__ === "function") {
-      try { window.__AGD_AUDIO_MUTE__(muted); } catch (e) {}
+      try { window.__AGD_AUDIO_MUTE__(false); } catch (e) {}
     }
 
     dispatchToIframes(v);

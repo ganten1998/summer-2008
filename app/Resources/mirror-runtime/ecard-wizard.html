@@ -785,12 +785,24 @@
 
   // ───────── wiring ─────────
   populateDate();
-  // Step 1's ecard preview shows the SWF in its default state — the
-  // original "Your personal message goes here..." placeholder text
-  // baked into the embed URL. The textarea below stays EMPTY so the
-  // light-italic placeholder hint reads correctly; the user types a
-  // real message before previewing.
+  // Step 1's ecard preview starts with the original "Your personal
+  // message goes here..." placeholder, then LIVE-RELOADS with whatever
+  // the user types (debounced — each remount restarts the card's
+  // animation, so wait for a typing pause rather than every keystroke).
   mountRuffle("frame-1", SWF_URL, INITIAL_MSG);
+  (function () {
+    var msgField = document.getElementById("message");
+    var t = 0, lastMounted = INITIAL_MSG;
+    msgField.addEventListener("input", function () {
+      clearTimeout(t);
+      t = setTimeout(function () {
+        var typed = msgField.value.trim() ? msgField.value : INITIAL_MSG;
+        if (typed === lastMounted) return;
+        lastMounted = typed;
+        mountRuffle("frame-1", SWF_URL, typed);
+      }, 800);
+    });
+  })();
 
   document.getElementById("customize-form").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -804,28 +816,43 @@
     gotoStep(1);
   });
   document.querySelector('[data-action="send"]').addEventListener("click", function () {
-    // Record the card NOW, while step-2's preview iframe is alive and
-    // animating — gotoStep(3) tears the iframe down to free Ruffle's
-    // WASM, after which there's nothing to record. The user watches a
-    // countdown on the button while their card performs for the camera.
+    // Record the card while step-2's preview iframe is alive — gotoStep(3)
+    // tears the iframe down to free Ruffle's WASM, after which there's
+    // nothing to record. For a clean take, REMOUNT the preview first so
+    // the card performs from its opening frame (by send-time the preview
+    // has usually already finished and parked on its last frame), give
+    // Ruffle a beat to boot, then roll for RECORD_SECONDS.
     var sendBtn = document.querySelector('[data-action="send"]');
     var backBtn = document.querySelector('[data-action="back"]');
     if (sendBtn.disabled) return;
     sendBtn.disabled = true;
     backBtn.disabled = true;
-    sendBtn.textContent = "Recording your card… " + RECORD_SECONDS + "s";
-    recordEcardVideo(RECORD_SECONDS, function (left) {
-      sendBtn.textContent = "Recording your card… " + left + "s";
-    }, function (captured) {
-      __captured = captured;
-      console.log("[ecard-capture] stashed:", captured && captured.kind,
-                  captured && captured.blob.size, "bytes,", captured && captured.mime);
-      sendBtn.disabled = false;
-      backBtn.disabled = false;
-      sendBtn.textContent = "Send »";
-      renderSent();
-      gotoStep(3);
-    });
+    sendBtn.textContent = "Restarting your card…";
+
+    mountRecipientView("frame-2", state.message, state.sender_name);
+    var iframe = document.querySelector('#frame-2 iframe');
+    var started = false;
+    function roll() {
+      if (started) return;
+      started = true;
+      sendBtn.textContent = "Recording your card… " + RECORD_SECONDS + "s";
+      recordEcardVideo(RECORD_SECONDS, function (left) {
+        sendBtn.textContent = "Recording your card… " + left + "s";
+      }, function (captured) {
+        __captured = captured;
+        console.log("[ecard-capture] stashed:", captured && captured.kind,
+                    captured && captured.blob.size, "bytes,", captured && captured.mime);
+        sendBtn.disabled = false;
+        backBtn.disabled = false;
+        sendBtn.textContent = "Send »";
+        renderSent();
+        gotoStep(3);
+      });
+    }
+    // Wait for the fresh iframe + ~1.2s of Ruffle boot; the safety timer
+    // covers the case where the load event already fired or never comes.
+    if (iframe) iframe.addEventListener("load", function () { setTimeout(roll, 1200); }, { once: true });
+    setTimeout(roll, 3500);
   });
   document.querySelector('[data-action="another"]').addEventListener("click", function () {
     // Soft reset: keep sender's info, clear recipient + message for the next card
