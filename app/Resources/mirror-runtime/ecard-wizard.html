@@ -536,7 +536,39 @@
   // PNG still-frame is the fallback when recording isn't available.
   var __captured = null;   // { blob, mime, ext, kind: "video"|"image" }
 
-  var RECORD_SECONDS = 10;
+  // Default recording length; replaced per-card from Ruffle's metadata
+  // (numFrames / frameRate) once the preview player has loaded — cards
+  // range from ~2s charms to 70s doodle epics, and the message reveal
+  // is at the END, so a fixed window would cut most finales off.
+  var DEFAULT_RECORD_SECONDS = 12;
+  var __recordSeconds = DEFAULT_RECORD_SECONDS;
+
+  function findEcardPlayer() {
+    try {
+      var iframe = document.querySelector('#frame-2 iframe');
+      var doc = iframe && (iframe.contentDocument || (iframe.contentWindow && iframe.contentWindow.document));
+      return doc ? doc.querySelector("ruffle-player") : null;
+    } catch (ex) { return null; }
+  }
+
+  // Poll the preview player until Ruffle publishes movie metadata, then
+  // hand back the card's true duration (clamped 4–75s, +1.5s tail so the
+  // final message frame breathes in the video). Falls back to the
+  // default if metadata never appears.
+  function getCardDuration(cb) {
+    var waited = 0;
+    (function poll() {
+      var p = findEcardPlayer();
+      var md = p && p.metadata;
+      if (md && md.numFrames && md.frameRate) {
+        var secs = md.numFrames / md.frameRate + 1.5;
+        return cb(Math.max(4, Math.min(75, Math.ceil(secs))));
+      }
+      waited += 250;
+      if (waited >= 8000) return cb(DEFAULT_RECORD_SECONDS);
+      setTimeout(poll, 250);
+    })();
+  }
 
   function findEcardCanvas() {
     try {
@@ -587,12 +619,16 @@
         }
         return false;
       });
+    // Bitrate scaled so even a 70s doodle card lands ≈12 MB — friendly
+    // to every mail provider's attachment limit — while short cards get
+    // the full 4 Mbps.
+    var bps = Math.min(4000000, Math.floor((12 * 8 * 1024 * 1024) / seconds));
     var rec;
     try {
       var stream = canvas.captureStream(30);
       rec = new MediaRecorder(stream, mime
-        ? { mimeType: mime, videoBitsPerSecond: 4000000 }
-        : { videoBitsPerSecond: 4000000 });
+        ? { mimeType: mime, videoBitsPerSecond: bps }
+        : { videoBitsPerSecond: bps });
     } catch (ex) {
       console.warn("[ecard-capture] MediaRecorder ctor threw:", ex, "— PNG fallback");
       return capturePngFallback(canvas, cb);
@@ -710,7 +746,7 @@
     } else {
       primary.disabled = false;
       setStatus(__captured.kind === "video"
-        ? "Your card was recorded as a " + RECORD_SECONDS + "-second video."
+        ? "Your card was recorded as a " + __recordSeconds + "-second video — the full animation, message finale included."
         : "Recording wasn't available — a picture of the card will be attached instead.");
     }
 
@@ -785,22 +821,31 @@
 
   // ───────── wiring ─────────
   populateDate();
-  // Step 1's ecard preview starts with the original "Your personal
-  // message goes here..." placeholder, then LIVE-RELOADS with whatever
-  // the user types (debounced — each remount restarts the card's
-  // animation, so wait for a typing pause rather than every keystroke).
+  // Step 1's ecard preview plays with the original "Your personal
+  // message goes here..." placeholder. The message is each card's
+  // FINALE (the text field enters the timeline near the last frame —
+  // verified against the SWF bytecode), so live-reloading the card on
+  // every typing pause would restart the animation and the user would
+  // never reach the reveal. Instead the card plays through undisturbed
+  // and a live HTML echo under the frame shows the typed message; the
+  // step-2 preview shows the real thing in-card.
   mountRuffle("frame-1", SWF_URL, INITIAL_MSG);
   (function () {
     var msgField = document.getElementById("message");
-    var t = 0, lastMounted = INITIAL_MSG;
+    var frame = document.getElementById("frame-1");
+    var echo = document.createElement("p");
+    echo.id = "msg-echo";
+    echo.style.cssText =
+      "max-width:600px;margin:-16px auto 24px;text-align:center;" +
+      "font-family:'Hoefler Text',Georgia,serif;font-style:italic;" +
+      "font-size:13.5px;color:#7C0C1F;opacity:0;transition:opacity .2s;";
+    frame.parentNode.insertBefore(echo, frame.nextSibling);
     msgField.addEventListener("input", function () {
-      clearTimeout(t);
-      t = setTimeout(function () {
-        var typed = msgField.value.trim() ? msgField.value : INITIAL_MSG;
-        if (typed === lastMounted) return;
-        lastMounted = typed;
-        mountRuffle("frame-1", SWF_URL, typed);
-      }, 800);
+      var typed = msgField.value.trim();
+      echo.textContent = typed
+        ? "Appears at the card’s finale: “" + typed + "”"
+        : "";
+      echo.style.opacity = typed ? "1" : "0";
     });
   })();
 
@@ -821,7 +866,7 @@
     // nothing to record. For a clean take, REMOUNT the preview first so
     // the card performs from its opening frame (by send-time the preview
     // has usually already finished and parked on its last frame), give
-    // Ruffle a beat to boot, then roll for RECORD_SECONDS.
+    // Ruffle a beat to boot, then roll for the card's own duration.
     var sendBtn = document.querySelector('[data-action="send"]');
     var backBtn = document.querySelector('[data-action="back"]');
     if (sendBtn.disabled) return;
@@ -835,18 +880,24 @@
     function roll() {
       if (started) return;
       started = true;
-      sendBtn.textContent = "Recording your card… " + RECORD_SECONDS + "s";
-      recordEcardVideo(RECORD_SECONDS, function (left) {
-        sendBtn.textContent = "Recording your card… " + left + "s";
-      }, function (captured) {
-        __captured = captured;
-        console.log("[ecard-capture] stashed:", captured && captured.kind,
-                    captured && captured.blob.size, "bytes,", captured && captured.mime);
-        sendBtn.disabled = false;
-        backBtn.disabled = false;
-        sendBtn.textContent = "Send »";
-        renderSent();
-        gotoStep(3);
+      // Size the take to THIS card: Ruffle publishes numFrames/frameRate
+      // once the movie loads; the message reveal is the final frames, so
+      // the recording must run the card's full length.
+      getCardDuration(function (secs) {
+        __recordSeconds = secs;
+        sendBtn.textContent = "Recording your card… " + secs + "s";
+        recordEcardVideo(secs, function (left) {
+          sendBtn.textContent = "Recording your card… " + left + "s";
+        }, function (captured) {
+          __captured = captured;
+          console.log("[ecard-capture] stashed:", captured && captured.kind,
+                      captured && captured.blob.size, "bytes,", captured && captured.mime);
+          sendBtn.disabled = false;
+          backBtn.disabled = false;
+          sendBtn.textContent = "Send »";
+          renderSent();
+          gotoStep(3);
+        });
       });
     }
     // Wait for the fresh iframe + ~1.2s of Ruffle boot; the safety timer
