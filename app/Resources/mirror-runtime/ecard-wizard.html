@@ -349,9 +349,10 @@
     </div>
 
     <p class="ribbon-note">
-      Your card was recorded as a short video — the animation with your message inside it, just like a
-      recipient saw on americangirl.com in 2008. The button above opens your mail app with everything in
-      place: address, subject, and the card attached. It sends from your own address.
+      Your card travels as an animated image that plays automatically when the email is opened —
+      it performs once and comes to rest on your message, just like the finale a recipient saw on
+      americangirl.com in 2008. The button above opens your mail app with everything in place:
+      address, subject, and the card in the body. It sends from your own address.
     </p>
   </section>
 </main>
@@ -746,7 +747,7 @@
     } else {
       primary.disabled = false;
       setStatus(__captured.kind === "video"
-        ? "Your card was recorded as a " + __recordSeconds + "-second video — the full animation, message finale included."
+        ? "Your card was recorded (" + __recordSeconds + "s) — it'll be converted to an animated card that plays right inside the email."
         : "Recording wasn't available — a picture of the card will be attached instead.");
     }
 

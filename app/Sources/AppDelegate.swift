@@ -1,4 +1,7 @@
 import AppKit
+import AVFoundation
+import ImageIO
+import UniformTypeIdentifiers
 import WebKit
 
 /// Invisible NSView positioned over the top ~28pt of the window's
@@ -112,10 +115,16 @@ private final class OpenExternalHandler: NSObject, WKScriptMessageHandler {
 }
 
 /// E-card send: receives the recorded card video (or PNG fallback) from
-/// the wizard and opens a Mail compose window with recipient, subject,
-/// body, and the card ATTACHED — which mailto:/webmail compose URLs
-/// cannot do. NSSharingService(.composeEmail) talks to the user's
-/// default mail client.
+/// the wizard, converts video to a NON-LOOPING animated GIF, and opens a
+/// Mail compose window with recipient, subject, body, and the card
+/// inlined — which mailto:/webmail compose URLs cannot do.
+///
+/// Why GIF and not the video itself: no mail client autoplays video
+/// attachments (Gmail can't even preview WebKit's MediaRecorder MP4s),
+/// but inline animated GIFs play automatically everywhere. Play-once is
+/// deliberate: these cards reveal the personal message on their FINAL
+/// frames, so a non-looping GIF performs once and then rests permanently
+/// on the message — the 2008 finale becomes the email's standing image.
 private final class EcardComposeHandler: NSObject, WKScriptMessageHandler {
     func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let dict = message.body as? [String: Any],
@@ -139,17 +148,82 @@ private final class EcardComposeHandler: NSObject, WKScriptMessageHandler {
             NSLog("AGD ecardCompose: temp write failed: \(error)")
             return
         }
-        DispatchQueue.main.async {
-            guard let svc = NSSharingService(named: .composeEmail) else {
-                // No mail client configured — at least reveal the file so
-                // the user can attach it by hand wherever they compose.
-                NSWorkspace.shared.activateFileViewerSelecting([fileURL])
-                return
+        // Transcode off the main thread — frame extraction over a long
+        // card takes a few seconds — then compose on main.
+        DispatchQueue.global(qos: .userInitiated).async {
+            var attachURL = fileURL
+            let ext = fileURL.pathExtension.lowercased()
+            if ext == "mp4" || ext == "webm" || ext == "mov" {
+                let gifURL = fileURL.deletingPathExtension().appendingPathExtension("gif")
+                if Self.gifFromVideo(src: fileURL, dst: gifURL) {
+                    attachURL = gifURL
+                } else {
+                    NSLog("AGD ecardCompose: GIF transcode failed — attaching video as-is")
+                }
             }
-            svc.recipients = [to]
-            svc.subject = subject
-            svc.perform(withItems: [body, fileURL])
+            DispatchQueue.main.async {
+                guard let svc = NSSharingService(named: .composeEmail) else {
+                    // No mail client configured — at least reveal the file
+                    // so the user can attach it wherever they compose.
+                    NSWorkspace.shared.activateFileViewerSelecting([attachURL])
+                    return
+                }
+                svc.recipients = [to]
+                svc.subject = subject
+                svc.perform(withItems: [body, attachURL])
+            }
         }
+    }
+
+    /// Video → play-once animated GIF via AVAssetImageGenerator + ImageIO.
+    /// fps and scale adapt to duration so even the 70-second doodle cards
+    /// stay inside mail-attachment territory. The Netscape loop extension
+    /// is set to loop count 1: animate through, then freeze on the final
+    /// frame (the message).
+    private static func gifFromVideo(src: URL, dst: URL) -> Bool {
+        let asset = AVAsset(url: src)
+        let duration = CMTimeGetSeconds(asset.duration)
+        guard duration.isFinite, duration > 0.2 else { return false }
+
+        // Frame budget: ~12fps for short cards, sliding down to 6fps for
+        // epics; cap total frames so the encoder and the recipient's mail
+        // client both stay happy.
+        let fps: Double = duration <= 20 ? 12 : (duration <= 40 ? 9 : 6)
+        let frameCount = min(Int(duration * fps), 480)
+        guard frameCount > 1 else { return false }
+
+        let gen = AVAssetImageGenerator(asset: asset)
+        gen.appliesPreferredTrackTransform = true
+        gen.requestedTimeToleranceBefore = .zero
+        gen.requestedTimeToleranceAfter = CMTime(value: 1, timescale: 15)
+        // Long cards render at reduced width to hold the byte budget;
+        // short ones keep the full 600px.
+        gen.maximumSize = duration > 40
+            ? CGSize(width: 480, height: 0)
+            : CGSize(width: 600, height: 0)
+
+        guard let dest = CGImageDestinationCreateWithURL(
+            dst as CFURL, UTType.gif.identifier as CFString, frameCount, nil) else { return false }
+        // No Netscape loop extension at all = play exactly once, then
+        // freeze on the final frame (loop-count 1 makes some viewers play
+        // twice; omission is the universal "once").
+        let frameProps = [kCGImagePropertyGIFDictionary: [
+            kCGImagePropertyGIFDelayTime: 1.0 / fps,
+        ]] as CFDictionary
+
+        var added = 0
+        for i in 0..<frameCount {
+            let t = CMTime(seconds: Double(i) / fps, preferredTimescale: 600)
+            if let img = try? gen.copyCGImage(at: t, actualTime: nil) {
+                CGImageDestinationAddImage(dest, img, frameProps)
+                added += 1
+            }
+        }
+        guard added > 1, CGImageDestinationFinalize(dest) else { return false }
+        let attrs = try? FileManager.default.attributesOfItem(atPath: dst.path)
+        let bytes = (attrs?[.size] as? Int) ?? 0
+        NSLog("AGD ecardCompose: GIF \(added) frames @\(fps)fps, \(bytes) bytes")
+        return true
     }
 }
 

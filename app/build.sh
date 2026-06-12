@@ -37,6 +37,7 @@ swiftc \
   -target arm64-apple-macos11 \
   -sdk "$SDK_PATH" \
   -framework AppKit -framework WebKit -framework Foundation \
+  -framework AVFoundation -framework ImageIO -framework UniformTypeIdentifiers \
   -o "$OUT/Contents/MacOS/AGDLauncher" \
   "${SRC[@]}"
 
