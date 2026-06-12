@@ -337,19 +337,10 @@
     </div>
 
     <div class="send-options">
-      <button type="button" id="send-primary" class="btn btn-primary btn-big">Send Email</button>
-      <p id="send-current" class="send-current" hidden>
-        Sends via <span id="send-current-name"></span> · <a href="#" id="send-change">change</a>
-      </p>
-      <div id="send-chooser" hidden style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-        <p class="send-chooser-prompt">First-time pick — we'll remember it:</p>
-        <div class="send-options-row">
-          <button type="button" id="send-default" class="btn btn-cream">Default mail app</button>
-          <button type="button" id="send-gmail"   class="btn btn-cream">Gmail</button>
-          <button type="button" id="send-yahoo"   class="btn btn-cream">Yahoo Mail</button>
-          <button type="button" id="send-outlook" class="btn btn-cream">Outlook.com</button>
-          <button type="button" id="send-copy"    class="btn btn-cream">Copy text</button>
-        </div>
+      <button type="button" id="send-primary" class="btn btn-primary btn-big">Open in Mail — card attached</button>
+      <p id="send-status" class="send-current" hidden></p>
+      <div class="send-options-row">
+        <button type="button" id="send-save" class="btn btn-cream">Save card to Downloads</button>
       </div>
     </div>
     <div class="actions">
@@ -358,9 +349,9 @@
     </div>
 
     <p class="ribbon-note">
-      The 2008 server-side mail delivery was retired by American Girl long ago. Pick whichever sender works for
-      you — your OS default mail app, a webmail compose window in your browser, or copy the text and paste it
-      anywhere. The message goes out under your own account, from your own address.
+      Your card was recorded as a short video — the animation with your message inside it, just like a
+      recipient saw on americangirl.com in 2008. The button above opens your mail app with everything in
+      place: address, subject, and the card attached. It sends from your own address.
     </p>
   </section>
 </main>
@@ -536,32 +527,22 @@
     container.appendChild(iframe);
   }
 
-  // ───────── form state ─────────
-  // Stash for the rendered ecard PNG. Captured during the step-2 →
-  // step-3 transition (while frame-2's iframe is still alive); consumed
-  // by the Send Email click handlers in step 3, by which point gotoStep
-  // has pointed the inactive step-2 iframe at about:blank to free
-  // Ruffle's WASM — making the canvas unreachable.
-  var __capturedBlob = null;
+  // ───────── card capture ─────────
+  // The card is RECORDED as a short video while step-2's preview iframe
+  // is still alive: canvas.captureStream on Ruffle's WebGL canvas +
+  // MediaRecorder (H.264 MP4 in WebKit). The result is what a recipient
+  // saw in 2008 — the animation with the personal message inside it —
+  // as a file any mail client can attach and any device can play.
+  // PNG still-frame is the fallback when recording isn't available.
+  var __captured = null;   // { blob, mime, ext, kind: "video"|"image" }
 
-  // Pulled up to IIFE scope so the step-2-send-button handler (at file
-  // bottom, outside renderSent) can call it. Walks into the step-2
-  // iframe, finds Ruffle's canvas (deep-searches open shadow roots),
-  // hands a PNG Blob to the callback (or null if anything failed).
-  function getEcardCanvasBlob(cb) {
+  var RECORD_SECONDS = 10;
+
+  function findEcardCanvas() {
     try {
       var iframe = document.querySelector('#frame-2 iframe');
-      console.log("[ecard-capture] iframe:", !!iframe, iframe && iframe.src);
       var doc = iframe && (iframe.contentDocument || (iframe.contentWindow && iframe.contentWindow.document));
-      console.log("[ecard-capture] iframe doc accessible:", !!doc, "URL:", doc && doc.URL);
-      if (!doc) return cb(null);
-      var allTags = {};
-      doc.querySelectorAll("*").forEach(function (el) {
-        allTags[el.tagName.toLowerCase()] = (allTags[el.tagName.toLowerCase()] || 0) + 1;
-      });
-      console.log("[ecard-capture] tags JSON:", JSON.stringify(allTags));
-      console.log("[ecard-capture] body innerHTML (first 1200):",
-                  doc.body ? doc.body.innerHTML.substring(0, 1200) : "(no body)");
+      if (!doc) return null;
       function findCanvasDeep(root) {
         var c = root.querySelector ? root.querySelector("canvas") : null;
         if (c) return c;
@@ -574,24 +555,71 @@
         }
         return null;
       }
-      var canvas = findCanvasDeep(doc);
-      console.log("[ecard-capture] canvas (deep search):", !!canvas, canvas && (canvas.width + "x" + canvas.height));
-      if (!canvas) {
-        var withShadow = [];
-        doc.querySelectorAll("*").forEach(function (el) {
-          if (el.shadowRoot) withShadow.push(el.tagName.toLowerCase());
-        });
-        console.log("[ecard-capture] elements with shadowRoot:", withShadow);
-        return cb(null);
-      }
-      canvas.toBlob(function (blob) {
-        console.log("[ecard-capture] toBlob result:", blob && blob.size, "bytes");
-        cb(blob);
-      }, 'image/png');
+      return findCanvasDeep(doc);
     } catch (ex) {
-      console.warn("[ecard-capture] threw:", ex);
-      cb(null);
+      console.warn("[ecard-capture] canvas lookup threw:", ex);
+      return null;
     }
+  }
+
+  function capturePngFallback(canvas, cb) {
+    try {
+      canvas.toBlob(function (blob) {
+        cb(blob ? { blob: blob, mime: "image/png", ext: "png", kind: "image" } : null);
+      }, "image/png");
+    } catch (ex) { cb(null); }
+  }
+
+  // Record `seconds` of the animating card. onProgress(secondsLeft) ticks
+  // once per second for UI. Always calls cb exactly once.
+  function recordEcardVideo(seconds, onProgress, cb) {
+    var canvas = findEcardCanvas();
+    if (!canvas) return cb(null);
+    if (!canvas.captureStream || typeof MediaRecorder === "undefined") {
+      console.log("[ecard-capture] MediaRecorder unavailable — PNG fallback");
+      return capturePngFallback(canvas, cb);
+    }
+    var mime = "";
+    ["video/mp4;codecs=avc1", "video/mp4", "video/webm;codecs=vp9", "video/webm"]
+      .some(function (m) {
+        if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) {
+          mime = m; return true;
+        }
+        return false;
+      });
+    var rec;
+    try {
+      var stream = canvas.captureStream(30);
+      rec = new MediaRecorder(stream, mime
+        ? { mimeType: mime, videoBitsPerSecond: 4000000 }
+        : { videoBitsPerSecond: 4000000 });
+    } catch (ex) {
+      console.warn("[ecard-capture] MediaRecorder ctor threw:", ex, "— PNG fallback");
+      return capturePngFallback(canvas, cb);
+    }
+    var chunks = [], done = false;
+    rec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+    rec.onstop = function () {
+      if (done) return; done = true;
+      if (!chunks.length) return capturePngFallback(canvas, cb);
+      var outMime = rec.mimeType || mime || "video/mp4";
+      var ext = outMime.indexOf("webm") >= 0 ? "webm" : "mp4";
+      cb({ blob: new Blob(chunks, { type: outMime }), mime: outMime, ext: ext, kind: "video" });
+    };
+    rec.onerror = function (e) {
+      console.warn("[ecard-capture] recorder error:", e);
+      try { rec.stop(); } catch (x) {}
+    };
+    rec.start(250);
+    var left = seconds;
+    var tick = setInterval(function () {
+      left -= 1;
+      if (onProgress) onProgress(Math.max(0, left));
+      if (left <= 0) {
+        clearInterval(tick);
+        try { rec.stop(); } catch (ex) { if (!done) { done = true; capturePngFallback(canvas, cb); } }
+      }
+    }, 1000);
   }
 
   var state = {
@@ -653,122 +681,90 @@
     document.getElementById("sent-recipient").textContent = state.recipient_email;
     document.getElementById("sent-sender").textContent    = state.sender_name + "  ⟨" + state.sender_email + "⟩";
     document.getElementById("sent-date").textContent      = formatDate(state);
-    // Build a mailto: that opens the user's default mail client with the
-    // message ready to actually send.
+
+    // The email itself is intentionally minimal: the card IS the message.
+    // Subject + attached video + one small line. The recipient watches
+    // the animation with the personal message inside it — same payload a
+    // 2008 recipient got via the pickup link, no app required.
     var subj = (state.sender_name || "A friend") + " has sent you an American Girl E-Card!";
-    var body = [
-      "Hi!",
-      "",
-      state.message,
-      "",
-      "— " + state.sender_name,
-      "",
-      "A picture of your card is attached (or pasted above).",
-      "",
-      "To see the ANIMATED card with this message inside it — the way",
-      "americangirl.com delivered e-cards in 2008 — open this link on a",
-      "computer with the free Summer 2008 archive app installed:",
-      "",
-      recipientViewURL(state.message, state.sender_name),
-      "",
-      "(Sent from Summer 2008 — An American Girl Archive.)",
-    ].join("\n");
-    // Per-service compose URLs. mailto covers OS-default desktop mail
-    // (Outlook / Apple Mail / Thunderbird); the three webmail URLs are
-    // each service's documented compose-intent format that pre-populates
-    // To/Subject/Body in a browser tab using whatever the user's
-    // already-signed-in session is. One-time preference picker below
-    // remembers the user's choice in localStorage so subsequent ecards
-    // skip straight to their preferred send path — one button, one
-    // click, no chooser friction after first use.
+    var body = "Sent from Summer 2008 — An American Girl Archive.";
     var to   = state.recipient_email;
-    var enc  = encodeURIComponent;
-    var URLS = {
-      "send-default": "mailto:" + enc(to) + "?subject=" + enc(subj) + "&body=" + enc(body),
-      "send-gmail":   "https://mail.google.com/mail/?view=cm&fs=1&to=" + enc(to) +
-                      "&su=" + enc(subj) + "&body=" + enc(body),
-      "send-yahoo":   "https://compose.mail.yahoo.com/?to=" + enc(to) +
-                      "&subject=" + enc(subj) + "&body=" + enc(body),
-      "send-outlook": "https://outlook.live.com/owa/?path=/mail/action/compose&to=" + enc(to) +
-                      "&subject=" + enc(subj) + "&body=" + enc(body),
+
+    var primary = document.getElementById("send-primary");
+    var saveBtn = document.getElementById("send-save");
+    var status  = document.getElementById("send-status");
+
+    function setStatus(msg) {
+      status.textContent = msg || "";
+      status.hidden = !msg;
+    }
+    function fileName() {
+      var slug = (state.sender_name || "friend").replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 30);
+      var ext = (__captured && __captured.ext) || "png";
+      return "American Girl E-Card from " + slug + "." + ext;
+    }
+
+    if (!__captured) {
+      primary.disabled = true;
+      setStatus("Card capture failed — go Back to Edit and try Send again.");
+    } else {
+      primary.disabled = false;
+      setStatus(__captured.kind === "video"
+        ? "Your card was recorded as a " + RECORD_SECONDS + "-second video."
+        : "Recording wasn't available — a picture of the card will be attached instead.");
+    }
+
+    // Hand the captured card to the Swift host, which opens a Mail
+    // compose window with the recipient, subject, body, and the card
+    // ATTACHED (NSSharingService) — the one thing mailto: can't do.
+    primary.onclick = function () {
+      if (!__captured) return;
+      primary.disabled = true;
+      primary.textContent = "Opening Mail…";
+      var fr = new FileReader();
+      fr.onload = function () {
+        var b64 = String(fr.result).split(",")[1] || "";
+        var sent = false;
+        try {
+          if (window.webkit && window.webkit.messageHandlers &&
+              window.webkit.messageHandlers.ecardCompose) {
+            window.webkit.messageHandlers.ecardCompose.postMessage({
+              to: to, subject: subj, body: body,
+              fileName: fileName(), dataBase64: b64,
+            });
+            sent = true;
+          }
+        } catch (ex) { console.warn("[ecard-send] compose post failed:", ex); }
+        if (!sent) {
+          // Non-Mac shell (Windows port wires this up separately): save
+          // the card and open a plain mailto compose; user attaches the
+          // saved file.
+          saveCaptured();
+          try {
+            window.location.href = "mailto:" + encodeURIComponent(to) +
+              "?subject=" + encodeURIComponent(subj) +
+              "&body=" + encodeURIComponent(body);
+          } catch (ex) {}
+          setStatus("Card saved to Downloads — attach it in the compose window.");
+        }
+        primary.disabled = false;
+        primary.textContent = "Open in Mail — card attached";
+      };
+      fr.onerror = function () {
+        primary.disabled = false;
+        primary.textContent = "Open in Mail — card attached";
+        setStatus("Couldn't read the recorded card — try Save to Downloads.");
+      };
+      fr.readAsDataURL(__captured.blob);
     };
-    var LABELS = {
-      "send-default": "your default mail app",
-      "send-gmail":   "Gmail",
-      "send-yahoo":   "Yahoo Mail",
-      "send-outlook": "Outlook.com",
-      "send-copy":    "Clipboard (paste anywhere)",
-    };
-    var clipboardBlob = "To: " + to + "\nSubject: " + subj + "\n\n" + body;
-    var PREF_KEY = "agd:ecard-send-method";
 
-    function openExternal(url) {
+    function saveCaptured() {
+      if (!__captured) return false;
       try {
-        if (window.chrome && window.chrome.webview && window.chrome.webview.postMessage) {
-          window.chrome.webview.postMessage("openExternal:" + url); return;
-        }
-      } catch (ex) {}
-      try {
-        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.openExternal) {
-          window.webkit.messageHandlers.openExternal.postMessage(url); return;
-        }
-      } catch (ex) {}
-      try { window.location.href = url; } catch (ex) {}
-    }
-    function copyToClipboard(cb) {
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(clipboardBlob).then(function(){cb(true);}, function(){cb(false);});
-          return;
-        }
-      } catch (ex) {}
-      try {
-        var ta = document.createElement("textarea");
-        ta.value = clipboardBlob; ta.style.position = "fixed"; ta.style.opacity = "0";
-        document.body.appendChild(ta); ta.select();
-        var ok = document.execCommand("copy");
-        document.body.removeChild(ta);
-        cb(ok);
-      } catch (ex) { cb(false); }
-    }
-    // (getEcardCanvasBlob lives at IIFE scope — see top of script —
-    // because the step-2 send button calls it before renderSent runs.)
-
-    // Write a PNG blob to the OS clipboard. Requires secure context, a
-    // user gesture, and image/png ClipboardItem support — all should hold
-    // in WebView2/WKWebView under agd:// but the failure modes are
-    // silent, hence the logs.
-    function clipboardWritePng(blob, cb) {
-      console.log("[ecard-capture] ClipboardItem supported:", !!window.ClipboardItem,
-                  "clipboard.write supported:", !!(navigator.clipboard && navigator.clipboard.write));
-      if (!window.ClipboardItem || !navigator.clipboard || !navigator.clipboard.write) return cb(false);
-      try {
-        var item = new ClipboardItem({ 'image/png': blob });
-        navigator.clipboard.write([item]).then(
-          function () { console.log("[ecard-capture] clipboard.write resolved"); cb(true); },
-          function (err) { console.warn("[ecard-capture] clipboard.write rejected:", err); cb(false); }
-        );
-      } catch (ex) {
-        console.warn("[ecard-capture] ClipboardItem ctor threw:", ex);
-        cb(false);
-      }
-    }
-
-    // Trigger a regular browser download of the PNG to the user's
-    // Downloads folder. This is the GUARANTEED fallback — works on
-    // every WebView regardless of clipboard / shadow-DOM / WebGL
-    // permissions. User attaches from Downloads if the clipboard path
-    // didn't take.
-    function savePngDownload(blob) {
-      try {
-        var url = URL.createObjectURL(blob);
+        var url = URL.createObjectURL(__captured.blob);
         var a = document.createElement("a");
         a.href = url;
-        // Filename: ecard-recipient-YYYY-MM-DD.png so it's discoverable
-        // and doesn't collide if user sends multiple cards.
-        var slug = (state.recipient_email || "card").replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 40);
-        var stamp = (new Date()).toISOString().replace(/[:T].*$/, "");
-        a.download = "ecard-" + slug + "-" + stamp + ".png";
+        a.download = fileName();
         a.style.display = "none";
         document.body.appendChild(a);
         a.click();
@@ -776,97 +772,14 @@
           document.body.removeChild(a);
           URL.revokeObjectURL(url);
         }, 1500);
-        console.log("[ecard-capture] PNG saved as", a.download);
         return true;
       } catch (ex) {
-        console.warn("[ecard-capture] download fallback threw:", ex);
+        console.warn("[ecard-send] save threw:", ex);
         return false;
       }
     }
-
-    function execute(method) {
-      if (method === "send-copy") {
-        copyToClipboard(function (ok) {
-          flashPrimary(ok ? "✓ Copied to clipboard" : "Copy failed — try again");
-        });
-        return;
-      }
-      if (!URLS[method]) return;
-      // Use the blob captured during the step-2 → step-3 transition.
-      // gotoStep already nuked frame-2's iframe to about:blank by the
-      // time this click fires, so we can't re-capture here. The clipboard
-      // write still happens in THIS user-gesture tick (the Send Email
-      // click), which is what the Clipboard API requires — only the
-      // canvas read happened earlier.
-      var blob = __capturedBlob;
-      if (!blob) {
-        openExternal(URLS[method]);
-        flashPrimary("Compose opened — card capture failed");
-        return;
-      }
-      var saved = savePngDownload(blob);
-      clipboardWritePng(blob, function (clipboardOk) {
-        openExternal(URLS[method]);
-        var msg;
-        if (clipboardOk && saved)  msg = "✓ Card on clipboard + saved to Downloads — paste in compose";
-        else if (clipboardOk)      msg = "✓ Card on clipboard — paste in compose";
-        else if (saved)            msg = "✓ Card saved to Downloads — attach in compose";
-        else                       msg = "Compose opened — card capture failed";
-        flashPrimary(msg);
-      });
-    }
-
-    var primary  = document.getElementById("send-primary");
-    var chooser  = document.getElementById("send-chooser");
-    var current  = document.getElementById("send-current");
-    var curName  = document.getElementById("send-current-name");
-    var origLabel;
-
-    function flashPrimary(msg) {
-      var prev = primary.textContent;
-      primary.textContent = msg;
-      setTimeout(function () { primary.textContent = prev; }, 1800);
-    }
-    function updateUI(method) {
-      if (method && LABELS[method]) {
-        primary.textContent = "Send via " + LABELS[method];
-        curName.textContent = LABELS[method];
-        current.hidden = false;
-        chooser.hidden = true;
-      } else {
-        primary.textContent = "Send Email";
-        current.hidden = true;
-        // chooser stays hidden until primary is clicked
-        chooser.hidden = true;
-      }
-      origLabel = primary.textContent;
-    }
-
-    var saved = "";
-    try { saved = localStorage.getItem(PREF_KEY) || ""; } catch (ex) {}
-    if (!LABELS[saved]) saved = "";
-    updateUI(saved);
-
-    primary.onclick = function () {
-      if (saved) { execute(saved); }
-      else       { chooser.hidden = false; }
-    };
-    ["send-default","send-gmail","send-yahoo","send-outlook","send-copy"].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      el.onclick = function () {
-        try { localStorage.setItem(PREF_KEY, id); } catch (ex) {}
-        saved = id;
-        updateUI(saved);
-        execute(saved);
-      };
-    });
-    document.getElementById("send-change").onclick = function (e) {
-      e.preventDefault();
-      try { localStorage.removeItem(PREF_KEY); } catch (ex) {}
-      saved = "";
-      updateUI("");
-      chooser.hidden = false;
+    saveBtn.onclick = function () {
+      if (saveCaptured()) setStatus("Saved to Downloads.");
     };
   }
 
@@ -891,15 +804,25 @@
     gotoStep(1);
   });
   document.querySelector('[data-action="send"]').addEventListener("click", function () {
-    // Capture the rendered ecard NOW. gotoStep(3) below points step-2's
-    // iframe at about:blank (its standard teardown to free Ruffle's
-    // WASM), after which the canvas is gone and execute() in step 3
-    // would have nothing to copy/save. Stash the blob so step-3's Send
-    // Email handlers can use it. Async (canvas.toBlob), so the
-    // step-transition waits on the callback.
-    getEcardCanvasBlob(function (blob) {
-      __capturedBlob = blob;
-      console.log("[ecard-capture] stashed for step 3:", blob && blob.size, "bytes");
+    // Record the card NOW, while step-2's preview iframe is alive and
+    // animating — gotoStep(3) tears the iframe down to free Ruffle's
+    // WASM, after which there's nothing to record. The user watches a
+    // countdown on the button while their card performs for the camera.
+    var sendBtn = document.querySelector('[data-action="send"]');
+    var backBtn = document.querySelector('[data-action="back"]');
+    if (sendBtn.disabled) return;
+    sendBtn.disabled = true;
+    backBtn.disabled = true;
+    sendBtn.textContent = "Recording your card… " + RECORD_SECONDS + "s";
+    recordEcardVideo(RECORD_SECONDS, function (left) {
+      sendBtn.textContent = "Recording your card… " + left + "s";
+    }, function (captured) {
+      __captured = captured;
+      console.log("[ecard-capture] stashed:", captured && captured.kind,
+                  captured && captured.blob.size, "bytes,", captured && captured.mime);
+      sendBtn.disabled = false;
+      backBtn.disabled = false;
+      sendBtn.textContent = "Send »";
       renderSent();
       gotoStep(3);
     });

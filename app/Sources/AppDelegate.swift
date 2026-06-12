@@ -111,6 +111,48 @@ private final class OpenExternalHandler: NSObject, WKScriptMessageHandler {
     }
 }
 
+/// E-card send: receives the recorded card video (or PNG fallback) from
+/// the wizard and opens a Mail compose window with recipient, subject,
+/// body, and the card ATTACHED — which mailto:/webmail compose URLs
+/// cannot do. NSSharingService(.composeEmail) talks to the user's
+/// default mail client.
+private final class EcardComposeHandler: NSObject, WKScriptMessageHandler {
+    func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let dict = message.body as? [String: Any],
+              let to = dict["to"] as? String,
+              let subject = dict["subject"] as? String,
+              let body = dict["body"] as? String,
+              let fileName = dict["fileName"] as? String,
+              let b64 = dict["dataBase64"] as? String,
+              let data = Data(base64Encoded: b64) else {
+            NSLog("AGD ecardCompose: malformed payload")
+            return
+        }
+        let dir = FileManager.default.temporaryDirectory
+            .appendingPathComponent("Summer 2008 E-Cards", isDirectory: true)
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        // Sanitize: the name reaches Mail as the attachment filename.
+        let safeName = fileName.replacingOccurrences(of: "/", with: "_")
+            .replacingOccurrences(of: ":", with: "_")
+        let fileURL = dir.appendingPathComponent(safeName)
+        do { try data.write(to: fileURL) } catch {
+            NSLog("AGD ecardCompose: temp write failed: \(error)")
+            return
+        }
+        DispatchQueue.main.async {
+            guard let svc = NSSharingService(named: .composeEmail) else {
+                // No mail client configured — at least reveal the file so
+                // the user can attach it by hand wherever they compose.
+                NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+                return
+            }
+            svc.recipients = [to]
+            svc.subject = subject
+            svc.perform(withItems: [body, fileURL])
+        }
+    }
+}
+
 /// Weak wrapper so WKUserContentController doesn't retain AppDelegate.
 private final class NavMessageHandler: NSObject, WKScriptMessageHandler {
     weak var appDelegate: AppDelegate?
@@ -148,6 +190,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var msgHandler: NavMessageHandler!
     private var dcrLaunchHandler: DCRLaunchHandler!
     private var openExternalHandler: OpenExternalHandler!
+    private var ecardComposeHandler: EcardComposeHandler!
     private var dragHandler: WindowDragHandler!
     private var dragDiagHandler: DragDiagHandler!
     private var consoleBridge: ConsoleBridgeHandler!
@@ -249,6 +292,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // (which would otherwise toast-block the webmail compose URLs).
         openExternalHandler = OpenExternalHandler()
         config.userContentController.add(openExternalHandler, name: "openExternal")
+        ecardComposeHandler = EcardComposeHandler()
+        config.userContentController.add(ecardComposeHandler, name: "ecardCompose")
 
         // Window-drag handler: JS calls into here on mousedown over any
         // data-agd-drag region (nav bars). We invoke NSWindow.performDrag
