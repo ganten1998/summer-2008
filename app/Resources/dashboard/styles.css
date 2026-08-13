@@ -328,7 +328,6 @@ body::before {
 }
 .credit p { margin: 4px 0; }
 .credit .small { font-size: 11px; opacity: 0.75; letter-spacing: 0.05em; }
-.credit .dedication { font-family: var(--serif); font-style: italic; font-size: 11px; opacity: 0.45; margin-top: 18px; letter-spacing: 0.04em; }
 .credit .serif { font-family: var(--serif); }
 .credit .italic { font-style: italic; }
 
