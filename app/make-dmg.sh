@@ -85,19 +85,29 @@ Summer 2008 — An American Girl Archive
 Drag the .app to your /Applications folder, then launch it.
 
 What this is:
-  An offline snapshot of americangirl.com captured around July 2008
-  — the era of Nicki Fleming as Girl of the Year, the Kit Kittredge
+  An offline snapshot of americangirl.com captured around July 2008:
+  the era of Nicki Fleming as Girl of the Year, the Kit Kittredge
   movie release, and the historical character lineup of Felicity,
   Addy, Kit, Molly, Samantha, Kaya, Josefina, Kirsten.
 
 What plays:
-  • 116 Flash games (via Ruffle + bundled Adobe Flash Player projector)
-  • 20 Shockwave Director games (via bundled Wine + Director projector)
+  • 112 Flash games and animations (via Ruffle + bundled Adobe Flash
+    Player projector)
+  • 30 Shockwave Director games and activities (via bundled Wine +
+    Director projector)
   • Every preserved e-card with personalize + Mail.app handoff
 
+On Apple Silicon:
+  The Flash and Shockwave projectors are the original Adobe runtimes,
+  Intel software from the 2000s, so they need Rosetta. Everything else,
+  including all the inline Ruffle games, works without it. If you click
+  a projector game and don't have Rosetta, the app will tell you and
+  hand you the one-line command to install it.
+
 Known gaps:
-  • American Girl Magazine e-cards (category=agm) — never crawled
-  • store.americangirl.com — e-commerce, can't function offline
+  • American Girl Magazine e-cards (category=agm): never crawled
+  • store.americangirl.com: e-commerce, can't function offline
+  • Nine e-card animations that were never captured
   • A handful of mid-game Ruffle errors on specific titles
 
 Codename: Coconut

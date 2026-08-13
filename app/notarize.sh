@@ -61,16 +61,30 @@ EOF
 fi
 
 echo "==> Preflight: signature must be Developer ID + hardened runtime"
-if ! codesign -dv --verbose=4 "$TARGET" 2>&1 | grep -q 'Developer ID Application'; then
-  echo "!! $TARGET is not signed with a Developer ID identity." >&2
-  echo "   Apple will reject it. Rebuild with the cert in your keychain." >&2
-  exit 1
-fi
-if [ "$IS_DMG" -eq 0 ]; then
-  if ! codesign -dv --verbose=4 "$TARGET" 2>&1 | grep -q 'flags=.*runtime'; then
-    echo "!! Hardened runtime flag missing — Apple requires it." >&2
+# Capture once, then match with shell globbing rather than piping into
+# `grep -q`. Under `set -o pipefail`, `grep -q` exits the moment it matches,
+# closing the pipe; codesign then dies of SIGPIPE and the pipeline reports
+# failure *because the check succeeded*. That inverts the test and rejects a
+# perfectly good signature.
+SIG_INFO="$(codesign -dv --verbose=4 "$TARGET" 2>&1 || true)"
+
+case "$SIG_INFO" in
+  *"Developer ID Application"*) ;;
+  *)
+    echo "!! $TARGET is not signed with a Developer ID identity." >&2
+    echo "   Apple will reject it. Rebuild with the cert in your keychain." >&2
     exit 1
-  fi
+    ;;
+esac
+
+if [ "$IS_DMG" -eq 0 ]; then
+  case "$SIG_INFO" in
+    *"flags="*"runtime"*) ;;
+    *)
+      echo "!! Hardened runtime flag missing. Apple requires it." >&2
+      exit 1
+      ;;
+  esac
 fi
 
 if [ "$IS_DMG" -eq 1 ]; then
@@ -95,9 +109,17 @@ set -e
 echo "$SUBMIT_OUT"
 
 SUBMISSION_ID="$(printf '%s\n' "$SUBMIT_OUT" \
-  | grep -oE '\bid: [0-9a-f-]{36}' | head -1 | awk '{print $2}')"
+  | grep -oE '\bid: [0-9a-f-]{36}' | awk 'NR==1 {print $2}' || true)"
 
-if [ $SUBMIT_RC -ne 0 ] || ! printf '%s\n' "$SUBMIT_OUT" | grep -q 'status: Accepted'; then
+# Same SIGPIPE-under-pipefail hazard as the preflight: a `grep -q` that MATCHES
+# would make this pipeline fail, and the `!` would then report a successful
+# notarization as a failure. Match on the captured string instead.
+ACCEPTED=0
+case "$SUBMIT_OUT" in
+  *"status: Accepted"*) ACCEPTED=1 ;;
+esac
+
+if [ $SUBMIT_RC -ne 0 ] || [ $ACCEPTED -eq 0 ]; then
   echo ""
   echo "!! Notarization did not succeed." >&2
   if [ -n "$SUBMISSION_ID" ]; then
@@ -115,8 +137,14 @@ xcrun stapler staple "$TARGET"
 
 echo "==> Verifying"
 xcrun stapler validate "$TARGET"
-spctl -a -t "$([ "$IS_DMG" -eq 1 ] && echo open --context context:primary-signature || echo exec)" \
-      -vv "$TARGET" 2>&1 | tail -3 || true
+# spctl takes the assessment type and --context as SEPARATE arguments; building
+# them inside one command substitution collapses them into a single argv entry
+# and spctl answers "unrecognized assessment type".
+if [ "$IS_DMG" -eq 1 ]; then
+  spctl -a -vv -t open --context context:primary-signature "$TARGET" 2>&1 | tail -3 || true
+else
+  spctl -a -vv -t exec "$TARGET" 2>&1 | tail -3 || true
+fi
 
 echo ""
 echo "✓ Notarized and stapled: $TARGET"
