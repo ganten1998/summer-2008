@@ -14,9 +14,9 @@ closely as possible:
 | Settings storage   | WKWebView default              | WebView2 user-data folder at `%LOCALAPPDATA%\Summer 2008` |
 | Distribution       | `.dmg` (Developer ID + notarized)| Inno Setup `.exe` installer              |
 
-The HTML/CSS/JS — dashboard, mirror-runtime (Ruffle, flash-bridge,
+The HTML/CSS/JS (dashboard, mirror-runtime with Ruffle, flash-bridge,
 volume-control), the ecard wizard, welcome modal, stub pages, and the
-mirror itself — is **shared verbatim** with the macOS build. No
+mirror itself) is **shared verbatim** with the macOS build. No
 duplication.
 
 ---
@@ -42,11 +42,11 @@ already present (it ships with every Win10/11 since mid-2021).
 
 ### One-time prerequisites
 
-1. **.NET 8 SDK** — https://dotnet.microsoft.com/download/dotnet/8.0
-2. **Inno Setup 6** — https://jrsoftware.org/isdl.php
+1. **.NET 8 SDK**: https://dotnet.microsoft.com/download/dotnet/8.0
+2. **Inno Setup 6**: https://jrsoftware.org/isdl.php
    (or `winget install JRSoftware.InnoSetup`)
 
-That's it. No Flashpoint install required — the projector binaries are
+That's it. No Flashpoint install required, because the projector binaries are
 downloaded automatically from this repo's `build-deps-v1` release.
 
 ### Steps
@@ -73,7 +73,7 @@ to run without installing.
 ### Building from macOS / Linux
 
 Use the GitHub Actions workflow in `.github/workflows/windows-build.yml`.
-Push to a branch — CI builds the installer on a Windows runner and
+Push to a branch and CI builds the installer on a Windows runner, then
 uploads it as a workflow artifact. Tag pushes (`v1.0.0`, `v1.1.0`,
 etc.) automatically attach the installer to the matching release.
 
