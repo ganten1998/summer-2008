@@ -74,10 +74,9 @@ cards, please tell me.
 
 **Nine e-card animations.** Of the 95 cards E-Card Central offers, 86 now have
 their animation. The remaining nine — a few character birthdays, some holiday
-cards — were
-either never captured or survive only as empty redirect records. Their entries
-still appear in the chooser, because a card you can't open is at least a record
-that it existed.
+cards — were either never captured or survive only as empty redirect records.
+Their entries still appear in the chooser, because a card you can't open is at
+least a record that it existed.
 
 **Eight magazine feature games** from the 2008 issues (Animal Cupcakes, Island
 Party, Puppy Video, Shades, Smiling Pets, Stunt Girl, You Pick It, Plus or
@@ -113,7 +112,7 @@ runtime — fully self-contained, no companion apps required.
 
 ### macOS
 
-Download `Summer 2008 v1.0.dmg` (~390 MB compressed, 800 MB installed).
+Download `Summer 2008 v1.0.dmg` (949 MB installed).
 Requires macOS 11 or newer. Universal binary — native on both Apple
 Silicon and Intel.
 
@@ -133,7 +132,7 @@ softwareupdate --install-rosetta --agree-to-license
 
 ### Windows
 
-Download `Summer-2008-Setup-v1.0.0.exe` (~400 MB). Requires Windows 10
+Download `Summer-2008-Setup-v1.0.0.exe` (315 MB). Requires Windows 10
 1809 (build 17763) or newer, x64. Double-click to run the installer —
 follow the standard next-next-finish flow. The installer creates Start
 Menu + (optional) Desktop shortcuts and auto-installs the Edge WebView2
