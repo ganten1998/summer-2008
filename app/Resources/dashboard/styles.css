@@ -3,17 +3,17 @@
    gold filigree corners and dividers. */
 
 :root {
-  --ag-cream:       #F7EEDD;
-  --ag-cream-deep:  #EFE2C6;
-  --ag-paper:       #FBF6EB;
-  --ag-paper-warm:  #FAF1DF;
+  --ag-cream:       #F2E4C8;
+  --ag-cream-deep:  #E9D8B2;
+  --ag-paper:       #F7ECD6;
+  --ag-paper-warm:  #F7E7C9;
   --ag-red:         #A6192E;
   --ag-red-deep:    #7C0C1F;
   --ag-rose:        #D87A8A;
   --ag-gold:        #B68C3E;
   --ag-gold-soft:   #D1B27A;
   --ag-ink:         #2A2118;
-  --ag-mute:        #6F5A3F;
+  --ag-mute:        #68553B;
   --serif:          "Hoefler Text", "Garamond", "Adobe Caslon Pro", Georgia, serif;
   --serif-display:  "Didot", "Bodoni 72", "Hoefler Text", Georgia, serif;
   --sans:           -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
