@@ -17,8 +17,8 @@
 #define MyAppVersion    "1.0.0"
 #define MyAppPublisher  "Summer 2008 Archive"
 #define MyAppExeName    "Summer2008.exe"
-#define MyAppURL        "https://github.com/ganten7/summer-2008"
-#define MyAppSupportURL "https://github.com/ganten7/summer-2008/issues"
+#define MyAppURL        "https://github.com/ganten1998/summer-2008"
+#define MyAppSupportURL "https://github.com/ganten1998/summer-2008/issues"
 
 #ifndef StageDir
   #define StageDir "build\stage"

@@ -44,6 +44,18 @@ OLD_SENTINELS = (
     "<!-- AGD-PATCHED v5 -->",
 )
 
+
+def _safe_read(path) -> str:
+    """Read a mirror file as text without ever raising.
+
+    The 2008 mirror is a mix of latin-1 and utf-8 with some truncated
+    captures, so decoding must never be able to abort a build step.
+    """
+    try:
+        return path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return ""
+
 # Hosts we re-route to our scheme. Anything else stays untouched so the
 # blank-screen failure mode is obvious instead of silently broken.
 AGD_HOSTS = (
@@ -330,8 +342,23 @@ def main() -> int:
         return 1
 
     if not args.no_backup and not BACKUP.exists():
-        print(f"Creating one-time backup at {BACKUP}/ ...")
-        shutil.copytree(MIRROR, BACKUP)
+        # Only ever snapshot a *pristine* mirror. The mirror committed to the
+        # repository is already patched, so on a fresh clone this would copy
+        # 270 MB of patched files and label them "unpatched" — and the stale-
+        # marker recovery path below restores from BACKUP/ on the assumption
+        # that it holds untouched 2008 source. That would silently reinstate
+        # already-patched HTML as if it were original, corrupting the next
+        # sentinel bump.
+        already = next((p for p in MIRROR.rglob("*.html")
+                        if SENTINEL in _safe_read(p)), None)
+        if already is not None:
+            print(f"mirror/ is already patched (found {SENTINEL} in "
+                  f"{already.relative_to(MIRROR)}) — skipping the "
+                  f"'unpatched' backup, which would not be unpatched.")
+            print("  (this is normal: the committed mirror ships patched)")
+        else:
+            print(f"Creating one-time backup at {BACKUP}/ ...")
+            shutil.copytree(MIRROR, BACKUP)
 
     handlers = {
         ".html": patch_html,

@@ -96,23 +96,43 @@ extension Notification.Name {
     static let AGDPageDidNavigate = Notification.Name("AGDPageDidNavigate")
 }
 
-/// macOS Sequoia+ redacts NSLog interpolations as `<private>` in the
-/// unified log, so we tail to a file directly. Tail with:
-///     tail -f /tmp/agd-debug.log
-fileprivate let agdLogPath = "/tmp/agd-debug.log"
-fileprivate func agdLog(_ msg: String) {
+/// Diagnostics are opt-in via the `AGD_DEBUG` environment variable.
+///
+/// These log files used to be written unconditionally in shipping builds, to a
+/// fixed path in world-writable /tmp, and with no rotation — every console
+/// message from every page in every frame, appended synchronously on the main
+/// thread. That is a privacy leak (page contents land in a predictable file any
+/// local process can read, and another user can pre-create/symlink the path),
+/// an unbounded disk consumer, and main-thread I/O on a hot path.
+///
+/// Turn them on when debugging:
+///     AGD_DEBUG=1 "/Applications/Summer 2008 — An American Girl Archive.app/Contents/MacOS/AGDLauncher"
+///     tail -f "$TMPDIR/agd-debug.log"
+let agdDebugEnabled: Bool = ProcessInfo.processInfo.environment["AGD_DEBUG"] != nil
+
+/// Per-user temp dir, not /tmp — NSTemporaryDirectory() is inside the user's
+/// own container, so the log is not world-readable and cannot be pre-empted by
+/// another user planting a symlink at a guessable path.
+let agdLogPath: String =
+    (NSTemporaryDirectory() as NSString).appendingPathComponent("agd-debug.log")
+
+/// Append a line to the diagnostic log. No-op unless AGD_DEBUG is set.
+///
+/// macOS Sequoia+ redacts NSLog interpolations as `<private>` in the unified
+/// log, which is why this writes to a file at all.
+func agdLog(_ msg: String) {
+    guard agdDebugEnabled else { return }
     let line = "\(Date()) \(msg)\n"
     NSLog("AGD: %@", msg)  // keep NSLog for whoever has it filtered in already
-    if let data = line.data(using: .utf8) {
-        if FileManager.default.fileExists(atPath: agdLogPath) {
-            if let fh = FileHandle(forWritingAtPath: agdLogPath) {
-                fh.seekToEndOfFile()
-                fh.write(data)
-                fh.closeFile()
-            }
-        } else {
-            try? data.write(to: URL(fileURLWithPath: agdLogPath))
+    guard let data = line.data(using: .utf8) else { return }
+    if FileManager.default.fileExists(atPath: agdLogPath) {
+        if let fh = FileHandle(forWritingAtPath: agdLogPath) {
+            fh.seekToEndOfFile()
+            fh.write(data)
+            fh.closeFile()
         }
+    } else {
+        try? data.write(to: URL(fileURLWithPath: agdLogPath))
     }
 }
 
@@ -157,11 +177,30 @@ final class ProjectorOverlay: NSObject, WKScriptMessageHandler {
         var lastApplied: CGRect = .zero
         var consecutiveNotFound = 0
         var firstPlacementDone = false
+        /// Ticks elapsed while still hunting for the projector window. Used to
+        /// run the window scan at a fraction of the tick rate before first
+        /// placement — see `apply`.
+        var searchTicks = 0
+        /// When we started hunting, so the search can be given up on rather
+        /// than run forever if the projector never opens a window.
+        let searchStarted = Date()
+        var gaveUpLogged = false
         init(dcrURL: String, pid: pid_t) {
             self.dcrURL = dcrURL
             self.pid = pid
         }
     }
+
+    /// Scan for the projector window every Nth tick before first placement.
+    /// The 60 Hz rate exists to out-race Director's own startup centering,
+    /// which only matters once the window *exists*; until then a ~10 Hz hunt
+    /// is plenty and costs a sixth as much.
+    private static let searchTickDivisor = 6
+
+    /// Stop hunting after this long. Wine bootstrapping a fresh WINEPREFIX can
+    /// legitimately take tens of seconds, so this is generous — it exists only
+    /// to stop an unbounded scan when the projector dies without a window.
+    private static let searchDeadline: TimeInterval = 180
 
     weak var webView: NSView?
     weak var window:  NSWindow?
@@ -380,10 +419,25 @@ final class ProjectorOverlay: NSObject, WKScriptMessageHandler {
             return
         }
 
+        // Throttle the hunt: run the window scan at ~10 Hz rather than 60 Hz
+        // until we have placed the window once, and abandon it after the
+        // deadline instead of scanning for the life of the process.
+        track.searchTicks += 1
+        if Date().timeIntervalSince(track.searchStarted) > Self.searchDeadline {
+            if !track.gaveUpLogged {
+                track.gaveUpLogged = true
+                agdLog("giving up on projector window for \(url) after "
+                       + "\(Int(Self.searchDeadline))s — pid \(track.pid) never "
+                       + "produced a layer-0 window")
+            }
+            return
+        }
+        if track.searchTicks % Self.searchTickDivisor != 0 { return }
+
         guard let axWindow = findProjectorWindow(pid: track.pid) else {
             track.consecutiveNotFound += 1
             if track.consecutiveNotFound == 20 {
-                agdLog("still no projector window after 20 ticks (~0.66s) for \(url)")
+                agdLog("still no projector window after 20 scans (~2s) for \(url)")
             }
             return
         }
@@ -680,28 +734,63 @@ final class ProjectorOverlay: NSObject, WKScriptMessageHandler {
         return true
     }
 
+    /// Every pid → ppid pair on the system, from a single `sysctl` call.
+    ///
+    /// This replaces a recursive `pgrep -P` shell-out. Foundation's
+    /// `Process.waitUntilExit()` has a fixed ~67 ms floor per invocation
+    /// (it polls the run loop in a private mode), so the old implementation
+    /// cost (1 + descendants) × 67 ms — and it ran on the main thread from
+    /// `tick()` at 60 Hz for as long as the projector window had not yet
+    /// appeared. On a first launch, where Wine bootstraps a fresh WINEPREFIX
+    /// before Director ever opens a window, that is tens of seconds of solid
+    /// main-thread blocking: the app beachballs on its headline interaction.
+    ///
+    /// One sysctl costs microseconds and never forks.
+    private static func processParentMap() -> [pid_t: pid_t] {
+        var mib: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_ALL, 0]
+        var size = 0
+        guard sysctl(&mib, 4, nil, &size, nil, 0) == 0, size > 0 else { return [:] }
+
+        // Ask for headroom: processes can appear between the sizing call and
+        // the fetch, and sysctl fails with ENOMEM rather than truncating.
+        let stride = MemoryLayout<kinfo_proc>.stride
+        let capacity = size / stride + 32
+        var procs = [kinfo_proc](repeating: kinfo_proc(), count: capacity)
+        size = capacity * stride
+        let ok = procs.withUnsafeMutableBytes { buf -> Bool in
+            sysctl(&mib, 4, buf.baseAddress, &size, nil, 0) == 0
+        }
+        guard ok else { return [:] }
+
+        var map: [pid_t: pid_t] = [:]
+        let count = size / stride
+        map.reserveCapacity(count)
+        for i in 0..<count {
+            let pid = procs[i].kp_proc.p_pid
+            if pid != 0 { map[pid] = procs[i].kp_eproc.e_ppid }
+        }
+        return map
+    }
+
     private func descendantPIDs(of parent: pid_t) -> [pid_t] {
-        // Use `pgrep -P` to find direct children; recurse.
-        var pids: [pid_t] = []
-        func walk(_ ppid: pid_t) {
-            let task = Process()
-            task.launchPath = "/usr/bin/pgrep"
-            task.arguments = ["-P", String(ppid)]
-            let pipe = Pipe()
-            task.standardOutput = pipe
-            do { try task.run() } catch { return }
-            task.waitUntilExit()
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            let output = String(data: data, encoding: .utf8) ?? ""
-            for line in output.split(separator: "\n") {
-                if let p = pid_t(line.trimmingCharacters(in: .whitespaces)) {
-                    pids.append(p)
-                    walk(p)
-                }
+        let parentOf = Self.processParentMap()
+        guard !parentOf.isEmpty else { return [] }
+
+        var childrenOf: [pid_t: [pid_t]] = [:]
+        childrenOf.reserveCapacity(parentOf.count)
+        for (pid, ppid) in parentOf { childrenOf[ppid, default: []].append(pid) }
+
+        var out: [pid_t] = []
+        var seen: Set<pid_t> = [parent]
+        var stack: [pid_t] = [parent]
+        while let current = stack.popLast() {
+            for child in childrenOf[current] ?? [] where !seen.contains(child) {
+                seen.insert(child)
+                out.append(child)
+                stack.append(child)
             }
         }
-        walk(parent)
-        return pids
+        return out
     }
 
     // MARK: - AX write helpers

@@ -1,0 +1,17 @@
+/* AGD-PATCHED v4 */
+body.popup ul {
+margin-left:-45px;
+}
+
+body.popup ul.datesTimesInfo {
+margin-left:-55px
+}
+
+		#mapControlDriving {
+			xmargin-top:-350px;
+		}
+	
+	
+		#directions {
+			xmargin-top:-200px;
+		}

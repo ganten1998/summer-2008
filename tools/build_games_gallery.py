@@ -374,7 +374,19 @@ def experience_key(host: str, wrapper_path: str) -> tuple[str, str]:
     parent = wrapper_path.rsplit("/", 1)[0]
     if not parent:
         parent = "/"
-    return (host, parent)
+    # Collapse host aliases. The 2008 site answered on both americangirl.com
+    # and www.americangirl.com, and the crawl captured some pages under each,
+    # so the same experience could key twice and emit two identical tiles —
+    # "Kaya's Family and Friends", "Julie's Family and Friends", "Spooky
+    # Doodles" and the noJoke quiz all shipped duplicated in the gallery.
+    # The runtime treats the two hosts as one (see the bare-host alias in the
+    # scheme handlers), so the gallery should too.
+    return (canonical_host(host), parent)
+
+
+def canonical_host(host: str) -> str:
+    """Fold bare americangirl.com onto the www form used everywhere else."""
+    return "www.americangirl.com" if host == "americangirl.com" else host
 
 
 def is_fragment(wrapper_name: str) -> bool:

@@ -36,7 +36,7 @@ param(
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $Dest = Join-Path $Root "projector-windows"
-$ReleaseURL = "https://github.com/ganten7/summer-2008/releases/download/build-deps-v1/projector-windows.tar.gz"
+$ReleaseURL = "https://github.com/ganten1998/summer-2008/releases/download/build-deps-v1/projector-windows.tar.gz"
 
 function Test-Populated([string]$path) {
     (Test-Path (Join-Path $path "Flash\flashplayer_32_sa.exe")) -and `

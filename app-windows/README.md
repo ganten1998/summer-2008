@@ -12,7 +12,7 @@ closely as possible:
 | Shockwave playback | bundled Wine + Director projector | bundled native Director projector (no Wine) |
 | Volume persistence | `~/Library/Application Support/Summer 2008/prefs.json` | `%LOCALAPPDATA%\Summer 2008\prefs.json`   |
 | Settings storage   | WKWebView default              | WebView2 user-data folder at `%LOCALAPPDATA%\Summer 2008` |
-| Distribution       | `.dmg` (ad-hoc signed)         | Inno Setup `.exe` installer              |
+| Distribution       | `.dmg` (Developer ID + notarized)| Inno Setup `.exe` installer              |
 
 The HTML/CSS/JS — dashboard, mirror-runtime (Ruffle, flash-bridge,
 volume-control), the ecard wizard, welcome modal, stub pages, and the
@@ -24,7 +24,7 @@ duplication.
 ## Install (end user)
 
 Download `Summer-2008-Setup-v1.0.0.exe` from
-[Releases](https://github.com/ganten7/summer-2008/releases), double-click,
+[Releases](https://github.com/ganten1998/summer-2008/releases), double-click,
 follow the installer. Defaults install to `C:\Program Files\Summer 2008\`
 and create Start Menu + (optional) Desktop shortcuts.
 
@@ -53,7 +53,7 @@ downloaded automatically from this repo's `build-deps-v1` release.
 
 ```powershell
 # 1. Clone and enter
-git clone https://github.com/ganten7/summer-2008.git C:\Projects\summer-2008
+git clone https://github.com/ganten1998/summer-2008.git C:\Projects\summer-2008
 cd C:\Projects\summer-2008
 
 # 2. Hydrate the projector binaries (downloads ~80 MB from this repo's

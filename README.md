@@ -34,7 +34,7 @@ Madison, Megan, Aisling, Angelina. The *Kit Kittredge* movie subsite. Magazine
 Activities. Coconut & Licorice. Quiz Corner. Travel. Paper Dolls. Snack Time. The
 Mysteries. Freewheel.
 
-**116 Flash games, playable inline.** Felicity's Colonial Adventure, Kit's Railway
+**112 Flash games and animations, playable inline.** Felicity's Colonial Adventure, Kit's Railway
 Adventure (Cincinnati Union Terminal, Empire Builder, Glacier Park, World's Fair,
 Fancy Free, Hangman, Tangram, Jigsaw, Concentration), Kaya's Catch of the Day,
 Kaya's Mountain Escape, Kirsten's Raccoon Caper, Molly's Pedal Power, Molly's
@@ -42,9 +42,10 @@ Route 66, Samantha's Scavenger Hunt, Josefina's Santa Fe Market, Addy's *A Life
 in Freedom*, Paper Dolls — and every Magazine Activity, every Coconut & Pets game,
 every Quiz Corner personality quiz.
 
-**20 Shockwave Director games.** Addy's Mancala, Josefina's Piano, Molly's Pedal
-Power, Kirsten's Raccoon Caper and Quilt, Kit's egg hunt, peg solitaire, jigsaw,
-Samantha's Sketchbook, the full set of Magazine puzzle pages. These need a real
+**30 Shockwave Director games and activities.** Addy's Mancala, Josefina's Piano,
+Molly's Pedal Power, Kirsten's Raccoon Caper and Quilt, Kit's egg hunt, peg
+solitaire, jigsaw, Samantha's Sketchbook, Sea Horse Round Up, Mahjong Mania,
+An American Girl in Paris, the full set of Magazine puzzle pages. These need a real
 Director runtime; the app bundles one (Adobe Shockwave projector via Wine).
 Click a game's page and the projector spawns directly over the embed area, sized
 to the game's native canvas. Drag it anywhere, close it from its window, relaunch
@@ -62,13 +63,26 @@ goes out from your own account — feels right, doesn't pretend).
 I tried. Some things didn't survive:
 
 **American Girl Magazine e-cards** (the "agm" dropdown in E-Card Central) were
-server-rendered from a database, and the URL was never reached by a single web
-crawler in 2007–2008 — I checked Wayback's full CDX, every Common Crawl index
-from 2008 through 2015, archive.today, Memento aggregator, every search engine.
-The page exists nowhere on the public internet. Selecting that dropdown option
-lands on a styled note explaining what happened, with a request: if you ever
-saved one of these to a school computer, or remember the names of specific
+server-rendered from a database, and the chooser URL was never reached by a
+single web crawler in 2007–2008 — Wayback's full CDX, every Common Crawl index
+from 2008 through 2015, archive.today, the Memento aggregator, every search
+engine, and the Flashpoint Archive database have all been checked, twice, years
+apart. The page exists nowhere on the public internet. Selecting that dropdown
+option lands on a styled note explaining what happened, with a request: if you
+ever saved one of these to a school computer, or remember the names of specific
 cards, please tell me.
+
+**Nine e-card animations.** Of the 95 cards E-Card Central offers, 86 now have
+their animation. The remaining nine — a few character birthdays, some holiday
+cards — were
+either never captured or survive only as empty redirect records. Their entries
+still appear in the chooser, because a card you can't open is at least a record
+that it existed.
+
+**Eight magazine feature games** from the 2008 issues (Animal Cupcakes, Island
+Party, Puppy Video, Shades, Smiling Pets, Stunt Girl, You Pick It, Plus or
+Minus). Flashpoint Archive — which does curate other games from the same
+directories — was confirmed not to hold these either.
 
 **store.americangirl.com** was 58,000+ URLs of e-commerce — cart, checkout,
 account, product database. None of that can be a static snapshot. Clicking a
@@ -93,31 +107,29 @@ stumbles.
 
 ## Install
 
-Downloads are at [Releases](https://github.com/ganten7/summer-2008/releases).
+Downloads are at [Releases](https://github.com/ganten1998/summer-2008/releases).
 Both bundle the entire mirror, every Flash + Shockwave projector, and the
 runtime — fully self-contained, no companion apps required.
 
 ### macOS
 
 Download `Summer 2008 v1.0.dmg` (~390 MB compressed, 800 MB installed).
-Requires macOS 11 or newer. Apple Silicon native; Intel works under
-Rosetta.
+Requires macOS 11 or newer. Universal binary — native on both Apple
+Silicon and Intel.
 
-**First launch** — the app isn't signed with an Apple Developer ID yet,
-so macOS will block it. The unlock takes about 20 seconds:
+Open the DMG, drag the app to Applications, launch it. That's the whole
+install: the app is signed with an Apple Developer ID and notarized by
+Apple, so there's no security warning and nothing to click around.
 
-*On macOS 15 (Sequoia), macOS 26 (Tahoe), or newer:*
-1. Double-click the .app. You'll see a dialog: *"Apple could not verify
-   '… An American Girl Archive' is free of malware"*. Click **Done**.
-2. Open **System Settings → Privacy & Security**. Scroll to the
-   "Security" section near the bottom. You'll see *"Summer 2008 — An
-   American Girl Archive was blocked to protect your Mac."* with an
-   **Open Anyway** button next to it.
-3. Click **Open Anyway**, enter your Mac password to confirm. The app
-   launches.
+**One caveat on Apple Silicon.** The Flash and Shockwave projectors are
+the original Adobe runtimes — Intel software from the 2000s — so they
+need Rosetta. Everything else in the archive, including all the inline
+Ruffle games, works without it. If you click a projector game and don't
+have Rosetta, the app tells you and hands you the one-line command:
 
-*On macOS 11–14 (Big Sur through Sonoma):*
-1. Right-click the .app → **Open** → click **Open** in the warning dialog.
+```bash
+softwareupdate --install-rosetta --agree-to-license
+```
 
 ### Windows
 
@@ -129,30 +141,38 @@ runtime if it isn't already present.
 
 **First launch** — Windows SmartScreen may say "Windows protected your
 PC" because the installer isn't signed with an EV certificate yet.
-Click **More info → Run anyway**.
-
-Either way, you only do it once — future launches are normal.
+Click **More info → Run anyway**. You only do it once; future launches
+are normal.
 
 ---
 
 ## Build from source
 
+The canonical source repository is on
+**[Codeberg](https://codeberg.org/ganten1998/summer-2008)**; the GitHub
+repo is a mirror that additionally carries the release binaries and the
+Windows CI. Either will build.
+
 ### macOS (.app and .dmg)
 
 ```bash
 # 1. Clone
-git clone https://github.com/ganten7/summer-2008.git ~/Projects/summer-2008
+git clone https://codeberg.org/ganten1998/summer-2008.git ~/Projects/summer-2008
 cd ~/Projects/summer-2008
 
 # 2. Hydrate the projector binaries (Wine + Director from your local
 #    Flashpoint install)
 ./tools/fetch-projector.sh
 
-# 3. Build the .app
+# 3. Build the .app (universal, signed with whatever identity you have)
 ./app/build.sh
 
-# 4. (Optional) Wrap into a distributable DMG
-./app/make-dmg.sh
+# 4. (Optional) Notarize — needs a Developer ID cert and stored
+#    notarytool credentials; see the header of the script
+./app/notarize.sh
+
+# 5. (Optional) Wrap into a distributable DMG
+./app/make-dmg.sh --release
 ```
 
 The .app lands at `build/Summer 2008 — An American Girl Archive.app`.
@@ -165,7 +185,7 @@ projector binaries auto-download from this repo's `build-deps-v1` release.
 ```powershell
 # From a Windows machine (or via the windows-build.yml GitHub Actions
 # workflow on push)
-git clone https://github.com/ganten7/summer-2008.git C:\Projects\summer-2008
+git clone https://github.com/ganten1998/summer-2008.git C:\Projects\summer-2008
 cd C:\Projects\summer-2008
 
 # Pulls ~80 MB of native Director + Flash projectors from the build-deps release

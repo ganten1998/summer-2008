@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Web.WebView2.Core;
@@ -308,6 +309,25 @@ public sealed class MirrorHandler
         string cachePath,
         CoreWebView2Deferral deferral)
     {
+        // Captured on entry, which is the WPF UI thread — WebResourceRequested
+        // is raised there. WebView2 is STA COM: Environment.CreateWebResourceResponse,
+        // the args.Response setter, and Deferral.Complete all throw
+        // RPC_E_WRONG_THREAD (0x8001010E) if touched from a threadpool thread.
+        // The ConfigureAwait(false) calls below are deliberate — the network
+        // fetch and the cache write should NOT occupy the UI thread — but they
+        // mean everything after the first await runs on the pool, so every COM
+        // interaction has to be marshalled back explicitly.
+        var ui = SynchronizationContext.Current;
+
+        void OnUi(Action action)
+        {
+            if (ui is null) { action(); return; }
+            // Send (not Post) so ordering with deferral.Complete is preserved;
+            // DispatcherSynchronizationContext runs it inline when already on
+            // the UI thread, so this is safe even if no thread hop occurred.
+            ui.Send(_ => action(), null);
+        }
+
         try
         {
             var qPart = string.IsNullOrEmpty(query) ? "" : "?" + query;
@@ -317,7 +337,7 @@ public sealed class MirrorHandler
             using var resp = await _http.GetAsync(wbUrl).ConfigureAwait(false);
             if (!resp.IsSuccessStatusCode)
             {
-                args.Response = StubPages.NotFoundResponse(env, uri);
+                OnUi(() => args.Response = StubPages.NotFoundResponse(env, uri));
                 return;
             }
 
@@ -333,25 +353,30 @@ public sealed class MirrorHandler
             catch { /* best effort — serve from memory if cache write fails */ }
 
             var mime = MimeFor(cachePath);
-            var stream = new MemoryStream(bytes);
             var headers = string.Join("\r\n",
                 $"Content-Type: {mime}",
                 $"Content-Length: {bytes.Length}",
                 "Cache-Control: no-store",
                 "Access-Control-Allow-Origin: *",
                 "X-AGD-Source: wayback-backfill");
-            args.Response = env.Environment.CreateWebResourceResponse(stream, 200, "OK", headers);
+            OnUi(() =>
+            {
+                var stream = new MemoryStream(bytes);
+                args.Response = env.Environment.CreateWebResourceResponse(
+                    stream, 200, "OK", headers);
+            });
         }
         catch
         {
             // Network failure, DNS failure, timeout, etc. — serve the 404 stub
             // so the user sees a clean "not in this archive" rather than a
             // browser-default error page.
-            try { args.Response = StubPages.NotFoundResponse(env, uri); } catch { }
+            try { OnUi(() => args.Response = StubPages.NotFoundResponse(env, uri)); }
+            catch { }
         }
         finally
         {
-            deferral.Complete();
+            OnUi(() => deferral.Complete());
         }
     }
 
@@ -397,12 +422,33 @@ public sealed class MirrorHandler
     {
         if (path.EndsWith("/", StringComparison.Ordinal)) path += "index.html";
         var rel = path.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
-        // Strip any query suffix on the leaf for MIME-type purposes.
-        var underscored = rel.IndexOf("__", StringComparison.Ordinal);
-        var lookup = underscored < 0 ? rel : rel[..underscored];
-        var full = Path.Combine(root, lookup);
-        if (!File.Exists(full)) return StubPages.NotFoundResponse(env, uri);
-        return ServeFile(env, full, uri);
+
+        // Try the path exactly as requested FIRST.
+        //
+        // This used to unconditionally truncate at the first "__" found
+        // anywhere in the relative path, which breaks every runtime asset that
+        // legitimately contains a double underscore in its name — all 74
+        // paperdoll piece PNGs are named like "Addy__doll.png", so a request
+        // for paperdoll/pieces/Addy__doll.png resolved to "paperdoll/pieces/Addy"
+        // and 404'd. The dress-up game rendered an empty canvas on Windows.
+        // (The Swift original only strips "__" off the leaf, and only to pick
+        // a MIME type — never for the file lookup.)
+        var full = Path.Combine(root, rel);
+        if (File.Exists(full)) return ServeFile(env, full, uri);
+
+        // Only if that misses, fall back to stripping a "__<query>" suffix from
+        // the LEAF segment — the downloader's naming convention for URLs that
+        // were captured with a query string.
+        var dir = Path.GetDirectoryName(rel) ?? string.Empty;
+        var leaf = Path.GetFileName(rel);
+        var cut = leaf.IndexOf("__", StringComparison.Ordinal);
+        if (cut > 0)
+        {
+            var trimmed = Path.Combine(root, dir, leaf[..cut]);
+            if (File.Exists(trimmed)) return ServeFile(env, trimmed, uri);
+        }
+
+        return StubPages.NotFoundResponse(env, uri);
     }
 
     private CoreWebView2WebResourceResponse EmptyCssResponse(CoreWebView2 env)
@@ -482,8 +528,16 @@ public sealed class MirrorHandler
             {
                 case "GET":
                     var v = _prefs.Get(clean);
-                    if (v is null) { body = "null"; status = 200; reason = "OK"; }
-                    else            { body = v;      status = 200; reason = "OK"; }
+                    // Wrap in the same {"value": …} envelope the macOS handler
+                    // uses (MirrorURLSchemeHandler.swift respondJSON ["value":]).
+                    // volume-control.js reads `j.value`; returning the bare
+                    // stored value made that undefined on Windows, so a saved
+                    // volume silently never restored between sessions.
+                    // The stored string is already JSON (the client PUTs
+                    // JSON.stringify(v)), so it embeds directly.
+                    body = "{\"value\":" + (v ?? "null") + "}";
+                    status = 200;
+                    reason = "OK";
                     break;
                 case "PUT":
                 case "POST":

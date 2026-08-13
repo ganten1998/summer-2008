@@ -39,7 +39,11 @@
 	<!-- Register agd:// with Launch Services so e-card pickup links in a
 	     recipient's email open the app directly on their card — the 2026
 	     equivalent of clicking the 2008 "view your greeting" email link.
-	     (The Windows port registers the same scheme in its installer.) -->
+
+	     NOTE: this is macOS-only. The Windows installer does NOT yet register
+	     the scheme (no [Registry] section in installer.iss) and App.xaml.cs
+	     ignores argv, so a pickup link does nothing on Windows. Known gap;
+	     do not describe the scheme as cross-platform until both halves land. -->
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

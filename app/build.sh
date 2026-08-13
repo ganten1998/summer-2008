@@ -29,17 +29,41 @@ echo "==> Cleaning previous build"
 rm -rf "$OUT"
 mkdir -p "$OUT/Contents/MacOS" "$OUT/Contents/Resources"
 
-echo "==> Compiling Swift sources"
+echo "==> Compiling Swift sources (universal: arm64 + x86_64)"
+# The app used to be built arm64-only while the README promised "Intel works
+# under Rosetta" — which is backwards: Rosetta translates x86_64 → arm64, so
+# an arm64-only binary simply will not launch on an Intel Mac. Build a real
+# universal binary instead. (Note the bundled Wine tree is x86_64-only, so on
+# Apple Silicon the projectors themselves run under Rosetta — GameLauncher
+# preflights for that separately.)
 SRC=("$HERE"/Sources/*.swift)
 SDK_PATH="$(xcrun --sdk macosx --show-sdk-path)"
-swiftc \
-  -O \
-  -target arm64-apple-macos11 \
-  -sdk "$SDK_PATH" \
-  -framework AppKit -framework WebKit -framework Foundation \
-  -framework AVFoundation -framework ImageIO -framework UniformTypeIdentifiers \
-  -o "$OUT/Contents/MacOS/AGDLauncher" \
-  "${SRC[@]}"
+STAGE="$(mktemp -d -t agd-build)"
+trap 'rm -rf "$STAGE"' EXIT
+
+SLICES=()
+for ARCH in arm64 x86_64; do
+  echo "    → $ARCH"
+  if swiftc \
+      -O \
+      -target "${ARCH}-apple-macos11" \
+      -sdk "$SDK_PATH" \
+      -framework AppKit -framework WebKit -framework Foundation \
+      -framework AVFoundation -framework ImageIO -framework UniformTypeIdentifiers \
+      -o "$STAGE/AGDLauncher-$ARCH" \
+      "${SRC[@]}"; then
+    SLICES+=("$STAGE/AGDLauncher-$ARCH")
+  else
+    echo "    !! $ARCH slice failed to compile — continuing without it"
+  fi
+done
+
+if [[ ${#SLICES[@]} -eq 0 ]]; then
+  echo "!! No architecture compiled. Aborting." >&2
+  exit 1
+fi
+lipo -create "${SLICES[@]}" -output "$OUT/Contents/MacOS/AGDLauncher"
+echo "    architectures: $(lipo -archs "$OUT/Contents/MacOS/AGDLauncher")"
 
 echo "==> Copying Info.plist"
 cp "$HERE/Resources/Info.plist" "$OUT/Contents/Info.plist"
@@ -109,29 +133,71 @@ echo "==> Codesign"
 #      so macOS Accessibility grants persist between dev iterations.
 #   3. ad-hoc — last resort; cdhash changes every build, so every rebuild
 #      revokes Accessibility/TCC permissions.
+#
+# Signing is done INSIDE-OUT (nested Mach-O first, bundle last) rather than
+# with `codesign --deep`. Apple deprecated --deep for exactly this case: it
+# applies the *same* entitlements to every nested binary and is documented as
+# unsuitable for distribution signing. A --deep-signed bundle can pass local
+# verification and still be rejected by the notary service.
+ENTITLEMENTS="$HERE/Resources/Summer2008.entitlements"
 DEV_ID="$(security find-identity -v -p codesigning 2>/dev/null \
   | grep -oE 'Developer ID Application: [^"]+' | head -1 || true)"
 LOCAL_ID="$(security find-identity -v -p codesigning 2>/dev/null \
   | grep -oE '"Summer 2008 Dev"' | head -1 | tr -d '"' || true)"
 
 if [[ -n "$DEV_ID" ]]; then
-  echo "    Using $DEV_ID"
-  codesign --force --deep --options runtime \
-           --sign "$DEV_ID" "$OUT" \
-    || echo "(codesign warning; app still runnable)"
+  SIGN_IDENTITY="$DEV_ID"
+  # --timestamp and --options runtime are both mandatory for notarization.
+  SIGN_FLAGS=(--force --options runtime --timestamp)
+  echo "    Using $DEV_ID (hardened runtime + secure timestamp)"
 elif [[ -n "$LOCAL_ID" ]]; then
+  SIGN_IDENTITY="$LOCAL_ID"
+  SIGN_FLAGS=(--force)
   echo "    Using local self-signed: $LOCAL_ID"
-  echo "    (cdhash stable across rebuilds → Accessibility grant persists)"
-  codesign --force --deep --sign "$LOCAL_ID" "$OUT" \
-    || echo "(codesign warning; app still runnable)"
+  echo "    (dev only — cannot be notarized)"
 else
+  SIGN_IDENTITY="-"
+  SIGN_FLAGS=(--force)
   echo "    No Developer ID or self-signed cert found — falling back to ad-hoc."
-  echo "    For stable codesigning: bash tools/setup-codesign-identity.sh"
-  echo "    For distribution: enroll at https://developer.apple.com"
-  codesign --force --deep --sign - "$OUT" \
-    || echo "(codesign warning; app still runnable)"
+  echo "    For stable dev signing:  bash tools/setup-codesign-identity.sh"
+  echo "    For distribution:        enroll at https://developer.apple.com"
+fi
+
+# Step 1: every nested Mach-O (Wine's ~130 dylibs + its three binaries).
+# The bundled Windows projectors (.exe) are PE files — inert data to macOS,
+# and codesign must not touch them. Scope the scan to the projector trees;
+# the mirror is ~5,000 files of pure content with nothing executable in it.
+echo "    Signing nested Mach-O binaries…"
+NESTED_COUNT=0
+while IFS= read -r bin; do
+  if file -b "$bin" 2>/dev/null | grep -q 'Mach-O'; then
+    codesign "${SIGN_FLAGS[@]}" --entitlements "$ENTITLEMENTS" \
+             --sign "$SIGN_IDENTITY" "$bin" >/dev/null 2>&1 \
+      && NESTED_COUNT=$((NESTED_COUNT + 1)) \
+      || echo "      (warn: could not sign $(basename "$bin"))"
+  fi
+done < <(find "$OUT/Contents/Resources/Wine" \
+              "$OUT/Contents/Resources/Flash" \
+              "$OUT/Contents/Resources/Shockwave" \
+              -type f 2>/dev/null)
+echo "    Signed $NESTED_COUNT nested Mach-O binaries"
+
+# Step 2: the bundle itself, last, so the seal covers the signed nested code.
+codesign "${SIGN_FLAGS[@]}" --entitlements "$ENTITLEMENTS" \
+         --sign "$SIGN_IDENTITY" "$OUT" \
+  || echo "(codesign warning; app still runnable locally)"
+
+echo "==> Verifying signature"
+codesign --verify --strict --verbose=2 "$OUT" 2>&1 | tail -3 || true
+if [[ -n "$DEV_ID" ]]; then
+  echo "    Gatekeeper assessment (expect 'rejected' until notarized+stapled):"
+  spctl -a -t exec -vv "$OUT" 2>&1 | tail -3 || true
 fi
 
 echo ""
 echo "Built: $OUT"
 du -sh "$OUT" 2>/dev/null || true
+if [[ -n "$DEV_ID" ]]; then
+  echo ""
+  echo "Next: bash app/notarize.sh    (submit to Apple, then staple)"
+fi

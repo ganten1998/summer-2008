@@ -72,6 +72,17 @@ jobs:
           $tag = "${{ github.ref_name }}"
           $exe = Get-ChildItem app-windows\build\Summer-2008-Setup-*.exe | Select-Object -First 1
           if (-not $exe) { throw "No installer EXE produced" }
+
+          # `gh release upload` does NOT create the release — it 404s when the
+          # tag has no release object yet. Pushing a bare tag is a perfectly
+          # normal way to cut a release, so create it on demand rather than
+          # failing the build after a full Windows compile.
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "No release exists for $tag — creating it"
+            gh release create $tag --title $tag --generate-notes
+          }
+
           Write-Host "Uploading $($exe.Name) to release $tag"
           gh release upload $tag $exe.FullName --clobber
         env:

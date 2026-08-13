@@ -102,6 +102,10 @@ final class GameLauncher {
             presentNoFlashProjector(swfPath: swfPath, projector: projector)
             return
         }
+        guard rosettaAvailable() else {
+            presentNoRosetta(item: swfPath)
+            return
+        }
 
         // Same WINEPREFIX as the Director projector. First run bootstraps;
         // subsequent runs (Flash or Director) reuse it.
@@ -184,6 +188,10 @@ final class GameLauncher {
         }
         guard fm.fileExists(atPath: projector.path) else {
             presentNoDirectorProjector(dcrPath: dcrPath, projector: projector)
+            return
+        }
+        guard rosettaAvailable() else {
+            presentNoRosetta(item: dcrPath)
             return
         }
 
@@ -274,15 +282,36 @@ final class GameLauncher {
             killDescendants(of: pid)
             kill(pid, SIGKILL)
         }
-        // Blanket sweep: any wine binary on the system. Synchronous so
-        // it completes before we exit.
-        for name in ["wine-preloader", "Projector.exe", "SPR.exe", "PJ12.exe"] {
-            let task = Process()
-            task.launchPath = "/usr/bin/pkill"
-            task.arguments  = ["-9", "-f", name]
-            try? task.run()
-            task.waitUntilExit()
-        }
+        // Sweep up anything we spawned that escaped the tracked-PID pass
+        // (reparented to launchd after a crash, etc). Synchronous so it
+        // completes before we exit.
+        sweepOrphanProjectors()
+    }
+
+    /// SIGKILL projector processes that were launched from *this* bundle.
+    ///
+    /// This used to run `pkill -9 -f wine-preloader` (plus Projector.exe,
+    /// SPR.exe, PJ12.exe). `pkill -f` matches against the full command line
+    /// of every process on the system, and those names are not ours — they
+    /// belong to Wine itself. So launching or quitting this archive would
+    /// SIGKILL a completely unrelated Wine application: CrossOver, Whisky,
+    /// PlayOnMac, someone's running game. The comment claiming
+    /// "wine-preloader is unambiguously ours" was simply wrong.
+    ///
+    /// Scope the match to our own Resources directory instead. Every process
+    /// we spawn has that absolute path in its argv (we exec Wine out of the
+    /// bundle and pass bundle-relative projector paths), and no other
+    /// application's does.
+    func sweepOrphanProjectors() {
+        // pkill -f takes an extended regular expression; the bundle path can
+        // contain regex metacharacters (and this app's name has an em dash
+        // and spaces), so escape it rather than interpolating raw.
+        let pattern = NSRegularExpression.escapedPattern(for: bundleResources.path)
+        let task = Process()
+        task.launchPath = "/usr/bin/pkill"
+        task.arguments  = ["-9", "-f", pattern]
+        try? task.run()
+        task.waitUntilExit()
     }
 
     /// Walk + SIGKILL every descendant of the given pid via pgrep -P.
@@ -444,6 +473,62 @@ final class GameLauncher {
             alert.messageText = "Director projector missing"
             alert.informativeText = "Couldn't find the bundled Director projector at:\n\(projector.path)\n\nGame: \(dcrPath.lastPathComponent)"
             alert.runModal()
+        }
+    }
+
+    // MARK: - Rosetta preflight
+
+    /// The bundled Wine tree — and therefore every Flash and Shockwave
+    /// projector launch — is x86_64-only. On Apple Silicon those processes
+    /// run through Rosetta 2. If Rosetta was never installed, `posix_spawn`
+    /// fails with EBADARCH and the user sees nothing but a generic "Wine
+    /// failed to start", which tells them nothing they can act on.
+    ///
+    /// The app binary itself is universal, so this is decided per-slice at
+    /// compile time: the arm64 slice needs Rosetta for its children, the
+    /// x86_64 slice never does.
+    private static let childrenNeedRosetta: Bool = {
+        #if arch(arm64)
+        return true
+        #else
+        return false
+        #endif
+    }()
+
+    /// Rosetta's runtime lives at a path that has been stable since macOS 11.
+    private func rosettaAvailable() -> Bool {
+        guard GameLauncher.childrenNeedRosetta else { return true }
+        let fm = FileManager.default
+        return fm.fileExists(atPath: "/Library/Apple/usr/libexec/oah/libRosettaRuntime")
+            || fm.fileExists(atPath: "/Library/Apple/usr/share/rosetta/rosetta")
+    }
+
+    private func presentNoRosetta(item: URL) {
+        DispatchQueue.main.async {
+            let command = "softwareupdate --install-rosetta --agree-to-license"
+            let alert = NSAlert()
+            alert.messageText = "One-time setup needed: Rosetta"
+            alert.informativeText = """
+                The Flash and Shockwave projectors are the original Adobe \
+                runtimes — Intel software from the 2000s. On an Apple Silicon \
+                Mac they need Rosetta, which isn't installed yet.
+
+                Install it once in Terminal:
+
+                    \(command)
+
+                Then click the game again. Everything else in the archive \
+                works without it.
+
+                Game: \(item.lastPathComponent)
+                """
+            alert.addButton(withTitle: "Copy Command")
+            alert.addButton(withTitle: "Cancel")
+            if alert.runModal() == .alertFirstButtonReturn {
+                let pb = NSPasteboard.general
+                pb.clearContents()
+                pb.setString(command, forType: .string)
+            }
         }
     }
 }

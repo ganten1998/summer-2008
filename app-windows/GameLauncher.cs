@@ -40,8 +40,10 @@ public sealed class GameLauncher
     /// </summary>
     public void TerminateAllProjectors()
     {
+        bool hadTracked;
         lock (_runningLock)
         {
+            hadTracked = _running.Count > 0;
             foreach (var (_, proc) in _running)
             {
                 try { if (!proc.HasExited) { proc.Kill(entireProcessTree: true); } }
@@ -49,16 +51,25 @@ public sealed class GameLauncher
             }
             _running.Clear();
         }
-        ReapOrphanProjectors();
+
+        // Only sweep for untracked survivors when we actually had something
+        // running. This is called from NavHandler on EVERY navigation, and the
+        // sweep enumerates 12 process names and reads MainModule on each match
+        // — all on the WPF UI thread. Skipping it when no projector was ever
+        // launched makes ordinary page-to-page navigation free.
+        if (hadTracked) ReapOrphanProjectors();
     }
 
     /// <summary>
-    /// Kill any projector exe matching a name we ship, regardless of
-    /// whether we launched it. Use at app startup to clean up survivors
-    /// from a previous force-close / crash. Same risk as the macOS shell's
-    /// pkill on Wine/Projector at startup: if the user happens to have
-    /// stock Director's Projector.exe running for unrelated reasons,
-    /// that'd get killed too — acceptable for the cleanup guarantee.
+    /// Kill projector processes that survived a previous force-close or crash.
+    ///
+    /// Scoped to executables living inside THIS install directory. The names
+    /// swept for ("Projector", "SPR", "PJ12", …) are Adobe's, not ours: a
+    /// global kill by name would terminate a copy of Director's Projector.exe
+    /// the user is running for entirely unrelated reasons, or another
+    /// Flashpoint/preservation tool driving the same Adobe binaries. Checking
+    /// MainModule.FileName against our base directory keeps the cleanup
+    /// guarantee without reaching outside our own install.
     /// </summary>
     public static void ReapOrphanProjectors()
     {
@@ -68,6 +79,15 @@ public sealed class GameLauncher
             "Projector", "SPR",
             "flashplayer_32_sa",
         };
+
+        string baseDir;
+        try
+        {
+            baseDir = Path.GetFullPath(AppContext.BaseDirectory)
+                          .TrimEnd(Path.DirectorySeparatorChar);
+        }
+        catch { return; }
+
         foreach (var n in names)
         {
             Process[] procs;
@@ -75,7 +95,18 @@ public sealed class GameLauncher
             catch { continue; }
             foreach (var p in procs)
             {
-                try { p.Kill(entireProcessTree: true); }
+                try
+                {
+                    // MainModule throws for processes we cannot open (other
+                    // users, elevated). Anything we cannot positively identify
+                    // as ours is left alone.
+                    var exePath = p.MainModule?.FileName;
+                    if (string.IsNullOrEmpty(exePath)) continue;
+                    if (!Path.GetFullPath(exePath).StartsWith(
+                            baseDir, StringComparison.OrdinalIgnoreCase))
+                        continue;
+                    p.Kill(entireProcessTree: true);
+                }
                 catch { /* permission denied / already gone — skip */ }
                 finally { p.Dispose(); }
             }

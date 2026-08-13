@@ -41,12 +41,18 @@ $Stage   = Join-Path $Here "build\stage"
 
 if (-not $SkipPublish) {
     Write-Host "==> dotnet publish (Win-x64, single-file, self-contained)"
+    # NOTE: deliberately NO -p:IncludeAllContentForSelfExtract here. A -p:
+    # value is a global MSBuild property and silently overrides the
+    # <IncludeAllContentForSelfExtract>false</> set in Summer2008.csproj,
+    # which would bundle ~700 MB of mirror/projector Content into the EXE and
+    # re-extract it to %TEMP%\.net\ on every single launch (multi-second cold
+    # start, GB of temp churn). See that property's comment, and commit
+    # 645ebe7 which fixed this the first time.
     dotnet publish (Join-Path $Here "Summer2008.csproj") `
         --configuration Release `
         --runtime win-x64 `
         --self-contained true `
         -p:PublishSingleFile=true `
-        -p:IncludeAllContentForSelfExtract=true `
         -p:PublishReadyToRun=true `
         --output $Publish
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed" }

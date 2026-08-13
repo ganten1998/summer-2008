@@ -47,39 +47,27 @@ private final class WindowDragHandler: NSObject, WKScriptMessageHandler {
 }
 
 /// Diagnostic: receives the element-info string from every drag-tagged
-/// mousedown and appends it to /tmp/agd-debug.log so we can see exactly
-/// what the user is clicking on when something doesn't drag/hover.
+/// mousedown so we can see exactly what the user is clicking on when
+/// something doesn't drag/hover. Writes only when AGD_DEBUG is set — see
+/// `agdLog`.
 private final class DragDiagHandler: NSObject, WKScriptMessageHandler {
     func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard agdDebugEnabled else { return }
         guard let info = message.body as? String else { return }
-        let line = "\(Date()) drag-mousedown target=\(info)\n"
-        let p = "/tmp/agd-debug.log"
-        guard let data = line.data(using: .utf8) else { return }
-        if FileManager.default.fileExists(atPath: p),
-           let fh = FileHandle(forWritingAtPath: p) {
-            fh.seekToEndOfFile(); fh.write(data); fh.closeFile()
-        } else {
-            try? data.write(to: URL(fileURLWithPath: p))
-        }
+        agdLog("drag-mousedown target=\(info)")
     }
 }
 
 /// JS console + JS error capture. Every console.log/warn/error and every
-/// uncaught error on every page is piped here via injected JS, appended
-/// to /tmp/agd-console.log. Lets us debug stuck SWFs / page errors
-/// without requiring the user to open Safari Web Inspector.
+/// uncaught error on every page is piped here via injected JS. Lets us debug
+/// stuck SWFs / page errors without requiring the user to open Safari Web
+/// Inspector. Both the injection and this handler are gated on AGD_DEBUG, so
+/// a shipping build neither injects the hook nor writes anything.
 private final class ConsoleBridgeHandler: NSObject, WKScriptMessageHandler {
     func userContentController(_ ucc: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard agdDebugEnabled else { return }
         guard let line = message.body as? String else { return }
-        let stamped = "\(Date()) \(line)\n"
-        let p = "/tmp/agd-console.log"
-        guard let data = stamped.data(using: .utf8) else { return }
-        if FileManager.default.fileExists(atPath: p),
-           let fh = FileHandle(forWritingAtPath: p) {
-            fh.seekToEndOfFile(); fh.write(data); fh.closeFile()
-        } else {
-            try? data.write(to: URL(fileURLWithPath: p))
-        }
+        agdLog(line)
     }
 }
 
@@ -303,14 +291,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // applicationWillTerminate path (force-quit, crash, kill -9).
         // Without this they accumulate and float on screen with title
         // bars showing — the "centered window with label" the user
-        // reported. Wine-preloader is unambiguously ours.
-        for proc in ["wine-preloader", "Projector.exe", "SPR.exe"] {
-            let task = Process()
-            task.launchPath = "/usr/bin/pkill"
-            task.arguments  = ["-9", "-f", proc]
-            try? task.run()
-            task.waitUntilExit()
-        }
+        // reported.
+        //
+        // Scoped to processes spawned from our own bundle: matching on
+        // bare "wine-preloader" would also kill CrossOver/Whisky/any other
+        // Wine app the user happens to be running. See sweepOrphanProjectors.
+        GameLauncher.shared.sweepOrphanProjectors()
 
         // Startup AX trust probe — log on launch so we can see if the
         // PERSISTENT grant works (we'd see trusted=true from the moment
@@ -322,17 +308,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let bundleID = Bundle.main.bundleIdentifier ?? "(no bundle id)"
             let exePath  = Bundle.main.executableURL?.path ?? "(no exe path)"
             NSLog("AGD: startup AXIsProcessTrusted=\(trusted) bundleID=\(bundleID) exe=\(exePath)")
-            let line = "\(Date()) startup AXIsProcessTrusted=\(trusted) bundleID=\(bundleID) exe=\(exePath)\n"
-            if let data = line.data(using: .utf8) {
-                let p = "/tmp/agd-debug.log"
-                if FileManager.default.fileExists(atPath: p) {
-                    if let fh = FileHandle(forWritingAtPath: p) {
-                        fh.seekToEndOfFile(); fh.write(data); fh.closeFile()
-                    }
-                } else {
-                    try? data.write(to: URL(fileURLWithPath: p))
-                }
-            }
+            agdLog("startup AXIsProcessTrusted=\(trusted) bundleID=\(bundleID) exe=\(exePath)")
         }
 
         let config = WKWebViewConfiguration()
@@ -382,8 +358,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         config.userContentController.add(dragDiagHandler, name: "agdDragDiag")
 
         // Console bridge: pipes every console.log/warn/error and every
-        // uncaught error to /tmp/agd-console.log. Lets us debug stuck
-        // SWFs and page errors without needing Safari Web Inspector.
+        // uncaught error to the diagnostic log. Lets us debug stuck SWFs and
+        // page errors without needing Safari Web Inspector.
+        //
+        // Gated on AGD_DEBUG: in a shipping build we skip both the message
+        // handler and the user script entirely, so no hook is installed into
+        // every frame of every page and nothing is written to disk.
+        if agdDebugEnabled {
         consoleBridge = ConsoleBridgeHandler()
         config.userContentController.add(consoleBridge, name: "agdConsole")
         let consoleJS = """
@@ -424,6 +405,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             injectionTime: .atDocumentStart,
             forMainFrameOnly: false,
             in: .page))
+        }   // if agdDebugEnabled
 
         // Bridge that places the bundled Wine/Director projector window
         // over the .dcr embed area on game pages. Receives the embed's

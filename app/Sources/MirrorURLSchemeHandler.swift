@@ -20,6 +20,61 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
     /// will gracefully widen the window in MirrorBackfiller.
     static let snapshotTimestamp = "20080711092743"
 
+    /// Hosts the 2008 site served from. Mirrors AGD_HOSTS in
+    /// tools/patch_mirror_html.py — keep the two lists in step.
+    private static let agdHosts = [
+        "www.americangirl.com",
+        "store.americangirl.com",
+        "stage.store.americangirl.com",
+        "club.americangirl.com",
+        "shop.americangirl.com",
+        "aka.www.americangirl.com",
+        "mollysblog.americangirl.com",
+        "emailresp.americangirl.com",
+        "americangirl.com",          // last: it is a suffix of the others
+    ]
+
+    /// Rewrite absolute American Girl URLs in a text payload to the `agd://`
+    /// scheme, so runtime-backfilled content stays inside the archive.
+    ///
+    /// This is the runtime counterpart of the build-time patcher. It is
+    /// deliberately narrow — only the scheme+host prefix is swapped, no markup
+    /// parsing — because it runs on every backfilled response and must not be
+    /// able to corrupt a page. Binary payloads are returned untouched.
+    static func rewriteToAGDScheme(_ data: Data, mime: String) -> Data {
+        let rewritable = mime.hasPrefix("text/")
+            || mime.contains("html")
+            || mime.contains("javascript")
+            || mime.contains("json")
+            || mime.contains("css")
+            || mime.contains("xml")
+        guard rewritable else { return data }
+
+        // 2008 pages are a mix of utf-8 and latin-1; latin-1 round-trips any
+        // byte sequence, so fall back to it rather than dropping content.
+        var usedLatin1 = false
+        var text: String
+        if let s = String(data: data, encoding: .utf8) {
+            text = s
+        } else if let s = String(data: data, encoding: .isoLatin1) {
+            text = s
+            usedLatin1 = true
+        } else {
+            return data
+        }
+
+        for host in agdHosts {
+            text = text.replacingOccurrences(of: "http://\(host)", with: "agd://\(host)")
+            text = text.replacingOccurrences(of: "https://\(host)", with: "agd://\(host)")
+            text = text.replacingOccurrences(of: "//\(host)", with: "agd://\(host)")
+        }
+        // The protocol-relative pass above can double up on URLs we just
+        // rewrote (agd://host -> agd:agd://host); undo that.
+        text = text.replacingOccurrences(of: "agd:agd://", with: "agd://")
+
+        return text.data(using: usedLatin1 ? .isoLatin1 : .utf8) ?? data
+    }
+
     private let session: URLSession
     private let bundleResources: URL
     private let cacheRoot: URL
@@ -1004,13 +1059,25 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
 
         var req = URLRequest(url: wbURL, timeoutInterval: 30)
         req.setValue("AGD-Launcher/1.0 (offline preservation)", forHTTPHeaderField: "User-Agent")
-        let dataTask = session.dataTask(with: req) { [weak self] data, resp, err in
+        let dataTask = session.dataTask(with: req) { [weak self] rawData, resp, err in
             guard let self else { return }
             self.inFlightLock.lock()
             self.inFlight.removeValue(forKey: ObjectIdentifier(task))
             self.inFlightLock.unlock()
 
-            if let http = resp as? HTTPURLResponse, http.statusCode == 200, let data {
+            if let http = resp as? HTTPURLResponse, http.statusCode == 200, let rawData {
+                // Rewrite absolute americangirl.com URLs to agd:// before the
+                // page is cached or shown.
+                //
+                // Mirror content goes through tools/patch_mirror_html.py, which
+                // does this at build time. Backfilled content never did — so a
+                // page healed at runtime kept its 2008 absolute links, and one
+                // click on it left the archive for the live internet (where
+                // americangirl.com now redirects to modern Mattel). That
+                // silently breaks the whole premise of an offline snapshot, and
+                // it also leaks browsing to a third party from an app that
+                // otherwise never phones home.
+                let data = Self.rewriteToAGDScheme(rawData, mime: self.mimeType(for: cacheURL))
                 try? FileManager.default.createDirectory(at: cacheURL.deletingLastPathComponent(),
                                                         withIntermediateDirectories: true)
                 try? data.write(to: cacheURL)
