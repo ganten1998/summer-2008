@@ -5,7 +5,7 @@ This repository contains two very different kinds of material, and they
 are not under the same terms.
 
 
-1. THE CODE — MIT License
+1. THE CODE: MIT License
 -------------------------
 
 Applies to everything original to this project: the macOS app
@@ -34,7 +34,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 
-2. THE ARCHIVED CONTENT — not licensed, and not ours to license
+2. THE ARCHIVED CONTENT: not licensed, and not ours to license
 ---------------------------------------------------------------
 
 Applies to `mirror/` and to the site content embedded in the distributed
@@ -46,7 +46,7 @@ Girl" is a trademark of Mattel, Inc. This project is not affiliated with,
 endorsed by, or sponsored by Mattel or American Girl.
 
 No copyright claim is made over any of it, and no license to it is granted
-here — the MIT grant above covers only the original code. It is reproduced
+here. The MIT grant above covers only the original code. It is reproduced
 as a non-commercial historical preservation of a website that no longer
 exists in any usable form, of a version retired in a 2011 redesign, and is
 distributed in that spirit and no other.
@@ -61,10 +61,10 @@ please open an issue or contact the maintainer, and it will be taken down.
 The distributed applications bundle software written by others, each under
 its own terms:
 
-  • Ruffle (https://ruffle.rs) — MIT / Apache-2.0
-  • Wine (https://winehq.org) — LGPL-2.1-or-later
-  • Adobe Flash Player projector and Adobe Director / Shockwave projector
-    — proprietary Adobe software, both retired end-of-life products,
+  • Ruffle (https://ruffle.rs): MIT / Apache-2.0
+  • Wine (https://winehq.org): LGPL-2.1-or-later
+  • Adobe Flash Player projector and Adobe Director / Shockwave projector:
+    proprietary Adobe software, both retired end-of-life products,
     redistributed here only as the runtime necessary to play the archived
     material. Not covered by the MIT grant above.
 

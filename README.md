@@ -64,24 +64,24 @@ I tried. Some things didn't survive:
 
 **American Girl Magazine e-cards** (the "agm" dropdown in E-Card Central) were
 server-rendered from a database, and the chooser URL was never reached by a
-single web crawler in 2007–2008 — Wayback's full CDX, every Common Crawl index
-from 2008 through 2015, archive.today, the Memento aggregator, every search
-engine, and the Flashpoint Archive database have all been checked, twice, years
-apart. The page exists nowhere on the public internet. Selecting that dropdown
+single web crawler in 2007 or 2008. Wayback's full CDX, every Common Crawl
+index from 2008 through 2015, archive.today, the Memento aggregator, every
+search engine, and the Flashpoint Archive database have all been checked,
+twice, years apart. The page exists nowhere on the public internet. Selecting that dropdown
 option lands on a styled note explaining what happened, with a request: if you
 ever saved one of these to a school computer, or remember the names of specific
 cards, please tell me.
 
 **Nine e-card animations.** Of the 95 cards E-Card Central offers, 86 now have
-their animation. The remaining nine — a few character birthdays, some holiday
-cards — were either never captured or survive only as empty redirect records.
+their animation. The remaining nine (a few character birthdays, some holiday
+cards) were either never captured, or survive only as empty redirect records.
 Their entries still appear in the chooser, because a card you can't open is at
 least a record that it existed.
 
 **Eight magazine feature games** from the 2008 issues (Animal Cupcakes, Island
 Party, Puppy Video, Shades, Smiling Pets, Stunt Girl, You Pick It, Plus or
-Minus). Flashpoint Archive — which does curate other games from the same
-directories — was confirmed not to hold these either.
+Minus). Flashpoint Archive, which does curate other games from the same
+directories, was confirmed not to hold these either.
 
 **store.americangirl.com** was 58,000+ URLs of e-commerce — cart, checkout,
 account, product database. None of that can be a static snapshot. Clicking a
@@ -113,7 +113,7 @@ runtime — fully self-contained, no companion apps required.
 ### macOS
 
 Download `Summer 2008 v1.0.dmg` (949 MB installed).
-Requires macOS 11 or newer. Universal binary — native on both Apple
+Requires macOS 11 or newer. Universal binary, native on both Apple
 Silicon and Intel.
 
 Open the DMG, drag the app to Applications, launch it. That's the whole
@@ -121,7 +121,7 @@ install: the app is signed with an Apple Developer ID and notarized by
 Apple, so there's no security warning and nothing to click around.
 
 **One caveat on Apple Silicon.** The Flash and Shockwave projectors are
-the original Adobe runtimes — Intel software from the 2000s — so they
+the original Adobe runtimes, Intel software from the 2000s, so they
 need Rosetta. Everything else in the archive, including all the inline
 Ruffle games, works without it. If you click a projector game and don't
 have Rosetta, the app tells you and hands you the one-line command:
@@ -166,7 +166,7 @@ cd ~/Projects/summer-2008
 # 3. Build the .app (universal, signed with whatever identity you have)
 ./app/build.sh
 
-# 4. (Optional) Notarize — needs a Developer ID cert and stored
+# 4. (Optional) Notarize. Needs a Developer ID cert and stored
 #    notarytool credentials; see the header of the script
 ./app/notarize.sh
 
