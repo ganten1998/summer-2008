@@ -296,7 +296,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Scoped to processes spawned from our own bundle: matching on
         // bare "wine-preloader" would also kill CrossOver/Whisky/any other
         // Wine app the user happens to be running. See sweepOrphanProjectors.
-        GameLauncher.shared.sweepOrphanProjectors()
+        // Off the main thread: this shells out to pkill and blocks on
+        // Process.waitUntilExit(), which pumps the run loop re-entrantly. Doing
+        // that inside applicationDidFinishLaunching stalls launch and invites
+        // AppKit re-entrancy for a cleanup nothing is waiting on.
+        DispatchQueue.global(qos: .utility).async {
+            GameLauncher.shared.sweepOrphanProjectors()
+        }
 
         // Startup AX trust probe — log on launch so we can see if the
         // PERSISTENT grant works (we'd see trusted=true from the moment
@@ -307,7 +313,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let trusted = AXIsProcessTrusted()
             let bundleID = Bundle.main.bundleIdentifier ?? "(no bundle id)"
             let exePath  = Bundle.main.executableURL?.path ?? "(no exe path)"
-            NSLog("AGD: startup AXIsProcessTrusted=\(trusted) bundleID=\(bundleID) exe=\(exePath)")
             agdLog("startup AXIsProcessTrusted=\(trusted) bundleID=\(bundleID) exe=\(exePath)")
         }
 

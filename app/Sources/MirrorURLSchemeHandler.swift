@@ -89,6 +89,23 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             "User-Agent": "AGD-Launcher/1.0 (offline preservation)",
         ]
         cfg.requestCachePolicy = .useProtocolCachePolicy
+        // Bound the WHOLE fetch, not just the gap between packets.
+        //
+        // The per-request `timeoutInterval: 30` on the backfill URLRequest is
+        // timeoutIntervalForRequest: it only fires when no data arrives for 30
+        // seconds. timeoutIntervalForResource caps the entire transfer, and it
+        // defaults to SEVEN DAYS. So a Wayback connection that is accepted and
+        // then dribbles or stalls mid-body never times out at all.
+        //
+        // That is not theoretical: the 2008 homepage pulls two
+        // store.americangirl.com scripts through synchronous, render-blocking
+        // <script> tags. If either stalls, the page never paints and the app
+        // looks frozen forever, intermittently, while online. Both halves are
+        // fixed (dead hosts no longer reach the network at all, see the
+        // storeHosts branch in serveMirror), but this bound is the backstop
+        // for every other page.
+        cfg.timeoutIntervalForResource = 25
+        cfg.waitsForConnectivity = false
         self.session = URLSession(configuration: cfg)
 
         self.bundleResources = Bundle.main.resourceURL
@@ -389,6 +406,27 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
                 let mirrorURL = mirrorFileURL(host: host, path: path, query: url.query)
                 if !FileManager.default.fileExists(atPath: mirrorURL.path) {
                     serveStoreStub(task: task, url: url, host: host)
+                    return
+                }
+            } else {
+                // An ASSET on a dead commerce host. If we have it, serve it.
+                // If we don't, answer immediately with an empty file of the
+                // right type — never go to the network for it.
+                //
+                // These hosts were deliberately excluded from the crawl, so a
+                // miss here is permanent by construction and a Wayback round
+                // trip can only ever fail. Worse, the 2008 homepage requests
+                // two store.americangirl.com scripts through synchronous
+                // <script> tags: a slow or stalled Wayback response blocks
+                // rendering, and the whole app appears to hang. An empty 200
+                // lets the parser move on instantly, which is exactly what a
+                // dead e-commerce script should do.
+                let mirrorURL = mirrorFileURL(host: host, path: path, query: url.query)
+                let cacheURL = cacheFileURL(host: host, path: path, query: url.query)
+                let fm = FileManager.default
+                if !fm.fileExists(atPath: mirrorURL.path),
+                   !fm.fileExists(atPath: cacheURL.path) {
+                    serveDeadHostAsset(task: task, url: url, ext: ext)
                     return
                 }
             }
@@ -827,6 +865,27 @@ final class MirrorURLSchemeHandler: NSObject, WKURLSchemeHandler {
             task.didReceive(resp)
             task.didReceive(data)
             task.didFinish()
+        }
+    }
+
+    /// Answer a sub-resource on a known-dead host immediately, with an empty
+    /// body of the correct MIME type.
+    ///
+    /// Empty is deliberate for scripts and stylesheets: the parser gets a
+    /// successful load and continues, where a styled HTML stub would be parsed
+    /// as JavaScript and throw. Images get the existing 1x1 transparent stubs
+    /// so layout does not collapse around a broken-image icon.
+    private func serveDeadHostAsset(task: WKURLSchemeTask, url: URL, ext: String) {
+        switch ext {
+        case "jpg", "jpeg", "png", "gif", "ico":
+            sendBlankImage(task: task, url: url, ext: ext)
+        case "css":
+            sendEmptyOK(task: task, url: url, contentType: "text/css; charset=utf-8")
+        case "js":
+            sendEmptyOK(task: task, url: url,
+                        contentType: "application/javascript; charset=utf-8")
+        default:
+            sendEmptyOK(task: task, url: url, contentType: "application/octet-stream")
         }
     }
 
