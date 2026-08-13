@@ -112,7 +112,7 @@ runtime — fully self-contained, no companion apps required.
 
 ### macOS
 
-Download `Summer 2008 v1.0.dmg` (535 MB download, 949 MB installed).
+Download `Summer.2008.v1.0.dmg` (519 MB download, 949 MB installed).
 Requires macOS 11 or newer. Universal binary, native on both Apple
 Silicon and Intel.
 
