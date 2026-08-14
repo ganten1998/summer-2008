@@ -1,4 +1,4 @@
-# Summer 2008 — An American Girl Archive
+# Summer 2008 - An American Girl Archive
 
 > *You'd dump your Tamagotchi in the bottom of your backpack, walk home from school,
 > open the family iMac, and click around americangirl.com until dinner. You played
